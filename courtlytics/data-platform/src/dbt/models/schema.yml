@@ -1,0 +1,21 @@
+version: 2
+
+models:
+  - name: lawyer_metrics
+    description: Golden-record lawyer performance metrics
+    columns:
+      - name: resolved_entity_id
+        tests:
+          - not_null
+          - unique
+      - name: cases_touched
+        tests:
+          - not_null
+
+  - name: case_aggregations
+    description: Court-level rollups for dashboards
+    columns:
+      - name: court_id
+        tests:
+          - not_null
+          - unique

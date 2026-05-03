@@ -1,0 +1,14 @@
+name: "courtlytics"
+version: "1.0.0"
+config-version: 2
+
+# Portfolio layout: models live next to this file under models/
+model-paths: ["models"]
+analysis-paths: []
+test-paths: []
+seed-paths: []
+macro-paths: []
+
+models:
+  courtlytics:
+    +materialized: table
