@@ -7,7 +7,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Architecture",
   description:
-    "Reference architecture: lake → Python → Postgres → dbt → API; startup cost tiers, pipeline testing, data quality options, and assistive AI.",
+    "Lake → Python → Postgres → dbt → API; startup tiers, cloud ladder (Glue, EMR, Databricks, Snowflake), testing, DQ, AI, and governance links.",
 };
 
 export default function ArchitecturePage() {
@@ -17,7 +17,7 @@ export default function ArchitecturePage() {
         <PageHeader
           kicker="System"
           title="Architecture"
-          description="Reference architecture with startup-friendly tiers: what to run on day one, what to add with revenue, and how testing, data quality, and assistive AI stay cheap until scale demands more."
+          description="Reference flows, startup tiers, a cloud cost ladder (Glue, EMR, Databricks, Snowflake, …), testing and DQ, assistive AI, and links to governance for IAM and contracts."
         />
       </Reveal>
       <Reveal delayMs={80}>

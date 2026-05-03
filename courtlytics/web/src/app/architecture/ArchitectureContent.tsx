@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArchitectureDiagram } from "@/components/ArchitectureDiagram";
 import { TabPanel, type TabItem } from "@/components/TabPanel";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -206,6 +207,84 @@ const economicsTab: TabItem = {
   ),
 };
 
+const platformLadderTab: TabItem = {
+  id: "platform-ladder",
+  label: "Cloud options ($→$$$)",
+  content: (
+    <div className="space-y-5">
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        Same logical pipeline (bronze → silver → gold → warehouse → marts) can run on different clouds and price curves.
+        Below is a <strong className="text-foreground">cheapest-first ladder</strong> — upgrade when data volume, team size,
+        or compliance forces it, not before.
+      </p>
+      <div className="overflow-x-auto rounded-xl border border-border">
+        <table className="w-full min-w-[720px] text-left text-xs">
+          <thead>
+            <tr className="border-b border-border bg-muted/40 text-foreground">
+              <th className="px-3 py-2 font-medium">Relative cost</th>
+              <th className="px-3 py-2 font-medium">Pattern</th>
+              <th className="px-3 py-2 font-medium">When it wins</th>
+            </tr>
+          </thead>
+          <tbody className="text-muted-foreground">
+            <tr className="border-b border-border/70">
+              <td className="px-3 py-2 font-medium text-emerald-400/90">Lowest</td>
+              <td className="px-3 py-2">Local disk or S3 + cron / GitHub Actions + Python on a small VM; Postgres managed free tier.</td>
+              <td className="px-3 py-2">MVP, &lt; few GB/day, one engineer — this repo mirrors that spirit.</td>
+            </tr>
+            <tr className="border-b border-border/70">
+              <td className="px-3 py-2 font-medium text-emerald-400/90">Low</td>
+              <td className="px-3 py-2">S3 + AWS Lambda / Step Functions + RDS; or GCP Cloud Run jobs + Cloud SQL.</td>
+              <td className="px-3 py-2">Scheduled ETL, pay-per-invoke, minimal ops — still no Spark tax.</td>
+            </tr>
+            <tr className="border-b border-border/70">
+              <td className="px-3 py-2 font-medium text-amber-400/90">Mid</td>
+              <td className="px-3 py-2">
+                <strong className="text-foreground">AWS Glue</strong> (crawlers + PySpark jobs) +{" "}
+                <strong className="text-foreground">Athena</strong> on curated Parquet/Iceberg; or{" "}
+                <strong className="text-foreground">BigQuery</strong> external tables + scheduled queries.
+              </td>
+              <td className="px-3 py-2">Many small files, evolving schemas, catalog discovery — Glue catalog pays off.</td>
+            </tr>
+            <tr className="border-b border-border/70">
+              <td className="px-3 py-2 font-medium text-amber-400/90">Mid–high</td>
+              <td className="px-3 py-2">
+                <strong className="text-foreground">Amazon EMR</strong> (transient Spark) or self-managed Kubernetes Spark
+                for bursty heavy transforms.
+              </td>
+              <td className="px-3 py-2">TB-scale joins / ML feature builds a few times per day; shut clusters when idle.</td>
+            </tr>
+            <tr className="border-b border-border/70">
+              <td className="px-3 py-2 font-medium text-orange-400/90">High</td>
+              <td className="px-3 py-2">
+                <strong className="text-foreground">Databricks</strong> (Jobs + Delta Lake + Unity Catalog) or{" "}
+                <strong className="text-foreground">Snowflake</strong> (tasks, streams, Snowpipe) as the analytical plane.
+              </td>
+              <td className="px-3 py-2">Many teams, unified batch+ML, strong governance SKU, SLA-heavy enterprise sales.</td>
+            </tr>
+            <tr>
+              <td className="px-3 py-2 font-medium text-red-400/80">Premium +</td>
+              <td className="px-3 py-2">
+                Databricks/Snowflake <span className="italic">plus</span> Fivetran / Matillion / observability (Monte Carlo
+                class) + multi-region DR.
+              </td>
+              <td className="px-3 py-2">Regulated, multi-tenant, global footprint — COO signs off after ARR supports fixed platform burn.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p className="text-xs leading-relaxed text-muted-foreground">
+        <strong className="text-foreground">Governance tie-in:</strong> expensive platforms do not replace contracts — they
+        automate enforcement. Pair any tier with{" "}
+        <Link href="/governance" className="text-primary underline-offset-4 hover:underline">
+          Governance &amp; security
+        </Link>{" "}
+        so spend tracks risk.
+      </p>
+    </div>
+  ),
+};
+
 const testCiTab: TabItem = {
   id: "test-ci",
   label: "Testing & CI",
@@ -349,7 +428,16 @@ const aiTab: TabItem = {
 export function ArchitectureContent() {
   return (
     <TabPanel
-      tabs={[flowTab, lakeTab, computeTab, warehouseTab, economicsTab, testCiTab, aiTab]}
+      tabs={[
+        flowTab,
+        lakeTab,
+        computeTab,
+        warehouseTab,
+        economicsTab,
+        platformLadderTab,
+        testCiTab,
+        aiTab,
+      ]}
       ariaLabel="Architecture sections"
     />
   );

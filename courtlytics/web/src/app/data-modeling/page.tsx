@@ -6,7 +6,8 @@ import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Data Modeling",
-  description: "Structured layer: PostgreSQL schema for lawyers, cases, courts, relationships, and indexing for analytics.",
+  description:
+    "PostgreSQL schema, integrity, B-Tree vs GIN indexing, and query paths for analytics — structured layer of the stack.",
 };
 
 export default function DataModelingPage() {
@@ -16,7 +17,7 @@ export default function DataModelingPage() {
         <PageHeader
           kicker="Warehouse"
           title="PostgreSQL modeling"
-          description="The structured pillar: 3NF entities, bridge tables for counsel roles, and indexes aligned to dashboard predicates and dbt marts."
+          description="The structured pillar: 3NF entities, bridge tables, B-Tree vs GIN strategy, EXPLAIN discipline, and indexes aligned to dashboard predicates and dbt marts."
         />
       </Reveal>
       <Reveal delayMs={80}>

@@ -50,6 +50,10 @@ export const metadata: Metadata = {
     "AWS S3",
     "Python ETL",
     "CSC methodology",
+    "data governance",
+    "data lineage",
+    "IAM",
+    "data quality",
   ],
   openGraph: {
     title: "Courtlytics — Legal Entity Resolution & Analytics",
@@ -63,10 +67,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${jetbrains.variable} min-h-screen font-sans`}>
+        <a
+          href="#main-content"
+          className="fixed -top-16 left-4 z-[100] rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-md transition-[top] duration-150 focus:top-4 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"
+        >
+          Skip to content
+        </a>
         <Suspense fallback={<div className="h-16 border-b border-border" aria-hidden />}>
           <Navbar />
         </Suspense>
-        <main>{children}</main>
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

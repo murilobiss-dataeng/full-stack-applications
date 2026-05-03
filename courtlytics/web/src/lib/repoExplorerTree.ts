@@ -144,6 +144,12 @@ export const repoRoot: RepoNode = d("courtlytics", "Portfolio monorepo", [
             description: "Maps Clean / Structured / Connected to data-platform + web paths; cites industry CSC framing.",
           }),
         ]),
+        d("governance", "feat: trust & TCO", [
+          f("page.tsx", "ui: governance shell", { description: "Security, IAM, contracts, lineage, observability, costs." }),
+          f("GovernanceContent.tsx", "ui: tab body", {
+            description: "Executive charter, security table, DQ, orchestration, COO cost scenarios.",
+          }),
+        ]),
         f("layout.tsx", "ui: shell + metadata", {}),
         d("api", "feat: route handlers", [
           d("metrics", "api: mock marts", [

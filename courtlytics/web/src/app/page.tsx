@@ -8,15 +8,14 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/ca
 
 const docLinks = [
   { href: "/method", label: "Method (CSC)" },
-  { href: "/explorer", label: "Repo explorer" },
   { href: "/architecture", label: "Architecture" },
+  { href: "/governance", label: "Governance" },
   { href: "/data-pipeline", label: "Pipeline" },
   { href: "/data-modeling", label: "Modeling" },
-  { href: "/case-study", label: "Case study" },
   { href: "/source-of-truth", label: "Source of truth" },
+  { href: "/case-study", label: "Case study" },
+  { href: "/explorer", label: "Repo explorer" },
 ] as const;
-
-const stack = ["Next.js 14", "TypeScript", "Tailwind", "Python", "pytest", "PostgreSQL", "S3", "dbt", "Recharts"];
 
 export default function HomePage() {
   return (
@@ -45,6 +44,9 @@ export default function HomePage() {
               </Link>
               <Link href="/architecture" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
                 Architecture
+              </Link>
+              <Link href="/governance" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
+                Governance
               </Link>
               <Link href="/dashboard" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
                 Dashboard
@@ -108,26 +110,6 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
             </Card>
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal delayMs={140} className="mt-7 md:mt-9">
-        <section aria-labelledby="stack-heading">
-          <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
-            <h2 id="stack-heading" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Stack
-            </h2>
-            <div className="flex flex-wrap gap-1.5">
-              {stack.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-md border border-border/80 bg-muted/30 px-2 py-0.5 text-xs text-muted-foreground transition-all duration-200 hover:border-[hsl(217,33%,28%)] hover:text-foreground"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
           </div>
         </section>
       </Reveal>

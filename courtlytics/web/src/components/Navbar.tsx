@@ -10,13 +10,14 @@ import { Button } from "@/components/ui/button";
 const links = [
   { href: "/", label: "Home" },
   { href: "/method", label: "Method" },
-  { href: "/explorer", label: "Explorer" },
   { href: "/architecture", label: "Architecture" },
-  { href: "/data-pipeline", label: "Data Pipeline" },
-  { href: "/data-modeling", label: "Data Modeling" },
+  { href: "/governance", label: "Governance" },
+  { href: "/data-pipeline", label: "Pipeline" },
+  { href: "/data-modeling", label: "Modeling" },
+  { href: "/source-of-truth", label: "Source of truth" },
+  { href: "/case-study", label: "Case study" },
+  { href: "/explorer", label: "Explorer" },
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/case-study", label: "Case Study" },
-  { href: "/source-of-truth", label: "Source of Truth" },
 ];
 
 export function Navbar() {

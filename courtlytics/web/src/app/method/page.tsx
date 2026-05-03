@@ -45,7 +45,8 @@ const mapRows = [
   { pillar: "Clean", href: "/data-pipeline", label: "Pipeline, tests & DQ gates" },
   { pillar: "Structured", href: "/data-modeling", label: "Warehouse & dbt" },
   { pillar: "Connected", href: "/source-of-truth", label: "Source of truth & APIs" },
-  { pillar: "End-to-end", href: "/architecture", label: "Tiers, CI, quality & AI" },
+  { pillar: "Trust", href: "/governance", label: "Security, lineage & TCO" },
+  { pillar: "End-to-end", href: "/architecture", label: "Tiers, cloud ladder & AI" },
 ];
 
 export default function MethodPage() {
@@ -102,10 +103,14 @@ export default function MethodPage() {
             <CardTitle className="text-base">Data engineering on a startup budget</CardTitle>
             <CardDescription className="text-sm leading-relaxed">
               Favor <strong className="text-foreground">tests + contracts + dbt</strong> before buying platforms. See{" "}
+              <Link href="/governance" className="text-primary underline-offset-4 hover:underline">
+                Governance
+              </Link>{" "}
+              for IAM, ownership, lineage, and COO-level cost bands; see{" "}
               <Link href="/architecture" className="text-primary underline-offset-4 hover:underline">
                 Architecture
               </Link>{" "}
-              for tiered spend, CI/DQ options, and assistive AI; see{" "}
+              for cloud options (Glue, Databricks, …) and AI; see{" "}
               <Link href="/data-pipeline" className="text-primary underline-offset-4 hover:underline">
                 Data pipeline
               </Link>{" "}

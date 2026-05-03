@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { TabPanel, type TabItem } from "@/components/TabPanel";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const tables: { name: string; body: string }[] = [
   {
@@ -73,6 +74,51 @@ const designTab: TabItem = {
   ),
 };
 
+const performanceTab: TabItem = {
+  id: "performance",
+  label: "Performance",
+  content: (
+    <div className="space-y-4">
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Indexes</CardTitle>
+          <CardDescription className="text-xs">B-Tree for filters; GIN / trigram only where search demands it</CardDescription>
+        </CardHeader>
+        <CardContent className="text-xs leading-relaxed text-muted-foreground">
+          <ul className="list-inside list-disc space-y-1.5">
+            <li>
+              <strong className="text-foreground">B-Tree</strong> on foreign keys used in joins and on range columns (
+              <code className="text-foreground">filed_at DESC</code>) keeps timeline queries index-only where possible.
+            </li>
+            <li>
+              <strong className="text-foreground">GIN + pg_trgm</strong> for fuzzy lawyer name search — add after measuring
+              sequential scans; every extra index slows writes.
+            </li>
+            <li>
+              <strong className="text-foreground">Covering indexes</strong> (INCLUDE) for hot read paths that power the
+              dashboard — trade storage for fewer heap fetches.
+            </li>
+          </ul>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Query discipline</CardTitle>
+        </CardHeader>
+        <CardContent className="text-xs leading-relaxed text-muted-foreground">
+          Push heavy rollups to dbt marts; cap ORM N+1 patterns in the API; run{" "}
+          <code className="text-foreground">EXPLAIN (ANALYZE, BUFFERS)</code> on the slowest three queries monthly. For
+          cost and governance context (RLS, classification), see{" "}
+          <Link href="/governance" className="text-primary underline-offset-4 hover:underline">
+            Governance
+          </Link>
+          .
+        </CardContent>
+      </Card>
+    </div>
+  ),
+};
+
 export function ModelingContent() {
-  return <TabPanel tabs={[schemaTab, designTab]} ariaLabel="Data modeling sections" />;
+  return <TabPanel tabs={[schemaTab, designTab, performanceTab]} ariaLabel="Data modeling sections" />;
 }
