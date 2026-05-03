@@ -14,7 +14,8 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+# Root-only Python packaging dirs (avoid matching e.g. courtlytics/web/src/lib/)
+/lib/
 lib64/
 parts/
 sdist/
@@ -277,9 +278,9 @@ typings/
 .nuxt
 dist
 
-# Gatsby files
+# Gatsby files (root only — do not ignore Next.js `web/public/` in subprojects)
 .cache/
-public
+/public
 
 # Storybook build outputs
 .out
@@ -398,7 +399,8 @@ jspm_packages/
 
 # Data files (large files that shouldn't be in git)
 *.csv
-*.json
+# Never ignore all *.json — breaks package.json / tsconfig / Next apps in this monorepo.
+# Add path-specific rules for large dumps instead, e.g. **/exports/*.json
 *.parquet
 *.avro
 *.orc

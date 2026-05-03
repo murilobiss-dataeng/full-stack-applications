@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -14,14 +15,19 @@ const jetbrains = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-/** Prefer real deployment URL on Vercel; avoid placeholder domains in metadataBase. */
+/** Prefer real deployment URL on Vercel; tolerate missing `https://` in env. */
 function resolveMetadataBase(): URL {
-  const site = process.env.NEXT_PUBLIC_SITE_URL?.trim();
-  if (site) {
-    return new URL(site);
-  }
-  if (process.env.VERCEL_URL) {
-    return new URL(`https://${process.env.VERCEL_URL}`);
+  const withScheme = (value: string): string => {
+    const v = value.trim();
+    if (/^https?:\/\//i.test(v)) return v;
+    return `https://${v}`;
+  };
+  try {
+    const site = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+    if (site) return new URL(withScheme(site));
+    if (process.env.VERCEL_URL) return new URL(`https://${process.env.VERCEL_URL}`);
+  } catch {
+    /* fall through */
   }
   return new URL("http://localhost:3000");
 }
@@ -56,7 +62,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} ${jetbrains.variable} min-h-screen font-sans`}>
-        <Navbar />
+        <Suspense fallback={<div className="h-16 border-b border-border" aria-hidden />}>
+          <Navbar />
+        </Suspense>
         <main>{children}</main>
         <Footer />
       </body>

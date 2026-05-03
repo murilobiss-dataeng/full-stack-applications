@@ -1,0 +1,8 @@
+{
+  "records": [
+    {"case_id": "K-1001", "court_id": "C-NYSD-01", "case_title": "Acme v. Beta", "filed_at": "2022-01-10", "closed_at": "2023-04-20", "outcome": "settlement", "duration_days": 465},
+    {"case_id": "K-1002", "court_id": "C-NYSD-01", "case_title": "Gamma IP Dispute", "filed_at": "2023-06-01", "closed_at": "2024-01-15", "outcome": "plaintiff_win", "duration_days": 228},
+    {"case_id": "K-1003", "court_id": "C-CAND-02", "case_title": "Delta Contract", "filed_at": "2021-03-22", "closed_at": "2022-11-30", "outcome": "defense_win", "duration_days": 618},
+    {"case_id": "K-1004", "court_id": "C-NYSC-03", "case_title": "Epsilon Tort", "filed_at": "2024-02-01", "closed_at": null, "outcome": null, "duration_days": null}
+  ]
+}

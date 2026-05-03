@@ -76,4 +76,13 @@ If it still fails: open that deployment → **Building** logs and confirm `next 
 2. **Settings → Build & Output → Output Directory** must be **empty** for Next.js (not `out`, `dist`, or `.next`).
 3. **Settings → Deployment Protection**: if previews require login, anonymous visits can look like a generic 404 — sign in or adjust protection.
 4. **`web/vercel.json`** sets `"framework": "nextjs"` so the project is not misclassified as a static site. Redeploy after pulling.
-5. Optional env **`NEXT_PUBLIC_SITE_URL`** = your canonical URL (e.g. `https://courtlytics-web.vercel.app` or your custom domain) for stable `metadataBase` in metadata.
+5. Optional env **`NEXT_PUBLIC_SITE_URL`** = your canonical URL (e.g. `https://courtlytics-web.vercel.app` or your custom domain). Use full URL with `https://` (or rely on `VERCEL_URL` automatically).
+6. **Monorepo `.gitignore` (fixed in repo):** the parent `full-stack-applications/.gitignore` used to ignore any `lib/`, any `public`, and all `*.json`. That could keep **`courtlytics/web/src/lib/`**, **`web/public/`**, and **`package.json` / `tsconfig.json`** out of Git so Vercel never received a complete Next app. After pulling the ignore fix, **commit the real files** if they were missing:
+
+   ```bash
+   cd full-stack-applications   # repo root
+   git status courtlytics/web
+   git add courtlytics/web/
+   git commit -m "Track Courtlytics web app files for Vercel deploy"
+   git push
+   ```

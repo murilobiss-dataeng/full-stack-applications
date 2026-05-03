@@ -1,0 +1,10 @@
+{
+  "resource": "lawyers",
+  "records": [
+    {"lawyer_id": "L001", "full_name": "John Smith", "bar_state": "NY", "practice_area": "Litigation"},
+    {"lawyer_id": "L002", "full_name": "J. Smith", "bar_state": "NY", "practice_area": "Litigation"},
+    {"lawyer_id": "L003", "full_name": "Jonathan A Smith", "bar_state": "NY", "practice_area": "Litigation"},
+    {"lawyer_id": "L004", "full_name": "Maria Lopez", "bar_state": "CA", "practice_area": "IP"},
+    {"lawyer_id": "L005", "full_name": "Maria  López", "bar_state": "CA", "practice_area": "IP"}
+  ]
+}
