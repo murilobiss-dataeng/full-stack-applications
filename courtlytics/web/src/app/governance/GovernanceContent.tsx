@@ -42,12 +42,12 @@ const executiveTab: TabItem = {
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">
         For platform alternatives (Glue, Databricks, Snowflake, etc.) ordered from lean to premium, see{" "}
-        <Link href="/architecture" className="text-primary underline-offset-4 hover:underline">
-          Architecture → Cloud options
+        <Link href="/architecture?section=platform" className="text-primary underline-offset-4 hover:underline">
+          Platform → Architecture (cloud ladder inside)
         </Link>
         . For merge rules and conflict resolution, see{" "}
-        <Link href="/source-of-truth" className="text-primary underline-offset-4 hover:underline">
-          Source of truth
+        <Link href="/source-of-truth?section=truth" className="text-primary underline-offset-4 hover:underline">
+          Truth &amp; cases → Source of truth
         </Link>
         . For Terraform, Docker, and CI OIDC patterns, open the <strong className="text-foreground">Infra as code</strong> tab
         below and the <code className="text-foreground">infra/</code> folder in the repo.
@@ -336,7 +336,7 @@ const versioningTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           Document <strong className="text-foreground">source priority</strong> (court roster &gt; paid vendor &gt; scrape),
           survivorship rules, and human-in-the-loop for high-risk merges. Full detail:{" "}
-          <Link href="/source-of-truth" className="text-primary underline-offset-4 hover:underline">
+          <Link href="/source-of-truth?section=truth" className="text-primary underline-offset-4 hover:underline">
             Source of truth
           </Link>
           .

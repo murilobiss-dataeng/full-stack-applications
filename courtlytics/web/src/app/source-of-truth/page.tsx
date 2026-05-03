@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { TruthContent } from "./TruthContent";
+import { TruthHubClient } from "./TruthHubClient";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Source of Truth",
+  title: "Truth & cases",
   description:
-    "Journey simulation raw→API, dedup and merge policies, validation dimensions, and published API contracts for golden legal entities.",
+    "Source-of-truth mechanics and a readable case study — lineage, merges, validation, API contracts, plus plain-English scaling.",
 };
 
 export default function SourceOfTruthPage() {
@@ -15,13 +15,13 @@ export default function SourceOfTruthPage() {
     <PageShell>
       <Reveal>
         <PageHeader
-          kicker="Governance"
-          title="Source of truth"
-          description="Lineage to curated API, merge matrix, quality dimensions, and how risks surface at each hop — the connected half of a CSC-style stack."
+          kicker="Quality"
+          title="Source of truth & case study"
+          description="Technical governance of golden entities, simulated path to the API, and a separate narrative for stakeholders who are not data engineers."
         />
       </Reveal>
       <Reveal delayMs={80}>
-        <TruthContent />
+        <TruthHubClient />
       </Reveal>
     </PageShell>
   );

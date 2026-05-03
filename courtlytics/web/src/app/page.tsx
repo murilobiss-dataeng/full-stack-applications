@@ -43,10 +43,10 @@ export default function HomePage() {
                 AI Lab
               </Link>
               <Link href="/architecture" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
-                Architecture
+                Platform
               </Link>
-              <Link href="/governance" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
-                Governance
+              <Link href="/data-pipeline" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
+                Data
               </Link>
               <Link href="/dashboard" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
                 Dashboard

@@ -230,7 +230,7 @@ const performanceTab: TabItem = {
           Push heavy rollups to dbt marts; cap ORM N+1 patterns in the API; run{" "}
           <code className="text-foreground">EXPLAIN (ANALYZE, BUFFERS)</code> on the slowest three queries monthly. For
           cost and governance context (RLS, classification), see{" "}
-          <Link href="/governance" className="text-primary underline-offset-4 hover:underline">
+          <Link href="/architecture?section=governance" className="text-primary underline-offset-4 hover:underline">
             Governance
           </Link>
           .

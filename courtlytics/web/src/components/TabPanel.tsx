@@ -74,13 +74,12 @@ export function TabPanel({ tabs, className, ariaLabel = "Sections" }: TabPanelPr
           </button>
         ))}
       </div>
-      <p className="mt-2 text-[11px] text-muted-foreground">Tip: focus a tab, then use ← → Home End.</p>
       <div
         key={active}
         role="tabpanel"
         id={`${baseId}-panel-${active}`}
         aria-labelledby={`${baseId}-tab-${active}`}
-        className="animate-fade-panel mt-3 rounded-xl border border-border/60 bg-card/30 p-4 sm:p-5"
+        className="animate-fade-panel mt-4 rounded-xl border border-border/60 bg-card/30 p-4 sm:p-5"
       >
         {tabs.find((t) => t.id === active)?.content}
       </div>

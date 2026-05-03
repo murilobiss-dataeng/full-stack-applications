@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import { PipelineContent } from "./PipelineContent";
+import { DataHubClient } from "./DataHubClient";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Data Pipeline",
-  description:
-    "Zones, code, pipeline testing strategy, data quality between stages, and reliability — optimized for lean teams.",
+  title: "Data platform",
+  description: "Pipeline and warehouse modeling — zones, ETL, tests, ER diagram, SQL examples, and Postgres performance.",
 };
 
 export default function DataPipelinePage() {
@@ -15,13 +14,13 @@ export default function DataPipelinePage() {
     <PageShell>
       <Reveal>
         <PageHeader
-          kicker="ETL"
-          title="Data pipeline"
-          description="The clean pillar end-to-end: zone layout, code paths, how we test runs, data-quality gates between zones, and reliability patterns that stay cheap in early-stage environments."
+          kicker="Data platform"
+          title="Pipeline & modeling"
+          description="Everything that shapes data before the dashboard: ingest zones, how runs are tested, data-quality gates, then relational design, tooling choices, and example queries."
         />
       </Reveal>
       <Reveal delayMs={80}>
-        <PipelineContent />
+        <DataHubClient />
       </Reveal>
     </PageShell>
   );

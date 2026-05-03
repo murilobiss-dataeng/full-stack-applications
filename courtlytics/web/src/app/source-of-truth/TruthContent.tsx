@@ -163,7 +163,7 @@ const validationTab: TabItem = {
           </ol>
           <p className="mt-4 text-xs">
             Cross-reference:{" "}
-            <Link href="/governance" className="text-primary underline-offset-4 hover:underline">
+            <Link href="/architecture?section=governance" className="text-primary underline-offset-4 hover:underline">
               Governance
             </Link>{" "}
             for ownership + classification, and{" "}

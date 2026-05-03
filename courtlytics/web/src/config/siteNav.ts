@@ -8,26 +8,18 @@ export const primaryNav: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/method", label: "Method" },
   { href: "/ai-lab", label: "AI Lab", spotlight: true },
-  { href: "/architecture", label: "Architecture" },
-  { href: "/governance", label: "Governance" },
-  { href: "/data-pipeline", label: "Pipeline" },
-  { href: "/data-modeling", label: "Modeling" },
-  { href: "/source-of-truth", label: "Source of truth" },
-  { href: "/case-study", label: "Case study" },
-  { href: "/explorer", label: "Explorer" },
+  { href: "/architecture", label: "Platform" },
+  { href: "/data-pipeline", label: "Data" },
+  { href: "/source-of-truth", label: "Truth & cases" },
   { href: "/dashboard", label: "Dashboard" },
 ];
 
 export const homeDocLinks: readonly { href: string; label: string }[] = [
   { href: "/method", label: "Method (CSC)" },
   { href: "/ai-lab", label: "AI Lab" },
-  { href: "/architecture", label: "Architecture" },
-  { href: "/governance", label: "Governance" },
-  { href: "/data-pipeline", label: "Pipeline" },
-  { href: "/data-modeling", label: "Modeling" },
-  { href: "/source-of-truth", label: "Source of truth" },
-  { href: "/case-study", label: "Case study" },
-  { href: "/explorer", label: "Repo explorer" },
+  { href: "/architecture", label: "Platform (architecture + governance + explorer)" },
+  { href: "/data-pipeline", label: "Data (pipeline + modeling)" },
+  { href: "/source-of-truth", label: "Truth & cases (SOT + case study)" },
 ] as const;
 
 export const footerColumns: readonly { title: string; links: readonly { href: string; label: string }[] }[] = [
@@ -35,25 +27,19 @@ export const footerColumns: readonly { title: string; links: readonly { href: st
     title: "Strategy",
     links: [
       { href: "/method", label: "Method" },
-      { href: "/architecture", label: "Architecture" },
-      { href: "/governance", label: "Governance & security" },
+      { href: "/architecture", label: "Platform" },
     ],
   },
   {
     title: "Data platform",
-    links: [
-      { href: "/data-pipeline", label: "Pipeline" },
-      { href: "/data-modeling", label: "Modeling" },
-      { href: "/source-of-truth", label: "Source of truth" },
-    ],
+    links: [{ href: "/data-pipeline", label: "Pipeline & modeling" }],
   },
   {
     title: "Product",
     links: [
       { href: "/ai-lab", label: "AI Lab" },
+      { href: "/source-of-truth", label: "Truth & cases" },
       { href: "/dashboard", label: "Dashboard" },
-      { href: "/case-study", label: "Case study" },
-      { href: "/explorer", label: "Repo explorer" },
       { href: "/api/metrics", label: "API metrics" },
     ],
   },

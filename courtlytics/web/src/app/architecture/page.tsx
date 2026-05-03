@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
-import { ArchitectureContent } from "./ArchitectureContent";
+import { ArchitectureHubClient } from "./ArchitectureHubClient";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Architecture",
+  title: "Platform",
   description:
-    "Lake → Python → Postgres → dbt → API; startup tiers, cloud ladder (Glue, EMR, Databricks, Snowflake), testing, DQ, AI, and governance links.",
+    "Architecture, governance & security, and repo explorer — system design, trust, and code layout in one place.",
 };
 
 export default function ArchitecturePage() {
@@ -15,13 +15,13 @@ export default function ArchitecturePage() {
     <PageShell>
       <Reveal>
         <PageHeader
-          kicker="System"
-          title="Architecture"
-          description="Reference flows, startup tiers, a cloud cost ladder (Glue, EMR, Databricks, Snowflake, …), testing and DQ, assistive AI, and links to governance for IAM and contracts."
+          kicker="Platform"
+          title="Architecture, governance & repository"
+          description="Use the sections on the left: system design (flows, cloud ladder, tests), trust & operations (IAM, contracts, lineage, costs), then browse the monorepo tree without leaving this page."
         />
       </Reveal>
       <Reveal delayMs={80}>
-        <ArchitectureContent />
+        <ArchitectureHubClient />
       </Reveal>
     </PageShell>
   );

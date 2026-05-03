@@ -42,12 +42,13 @@ const pillars = [
 ] as const;
 
 const mapRows = [
-  { pillar: "Clean", href: "/data-pipeline", label: "Pipeline, tests & DQ gates" },
-  { pillar: "Structured", href: "/data-modeling", label: "Warehouse & dbt" },
-  { pillar: "Connected", href: "/source-of-truth", label: "Source of truth & APIs" },
-  { pillar: "Trust", href: "/governance", label: "Security, lineage & TCO" },
+  { pillar: "Clean", href: "/data-pipeline?section=pipeline", label: "Pipeline, tests & DQ" },
+  { pillar: "Structured", href: "/data-pipeline?section=modeling", label: "Modeling & SQL" },
+  { pillar: "Connected", href: "/source-of-truth?section=truth", label: "Source of truth & API" },
+  { pillar: "Trust", href: "/architecture?section=governance", label: "Governance & lineage" },
   { pillar: "Assist", href: "/ai-lab", label: "AI Lab (metrics simulation)" },
-  { pillar: "End-to-end", href: "/architecture", label: "Tiers, cloud ladder & AI" },
+  { pillar: "Explore", href: "/architecture?section=explorer", label: "Repo explorer" },
+  { pillar: "End-to-end", href: "/architecture?section=platform", label: "Architecture & cloud ladder" },
 ];
 
 export default function MethodPage() {
@@ -103,23 +104,23 @@ export default function MethodPage() {
           <CardHeader className="pb-2">
             <CardTitle className="text-base">Data engineering on a startup budget</CardTitle>
             <CardDescription className="text-sm leading-relaxed">
-              Favor <strong className="text-foreground">tests + contracts + dbt</strong> before buying platforms. See{" "}
-              <Link href="/governance" className="text-primary underline-offset-4 hover:underline">
-                Governance
+              Favor <strong className="text-foreground">tests + contracts + dbt</strong> before buying platforms. Open{" "}
+              <Link href="/architecture?section=governance" className="text-primary underline-offset-4 hover:underline">
+                Platform → Governance
               </Link>{" "}
-              for IAM, ownership, lineage, and leadership cost planning; see{" "}
-              <Link href="/architecture" className="text-primary underline-offset-4 hover:underline">
-                Architecture
+              for IAM, contracts, and cost planning;{" "}
+              <Link href="/architecture?section=platform" className="text-primary underline-offset-4 hover:underline">
+                Platform → Architecture
               </Link>{" "}
               for cloud options (Glue, Databricks, …); try{" "}
               <Link href="/ai-lab" className="text-primary underline-offset-4 hover:underline">
                 AI Lab
+              </Link>
+              ; use{" "}
+              <Link href="/data-pipeline?section=pipeline" className="text-primary underline-offset-4 hover:underline">
+                Data → Pipeline
               </Link>{" "}
-              for a governed prompt-over-metrics demo; see{" "}
-              <Link href="/data-pipeline" className="text-primary underline-offset-4 hover:underline">
-                Data pipeline
-              </Link>{" "}
-              for how runs are tested and how quality gates sit between zones.
+              for tests and quality gates between zones.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -151,7 +152,7 @@ export default function MethodPage() {
           <Database className="mr-1.5 h-4 w-4" />
           See metrics dashboard
         </Link>
-        <Link href="/explorer" className={cn(buttonVariants({ variant: "outline" }), "text-sm")}>
+        <Link href="/architecture?section=explorer" className={cn(buttonVariants({ variant: "outline" }), "text-sm")}>
           Browse repo structure
         </Link>
       </Reveal>
