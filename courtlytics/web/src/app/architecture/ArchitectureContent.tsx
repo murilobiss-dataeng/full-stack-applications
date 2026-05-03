@@ -268,7 +268,7 @@ const platformLadderTab: TabItem = {
                 Databricks/Snowflake <span className="italic">plus</span> Fivetran / Matillion / observability (Monte Carlo
                 class) + multi-region DR.
               </td>
-              <td className="px-3 py-2">Regulated, multi-tenant, global footprint — COO signs off after ARR supports fixed platform burn.</td>
+              <td className="px-3 py-2">Regulated, multi-tenant, global footprint — executive sign-off once ARR supports fixed platform burn.</td>
             </tr>
           </tbody>
         </table>

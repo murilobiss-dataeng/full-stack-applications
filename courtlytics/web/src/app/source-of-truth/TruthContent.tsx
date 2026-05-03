@@ -1,18 +1,52 @@
 "use client";
 
+import Link from "next/link";
 import { TabPanel, type TabItem } from "@/components/TabPanel";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { TruthJourneySim } from "./TruthJourneySim";
+
+const journeyTab: TabItem = {
+  id: "journey",
+  label: "Journey to API",
+  content: <TruthJourneySim />,
+};
 
 const dedupTab: TabItem = {
   id: "dedup",
-  label: "Dedup",
+  label: "Dedup & identity",
   content: (
-    <Card>
-      <CardContent className="pt-5 text-sm leading-relaxed text-muted-foreground">
-        Normalize (lowercase, trim, NFKC) before similarity. Union-find merges pairs above threshold; cluster-size logs
-        surface threshold drift.
-      </CardContent>
-    </Card>
+    <div className="space-y-3">
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Normalization first</CardTitle>
+          <CardDescription className="text-xs">Always deterministic before fuzzy math</CardDescription>
+        </CardHeader>
+        <CardContent className="text-xs leading-relaxed text-muted-foreground">
+          Lowercase, trim, NFKC unicode, collapse internal whitespace. Strip honorifics only when a dictionary says it is safe
+          for your jurisdiction. Log <code className="text-foreground">name_hash_pre</code> / <code className="text-foreground">name_hash_post</code> for
+          audit replay.
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Blocking &amp; pairs</CardTitle>
+        </CardHeader>
+        <CardContent className="text-xs leading-relaxed text-muted-foreground">
+          Partition candidates by state + last name Soundex (or minhash) so pairwise similarity stays O(block) not O(n²).
+          Union-find merges pairs above threshold; persist cluster_id before promoting to{" "}
+          <code className="text-foreground">resolved_entity_id</code>.
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Monitoring</CardTitle>
+        </CardHeader>
+        <CardContent className="text-xs leading-relaxed text-muted-foreground">
+          Alert when average cluster size spikes (bad threshold) or singleton rate jumps (over-split). Compare weekly to a
+          trailing baseline — cheap SQL on staging metadata.
+        </CardContent>
+      </Card>
+    </div>
   ),
 };
 
@@ -20,21 +54,60 @@ const mergeTab: TabItem = {
   id: "merge",
   label: "Merge rules",
   content: (
-    <div className="grid gap-2 md:grid-cols-2">
+    <div className="space-y-3">
+      <div className="grid gap-3 md:grid-cols-2">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">Source precedence</CardTitle>
+          </CardHeader>
+          <CardContent className="text-xs leading-relaxed text-muted-foreground">
+            Court-certified roster beats paid aggregator beats scraped directory. Store{" "}
+            <code className="text-foreground">source_rank</code> and <code className="text-foreground">last_verified_at</code>; on tie, prefer higher
+            rank + fresher verification timestamp.
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">Survivorship</CardTitle>
+          </CardHeader>
+          <CardContent className="text-xs leading-relaxed text-muted-foreground">
+            Prefer longest clean display name; never merge two lawyer_ids without a shared hard key (bar number, tax ID).
+            Emit <code className="text-foreground">merge_decision_id</code> for downstream reversibility.
+          </CardContent>
+        </Card>
+      </div>
       <Card>
-        <CardHeader className="pb-1">
-          <CardTitle className="text-sm">Vendor precedence</CardTitle>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Conflict resolution matrix</CardTitle>
+          <CardDescription className="text-xs">Document once; enforce in code + review UI</CardDescription>
         </CardHeader>
-        <CardContent className="text-xs text-muted-foreground">
-          Court-certified roster beats scraped directories; <code className="text-foreground">last_verified_at</code> breaks ties.
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader className="pb-1">
-          <CardTitle className="text-sm">Survivorship</CardTitle>
-        </CardHeader>
-        <CardContent className="text-xs text-muted-foreground">
-          Prefer longest clean display names; never merge IDs without a shared hard key (e.g. bar number).
+        <CardContent className="overflow-x-auto text-xs">
+          <table className="w-full min-w-[480px] border-collapse text-left text-muted-foreground">
+            <thead>
+              <tr className="border-b border-border text-foreground">
+                <th className="py-2 pr-2 font-medium">Conflict</th>
+                <th className="py-2 pr-2 font-medium">Rule</th>
+                <th className="py-2 font-medium">Escalation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border/60">
+                <td className="py-2 pr-2">Different bar numbers</td>
+                <td className="py-2 pr-2">Never auto-merge</td>
+                <td className="py-2">Human + document exception</td>
+              </tr>
+              <tr className="border-b border-border/60">
+                <td className="py-2 pr-2">Same bar, different spelling</td>
+                <td className="py-2 pr-2">Auto-merge if confidence ≥ 0.95</td>
+                <td className="py-2">Queue if 0.85–0.94</td>
+              </tr>
+              <tr>
+                <td className="py-2 pr-2">Missing bar, high name similarity</td>
+                <td className="py-2 pr-2">Suggest only</td>
+                <td className="py-2">Analyst confirms</td>
+              </tr>
+            </tbody>
+          </table>
         </CardContent>
       </Card>
     </div>
@@ -43,7 +116,7 @@ const mergeTab: TabItem = {
 
 const validationTab: TabItem = {
   id: "validation",
-  label: "Validation",
+  label: "Validation & contracts",
   content: (
     <div className="space-y-4">
       <Card>
@@ -66,15 +139,15 @@ const validationTab: TabItem = {
             </li>
             <li>
               <strong className="text-foreground">Consistency:</strong> referential checks (case ↔ court ↔ lawyer bridge)
-              in dbt; cross-table balance checks (e.g. sums of case fees vs. detail lines) when facts exist.
+              in dbt; cross-table balance checks when facts exist.
             </li>
             <li>
               <strong className="text-foreground">Timeliness:</strong> freshness SLA per source — alert if bronze ingest
-              misses a window (cheap: query max(ingested_at) in CI or cron).
+              misses a window.
             </li>
             <li>
               <strong className="text-foreground">Bias / audit:</strong> log merge decisions with rule version + optional
-              human reviewer id for high-risk matches (pairs AI suggestions with accountability).
+              human reviewer id for high-risk matches.
             </li>
           </ul>
         </CardContent>
@@ -88,12 +161,65 @@ const validationTab: TabItem = {
             <li>dbt tests on uniqueness, relationships, and accepted values in marts.</li>
             <li>API / consumer contract tests so partial deploys never break the UI silently.</li>
           </ol>
+          <p className="mt-4 text-xs">
+            Cross-reference:{" "}
+            <Link href="/governance" className="text-primary underline-offset-4 hover:underline">
+              Governance
+            </Link>{" "}
+            for ownership + classification, and{" "}
+            <Link href="/data-pipeline" className="text-primary underline-offset-4 hover:underline">
+              Pipeline
+            </Link>{" "}
+            for quarantine replay.
+          </p>
         </CardContent>
       </Card>
     </div>
   ),
 };
 
+const apiTab: TabItem = {
+  id: "api",
+  label: "Published API surface",
+  content: (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm">Consumers see only curated contracts</CardTitle>
+        <CardDescription className="text-xs">
+          The route handler validates JSON shape; dashboards never query raw S3 or staging tables.
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3 text-xs leading-relaxed text-muted-foreground">
+        <p>
+          Example: <code className="text-foreground">GET /api/metrics</code> returns batch metadata + mart slices. Add{" "}
+          <code className="text-foreground">ETag</code> or <code className="text-foreground">run_id</code> so clients detect stale payloads after a
+          backfill.
+        </p>
+        <p>
+          Try the live mock:{" "}
+          <Link href="/api/metrics" className="text-primary underline-offset-4 hover:underline">
+            /api/metrics
+          </Link>{" "}
+          and the{" "}
+          <Link href="/dashboard" className="text-primary underline-offset-4 hover:underline">
+            Dashboard
+          </Link>
+          . For an AI-on-metrics simulation, see{" "}
+          <Link href="/ai-lab" className="text-primary underline-offset-4 hover:underline">
+            AI Lab
+          </Link>
+          .
+        </p>
+      </CardContent>
+    </Card>
+  ),
+};
+
 export function TruthContent() {
-  return <TabPanel tabs={[dedupTab, mergeTab, validationTab]} ariaLabel="Source of truth sections" />;
+  return (
+    <TabPanel
+      tabs={[journeyTab, dedupTab, mergeTab, validationTab, apiTab]}
+      ariaLabel="Source of truth sections"
+    />
+  );
 }

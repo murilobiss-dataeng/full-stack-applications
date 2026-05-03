@@ -1,32 +1,5 @@
 import Link from "next/link";
-
-const footerCols = [
-  {
-    title: "Strategy",
-    links: [
-      { href: "/method", label: "Method" },
-      { href: "/architecture", label: "Architecture" },
-      { href: "/governance", label: "Governance & security" },
-    ],
-  },
-  {
-    title: "Data platform",
-    links: [
-      { href: "/data-pipeline", label: "Pipeline" },
-      { href: "/data-modeling", label: "Modeling" },
-      { href: "/source-of-truth", label: "Source of truth" },
-    ],
-  },
-  {
-    title: "Product",
-    links: [
-      { href: "/dashboard", label: "Dashboard" },
-      { href: "/case-study", label: "Case study" },
-      { href: "/explorer", label: "Repo explorer" },
-      { href: "/api/metrics", label: "API metrics" },
-    ],
-  },
-] as const;
+import { footerColumns } from "@/config/siteNav";
 
 export function Footer() {
   return (
@@ -38,7 +11,7 @@ export function Footer() {
             Governed legal data: contracts, lineage, security, and cost-aware platform choices — portfolio demonstration.
           </p>
         </div>
-        {footerCols.map((col) => (
+        {footerColumns.map((col) => (
           <div key={col.title}>
             <p className="text-xs font-semibold uppercase tracking-wider text-foreground/90">{col.title}</p>
             <ul className="mt-3 space-y-2">

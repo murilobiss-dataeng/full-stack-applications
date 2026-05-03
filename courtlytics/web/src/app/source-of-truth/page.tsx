@@ -6,7 +6,8 @@ import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Source of Truth",
-  description: "Connected governance: deduplication, merge rules, and validation for a single view of legal entities.",
+  description:
+    "Journey simulation raw→API, dedup and merge policies, validation dimensions, and published API contracts for golden legal entities.",
 };
 
 export default function SourceOfTruthPage() {
@@ -16,7 +17,7 @@ export default function SourceOfTruthPage() {
         <PageHeader
           kicker="Governance"
           title="Source of truth"
-          description="Where feeds meet identity: contracts across layers, conflict resolution, and proof of quality before metrics ship — the connected half of a CSC-style stack."
+          description="Lineage to curated API, merge matrix, quality dimensions, and how risks surface at each hop — the connected half of a CSC-style stack."
         />
       </Reveal>
       <Reveal delayMs={80}>

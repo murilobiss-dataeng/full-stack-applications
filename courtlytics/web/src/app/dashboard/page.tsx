@@ -7,7 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
   title: "Dashboard",
-  description: "Mock analytics: case duration, win rate by court, lawyer performance.",
+  description:
+    "Extended mock analytics: pipeline KPIs, ingest volume, throughput, dbt-style checks, outcomes, confidence buckets, courts, and lawyer performance.",
 };
 
 export default function DashboardPage() {

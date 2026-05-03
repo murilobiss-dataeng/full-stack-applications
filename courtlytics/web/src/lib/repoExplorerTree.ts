@@ -32,6 +32,17 @@ export const repoRoot: RepoNode = d("courtlytics", "Portfolio monorepo", [
     description: "Courtlytics — Legal entity resolution & analytics. Python **data-platform** + **web** Next.js app.",
     sample: `# Courtlytics\n\nLegal Entity Resolution & Analytics Platform`,
   }),
+  d("infra", "feat: IaC + containers", [
+    f("README.md", "docs: infra layout", { description: "Terraform stubs, Docker Compose for local Postgres, pipeline Dockerfile." }),
+    f("docker-compose.yml", "chore: local postgres", { description: "Postgres 16 on port 5433 for integration tests." }),
+    d("terraform", "feat: aws outline", [
+      f("main.tf", "chore: tf root", { description: "Minimal terraform block; commented examples for S3/KMS/IAM." }),
+      f("iam-outline.tf", "docs: roles", { description: "Permission notes for pipeline vs analyst principals." }),
+    ]),
+    d("docker", "chore: etl image", [
+      f("Dockerfile.pipeline", "docker: batch", { description: "Build context = data-platform; CMD python -m src.pipeline." }),
+    ]),
+  ]),
   d(
     "data-platform",
     "feat: pipeline + dbt layout",
@@ -55,6 +66,7 @@ export const repoRoot: RepoNode = d("courtlytics", "Portfolio monorepo", [
           }),
           f("courts.json", "data: dimensions", { description: "Court dimension seed data." }),
           f("cases.json", "data: fact rows", { description: "Matter-level mock facts linked to courts." }),
+          f("case_lawyer.json", "data: bridge", { description: "Many-to-many case ↔ lawyer roles for warehouse FK demos." }),
         ]),
         d("processed", "etl: staging outputs", [
           f("lawyers_staging_*.json", "etl: staging batch", {
@@ -66,6 +78,11 @@ export const repoRoot: RepoNode = d("courtlytics", "Portfolio monorepo", [
             description: "Includes `resolved_entity_id` and confidence for each row.",
           }),
         ]),
+      ]),
+      d("contracts", "feat: data contracts", [
+        f("raw_lawyer.schema.json", "docs: JSON Schema", {
+          description: "Validates raw lawyer records before ETL (lawyer_id, full_name, optional fields).",
+        }),
       ]),
       d("src", "refactor: package layout", [
         d("ingestion", "feat: raw landing", [
@@ -100,7 +117,7 @@ export const repoRoot: RepoNode = d("courtlytics", "Portfolio monorepo", [
         ]),
         d("database", "docs: warehouse DDL", [
           f("models.py", "docs: SQL DDL strings", {
-            description: "Documents lawyers, courts, cases, case_lawyer + index strategy.",
+            description: "lawyers, courts, cases, case_lawyer, resolved_entities, ingestion_batch + indexes.",
           }),
           f("postgres_client.py", "feat: simulated PG", {
             description: "In-memory warehouse for demos; swap for psycopg in production.",
@@ -113,12 +130,27 @@ export const repoRoot: RepoNode = d("courtlytics", "Portfolio monorepo", [
           f("__init__.py", "chore: package export", {}),
         ]),
         d("dbt", "feat: dbt project under src", [
-          f("dbt_project.yml", "chore: dbt project", { description: "`name: courtlytics`, `model-paths: [models]`." }),
+          f("dbt_project.yml", "chore: dbt project", {
+            description: "`courtlytics`: model-paths, seed-paths, test-paths.",
+          }),
           f("__init__.py", "chore: package marker", {}),
-          d("models", "feat: mart SQL", [
-            f("lawyer_metrics.sql", "sql: mart", { description: "dbt-style mart: lawyer performance from facts." }),
-            f("case_aggregations.sql", "sql: mart", { description: "Court-level rollups for dashboards." }),
-            f("schema.yml", "test: schema tests", { description: "not_null / unique on mart keys." }),
+          d("seeds", "data: warehouse slice", [
+            f("lawyers_seed.csv", "seed: lawyers", {}),
+            f("courts_seed.csv", "seed: courts", {}),
+            f("cases_seed.csv", "seed: cases", {}),
+            f("case_lawyer_seed.csv", "seed: bridge", {}),
+          ]),
+          d("models", "feat: core + marts", [
+            f("lawyers.sql", "sql: core", {}),
+            f("courts.sql", "sql: core", {}),
+            f("cases.sql", "sql: core", {}),
+            f("case_lawyer.sql", "sql: core", {}),
+            f("lawyer_metrics.sql", "sql: mart", { description: "Refs lawyers, case_lawyer, cases." }),
+            f("case_aggregations.sql", "sql: mart", {}),
+            f("schema.yml", "test: yaml", { description: "Relationships + not_null across core and marts." }),
+          ]),
+          d("tests", "test: singular", [
+            f("assert_case_lawyer_grain.sql", "test: grain", { description: "No duplicate bridge keys." }),
           ]),
         ]),
         f("__init__.py", "chore: courtlytics package", { description: "Marks `src` as a Python package." }),
@@ -127,6 +159,7 @@ export const repoRoot: RepoNode = d("courtlytics", "Portfolio monorepo", [
         f("test_normalization.py", "test: strings", {}),
         f("test_deduplication.py", "test: dup groups", {}),
         f("test_pipeline.py", "test: ETL IO", {}),
+        f("test_database_ddl.py", "test: ddl", { description: "Asserts DDL bundle includes meta tables." }),
       ]),
     ],
   ),
@@ -147,8 +180,12 @@ export const repoRoot: RepoNode = d("courtlytics", "Portfolio monorepo", [
         d("governance", "feat: trust & TCO", [
           f("page.tsx", "ui: governance shell", { description: "Security, IAM, contracts, lineage, observability, costs." }),
           f("GovernanceContent.tsx", "ui: tab body", {
-            description: "Executive charter, security table, DQ, orchestration, COO cost scenarios.",
+            description: "Executive charter, security, IAM, IaC tab, DQ, orchestration, cost scenarios.",
           }),
+        ]),
+        d("ai-lab", "feat: AI simulation", [
+          f("page.tsx", "ui: AI lab", { description: "Simulated assistant over /api/metrics — demo only." }),
+          f("AiLabClient.tsx", "ui: prompt UX", { description: "Client-side typing + structured answer from live mock API." }),
         ]),
         f("layout.tsx", "ui: shell + metadata", {}),
         d("api", "feat: route handlers", [

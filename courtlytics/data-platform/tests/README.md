@@ -8,9 +8,8 @@ Python pipelines that normalize, deduplicate, and resolve lawyer identities from
 - `src/processing` — Normalization, duplicate detection, fuzzy entity resolution.
 - `src/pipeline` — Orchestrated ETL with logging and validation.
 - `src/database` — PostgreSQL DDL documentation and a simulated warehouse client.
-- `src/dbt/` — dbt project: `seeds/` (warehouse-shaped CSVs), `models/` (core views + marts), `tests/` (grain assertions), `schema.yml` (relationships + not_null).
-- `contracts/` — JSON Schema for raw payloads (e.g. `raw_lawyer.schema.json`).
-- `data/raw|processed|curated` — Zone folders for the demo datasets (includes `case_lawyer.json` bridge sample).
+- `src/dbt/` — dbt project (`dbt_project.yml`, `models/`, schema tests). Run `dbt` with `--project-dir` pointing here after wiring warehouse profiles.
+- `data/raw|processed|curated` — Zone folders for the demo datasets.
 
 ## Quick start
 

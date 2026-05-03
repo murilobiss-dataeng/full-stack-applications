@@ -1,0 +1,10 @@
+{
+  "resource": "case_lawyer",
+  "records": [
+    { "case_id": "K-1001", "lawyer_id": "L001", "role": "lead" },
+    { "case_id": "K-1002", "lawyer_id": "L002", "role": "lead" },
+    { "case_id": "K-1002", "lawyer_id": "L003", "role": "co_counsel" },
+    { "case_id": "K-1003", "lawyer_id": "L004", "role": "lead" },
+    { "case_id": "K-1004", "lawyer_id": "L005", "role": "lead" }
+  ]
+}

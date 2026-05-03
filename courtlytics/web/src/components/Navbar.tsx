@@ -2,23 +2,11 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, Scale, X } from "lucide-react";
+import { Menu, Scale, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-
-const links = [
-  { href: "/", label: "Home" },
-  { href: "/method", label: "Method" },
-  { href: "/architecture", label: "Architecture" },
-  { href: "/governance", label: "Governance" },
-  { href: "/data-pipeline", label: "Pipeline" },
-  { href: "/data-modeling", label: "Modeling" },
-  { href: "/source-of-truth", label: "Source of truth" },
-  { href: "/case-study", label: "Case study" },
-  { href: "/explorer", label: "Explorer" },
-  { href: "/dashboard", label: "Dashboard" },
-];
+import { primaryNav } from "@/config/siteNav";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -36,16 +24,18 @@ export function Navbar() {
           </span>
           <span>Courtlytics</span>
         </Link>
-        <nav className="hidden items-center gap-1 md:flex">
-          {links.map(({ href, label }) => (
+        <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
+          {primaryNav.map(({ href, label, spotlight }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                "rounded-md px-3 py-2 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground",
+                "inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground",
                 pathname === href && "bg-muted text-foreground",
+                spotlight && "ring-1 ring-primary/35 bg-primary/5 text-primary hover:text-primary",
               )}
             >
+              {spotlight ? <Sparkles className="h-3.5 w-3.5 shrink-0 opacity-90" aria-hidden /> : null}
               {label}
             </Link>
           ))}
@@ -63,16 +53,18 @@ export function Navbar() {
       {open ? (
         <div className="border-t border-border px-4 py-3 md:hidden">
           <div className="flex flex-col gap-1">
-            {links.map(({ href, label }) => (
+            {primaryNav.map(({ href, label, spotlight }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-foreground",
+                  "inline-flex items-center gap-1.5 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-foreground",
                   pathname === href && "bg-muted text-foreground",
+                  spotlight && "ring-1 ring-primary/35 bg-primary/5 text-primary",
                 )}
               >
+                {spotlight ? <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden /> : null}
                 {label}
               </Link>
             ))}

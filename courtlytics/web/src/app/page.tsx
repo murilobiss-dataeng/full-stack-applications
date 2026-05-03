@@ -5,17 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-
-const docLinks = [
-  { href: "/method", label: "Method (CSC)" },
-  { href: "/architecture", label: "Architecture" },
-  { href: "/governance", label: "Governance" },
-  { href: "/data-pipeline", label: "Pipeline" },
-  { href: "/data-modeling", label: "Modeling" },
-  { href: "/source-of-truth", label: "Source of truth" },
-  { href: "/case-study", label: "Case study" },
-  { href: "/explorer", label: "Repo explorer" },
-] as const;
+import { homeDocLinks } from "@/config/siteNav";
 
 export default function HomePage() {
   return (
@@ -31,8 +21,8 @@ export default function HomePage() {
               From fragmented legal data to governed intelligence
             </h1>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-              Courtlytics applies the same three-step pattern used in production legal-data programs (including the CSC
-              methodology familiar from Courtroom Insight): <strong className="text-foreground">clean</strong> inputs,{" "}
+              Courtlytics models a three-step pattern common in production legal-data programs — Clean, Structured,
+              Connected (CSC): <strong className="text-foreground">clean</strong> inputs,{" "}
               <strong className="text-foreground">structure</strong> them for analytics, then{" "}
               <strong className="text-foreground">connect</strong> sources into one source of truth — demonstrated here with
               Python, Postgres, dbt, and a Next.js surface.
@@ -41,6 +31,16 @@ export default function HomePage() {
               <Link href="/method" className={cn(buttonVariants(), "inline-flex h-9 gap-1.5 px-4 text-sm")}>
                 Our method
                 <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <Link
+                href="/ai-lab"
+                className={cn(
+                  buttonVariants(),
+                  "inline-flex h-9 gap-1.5 border border-primary/40 bg-gradient-to-r from-primary to-violet-600 px-4 text-sm shadow-md shadow-primary/20 hover:opacity-95",
+                )}
+              >
+                <Sparkles className="h-3.5 w-3.5" />
+                AI Lab
               </Link>
               <Link href="/architecture" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
                 Architecture
@@ -53,7 +53,7 @@ export default function HomePage() {
               </Link>
             </div>
             <nav className="mt-5 flex flex-wrap gap-x-3 gap-y-2 border-t border-border/80 pt-4 text-sm text-muted-foreground">
-              {docLinks.map(({ href, label }) => (
+              {homeDocLinks.map(({ href, label }) => (
                 <Link
                   key={href}
                   href={href}
@@ -112,6 +112,26 @@ export default function HomePage() {
             </Card>
           </div>
         </section>
+      </Reveal>
+
+      <Reveal delayMs={200} className="mt-8">
+        <Link
+          href="/ai-lab"
+          className="group flex flex-col gap-1 rounded-2xl border border-primary/35 bg-gradient-to-br from-primary/15 via-card/80 to-violet-600/10 p-4 transition-all hover:border-primary/55 hover:shadow-lg hover:shadow-primary/10 sm:flex-row sm:items-center sm:justify-between sm:p-5"
+        >
+          <div>
+            <p className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-primary">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden />
+              Featured
+            </p>
+            <p className="mt-1 text-sm font-medium text-foreground">Simulated analyst over your metrics API</p>
+            <p className="mt-0.5 max-w-xl text-xs text-muted-foreground">
+              Natural-language prompt → live <code className="text-foreground">/api/metrics</code> → structured brief. No
+              external model; shows how governed AI would feel.
+            </p>
+          </div>
+          <span className="mt-2 shrink-0 text-sm font-medium text-primary group-hover:underline sm:mt-0">Open AI Lab →</span>
+        </Link>
       </Reveal>
     </PageShell>
   );

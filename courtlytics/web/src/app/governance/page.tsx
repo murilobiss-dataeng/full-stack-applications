@@ -7,7 +7,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Governance & security",
   description:
-    "Security, IAM, data governance, contracts, lineage, data quality, observability, orchestration, performance, and TCO — executive-ready.",
+    "Security, IAM, Terraform/Docker IaC outline, data governance, contracts, lineage, data quality, observability, orchestration, performance, and cost scenarios — executive-ready.",
 };
 
 export default function GovernancePage() {

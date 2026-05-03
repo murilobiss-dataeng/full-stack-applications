@@ -1,0 +1,21 @@
+# Local warehouse for ETL + dbt integration tests (no production data).
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: courtlytics-postgres
+    environment:
+      POSTGRES_USER: courtlytics
+      POSTGRES_PASSWORD: courtlytics_dev_only
+      POSTGRES_DB: courtlytics
+    ports:
+      - "5433:5432"
+    volumes:
+      - courtlytics_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U courtlytics -d courtlytics"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  courtlytics_pgdata:

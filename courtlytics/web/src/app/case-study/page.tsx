@@ -6,7 +6,8 @@ import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
   title: "Case Study",
-  description: "Case study: duplicate legal data, entity resolution, and scaling a clean–structured–connected path.",
+  description:
+    "Plain-English problem framing, strategy, trade-offs, and illustrated scaling story for non-engineering readers.",
 };
 
 export default function CaseStudyPage() {
@@ -16,7 +17,7 @@ export default function CaseStudyPage() {
         <PageHeader
           kicker="Narrative"
           title="Case study"
-          description="Lawyer-level KPIs when upstream systems disagree on identity — how clean inputs, structured marts, and connected IDs carry the story from chaos to governed metrics."
+          description="Same technical story in two voices: plain English first, then detail — including picture-style diagrams for how the system grows."
         />
       </Reveal>
       <Reveal delayMs={80}>

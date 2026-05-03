@@ -59,11 +59,41 @@ CASE_LAWYER_DDL = """
 CREATE TABLE IF NOT EXISTS case_lawyer (
     case_id   TEXT NOT NULL REFERENCES cases(case_id) ON DELETE CASCADE,
     lawyer_id TEXT NOT NULL REFERENCES lawyers(lawyer_id) ON DELETE CASCADE,
-    role      TEXT NOT NULL CHECK (role IN ('lead', 'co_counsel', 'judge')),
+    role      TEXT NOT NULL CHECK (role IN ('lead', 'co_counsel', 'local_counsel')),
     PRIMARY KEY (case_id, lawyer_id, role)
 );
 CREATE INDEX IF NOT EXISTS idx_case_lawyer_lawyer
     ON case_lawyer (lawyer_id);
 """
 
-ALL_DDL = "\n".join([LAWYERS_DDL, COURTS_DDL, CASES_DDL, CASE_LAWYER_DDL])
+RESOLVED_ENTITIES_DDL = """
+CREATE TABLE IF NOT EXISTS resolved_entities (
+    resolved_entity_id TEXT PRIMARY KEY,
+    display_name       TEXT NOT NULL,
+    member_lawyer_count INTEGER NOT NULL DEFAULT 0,
+    max_confidence     NUMERIC(6,4),
+    updated_at         TIMESTAMPTZ DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_resolved_entities_display
+    ON resolved_entities (display_name);
+"""
+
+INGESTION_BATCH_DDL = """
+CREATE TABLE IF NOT EXISTS ingestion_batch (
+    batch_id      TEXT PRIMARY KEY,
+    resource      TEXT NOT NULL,
+    started_at    TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    finished_at   TIMESTAMPTZ,
+    rows_in       INTEGER,
+    rows_staged   INTEGER,
+    rows_curated  INTEGER,
+    status        TEXT NOT NULL CHECK (status IN ('running', 'succeeded', 'failed', 'partial')),
+    error_code    TEXT
+);
+CREATE INDEX IF NOT EXISTS idx_ingestion_batch_status
+    ON ingestion_batch (status, started_at DESC);
+"""
+
+ALL_DDL = "\n".join(
+    [LAWYERS_DDL, COURTS_DDL, CASES_DDL, CASE_LAWYER_DDL, RESOLVED_ENTITIES_DDL, INGESTION_BATCH_DDL],
+)

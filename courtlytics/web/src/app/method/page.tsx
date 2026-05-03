@@ -46,6 +46,7 @@ const mapRows = [
   { pillar: "Structured", href: "/data-modeling", label: "Warehouse & dbt" },
   { pillar: "Connected", href: "/source-of-truth", label: "Source of truth & APIs" },
   { pillar: "Trust", href: "/governance", label: "Security, lineage & TCO" },
+  { pillar: "Assist", href: "/ai-lab", label: "AI Lab (metrics simulation)" },
   { pillar: "End-to-end", href: "/architecture", label: "Tiers, cloud ladder & AI" },
 ];
 
@@ -56,7 +57,7 @@ export default function MethodPage() {
         <PageHeader
           kicker="Methodology"
           title="Clean, structured, connected data"
-          description="Courtlytics is a portfolio build, but its design follows the same three-tenet pattern used in mature legal data programs — including the Clean, Structured, & Connected (CSC) framing popularized by Courtroom Insight for turning fragmented legal data into actionable intelligence. Here is how those ideas map to this repository (no affiliation; educational reference only)."
+          description="Courtlytics is an independent portfolio build. It follows a three-tenet pattern widely used in mature legal data programs — Clean, Structured, & Connected (CSC) — to turn fragmented legal data into actionable intelligence. Below is how that pattern maps to this repository (industry-agnostic description; not associated with any specific vendor or law firm)."
         />
       </Reveal>
 
@@ -106,11 +107,15 @@ export default function MethodPage() {
               <Link href="/governance" className="text-primary underline-offset-4 hover:underline">
                 Governance
               </Link>{" "}
-              for IAM, ownership, lineage, and COO-level cost bands; see{" "}
+              for IAM, ownership, lineage, and leadership cost planning; see{" "}
               <Link href="/architecture" className="text-primary underline-offset-4 hover:underline">
                 Architecture
               </Link>{" "}
-              for cloud options (Glue, Databricks, …) and AI; see{" "}
+              for cloud options (Glue, Databricks, …); try{" "}
+              <Link href="/ai-lab" className="text-primary underline-offset-4 hover:underline">
+                AI Lab
+              </Link>{" "}
+              for a governed prompt-over-metrics demo; see{" "}
               <Link href="/data-pipeline" className="text-primary underline-offset-4 hover:underline">
                 Data pipeline
               </Link>{" "}

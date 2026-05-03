@@ -1,6 +1,73 @@
 version: 2
 
+seeds:
+  - name: lawyers_seed
+    description: Warehouse-shaped lawyer rows (post-resolution grain for dbt demo).
+    columns:
+      - name: lawyer_id
+        tests: [not_null, unique]
+      - name: resolved_entity_id
+        tests: [not_null]
+
+  - name: courts_seed
+    columns:
+      - name: court_id
+        tests: [not_null, unique]
+
+  - name: cases_seed
+    columns:
+      - name: case_id
+        tests: [not_null, unique]
+      - name: court_id
+        tests: [not_null]
+
+  - name: case_lawyer_seed
+    columns:
+      - name: case_id
+        tests: [not_null]
+      - name: lawyer_id
+        tests: [not_null]
+
 models:
+  - name: lawyers
+    description: Core lawyer dimension keyed by source lawyer_id.
+    columns:
+      - name: lawyer_id
+        tests: [not_null, unique]
+      - name: resolved_entity_id
+        tests: [not_null]
+
+  - name: courts
+    columns:
+      - name: court_id
+        tests: [not_null, unique]
+
+  - name: cases
+    columns:
+      - name: case_id
+        tests: [not_null, unique]
+      - name: court_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref("courts")
+              field: court_id
+
+  - name: case_lawyer
+    columns:
+      - name: case_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref("cases")
+              field: case_id
+      - name: lawyer_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref("lawyers")
+              field: lawyer_id
+
   - name: lawyer_metrics
     description: Golden-record lawyer performance metrics
     columns:

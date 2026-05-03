@@ -49,7 +49,8 @@ const executiveTab: TabItem = {
         <Link href="/source-of-truth" className="text-primary underline-offset-4 hover:underline">
           Source of truth
         </Link>
-        .
+        . For Terraform, Docker, and CI OIDC patterns, open the <strong className="text-foreground">Infra as code</strong> tab
+        below and the <code className="text-foreground">infra/</code> folder in the repo.
       </p>
     </div>
   ),
@@ -409,9 +410,59 @@ const performanceTab: TabItem = {
   ),
 };
 
+const infraIacTab: TabItem = {
+  id: "infra",
+  label: "Infra as code",
+  content: (
+    <div className="space-y-4">
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        The monorepo now includes a small <strong className="text-foreground">infra/</strong> folder: Terraform stubs, a local{" "}
+        <code className="text-foreground">docker-compose.yml</code> for Postgres, and a sample{" "}
+        <code className="text-foreground">Dockerfile.pipeline</code> for batch jobs. Treat it as a blueprint — wire providers,
+        backends, and modules to your org standard.
+      </p>
+      <div className="grid gap-3 md:grid-cols-2">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">Terraform</CardTitle>
+            <CardDescription className="text-xs">S3 + KMS + IAM roles (commented)</CardDescription>
+          </CardHeader>
+          <CardContent className="text-xs leading-relaxed text-muted-foreground">
+            <code className="text-foreground">infra/terraform/main.tf</code> holds a minimal root module;{" "}
+            <code className="text-foreground">iam-outline.tf</code> lists permission boundaries for{" "}
+            <code className="text-foreground">pipeline_svc</code> vs humans. Use remote state (S3 + Dynamo lock) before team
+            collaboration.
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm">Containers</CardTitle>
+            <CardDescription className="text-xs">Reproducible ETL runtime</CardDescription>
+          </CardHeader>
+          <CardContent className="text-xs leading-relaxed text-muted-foreground">
+            Build the Python package into an image for <strong className="text-foreground">ECS Fargate</strong>,{" "}
+            <strong className="text-foreground">Cloud Run jobs</strong>, or <strong className="text-foreground">Kubernetes CronJobs</strong>. Same
+            artifact from CI → lower &quot;works on my machine&quot; risk.
+          </CardContent>
+        </Card>
+      </div>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">CI/CD &amp; OIDC</CardTitle>
+        </CardHeader>
+        <CardContent className="text-xs leading-relaxed text-muted-foreground">
+          Prefer <strong className="text-foreground">GitHub Actions OIDC → AWS IAM role</strong> over long-lived access keys for
+          <code className="text-foreground">terraform plan/apply</code> and ECR pushes. Separate roles: <code className="text-foreground">ci-plan</code> (read) vs{" "}
+          <code className="text-foreground">ci-apply</code> (write, protected branches only).
+        </CardContent>
+      </Card>
+    </div>
+  ),
+};
+
 const costTab: TabItem = {
   id: "cost",
-  label: "Cost scenarios (COO)",
+  label: "Cost scenarios",
   content: (
     <div className="space-y-4">
       <p className="text-sm leading-relaxed text-muted-foreground">
@@ -426,7 +477,7 @@ const costTab: TabItem = {
               <th className="px-3 py-2 font-medium">Profile</th>
               <th className="px-3 py-2 font-medium">Typical stack sketch</th>
               <th className="px-3 py-2 font-medium">Ballpark / month</th>
-              <th className="px-3 py-2 font-medium">COO takeaway</th>
+              <th className="px-3 py-2 font-medium">Strategic note</th>
             </tr>
           </thead>
           <tbody className="text-muted-foreground">
@@ -477,6 +528,7 @@ export function GovernanceContent() {
         observabilityTab,
         versioningTab,
         performanceTab,
+        infraIacTab,
         costTab,
       ]}
       ariaLabel="Governance and operations"

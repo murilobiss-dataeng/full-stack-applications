@@ -1,7 +1,32 @@
 "use client";
 
 import { TabPanel, type TabItem } from "@/components/TabPanel";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+const plainTab: TabItem = {
+  id: "plain",
+  label: "Plain English",
+  content: (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-base">What problem are we solving?</CardTitle>
+        <CardDescription className="text-sm">No jargon version</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-3 text-sm leading-relaxed text-muted-foreground">
+        <p>
+          Imagine three spreadsheets about the <strong className="text-foreground">same lawyer</strong> but the name is
+          written differently on each. If you simply count rows, you will count that person three times. That makes every
+          chart — win rate, workload, revenue — wrong.
+        </p>
+        <p>
+          The case study walks through how we <strong className="text-foreground">clean names</strong>,{" "}
+          <strong className="text-foreground">group likely duplicates</strong>, then{" "}
+          <strong className="text-foreground">pick one official ID</strong> so the whole company agrees on who is who.
+        </p>
+      </CardContent>
+    </Card>
+  ),
+};
 
 const contextTab: TabItem = {
   id: "context",
@@ -9,8 +34,8 @@ const contextTab: TabItem = {
   content: (
     <Card>
       <CardContent className="pt-5 text-sm leading-relaxed text-muted-foreground">
-        Vendors disagree on tokens (&quot;Smith, John&quot; vs &quot;J. Smith&quot;). Without resolution, KPIs double-count. Bronze
-        keeps every variant; silver normalizes; gold assigns <code className="text-foreground">resolved_entity_id</code>.
+        Vendors disagree on tokens (&quot;Smith, John&quot; vs &quot;J. Smith&quot;). Without resolution, KPIs double-count.
+        Bronze keeps every variant; silver normalizes; gold assigns <code className="text-foreground">resolved_entity_id</code>.
       </CardContent>
     </Card>
   ),
@@ -61,17 +86,96 @@ const tradeTab: TabItem = {
 
 const scaleTab: TabItem = {
   id: "scale",
-  label: "Scale",
+  label: "Scale (picture it)",
   content: (
-    <Card>
-      <CardContent className="pt-5 text-sm leading-relaxed text-muted-foreground">
-        S3 + columnar silver (Iceberg/Delta), autoscaled Python workers, Postgres for conformed dimensions, columnar
-        marts via dbt, stateless API behind CDN with cache keys per mart version.
-      </CardContent>
-    </Card>
+    <div className="space-y-5">
+      <p className="text-sm leading-relaxed text-muted-foreground">
+        When the company grows, the <strong className="text-foreground">shape</strong> of the system stays the same — only
+        the boxes get bigger or multiply. Below is the same story in pictures anyone can follow.
+      </p>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Today — one team, nightly files</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <pre className="overflow-x-auto rounded-lg border border-border bg-muted/30 p-4 text-[11px] leading-relaxed text-muted-foreground">
+            {`   [ Law firms / courts ]
+            │   upload files / API
+            ▼
+      +------------------+
+      |   Storage (S3)   |  ← "Bronze" copies kept forever for audit
+      +------------------+
+            │
+            ▼
+      +------------------+
+      |  Small compute   |  ← Python cleans & matches overnight
+      |   (1–2 people)   |
+      +------------------+
+            │
+            ▼
+      +------------------+
+      |    Database      |  ← Official tables dashboards read
+      +------------------+
+            │
+            ▼
+      +------------------+
+      |  Website / API   |  ← Lawyers & finance see charts
+      +------------------+`}
+          </pre>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Tomorrow — more data, same arrows</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <pre className="overflow-x-auto rounded-lg border border-border bg-muted/30 p-4 text-[11px] leading-relaxed text-muted-foreground">
+            {`   [ Many vendors + internal CRM ]
+            │
+            ▼
+      +------------------+
+      |   Bigger lake    |  ← Still one place for raw truth
+      |  (columnar)      |
+      +------------------+
+            │
+            ▼
+      +------------------+
+      | Autoscaled jobs  |  ← Same Python logic, more machines
+      | (queue / cloud)  |
+      +------------------+
+            │
+            ▼
+      +------------------+
+      | Warehouse + BI   |  ← Still one official "golden" layer
+      +------------------+
+            │
+            ▼
+      +------------------+
+      | API + cache      |  ← Fast for apps; data still curated
+      +------------------+`}
+          </pre>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            <strong className="text-foreground">Takeaway:</strong> you are not redesigning from scratch — you are widening
+            pipes and automating schedules. That is how costs stay predictable while trust in numbers goes up.
+          </p>
+        </CardContent>
+      </Card>
+      <Card className="border-dashed border-primary/40 bg-primary/5">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">What changes for non-technical readers?</CardTitle>
+        </CardHeader>
+        <CardContent className="text-xs leading-relaxed text-muted-foreground">
+          <ol className="list-inside list-decimal space-y-2">
+            <li>Reports update on a schedule you can see (e.g. every morning at 6).</li>
+            <li>When something breaks, you get a clear alert — not silent wrong charts.</li>
+            <li>Every number can be traced back to a file and a version — important for disputes and audits.</li>
+          </ol>
+        </CardContent>
+      </Card>
+    </div>
   ),
 };
 
 export function CaseStudyContent() {
-  return <TabPanel tabs={[contextTab, strategyTab, tradeTab, scaleTab]} ariaLabel="Case study sections" />;
+  return <TabPanel tabs={[plainTab, contextTab, strategyTab, tradeTab, scaleTab]} ariaLabel="Case study sections" />;
 }

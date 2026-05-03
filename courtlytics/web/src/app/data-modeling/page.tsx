@@ -17,7 +17,7 @@ export default function DataModelingPage() {
         <PageHeader
           kicker="Warehouse"
           title="PostgreSQL modeling"
-          description="The structured pillar: 3NF entities, bridge tables, B-Tree vs GIN strategy, EXPLAIN discipline, and indexes aligned to dashboard predicates and dbt marts."
+          description="Live ER-style diagram, table specs, vendor tooling alternatives, example SQL with mock results, and Postgres performance notes."
         />
       </Reveal>
       <Reveal delayMs={80}>
