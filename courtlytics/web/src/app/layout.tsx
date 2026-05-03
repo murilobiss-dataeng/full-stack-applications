@@ -14,8 +14,20 @@ const jetbrains = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+/** Prefer real deployment URL on Vercel; avoid placeholder domains in metadataBase. */
+function resolveMetadataBase(): URL {
+  const site = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (site) {
+    return new URL(site);
+  }
+  if (process.env.VERCEL_URL) {
+    return new URL(`https://${process.env.VERCEL_URL}`);
+  }
+  return new URL("http://localhost:3000");
+}
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://courtlytics.example.com"),
+  metadataBase: resolveMetadataBase(),
   title: {
     default: "Courtlytics — Legal Entity Resolution & Analytics",
     template: "%s | Courtlytics",

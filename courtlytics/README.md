@@ -42,13 +42,38 @@ cd web && npm run build && npm start
 This repo is a **monorepo** (`web/` + `data-platform/`). Vercel must build the Next app from **`web`**, not the repository root.
 
 1. **Project → Settings → General → Root Directory**  
-   - If the Git root is the `courtlytics` folder: set **`web`**.  
-   - If the Git root is `GitProjects` (or another parent): set **`full-stack-applications/courtlytics/web`** (adjust the path so it points at the folder that contains `next.config.mjs` and `package.json`).
+   Point Vercel at the folder that contains **`next.config.mjs`** and **`package.json`** (the Next app), relative to the **Git repository root**:
+   - Git root is the **`courtlytics`** repo folder → use **`web`**.
+   - Git root is **`full-stack-applications`** (or any parent that has `courtlytics` inside it) → use **`courtlytics/web`** *(this is a common correct choice)*.
+   - Git root is **`GitProjects`** (entire workspace repo) → use **`full-stack-applications/courtlytics/web`** (adjust if your tree differs).
 
 2. **Project → Settings → General → Build & Output**  
    - **Framework Preset:** Next.js (auto-detected once Root Directory is `web`).  
    - **Output Directory:** leave **empty** (default). Do **not** set `dist`, `out`, or `.next` manually — wrong values cause a successful build but a **404 NOT_FOUND** at the edge.
 
-3. Redeploy, then open the URL shown on the latest **Production** deployment (not an old preview hash unless you mean to).
+3. **Override commands** (only if Vercel did not auto-fill them). Assumes **Root Directory** already points at the Next app folder (`…/courtlytics/web`).
 
-If it still fails: open that deployment → **Building** logs and confirm `next build` ran inside `web/`.
+   | Setting | Value |
+   |--------|--------|
+   | **Install Command** | `npm install` |
+   | **Build Command** | `npm run build` |
+   | **Output Directory** | *(leave blank / default — do not set)* |
+   | **Development Command** | `npm run dev` |
+
+   For reproducible CI-style installs (lockfile committed), use **`npm ci`** instead of `npm install`.
+
+   **Important:** If **Root Directory** is already set (e.g. `courtlytics/web`), Vercel runs install/build **inside that folder**. Do **not** prefix commands with `cd courtlytics/web &&` or `cd web &&` — that path does not exist from inside the app directory and you get `No such file or directory`.
+
+4. Redeploy, then open the URL shown on the latest **Production** deployment (not an old preview hash unless you mean to).
+
+If it still fails: open that deployment → **Building** logs and confirm `next build` ran.
+
+**Only if Root Directory is empty** (project root = whole repo `full-stack-applications`): then use **Install** `cd courtlytics/web && npm install` and **Build** `cd courtlytics/web && npm run build`. Pick **either** Root Directory **or** `cd …` in commands — never both.
+
+### Build ok but site shows `404: NOT_FOUND`
+
+1. **Open the exact URL** from the latest deployment (Deployments → your deployment → **Visit**). Preview hashes and production URLs differ; a typo or an old link shows Vercel’s `NOT_FOUND`.
+2. **Settings → Build & Output → Output Directory** must be **empty** for Next.js (not `out`, `dist`, or `.next`).
+3. **Settings → Deployment Protection**: if previews require login, anonymous visits can look like a generic 404 — sign in or adjust protection.
+4. **`web/vercel.json`** sets `"framework": "nextjs"` so the project is not misclassified as a static site. Redeploy after pulling.
+5. Optional env **`NEXT_PUBLIC_SITE_URL`** = your canonical URL (e.g. `https://courtlytics-web.vercel.app` or your custom domain) for stable `metadataBase` in metadata.
