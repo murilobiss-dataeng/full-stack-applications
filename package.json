@@ -1,0 +1,12 @@
+{
+  "name": "full-stack-applications",
+  "private": true,
+  "description": "Monorepo root. Next.js app lives in courtlytics/web — hoisted via npm workspaces so Vercel can detect next when Root Directory is the repo root.",
+  "workspaces": ["courtlytics/web"],
+  "scripts": {
+    "build": "npm run build --workspace=courtlytics-web",
+    "dev": "npm run dev --workspace=courtlytics-web",
+    "lint": "npm run lint --workspace=courtlytics-web",
+    "start": "npm run start --workspace=courtlytics-web"
+  }
+}

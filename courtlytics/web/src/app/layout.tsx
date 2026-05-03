@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     template: "%s | Courtlytics",
   },
   description:
-    "Courtlytics is a portfolio LegalTech data platform demonstrating lawyer identity resolution, PostgreSQL modeling, S3-style lake zones, dbt transformations, and production-minded Python pipelines.",
+    "Courtlytics is a portfolio LegalTech platform: clean–structured–connected data (CSC-style methodology), lawyer entity resolution, PostgreSQL, lake zones, dbt, and Python pipelines.",
   keywords: [
     "Courtlytics",
     "LegalTech",
@@ -49,6 +49,7 @@ export const metadata: Metadata = {
     "dbt",
     "AWS S3",
     "Python ETL",
+    "CSC methodology",
   ],
   openGraph: {
     title: "Courtlytics — Legal Entity Resolution & Analytics",

@@ -1,141 +1,136 @@
 import Link from "next/link";
-import { ArrowRight, Database, GitBranch, Layers, Sparkles } from "lucide-react";
-import { Section } from "@/components/Section";
+import { ArrowRight, GitMerge, Layers, Sparkles } from "lucide-react";
+import { PageShell } from "@/components/PageShell";
+import { Reveal } from "@/components/Reveal";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+const docLinks = [
+  { href: "/method", label: "Method (CSC)" },
+  { href: "/explorer", label: "Repo explorer" },
+  { href: "/architecture", label: "Architecture" },
+  { href: "/data-pipeline", label: "Pipeline" },
+  { href: "/data-modeling", label: "Modeling" },
+  { href: "/case-study", label: "Case study" },
+  { href: "/source-of-truth", label: "Source of truth" },
+] as const;
+
+const stack = ["Next.js 14", "TypeScript", "Tailwind", "Python", "pytest", "PostgreSQL", "S3", "dbt", "Recharts"];
 
 export default function HomePage() {
   return (
-    <>
-      <div className="relative overflow-hidden border-b border-border">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_hsl(217,91%,20%,0.35),transparent_55%)]" />
-        <div className="relative mx-auto max-w-5xl px-4 pb-24 pt-20 sm:px-6 md:pt-28">
-          <p className="text-sm font-medium uppercase tracking-widest text-primary">Legal Entity Resolution & Analytics</p>
-          <h1 className="mt-4 text-balance text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl">
-            Rebuilding a Legal Data Platform
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl">
-            Court systems, vendors, and internal tools each emit overlapping snapshots of lawyers, judges, and cases.
-            Courtlytics shows how to normalize that fragmentation into a governed warehouse with a single source of truth
-            for identities.
-          </p>
-          <div className="mt-10 flex flex-wrap gap-3">
-            <Link href="/architecture" className={cn(buttonVariants(), "inline-flex gap-2")}>
-              Explore architecture
-              <ArrowRight className="h-4 w-4" />
-            </Link>
-            <Link href="/dashboard" className={cn(buttonVariants({ variant: "outline" }))}>
-              View dashboard
-            </Link>
+    <PageShell className="pb-16 pt-10 md:pb-20 md:pt-12">
+      <Reveal>
+        <div className="relative overflow-hidden rounded-2xl border border-border bg-card/40 px-5 py-7 sm:px-7 sm:py-9">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,hsl(217,91%,24%,0.45),transparent)]" />
+          <div className="relative">
+            <p className="text-xs font-medium uppercase tracking-widest text-primary">
+              Clean · structured · connected — matter & people intelligence
+            </p>
+            <h1 className="mt-2 max-w-2xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+              From fragmented legal data to governed intelligence
+            </h1>
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+              Courtlytics applies the same three-step pattern used in production legal-data programs (including the CSC
+              methodology familiar from Courtroom Insight): <strong className="text-foreground">clean</strong> inputs,{" "}
+              <strong className="text-foreground">structure</strong> them for analytics, then{" "}
+              <strong className="text-foreground">connect</strong> sources into one source of truth — demonstrated here with
+              Python, Postgres, dbt, and a Next.js surface.
+            </p>
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              <Link href="/method" className={cn(buttonVariants(), "inline-flex h-9 gap-1.5 px-4 text-sm")}>
+                Our method
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+              <Link href="/architecture" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
+                Architecture
+              </Link>
+              <Link href="/dashboard" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
+                Dashboard
+              </Link>
+            </div>
+            <nav className="mt-5 flex flex-wrap gap-x-3 gap-y-2 border-t border-border/80 pt-4 text-sm text-muted-foreground">
+              {docLinks.map(({ href, label }) => (
+                <Link
+                  key={href}
+                  href={href}
+                  className="rounded-md px-1 py-0.5 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground"
+                >
+                  {label}
+                </Link>
+              ))}
+            </nav>
           </div>
         </div>
-      </div>
+      </Reveal>
 
-      <Section
-        id="problem"
-        title="Problem"
-        subtitle="Legal data is noisy, duplicated across dockets, and keyed inconsistently — blocking reliable analytics."
-      >
-        <div className="grid gap-6 md:grid-cols-2">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <Layers className="h-4 w-4 text-primary" />
-                Fragmented sources
-              </CardTitle>
-              <CardDescription>
-                APIs, batch CSV drops, and legacy extracts disagree on spelling, order, and identifiers for the same
-                person.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-base">
-                <GitBranch className="h-4 w-4 text-primary" />
-                Weak entity keys
-              </CardTitle>
-              <CardDescription>
-                Without resolution, win rates, matter counts, and duration metrics fracture across alias rows.
-              </CardDescription>
-            </CardHeader>
-          </Card>
-        </div>
-      </Section>
-
-      <Section
-        id="solution"
-        title="Solution"
-        subtitle="A lakehouse-style pipeline: land raw in S3, harden in Python, model in Postgres, expose metrics through dbt-built views."
-      >
-        <Card>
-          <CardContent className="pt-6">
-            <ul className="space-y-3 text-muted-foreground">
-              <li className="flex gap-3">
-                <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <span>
-                  <strong className="text-foreground">Lawyer Identity Resolution Engine</strong> — fuzzy clustering with
-                  confidence scores merges &quot;John Smith&quot;, &quot;J. Smith&quot;, and &quot;Jonathan A Smith&quot; into one golden
-                  entity.
-                </span>
-              </li>
-              <li className="flex gap-3">
-                <Database className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <span>
-                  <strong className="text-foreground">PostgreSQL warehouse</strong> enforces roles, courts, and matter
-                  relationships with indexes tuned for dashboard queries.
-                </span>
-              </li>
-            </ul>
-          </CardContent>
-        </Card>
-      </Section>
-
-      <Section id="stack" title="Tech Stack" subtitle="Aligned with senior data engineering interviews: Python, AWS, SQL, dbt, and a modern serving layer.">
-        <div className="flex flex-wrap gap-2">
-          {["Next.js 14", "TypeScript", "Tailwind CSS", "shadcn-style UI", "Recharts", "Python 3", "pytest", "PostgreSQL", "S3", "dbt"].map(
-            (t) => (
-              <span
-                key={t}
-                className="rounded-full border border-border bg-muted/50 px-4 py-1.5 text-sm text-muted-foreground transition-colors hover:border-[hsl(217,33%,26%)] hover:text-foreground"
-              >
-                {t}
-              </span>
-            ),
-          )}
-        </div>
-      </Section>
-
-      <Section
-        id="features"
-        title="Key Features"
-        subtitle="Everything in this repo is runnable: Python ETL with tests, curated JSON zones, and a Next.js experience layer."
-      >
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {[
-            {
-              title: "Incremental loads",
-              body: "Batch-scoped files from raw to curated with structured logs and validation gates.",
-            },
-            {
-              title: "Data quality",
-              body: "Schema checks in the pipeline; dbt tests documented for warehouse models.",
-            },
-            {
-              title: "Serving API",
-              body: "GET /api/metrics returns mock processed metrics for the dashboard.",
-            },
-          ].map((f) => (
-            <Card key={f.title}>
-              <CardHeader>
-                <CardTitle className="text-base">{f.title}</CardTitle>
-                <CardDescription>{f.body}</CardDescription>
+      <Reveal delayMs={70} className="mt-8 md:mt-10">
+        <section aria-labelledby="overview-heading">
+          <h2 id="overview-heading" className="sr-only">
+            Overview
+          </h2>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <Card className="transition-all duration-200 hover:border-[hsl(217,33%,24%)] hover:shadow-sm">
+              <CardHeader className="pb-2 pt-5">
+                <CardTitle className="flex items-center gap-2 text-sm font-medium">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  Clean
+                </CardTitle>
+                <CardDescription className="text-sm leading-snug">
+                  Normalize strings, flag duplicates, validate batches — reliable inputs before fuzzy work begins.
+                </CardDescription>
               </CardHeader>
             </Card>
-          ))}
-        </div>
-      </Section>
-    </>
+            <Card className="transition-all duration-200 hover:border-[hsl(217,33%,24%)] hover:shadow-sm">
+              <CardHeader className="pb-2 pt-5">
+                <CardTitle className="flex items-center gap-2 text-sm font-medium">
+                  <Layers className="h-4 w-4 text-primary" />
+                  Structured
+                </CardTitle>
+                <CardDescription className="text-sm leading-snug">
+                  Relational warehouse + dbt-style marts so joins, tests, and dashboards share one schema contract.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+            <Card className="sm:col-span-2 lg:col-span-1 transition-all duration-200 hover:border-[hsl(217,33%,24%)] hover:shadow-sm">
+              <CardHeader className="pb-2 pt-5">
+                <CardTitle className="flex items-center gap-2 text-sm font-medium">
+                  <GitMerge className="h-4 w-4 text-primary" />
+                  Connected
+                </CardTitle>
+                <CardDescription className="text-sm leading-snug">
+                  Entity resolution + <code className="text-foreground">resolved_entity_id</code> +{" "}
+                  <Link href="/api/metrics" className="text-primary underline-offset-4 hover:underline">
+                    /api/metrics
+                  </Link>{" "}
+                  — one story for people and matters across feeds.
+                </CardDescription>
+              </CardHeader>
+            </Card>
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal delayMs={140} className="mt-7 md:mt-9">
+        <section aria-labelledby="stack-heading">
+          <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between">
+            <h2 id="stack-heading" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Stack
+            </h2>
+            <div className="flex flex-wrap gap-1.5">
+              {stack.map((t) => (
+                <span
+                  key={t}
+                  className="rounded-md border border-border/80 bg-muted/30 px-2 py-0.5 text-xs text-muted-foreground transition-all duration-200 hover:border-[hsl(217,33%,28%)] hover:text-foreground"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        </section>
+      </Reveal>
+    </PageShell>
   );
 }

@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button";
 
 const links = [
   { href: "/", label: "Home" },
+  { href: "/method", label: "Method" },
+  { href: "/explorer", label: "Explorer" },
   { href: "/architecture", label: "Architecture" },
   { href: "/data-pipeline", label: "Data Pipeline" },
   { href: "/data-modeling", label: "Data Modeling" },
@@ -24,8 +26,11 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-border/80 bg-background/80 backdrop-blur-md">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight transition-opacity hover:opacity-90">
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary">
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-semibold tracking-tight transition-all duration-200 hover:opacity-90 active:scale-[0.99]"
+        >
+          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors duration-200 hover:bg-primary/25">
             <Scale className="h-5 w-5" aria-hidden />
           </span>
           <span>Courtlytics</span>
@@ -36,7 +41,7 @@ export function Navbar() {
               key={href}
               href={href}
               className={cn(
-                "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+                "rounded-md px-3 py-2 text-sm text-muted-foreground transition-all duration-200 hover:bg-muted hover:text-foreground",
                 pathname === href && "bg-muted text-foreground",
               )}
             >
@@ -63,7 +68,7 @@ export function Navbar() {
                 href={href}
                 onClick={() => setOpen(false)}
                 className={cn(
-                  "rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground",
+                  "rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors duration-200 hover:bg-muted hover:text-foreground",
                   pathname === href && "bg-muted text-foreground",
                 )}
               >

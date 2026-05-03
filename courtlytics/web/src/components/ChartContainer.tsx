@@ -21,7 +21,7 @@ export function ChartContainer({ title, description, children, className }: Char
         <h3 className="text-base font-semibold">{title}</h3>
         {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
       </div>
-      <div className="h-[280px] w-full">{children}</div>
+      <div className="h-[240px] w-full sm:h-[252px]">{children}</div>
     </div>
   );
 }

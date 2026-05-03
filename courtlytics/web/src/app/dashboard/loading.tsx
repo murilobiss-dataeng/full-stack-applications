@@ -1,15 +1,21 @@
+import { PageShell } from "@/components/PageShell";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardLoading() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-20">
-      <Skeleton className="h-10 w-64 max-w-full" />
-      <Skeleton className="mt-4 h-5 w-full max-w-xl" />
-      <div className="mt-10 grid gap-6 lg:grid-cols-2">
-        <Skeleton className="h-[320px] w-full rounded-xl" />
-        <Skeleton className="h-[320px] w-full rounded-xl" />
-        <Skeleton className="h-[320px] w-full lg:col-span-2" />
+    <PageShell wide>
+      <Skeleton className="h-24 w-full max-w-lg rounded-lg" />
+      <Skeleton className="mt-2 h-4 w-full max-w-xl rounded" />
+      <div className="mt-6 grid gap-3 sm:grid-cols-3">
+        <Skeleton className="h-20 rounded-xl" />
+        <Skeleton className="h-20 rounded-xl" />
+        <Skeleton className="h-20 rounded-xl" />
       </div>
-    </div>
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <Skeleton className="h-[280px] w-full rounded-xl" />
+        <Skeleton className="h-[280px] w-full rounded-xl" />
+        <Skeleton className="h-[280px] w-full lg:col-span-2" />
+      </div>
+    </PageShell>
   );
 }

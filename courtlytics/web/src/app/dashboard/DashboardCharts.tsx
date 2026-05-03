@@ -46,10 +46,17 @@ export function DashboardCharts() {
 
   if (!data) {
     return (
-      <div className="grid gap-6 lg:grid-cols-2">
-        <Skeleton className="h-[320px] w-full rounded-xl" />
-        <Skeleton className="h-[320px] w-full rounded-xl" />
-        <Skeleton className="h-[320px] w-full lg:col-span-2" />
+      <div className="space-y-6">
+        <div className="grid gap-3 sm:grid-cols-3">
+          <Skeleton className="h-20 rounded-xl" />
+          <Skeleton className="h-20 rounded-xl" />
+          <Skeleton className="h-20 rounded-xl" />
+        </div>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <Skeleton className="h-[280px] w-full rounded-xl" />
+          <Skeleton className="h-[280px] w-full rounded-xl" />
+          <Skeleton className="h-[280px] w-full lg:col-span-2" />
+        </div>
       </div>
     );
   }
@@ -61,7 +68,23 @@ export function DashboardCharts() {
   }));
 
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
+    <div className="space-y-6">
+      <div className="grid gap-3 sm:grid-cols-3">
+        {[
+          { label: "Rows processed", value: data.pipeline.rowsProcessed.toLocaleString() },
+          { label: "Validation pass", value: `${(data.pipeline.validationPassRate * 100).toFixed(1)}%` },
+          { label: "Clusters merged", value: data.entityResolution.clustersMerged.toLocaleString() },
+        ].map((s) => (
+          <div
+            key={s.label}
+            className="rounded-xl border border-border bg-gradient-to-br from-card/80 to-muted/20 px-4 py-3 transition-transform duration-300 motion-safe:hover:-translate-y-0.5"
+          >
+            <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{s.label}</p>
+            <p className="mt-1 font-mono text-xl font-semibold tabular-nums tracking-tight text-foreground sm:text-2xl">{s.value}</p>
+          </div>
+        ))}
+      </div>
+      <div className="grid gap-4 lg:grid-cols-2">
       <ChartContainer title="Case duration trend" description="Average days to disposition by quarter (mock mart).">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data.caseDurationTrend} margin={{ left: 0, right: 8, top: 8 }}>
@@ -120,6 +143,7 @@ export function DashboardCharts() {
             </ComposedChart>
           </ResponsiveContainer>
         </ChartContainer>
+      </div>
       </div>
     </div>
   );
