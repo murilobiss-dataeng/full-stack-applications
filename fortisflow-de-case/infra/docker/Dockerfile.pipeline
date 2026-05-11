@@ -1,0 +1,14 @@
+# Build from repository root (fortisflow-de-case):
+#   docker build -f infra/docker/Dockerfile.pipeline -t sigma-sec-pipeline:latest .
+#
+# Copies the stub data-platform and the static mock snapshot used by the web app.
+FROM python:3.12-slim
+WORKDIR /app
+COPY data-platform/requirements.txt ./data-platform/requirements.txt
+RUN pip install --no-cache-dir -r data-platform/requirements.txt
+COPY data-platform/src ./data-platform/src
+COPY web/public/mock/pipeline-metrics.json /app/mock/pipeline-metrics.json
+ENV SIGMA_SEC_MOCK_METRICS=/app/mock/pipeline-metrics.json
+WORKDIR /app/data-platform
+ENV PYTHONPATH=/app/data-platform
+CMD ["python", "-m", "src.pipeline"]

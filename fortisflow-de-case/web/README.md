@@ -2,6 +2,8 @@
 
 Next.js 14 app for **sigma-sec** (Murilo Biss): a **Senior Data Engineer / Snowflake** portfolio case — pipeline zones, tests, DW modeling, governance, `/api/metrics`, and **AI Lab** (prompt the stack). Cyan-on-slate UI; **sigma-sec** is a fictional regulated enterprise program, not a real company or Sigma client.
 
+Monorepo context: see **[`../README.md`](../README.md)** (local Postgres on **5434**, `data-platform/` stub, `infra/` Terraform outline).
+
 ## Scripts
 
 - `npm run dev` — local dev

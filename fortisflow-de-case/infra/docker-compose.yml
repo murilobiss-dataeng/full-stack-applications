@@ -1,0 +1,22 @@
+# Local Postgres for future ETL / dbt integration tests (no production data).
+# Port 5434 avoids collision with DoorRush (tax-ledger-analytics) on 5433.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: sigma-sec-postgres
+    environment:
+      POSTGRES_USER: sigmasec
+      POSTGRES_PASSWORD: sigmasec_dev_only
+      POSTGRES_DB: sigmasec
+    ports:
+      - "5434:5432"
+    volumes:
+      - sigma_sec_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sigmasec -d sigmasec"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  sigma_sec_pgdata:

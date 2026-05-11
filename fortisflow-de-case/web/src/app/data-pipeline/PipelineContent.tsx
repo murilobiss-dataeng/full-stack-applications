@@ -3,18 +3,6 @@
 import { TabPanel, type TabItem } from "@/components/TabPanel";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-const pySnippet = `def run_supplier_quality_pipeline(*, batch_id: str | None = None) -> dict:
-    raw_records = _read_raw_supplier_feed(raw_dir, batch)
-    normalized = [normalize_record_fields(dict(r)) for r in raw_records]
-    deduped = flag_duplicates(normalized)
-    resolved = resolve_supplier_entities(deduped)`;
-
-const sqlSnippet = `SELECT resolved_entity_id,
-       COUNT(DISTINCT work_order_id) AS work_orders_touched
-FROM suppliers s
-JOIN work_order_supplier wos USING (supplier_id)
-GROUP BY 1;`;
-
 const flowTab: TabItem = {
   id: "zones",
   label: "Zones",
@@ -32,27 +20,6 @@ const flowTab: TabItem = {
           <CardContent className="text-xs leading-relaxed text-muted-foreground">{z.desc}</CardContent>
         </Card>
       ))}
-    </div>
-  ),
-};
-
-const codeTab: TabItem = {
-  id: "code",
-  label: "Code",
-  content: (
-    <div className="grid gap-3 lg:grid-cols-2">
-      <div>
-        <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">Python ETL</p>
-        <pre className="max-h-[220px] overflow-auto rounded-lg border border-border bg-muted/40 p-3 text-[11px] leading-relaxed text-muted-foreground">
-          <code>{pySnippet}</code>
-        </pre>
-      </div>
-      <div>
-        <p className="mb-2 text-xs font-medium uppercase tracking-wide text-muted-foreground">dbt mart</p>
-        <pre className="max-h-[220px] overflow-auto rounded-lg border border-border bg-muted/40 p-3 text-[11px] leading-relaxed text-muted-foreground">
-          <code>{sqlSnippet}</code>
-        </pre>
-      </div>
     </div>
   ),
 };
@@ -202,6 +169,6 @@ const opsTab: TabItem = {
 
 export function PipelineContent() {
   return (
-    <TabPanel tabs={[flowTab, codeTab, testingTab, dqTab, opsTab]} ariaLabel="Pipeline sections" />
+    <TabPanel tabs={[flowTab, testingTab, dqTab, opsTab]} ariaLabel="Pipeline sections" />
   );
 }

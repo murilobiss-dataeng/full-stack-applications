@@ -1,0 +1,21 @@
+# Root ignores (monorepo)
+.env
+.env.*
+!.env.example
+
+# Python (data-platform)
+data-platform/.venv/
+data-platform/.pytest_cache/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# OS
+.DS_Store
