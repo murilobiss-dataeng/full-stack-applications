@@ -14,6 +14,11 @@ import {
   LineChart,
   Pie,
   PieChart,
+  PolarAngleAxis,
+  PolarGrid,
+  PolarRadiusAxis,
+  Radar,
+  RadarChart,
   ReferenceLine,
   ResponsiveContainer,
   Scatter,
@@ -113,29 +118,150 @@ export function DashboardCharts() {
   const bridge = data.kpiBridgeIndex ?? [];
 
   return (
-    <div className="space-y-10">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-        {[
-          { label: "Rows processed", value: data.pipeline.rowsProcessed.toLocaleString() },
-          { label: "Validation pass", value: `${(data.pipeline.validationPassRate * 100).toFixed(1)}%` },
-          { label: "Supplier clusters merged", value: data.entityResolution.clustersMerged.toLocaleString() },
-          { label: "Avg match confidence", value: `${(data.entityResolution.avgConfidence * 100).toFixed(0)}%` },
-          { label: "Last run (ms)", value: data.pipeline.lastRunDurationMs.toLocaleString() },
-          { label: "Batch", value: data.batchId },
-        ].map((s) => (
-          <div
-            key={s.label}
-            className="rounded-xl border border-border bg-gradient-to-br from-white to-cyan-50/40 px-4 py-3 transition-transform duration-300 motion-safe:hover:-translate-y-0.5"
-          >
-            <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{s.label}</p>
-            <p className="mt-1 truncate font-mono text-lg font-semibold tabular-nums tracking-tight text-foreground xl:text-xl">
-              {s.value}
-            </p>
+    <div className="space-y-12">
+      <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-card/90 via-white to-cyan-50/40 p-4 shadow-md shadow-primary/5 sm:p-6">
+        <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-primary">Live contract</p>
+            <h2 className="text-base font-semibold tracking-tight text-foreground sm:text-lg">Pipeline snapshot</h2>
           </div>
-        ))}
+          <p className="text-xs text-muted-foreground">From the same run as charts below</p>
+        </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          {[
+            { label: "Rows processed", value: data.pipeline.rowsProcessed.toLocaleString() },
+            { label: "Validation pass", value: `${(data.pipeline.validationPassRate * 100).toFixed(1)}%` },
+            { label: "Supplier clusters merged", value: data.entityResolution.clustersMerged.toLocaleString() },
+            { label: "Avg match confidence", value: `${(data.entityResolution.avgConfidence * 100).toFixed(0)}%` },
+            { label: "Last run (ms)", value: data.pipeline.lastRunDurationMs.toLocaleString() },
+            { label: "Batch", value: data.batchId },
+          ].map((s) => (
+            <div
+              key={s.label}
+              className="rounded-xl border border-border/90 bg-white/90 px-4 py-3 shadow-sm ring-1 ring-primary/5 transition-all duration-300 motion-safe:hover:-translate-y-0.5 motion-safe:hover:shadow-md"
+            >
+              <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{s.label}</p>
+              <p className="mt-1 truncate font-mono text-lg font-semibold tabular-nums tracking-tight text-foreground xl:text-xl">
+                {s.value}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <section className="space-y-4">
+      <section className="space-y-4 rounded-2xl border border-border/80 bg-gradient-to-b from-card/50 to-transparent p-4 sm:p-6">
+        <div className="flex flex-col gap-1 border-b border-border/60 pb-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h2 className="text-lg font-semibold tracking-tight text-foreground">Freshness, reliability, and warehouse mix</h2>
+            <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
+              Platform signals alongside product KPIs — still served from <code className="text-foreground">/api/metrics</code>.
+            </p>
+          </div>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-2">
+          <ChartContainer
+            title="Mart freshness (hours since last good run)"
+            description="Which curated tables are hottest for support — mock SLA-style read."
+            chartClassName="h-[280px] sm:h-[300px]"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data.martFreshnessHours} layout="vertical" margin={{ left: 8, right: 16, top: 8 }}>
+                <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+                <XAxis type="number" tick={axisStyle} axisLine={{ stroke: gridColor }} />
+                <YAxis type="category" dataKey="mart" width={140} tick={axisStyle} axisLine={{ stroke: gridColor }} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v} h`, "Lag"]} />
+                <Bar dataKey="hours" fill={ACCENT} radius={[0, 6, 6, 0]} name="Hours" />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+
+          <ChartContainer
+            title="Pipeline success rate (weekly)"
+            description="Green path % across scheduled loads — early warning for regressions."
+            chartClassName="h-[280px] sm:h-[300px]"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={data.pipelineSuccessRatePct} margin={{ left: 0, right: 8, top: 8 }}>
+                <defs>
+                  <linearGradient id="succFill" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={ACCENT} stopOpacity={0.35} />
+                    <stop offset="100%" stopColor={ACCENT} stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+                <XAxis dataKey="week" tick={axisStyle} axisLine={{ stroke: gridColor }} />
+                <YAxis domain={[98.5, 100]} tickFormatter={(v) => `${v}%`} tick={axisStyle} axisLine={{ stroke: gridColor }} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`, "Success"]} />
+                <Area type="monotone" dataKey="rate" name="Success %" stroke={ACCENT_DARK} fill="url(#succFill)" strokeWidth={2} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+
+          <ChartContainer
+            title="Warehouse credit mix (mock %)"
+            description="Where spend goes — batch vs interactive vs orchestration overhead."
+            chartClassName="h-[260px] sm:h-[280px]"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart margin={{ top: 8, bottom: 8 }}>
+                <Pie
+                  data={data.warehouseCreditMixPct}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  innerRadius={48}
+                  outerRadius={76}
+                  paddingAngle={2}
+                >
+                  {data.warehouseCreditMixPct.map((_, i) => (
+                    <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`, "Share"]} />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+              </PieChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+
+          <ChartContainer
+            title="Load health (accepted vs quarantine)"
+            description="Weekly file loads — synthetic split for ops storytelling."
+            chartClassName="h-[280px] sm:h-[300px]"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data.loadHealthWeekly} margin={{ left: 0, right: 8, top: 8 }}>
+                <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
+                <XAxis dataKey="week" tick={axisStyle} axisLine={{ stroke: gridColor }} />
+                <YAxis tick={axisStyle} axisLine={{ stroke: gridColor }} />
+                <Tooltip contentStyle={tooltipStyle} />
+                <Legend wrapperStyle={{ fontSize: 11 }} />
+                <Bar dataKey="good" stackId="lh" fill={ACCENT_DARK} name="Accepted" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="quarantine" stackId="lh" fill="hsl(350, 65%, 52%)" name="Quarantine" radius={[6, 6, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+
+          <ChartContainer
+            className="lg:col-span-2"
+            title="DQ trust radar (illustrative)"
+            description="Composite view for exec decks — replace axes with your real governance scorecard."
+            chartClassName="h-[300px] sm:h-[320px]"
+          >
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart data={data.dqTrustRadar} margin={{ top: 20, right: 28, bottom: 12, left: 28 }}>
+                <PolarGrid stroke={gridColor} />
+                <PolarAngleAxis dataKey="axis" tick={{ fill: axisStyle.fill, fontSize: 11 }} />
+                <PolarRadiusAxis angle={18} domain={[0, 100]} tick={{ fontSize: 9 }} />
+                <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`, ""]} />
+                <Radar name="Score" dataKey="score" stroke={ACCENT_DARK} fill={ACCENT} fillOpacity={0.35} strokeWidth={2} />
+              </RadarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
+        </div>
+      </section>
+
+      <section className="space-y-4 rounded-2xl border border-border/80 bg-card/20 p-4 sm:p-6">
         <div>
           <h2 className="text-lg font-semibold tracking-tight text-foreground">Cohorts, funnels, and mix</h2>
           <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
@@ -233,12 +359,12 @@ export function DashboardCharts() {
         </div>
       </section>
 
-      <section className="space-y-4">
+      <section className="space-y-4 rounded-2xl border border-border/80 bg-gradient-to-b from-muted/15 to-transparent p-4 sm:p-6">
         <div>
           <h2 className="text-lg font-semibold tracking-tight text-foreground">Operations, plants, and quality</h2>
           <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
-            Time series, geo hubs, ingest cadence, and entity-resolution health: the layer analysts watch during close or
-            manufacturing peaks.
+            Time series, geo hubs, ingest cadence, and entity-resolution health: the layer analysts watch during operational peaks
+            and month-end reviews.
           </p>
         </div>
         <div className="grid gap-4 lg:grid-cols-2">

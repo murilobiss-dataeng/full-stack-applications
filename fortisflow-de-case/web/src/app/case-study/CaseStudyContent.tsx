@@ -15,16 +15,16 @@ const plainTab: TabItem = {
       </CardHeader>
       <CardContent className="space-y-3 text-sm leading-relaxed text-muted-foreground">
         <p>
-          Imagine three ERP extracts about the <strong className="text-foreground">same supplier</strong> but the name is
-          spelled differently on each. If finance or tax simply count rows, they will triple-count exposure, input tax, or
-          withholding, and every provision model downstream is wrong.
+          Imagine three ERP extracts about the <strong className="text-foreground">same business partner</strong> but the name is
+          spelled differently on each. If downstream teams simply count rows, they will triple-count exposure, spend, or
+          capacity, and every KPI built on top is wrong.
         </p>
         <p>
           This narrative walks through how teams <strong className="text-foreground">clean names</strong>,{" "}
           <strong className="text-foreground">group likely duplicates</strong>, then{" "}
-          <strong className="text-foreground">pick one official counterparty ID</strong> so reporting, compliance, and
-          planning all agree on the same grain; the same discipline expected when expanding a{" "}
-          <strong className="text-foreground">tax data mart</strong> for a multi-entity group.
+          <strong className="text-foreground">pick one official counterparty ID</strong> so reporting, planning, and operations all
+          agree on the same grain — the same discipline you need when expanding any{" "}
+          <strong className="text-foreground">shared enterprise mart</strong>.
         </p>
         <p>
           <Link href="/cv" className="text-primary underline-offset-4 hover:underline">
@@ -44,7 +44,7 @@ const contextTab: TabItem = {
     <Card>
       <CardContent className="pt-5 text-sm leading-relaxed text-muted-foreground">
         Marketplaces and shared services disagree on tokens (&quot;ACME UK Ltd&quot; vs &quot;Acme Limited&quot;). Without
-        resolution, provision and indirect-tax reports double-count. Bronze keeps every variant; silver normalizes; gold
+        resolution, operational and financial reports double-count. Bronze keeps every variant; silver normalizes; gold
         assigns <code className="text-foreground">resolved_entity_id</code> for marts and BI tools.
       </CardContent>
     </Card>
@@ -57,9 +57,9 @@ const strategyTab: TabItem = {
   content: (
     <Card>
       <CardContent className="pt-5 text-sm leading-relaxed text-muted-foreground">
-        Two-pass: cheap exact keys (VAT ID, company registration) where available, then fuzzy clustering on names with
-        unicode NFKC. Confidence flows to the warehouse; human-in-the-loop owns edge clusters; the same operating model
-        as high-stakes tax master data programs.
+        Two-pass: cheap exact keys (legal entity id, company registration) where available, then fuzzy clustering on names with
+        unicode NFKC. Confidence flows to the warehouse; human-in-the-loop owns edge clusters — the same operating model as
+        high-stakes master-data programs in regulated industries.
       </CardContent>
     </Card>
   ),
@@ -102,7 +102,7 @@ const scaleTab: TabItem = {
     <div className="space-y-5">
       <p className="text-sm leading-relaxed text-muted-foreground">
         When the group adds entities or geographies, the <strong className="text-foreground">shape</strong> of the system
-        stays the same; only the pipes widen. Below is the same story in pictures anyone in Tax or Finance can follow.
+        stays the same; only the pipes widen. Below is the same story in pictures anyone in operations or analytics can follow.
       </p>
       <Card>
         <CardHeader className="pb-2">
@@ -130,7 +130,7 @@ const scaleTab: TabItem = {
             │
             ▼
       +------------------+
-      |  Dashboards / API |  ← Tax, planning, FP&A see one story
+      |  Dashboards / API |  ← Planning, ops, and leadership see one story
       +------------------+`}
           </pre>
         </CardContent>
@@ -157,7 +157,7 @@ const scaleTab: TabItem = {
             │
             ▼
       +------------------+
-      | Warehouse + marts|  ← Reusable models for tax & finance KPIs
+      | Warehouse + marts|  ← Reusable models for cross-functional KPIs
       +------------------+
             │
             ▼
@@ -178,9 +178,9 @@ const scaleTab: TabItem = {
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ol className="list-inside list-decimal space-y-2">
-            <li>Provision and flash reports refresh on a schedule you can see, not mystery spreadsheets.</li>
+            <li>Flash reports refresh on a schedule you can see, not mystery spreadsheets.</li>
             <li>When a feed breaks, alerts fire before leadership reads a wrong chart.</li>
-            <li>Every metric traces to a batch, a model version, and a control; essential for audits and controversy work.</li>
+            <li>Every metric traces to a batch, a model version, and a control — essential for audits and operational reviews.</li>
           </ol>
         </CardContent>
       </Card>

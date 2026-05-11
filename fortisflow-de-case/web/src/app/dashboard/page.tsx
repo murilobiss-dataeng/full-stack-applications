@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const metadata: Metadata = {
   title: "Analytics surface",
   description:
-    "Analytics-style dashboards on a fixed contract: cohort retention, funnels, segment mix, KPI bridges, and ops diagnostics from /api/metrics, aligned with Snowflake marts and governed semantics.",
+    "Governed analytics dashboards: cohorts, funnels, KPI bridges, platform health, and ops diagnostics from /api/metrics — same contract a BI workbook or embedded app would use.",
 };
 
 export default function DashboardPage() {
@@ -17,13 +17,13 @@ export default function DashboardPage() {
     <PageShell wide>
       <Reveal>
         <PageHeader
-          kicker="Data visualization · analytics-grade BI"
-          title="Analytics surface: cohorts, funnels, and governed metrics"
-          description="This page mirrors what you ship after Snowflake marts and semantic contracts exist: retention curves, funnel compression, segment mix, bridges, and ops diagnostics. Every series is bound to the same /api/metrics payload a Power BI dataset or Sigma workbook would call, so grain and definitions stay aligned with Analytics Engineering."
+          kicker="Data visualization · governed BI"
+          title="Analytics surface: metrics that stay true in the charts"
+          description="This page is what you ship after curated marts and a published metrics API exist: cohort curves, funnel compression, segment mix, KPI bridges, plus platform signals (freshness, reliability, cost mix) — all bound to the same /api/metrics payload so grain and definitions never fork from the warehouse."
         />
       </Reveal>
       <Reveal delayMs={40}>
-        <PlatformScaffoldBanner focus="Cohort, funnel, and bridge panels are intentionally richer than a single KPI strip: they show how you think about self-service analytics, not only chart styling." />
+        <PlatformScaffoldBanner focus="New panels highlight freshness, pipeline success, credit mix, load health, and a trust radar — still 100% from the metrics route, ready to swap for warehouse-backed tiles." />
       </Reveal>
       <Reveal delayMs={60}>
         <DashboardCharts />

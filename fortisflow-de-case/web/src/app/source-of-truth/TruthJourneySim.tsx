@@ -31,7 +31,7 @@ const steps: Step[] = [
     title: "3. Gold: resolved suppliers",
     detail: "Union-find merge; each row gets resolved_entity_id + confidence for compliance and production joins.",
     artifact: "suppliers_curated_009.json",
-    risk: "Over-merge on common trading names → tax ID / registry gate or human review queue.",
+    risk: "Over-merge on common trading names → legal-entity / registry gate or human review queue.",
   },
   {
     id: "warehouse",

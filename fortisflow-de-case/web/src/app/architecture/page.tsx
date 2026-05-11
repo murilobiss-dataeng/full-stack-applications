@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-const SECTIONS = new Set(["explorer", "infrastructure", "performance", "quality", "modeling"]);
+const SECTIONS = new Set(["explorer", "infrastructure", "performance", "quality", "governance", "modeling"]);
 
 function normalizeLegacySection(id: string | undefined): string | undefined {
   if (id === "pipeline" || id === "governance") return "infrastructure";

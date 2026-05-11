@@ -9,7 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 export const metadata: Metadata = {
   title: "Infrastructure",
   description:
-    "sigma-sec: Data Engineering hub — repo explorer, ELT + governance, pipeline performance (cost, security, governance), data quality & lineage, and DW modeling.",
+    "sigma-sec: Data Engineering hub — repo explorer, ELT, pipeline performance, data quality & lineage, dedicated Governance, and DW modeling.",
 };
 
 export default function InfrastructurePage() {
@@ -19,7 +19,7 @@ export default function InfrastructurePage() {
         <PageHeader
           kicker="End-to-end · greenfield narrative"
           title="Infrastructure: from raw land to governed marts"
-          description="This hub mirrors standing up a regulated analytics program: layout the repo, run bronze→gold ELT with tests and access in the Infrastructure tab, then use Performance for cost/security/governance tuning of pipelines, Quality &amp; lineage for DQ depth and catalog signals, and DW modeling for grain and SQL. Finish with a thin metrics API before BI or AI touch raw tables."
+          description="This hub mirrors standing up a regulated analytics program: layout the repo, run bronze→gold ELT in the Infrastructure tab, tune cost and security in Performance, deepen tests and lineage in Quality &amp; lineage, then open the Governance tab for charter, IAM, contracts, and exec posture. DW modeling covers grain and SQL; finish with a thin metrics API before BI or AI touch raw tables."
         />
       </Reveal>
       <Reveal delayMs={40}>
@@ -66,7 +66,7 @@ export default function InfrastructurePage() {
         </div>
       </Reveal>
       <Reveal delayMs={60}>
-        <PlatformScaffoldBanner focus="Use Performance for pipeline economics and gates, Quality & lineage for tests and catalog depth, Infrastructure for the combined ELT story, then DW modeling + Analytics + AI Lab for the full hand-off." />
+        <PlatformScaffoldBanner focus="Use the Governance rail for charter, IAM, and security depth; Infrastructure for ELT; Performance and Quality & lineage for how the stack stays cheap and trustworthy; then DW modeling + Analytics + AI Lab for the full story." />
       </Reveal>
       <Reveal delayMs={80}>
         <InfrastructureHubClient />

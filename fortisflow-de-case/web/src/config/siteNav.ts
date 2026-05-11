@@ -19,7 +19,7 @@ export const homeDocLinks: readonly { href: string; label: string }[] = [
   { href: "/cv", label: "CV (PDF + on-page)" },
   { href: "/infrastructure", label: "Infrastructure (ELT · performance · DQ)" },
   { href: "/data-modeling", label: "DW modeling & SQL" },
-  { href: "/source-of-truth", label: "Lineage & narrative" },
+  { href: "/source-of-truth", label: "Source of truth (contracts & lineage)" },
 ] as const;
 
 export const footerColumns: readonly { title: string; links: readonly { href: string; label: string }[] }[] = [

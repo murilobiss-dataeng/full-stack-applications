@@ -115,4 +115,49 @@ export const mockPipelineMetrics = {
     { label: "− Rework", value: 109 },
     { label: "Q4 outcome", value: 109 },
   ],
+  /** Hours from last successful mart refresh to “now” (mock freshness SLAs). */
+  martFreshnessHours: [
+    { mart: "fct_work_orders", hours: 2.1 },
+    { mart: "dim_supplier", hours: 4.0 },
+    { mart: "fct_quality_events", hours: 1.2 },
+    { mart: "agg_plant_daily", hours: 0.8 },
+    { mart: "bridge_partner_ops", hours: 3.4 },
+  ],
+  /** Weekly pipeline success rate % (mock reliability). */
+  pipelineSuccessRatePct: [
+    { week: "W40", rate: 99.2 },
+    { week: "W41", rate: 99.5 },
+    { week: "W42", rate: 99.1 },
+    { week: "W43", rate: 99.6 },
+    { week: "W44", rate: 99.4 },
+    { week: "W45", rate: 99.7 },
+    { week: "W46", rate: 99.3 },
+    { week: "W47", rate: 99.8 },
+  ],
+  /** Illustrative warehouse credit mix (sums to 100). */
+  warehouseCreditMixPct: [
+    { name: "Batch ELT", value: 58 },
+    { name: "Interactive", value: 22 },
+    { name: "Tasks", value: 14 },
+    { name: "Overhead", value: 6 },
+  ],
+  /** Synthetic radar dimensions for “trust posture” storytelling. */
+  dqTrustRadar: [
+    { axis: "Completeness", score: 92 },
+    { axis: "Uniqueness", score: 96 },
+    { axis: "Freshness", score: 88 },
+    { axis: "Consistency", score: 94 },
+    { axis: "Contracts", score: 90 },
+  ],
+  /** Stacked weekly volumes: good loads vs quarantine (mock). */
+  loadHealthWeekly: [
+    { week: "W40", good: 1180, quarantine: 22 },
+    { week: "W41", good: 1210, quarantine: 18 },
+    { week: "W42", good: 1195, quarantine: 31 },
+    { week: "W43", good: 1240, quarantine: 15 },
+    { week: "W44", good: 1265, quarantine: 12 },
+    { week: "W45", good: 1288, quarantine: 9 },
+    { week: "W46", good: 1272, quarantine: 14 },
+    { week: "W47", good: 1305, quarantine: 8 },
+  ],
 };

@@ -93,8 +93,8 @@ const securityTab: TabItem = {
       </div>
       <p className="text-xs text-muted-foreground">
         Role matrix and encryption notes also appear under{" "}
-        <Link href="/infrastructure?section=infrastructure" className="text-primary underline-offset-4 hover:underline">
-          Infrastructure → Quality &amp; governance
+        <Link href="/infrastructure?section=governance" className="text-primary underline-offset-4 hover:underline">
+          Infrastructure → Governance
         </Link>
         .
       </p>

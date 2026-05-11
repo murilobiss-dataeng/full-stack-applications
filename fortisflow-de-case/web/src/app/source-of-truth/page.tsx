@@ -6,9 +6,9 @@ import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
 
 export const metadata: Metadata = {
-  title: "Metric truth",
+  title: "Source of truth",
   description:
-    "Portfolio-ready metric layer: grain, lineage, merge rules, and /api/metrics, structured so data visualization and stakeholder narrative prove value on a fixed contract.",
+    "Portfolio metric layer: grain, lineage, merge rules, and /api/metrics — patterns for trustworthy analytics without silent drift from the warehouse.",
 };
 
 export default function SourceOfTruthPage() {
@@ -17,8 +17,8 @@ export default function SourceOfTruthPage() {
       <Reveal>
         <PageHeader
           kicker="Structured stack · visualization proves value"
-          title="Metric truth: definitions you can chart"
-          description="This route mirrors the same pattern as the Marts hub: the heavy lifting (grain, dedup, validation, published API) is already sketched in code. Your hire signal is how those guarantees become clear visuals, comparisons, and exec-ready reads, without silent drift from the warehouse."
+          title="Source of truth: definitions you can chart"
+          description="This route shows how you lock grain, resolve entities, validate contracts, and publish a thin API before any BI or GenAI layer. The hire signal is the same as in delivery work: those guarantees become visuals and comparisons that executives trust, without ad-hoc SQL forks."
         />
       </Reveal>
       <Reveal delayMs={40}>

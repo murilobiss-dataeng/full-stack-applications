@@ -8,7 +8,6 @@ import {
   FileText,
   GitBranch,
   Github,
-  GraduationCap,
   Languages,
   Linkedin,
   Mail,
@@ -96,12 +95,6 @@ const certifications = [
   "AWS Certified Cloud Practitioner",
   "Astronomer Certification — Apache Airflow Fundamentals",
   "Fullstack Labs Certified — Data Engineer",
-] as const;
-
-const education = [
-  "FIAP — Postgraduate (lato sensu), Software Engineering (Mar 2025 — Aug 2026)",
-  "Pontifícia Universidade Católica do Paraná (PUCPR) — Production Engineering (2011 — 2015)",
-  "Universidade Tecnológica Federal do Paraná (UTFPR) — Civil Engineering (2007 — 2012)",
 ] as const;
 
 const languages = [
@@ -283,7 +276,7 @@ export function CvContent() {
               <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
                 downloadable PDF
               </a>{" "}
-              (same profile, competencies, experience, certifications, education, and languages). Supplementary pages on this
+              (same profile, competencies, experience, certifications, and languages). Supplementary pages on this
               site illustrate a sample data platform; they are not part of the PDF.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
@@ -464,18 +457,6 @@ export function CvContent() {
         </ul>
       </section>
 
-      <section aria-labelledby="edu-heading" className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
-        <h2 id="edu-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-          <GraduationCap className="h-5 w-5 text-primary" aria-hidden />
-          Education
-        </h2>
-        <ul className="mt-4 list-inside list-disc space-y-2 text-sm text-muted-foreground sm:text-base">
-          {education.map((e) => (
-            <li key={e}>{e}</li>
-          ))}
-        </ul>
-      </section>
-
       <section aria-labelledby="lang-heading" className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
         <h2 id="lang-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
           <Languages className="h-5 w-5 text-primary" aria-hidden />
@@ -496,8 +477,8 @@ export function CvContent() {
               Role fit → how I operate (portfolio lens)
             </h2>
             <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              Optional hiring-manager mapping; factual employment and education are in the PDF-aligned sections above and in the
-              experience timeline below.
+              Optional hiring-manager mapping; factual employment is in the PDF-aligned sections above and in the experience
+              timeline below.
             </p>
           </div>
           <Link href="/infrastructure?section=infrastructure" className="text-sm font-medium text-primary underline-offset-4 hover:underline">

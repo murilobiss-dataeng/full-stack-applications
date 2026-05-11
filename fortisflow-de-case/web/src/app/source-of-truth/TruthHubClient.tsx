@@ -9,7 +9,7 @@ import { NavRail } from "@/components/NavRail";
 const sections = [
   { id: "truth", label: "Source of truth", hint: "Lineage, dedup, merges, validation, API" },
   { id: "visualization", label: "Visualization & value", hint: "Proof on charts, same contract as BI" },
-  { id: "narrative", label: "Narrative", hint: "Stakeholder story and scale, finance and tax lens" },
+  { id: "narrative", label: "Narrative", hint: "Stakeholder story: entity resolution, contracts, and scale" },
 ] as const;
 
 function HubInner() {

@@ -71,7 +71,8 @@ const mergeTab: TabItem = {
             <CardTitle className="text-sm">Survivorship</CardTitle>
           </CardHeader>
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
-            Prefer longest clean display name; never merge two supplier_ids without a shared hard key (tax ID, registry ID, legal registration).
+            Prefer longest clean display name; never merge two partner IDs without a shared hard key (legal entity id, registry
+            number, or D-U-N-S when available).
             Emit <code className="text-foreground">merge_decision_id</code> for downstream reversibility.
           </CardContent>
         </Card>
@@ -92,17 +93,17 @@ const mergeTab: TabItem = {
             </thead>
             <tbody>
               <tr className="border-b border-border/60">
-                <td className="py-2 pr-2">Different VAT numbers</td>
+                <td className="py-2 pr-2">Different legal entity identifiers</td>
                 <td className="py-2 pr-2">Never auto-merge</td>
-                <td className="py-2">Human + document exception</td>
+                <td className="py-2">Human + documented exception</td>
               </tr>
               <tr className="border-b border-border/60">
-                <td className="py-2 pr-2">Same VAT, different trading name</td>
+                <td className="py-2 pr-2">Same legal id, different trade name</td>
                 <td className="py-2 pr-2">Auto-merge if confidence ≥ 0.95</td>
                 <td className="py-2">Queue if 0.85–0.94</td>
               </tr>
               <tr>
-                <td className="py-2 pr-2">Missing VAT, high name similarity</td>
+                <td className="py-2 pr-2">Missing legal id, high name similarity</td>
                 <td className="py-2 pr-2">Suggest only</td>
                 <td className="py-2">Analyst confirms</td>
               </tr>
@@ -126,8 +127,8 @@ const validationTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="grid gap-2 sm:grid-cols-2">
             <li>
-              <strong className="text-foreground">Accuracy / validity:</strong> VAT numbers, date ranges, hub tiers; reject
-              impossible combinations early.
+              <strong className="text-foreground">Accuracy / validity:</strong> legal identifiers, date ranges, category tiers;
+              reject impossible combinations early.
             </li>
             <li>
               <strong className="text-foreground">Completeness:</strong> required attributes per source contract; optional
@@ -157,7 +158,7 @@ const validationTab: TabItem = {
           <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Execution order</p>
           <ol className="list-inside list-decimal space-y-2 text-xs leading-relaxed">
             <li>Pipeline schema checks reject malformed batches.</li>
-            <li>Staging distribution checks and anomaly tolerances (see Marts hub → Marts &amp; pipelines → Data quality).</li>
+            <li>Staging distribution checks and anomaly tolerances (see Infrastructure → Quality &amp; lineage).</li>
             <li>dbt tests on uniqueness, relationships, and accepted values in marts.</li>
             <li>API / consumer contract tests so partial deploys never break the UI silently.</li>
           </ol>

@@ -15,7 +15,7 @@ const sections = [
   {
     id: "infrastructure",
     label: "Infrastructure",
-    hint: "Snowflake & ELT plus quality, contracts, lineage, and ops — one continuous build story",
+    hint: "Snowflake & ELT — zones, loaders, incremental SQL; pair with Governance for policy depth",
   },
   {
     id: "performance",
@@ -26,6 +26,11 @@ const sections = [
     id: "quality",
     label: "Quality & lineage",
     hint: "DQ dimensions, tests, quarantine, column lineage, catalog, observability",
+  },
+  {
+    id: "governance",
+    label: "Governance",
+    hint: "Charter, IAM, security, contracts, and executive posture — full playbook",
   },
   {
     id: "modeling",
@@ -45,7 +50,10 @@ function InfrastructureCombinedPanel() {
           <li>Normalize in staging with idempotent merges; resolve entities once; document SCD strategy per dimension.</li>
           <li>Promote marts only through dbt with uniqueness, relationships, and accepted-values tests wired in CI.</li>
           <li>Mirror the same batch id in logs, API responses, and BI filters so replay, audit, and support stay aligned.</li>
-          <li>Layer RBAC, masking, and freshness alerts on the published schemas — not on ad-hoc extracts.</li>
+          <li>
+            Layer RBAC, masking, and freshness alerts on the published schemas — detail in the{" "}
+            <strong className="text-foreground">Governance</strong> tab.
+          </li>
         </ul>
       </div>
 
@@ -57,18 +65,6 @@ function InfrastructureCombinedPanel() {
           Zones, loaders, incremental SQL, and cost-aware patterns — the mechanics you would document before the first production cut.
         </p>
         <PipelineContent />
-      </section>
-
-      <div className="border-t border-border/80 pt-8" role="presentation" />
-
-      <section className="space-y-3" aria-labelledby="infra-gov-heading">
-        <h2 id="infra-gov-heading" className="text-sm font-semibold text-foreground">
-          Quality &amp; governance
-        </h2>
-        <p className="text-xs text-muted-foreground">
-          Tests, lineage, access, and observability in the same breath as pipelines — no separate “governance project” bolted on later.
-        </p>
-        <GovernanceContent />
       </section>
     </div>
   );
@@ -93,6 +89,7 @@ function HubInner() {
         infrastructure: <InfrastructureCombinedPanel />,
         performance: <PerformanceContent />,
         quality: <DataQualityLineageContent />,
+        governance: <GovernanceContent />,
         modeling: <ModelingContent />,
       }}
     />

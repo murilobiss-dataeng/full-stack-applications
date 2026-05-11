@@ -14,7 +14,7 @@ const executiveTab: TabItem = {
           Each dataset has an owner and a defined contract.
         </blockquote>
         <figcaption className="mt-2 text-center text-xs text-muted-foreground">
-          Non-negotiable for audit-ready <strong className="text-foreground">finance and tax</strong> analytics: before
+          Non-negotiable for audit-ready <strong className="text-foreground">finance and compliance</strong> analytics: before
           tools, before dashboards.
         </figcaption>
       </figure>

@@ -35,7 +35,7 @@ export function TruthVisualizationPanel() {
           {
             icon: LineChart,
             title: "Trends & thresholds",
-            body: "Encode the definition once; show movement and exceptions so finance and ops agree on what “bad” looks like.",
+            body: "Encode the definition once; show movement and exceptions so business and ops agree on what “bad” looks like.",
           },
           {
             icon: BarChart2,
@@ -61,11 +61,11 @@ export function TruthVisualizationPanel() {
       </div>
 
       <pre className="overflow-x-auto rounded-lg border border-border bg-muted/30 p-3 font-mono text-[10px] leading-relaxed text-muted-foreground sm:text-[11px]">
-        {`  [ Marts hub: pipelines + models ]     [ Metric truth: grain + API ]
+        {`  [ Infrastructure: pipelines + models ]     [ Source of truth: grain + API ]
               │                                        │
               └──────────────────┬─────────────────────┘
                                  ▼
-                    [ Data visualization / Analytics surface ]
+                    [ Analytics surface ]
                     charts ← same contract → decisions`}
       </pre>
     </div>
