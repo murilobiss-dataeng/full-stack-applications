@@ -4,9 +4,9 @@ import { Reveal } from "@/components/Reveal";
 import { CvContent } from "./CvContent";
 
 export const metadata: Metadata = {
-  title: "CV & Analytics profile",
+  title: "CV & Data Analyst profile",
   description:
-    "Murilo Biss — CV (PDF), visual role fit for Analytics Engineering: metrics, dbt, SQL, BI, and DoorRush portfolio.",
+    "Murilo Biss — CV (PDF), visual role fit for Data Analyst work: SQL, BI, metrics, and the DoorRush demo portfolio.",
 };
 
 export default function CvPage() {

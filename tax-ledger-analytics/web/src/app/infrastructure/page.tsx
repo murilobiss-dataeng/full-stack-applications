@@ -8,7 +8,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Infrastructure",
   description:
-    "Single place for platform architecture, governance, repository layout, data pipelines, marts, and modeling — how Analytics Engineering keeps metrics trustworthy before BI.",
+    "Single place for platform architecture, governance, repository layout, data pipelines, marts, and modeling — context a Data Analyst uses when consuming curated tables and metric contracts before BI.",
 };
 
 export default function InfrastructurePage() {
@@ -16,7 +16,7 @@ export default function InfrastructurePage() {
     <PageShell>
       <Reveal>
         <PageHeader
-          kicker="Analytics Engineering in production"
+          kicker="Data & platform context"
           title="Infrastructure — platform, marts & pipelines"
           description="Everything that sits under self-service analytics: architecture and cloud choices, security and contracts, how code is organized in the repo, then ingest zones through dbt tests and relational design. One surface so stakeholders and engineers see the same system — charts and narrative sit on top with Metric truth + BI surface."
         />

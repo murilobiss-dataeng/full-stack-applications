@@ -171,18 +171,20 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
     f("next.config.mjs", "chore: next config", {}),
     d("src", "refactor: app router", [
       d("app", "feat: routes + API", [
-        f("page.tsx", "ui: home", { description: "DoorRush narrative; Analytics Engineering pillars; CV link." }),
+        f("page.tsx", "ui: home", { description: "DoorRush narrative; Data Analyst positioning; CV + infra links." }),
         d("cv", "feat: application packet", [
           f("page.tsx", "ui: CV shell", { description: "Metadata + PageShell wrapper." }),
           f("CvContent.tsx", "ui: CV + visual pitch", { description: "Hero KPI tiles, stack bars, role-fit grid, timeline — no certs block." }),
         ]),
-        d("method", "docs: methodology", [
-          f("page.tsx", "ui: CSC method", {
-            description: "Maps Clean / Structured / Connected to data-platform + web paths; finance / tax lens.",
-          }),
+        f("method/page.tsx", "redirect: legacy", {
+          description: "Redirects to / — standalone methodology route removed (Data Analyst framing).",
+        }),
+        d("infrastructure", "feat: merged platform hub", [
+          f("page.tsx", "ui: Infrastructure", { description: "Rails: platform, governance, explorer, pipeline, modeling." }),
+          f("InfrastructureHubClient.tsx", "ui: NavRail", {}),
         ]),
-        d("governance", "feat: trust & TCO", [
-          f("page.tsx", "ui: governance shell", { description: "Security, IAM, contracts, lineage, observability, costs." }),
+        d("governance", "feat: trust & TCO (embedded)", [
+          f("page.tsx", "redirect", { description: "→ /infrastructure?section=governance" }),
           f("GovernanceContent.tsx", "ui: tab body", {
             description: "Executive charter, security, IAM, IaC tab, DQ, orchestration, cost scenarios.",
           }),

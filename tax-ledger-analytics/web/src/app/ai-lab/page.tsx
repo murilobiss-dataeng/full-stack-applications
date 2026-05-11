@@ -23,7 +23,7 @@ export default function AiLabPage() {
         <PageHeader
           kicker="Self-service without metric chaos"
           title="AI Lab — prompt the governed metrics layer"
-          description="Analytics Engineering owns the boundary: analysts ask in natural language, but answers only come from approved aggregates (here, /api/metrics). Same pre-built contract as Metric truth and BI — this tab shows conversational access, not a second source of numbers."
+          description="As a Data Analyst you often sit on top of a fixed metrics layer: prompts here resolve only to approved aggregates (here, /api/metrics) — same contract as Metric truth and BI, conversational UX without inventing a second source of numbers."
         />
       </Reveal>
       <Reveal delayMs={40}>

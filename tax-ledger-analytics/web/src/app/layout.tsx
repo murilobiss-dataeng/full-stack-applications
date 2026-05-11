@@ -41,17 +41,17 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_PRODUCT_NAME}`,
   },
   description:
-    `Murilo Biss: Analytics Engineering portfolio for ${SITE_PRODUCT_NAME} — tax, finance, and marketplace marts; semantic metrics in SQL/dbt; governed APIs for BI. ${SITE_PRODUCT_NAME} is a fictional DoorDash-class last-mile brand used only in this demo.`,
+    `Murilo Biss: Data Analyst portfolio for ${SITE_PRODUCT_NAME} — SQL, BI, and clear metrics on tax/finance & marketplace scenarios; demo data and charts on a fixed API contract. ${SITE_PRODUCT_NAME} is a fictional DoorDash-class last-mile brand used only in this demo.`,
   keywords: [
     SITE_PRODUCT_NAME,
     "Murilo Biss",
-    "Analytics Engineering",
-    "semantic layer",
-    "metrics layer",
+    "Data Analyst",
+    "SQL",
+    "business intelligence",
+    "metrics",
     "dbt",
     "Snowflake",
     "Databricks",
-    "SQL",
     "Looker",
     "Power BI",
     "self-service analytics",
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Murilo Biss — ${SITE_PRODUCT_NAME}`,
     description:
-      `Trusted metrics, dbt, SQL, and analyst-ready surfaces — ${SITE_PRODUCT_NAME} tax & marketplace analytics engineering portfolio.`,
+      `SQL, BI, and analyst-ready metrics — ${SITE_PRODUCT_NAME} Data Analyst portfolio (Murilo Biss).`,
     type: "website",
   },
   robots: { index: true, follow: true },

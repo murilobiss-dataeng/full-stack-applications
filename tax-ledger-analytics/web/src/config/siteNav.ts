@@ -7,7 +7,6 @@ export type NavItem = { href: string; label: string; spotlight?: boolean };
 export const primaryNav: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/cv", label: "CV", spotlight: true },
-  { href: "/method", label: "Approach" },
   { href: "/infrastructure", label: "Infrastructure" },
   { href: "/source-of-truth", label: "Metric truth" },
   { href: "/ai-lab", label: "AI Lab" },
@@ -15,10 +14,9 @@ export const primaryNav: NavItem[] = [
 ];
 
 export const homeDocLinks: readonly { href: string; label: string }[] = [
-  { href: "/cv", label: "CV + why Analytics Eng" },
-  { href: "/method", label: "Approach (trusted definitions)" },
+  { href: "/cv", label: "CV + Data Analyst fit" },
   { href: "/ai-lab", label: "AI Lab (governed metrics)" },
-  { href: "/infrastructure", label: "Infrastructure — platform, marts & pipelines" },
+  { href: "/infrastructure", label: "Infrastructure — data & marts" },
   { href: "/source-of-truth", label: "Metric truth — scaffold + visualization" },
 ] as const;
 
@@ -27,11 +25,11 @@ export const footerColumns: readonly { title: string; links: readonly { href: st
     title: "Hire signal",
     links: [
       { href: "/cv", label: "CV & role fit" },
-      { href: "/method", label: "Approach" },
+      { href: "/dashboard", label: "BI surface" },
     ],
   },
   {
-    title: "Build the mart",
+    title: "Data & marts",
     links: [
       { href: "/infrastructure", label: "Infrastructure" },
       { href: "/infrastructure?section=explorer", label: "Repo explorer" },

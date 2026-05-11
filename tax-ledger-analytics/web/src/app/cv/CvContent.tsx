@@ -29,7 +29,7 @@ const kpis = [
   { value: "7+", label: "Years in data", hint: "SQL → marts → BI" },
   { value: "dbt", label: "Production", hint: "Snowflake · Databricks" },
   { value: "BI", label: "Looker · PBI", hint: "Semantic hand-off" },
-  { value: "∞", label: "Grain first", hint: "Tests · lineage" },
+  { value: "∞", label: "QA first", hint: "Charts · reconciliations" },
 ] as const;
 
 const stackChips = ["Python", "Spark", "Airflow", "AWS", "Azure", "Terraform", "Agile / global"] as const;
@@ -38,13 +38,13 @@ const stackChips = ["Python", "Spark", "Airflow", "AWS", "Azure", "Terraform", "
 const jdMapping = [
   {
     Icon: Target,
-    ask: "Translate tax / finance questions into governed marts and self-service",
+    ask: "Turn tax / finance questions into trusted metrics, SQL, and BI deliverables",
     proof:
-      "Own the middle: requirements workshops, metric grain, naming, and dbt/SQL models before BI — Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, Banco Bari banking analytics. Stakeholders get Looker/Power BI on top of definitions I controlled.",
+      "Own the question side: workshops, grain checks, and validated reporting before leadership sees a number — Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, Banco Bari banking analytics. Stakeholders got Looker/Power BI packs I could explain and reconcile.",
   },
   {
     Icon: GitBranch,
-    ask: "dbt (or equivalent) as the default for reusable transforms and tests",
+    ask: "Work with tested transforms (dbt-style) and catch breaks before the dashboard",
     proof:
       "Production dbt with Snowflake and Databricks; medallion patterns; factory-style reusable pipelines at AB InBev. This repo shows singular tests, relationship tests, and mart rollups the way an analytics team would gate a release.",
   },
@@ -58,7 +58,7 @@ const jdMapping = [
     Icon: Zap,
     ask: "5+ years at scale: SQL depth, ETL, controls, independent prioritization",
     proof:
-      "7+ years data roles; Senior Data Analyst background; Spark/PySpark 5+ years; Airflow certified; Agile with global teams. I default to tests, lineage, and clear ownership — what hiring managers expect from senior Analytics Engineering.",
+      "7+ years data roles; Senior Data Analyst background; Spark/PySpark 5+ years; Airflow certified; Agile with global teams. I default to reconciliations, clear documentation, and ownership of the numbers in the deck — what hiring managers expect from a senior Data Analyst.",
   },
   {
     Icon: Layers,
@@ -129,14 +129,14 @@ export function CvContent() {
           <div className="max-w-2xl space-y-4">
             <p className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
-              Analytics Engineering · application
+              Data Analyst · portfolio demo
             </p>
             <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Murilo Biss</h1>
             <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              <strong className="font-semibold text-foreground">Analytics Engineer</strong> (and hands-on Data Engineer where
-              the stack demands it). I own the path from messy operational data to{" "}
-              <strong className="font-semibold text-foreground">named metrics, tested SQL, and analyst-ready surfaces</strong>{" "}
-              — the profile you want for tax, finance, or marketplace analytics expansion.
+              <strong className="font-semibold text-foreground">Senior Data Analyst</strong> (comfortable in SQL-heavy and
+              pipeline-adjacent work when the team is small). I focus on turning operational and financial data into{" "}
+              <strong className="font-semibold text-foreground">clear cuts, checks, and visuals</strong>{" "}
+              — the profile you want when the mart exists but the story still needs to be right.
             </p>
             <p className="text-base leading-relaxed text-muted-foreground">
               From raw feeds to <span className="font-medium text-foreground">metrics that survive scrutiny</span> — same
@@ -216,17 +216,16 @@ export function CvContent() {
         <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-2 text-primary">
             <ShieldCheck className="h-5 w-5 shrink-0" aria-hidden />
-            <h2 className="text-sm font-bold uppercase tracking-wide">What you get when you hire me (Analytics Engineering)</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wide">What you get when you hire me (Data Analyst)</h2>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Someone who <strong className="text-foreground">writes the metric definitions with you</strong>, encodes them in
-            versioned SQL/dbt, documents grain, and negotiates trade-offs with Data Engineering on ingestion — then trains
-            finance and tax partners to self-serve without forked logic.
+            Someone who <strong className="text-foreground">frames the question with you</strong>, validates cuts in SQL,
+            documents assumptions, and lands the answer in a dashboard or slide — partnering with Data Engineering when the
+            pipeline or mart needs a change, without losing the business thread.
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            I am not only a pipeline plumber; I am the person who makes sure{" "}
-            <strong className="text-foreground">the number in the board deck matches the warehouse row</strong> and that we
-            can explain why — including when the business is a high-volume marketplace like the fictional{" "}
+            I care that <strong className="text-foreground">the chart matches the agreed definition</strong> and that we can
+            explain variances — including when the business is a high-volume marketplace like the fictional{" "}
             <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> scenario used in this portfolio (large-scale
             last-mile delivery and marketplace ops; not a real company).
           </p>
@@ -286,12 +285,12 @@ export function CvContent() {
           Professional summary
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Seven-plus years moving from raw operational and financial data to{" "}
-          <strong className="text-foreground">metrics people actually use in decisions</strong>. Stack: Python, SQL, Spark
-          (PySpark), Databricks, Snowflake, AWS and Azure data services, Airflow, dbt,{" "}
+          Seven-plus years turning operational and financial data into{" "}
+          <strong className="text-foreground">reporting packs and dashboards people act on</strong>. Stack: Python, SQL,
+          Spark (PySpark), Databricks, Snowflake, AWS and Azure data services, Airflow, dbt where the team uses it,{" "}
           <strong className="text-foreground">Looker</strong> and <strong className="text-foreground">Power BI</strong>. I am
-          comfortable owning the full analytics engineering slice — ingest contracts with Data Engineering, transforms and
-          tests, documentation, and the BI hand-off — in Agile teams with global stakeholders.
+          strongest on requirements, validation, and the BI hand-off — pairing with engineering on ingestion or models when
+          the answer depends on it — in Agile teams with global stakeholders.
         </p>
       </section>
 
@@ -304,9 +303,9 @@ export function CvContent() {
               Role bar → how I already operate
             </h2>
             <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              Strong Analytics Engineering teams care about semantic clarity, test coverage, and safe self-service. Below is
-              a straight line from what you are hiring for to what I have shipped — plus this repo as a working sketch of how
-              I structure the work.
+              Strong data teams care about clear definitions, QA, and visuals that match the warehouse. Below is a straight
+              line from what you are hiring for to what I have shipped — plus this repo as a compact demo you can click
+              through.
             </p>
           </div>
           <Link href="/infrastructure?section=pipeline" className="text-sm font-medium text-primary underline-offset-4 hover:underline">

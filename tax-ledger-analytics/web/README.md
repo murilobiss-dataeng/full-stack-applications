@@ -1,6 +1,6 @@
 # DoorRush — Web
 
-Next.js 14 app for **DoorRush** (Murilo Biss): tax & marketplace analytics engineering portfolio, red/white UI, architecture docs, pipelines, modeling, dashboards, `/api/metrics`, and CV page.
+Next.js 14 app for **DoorRush** (Murilo Biss): tax & marketplace **Data Analyst** portfolio demo — SQL/BI on a small metrics API, red/white UI, infrastructure + metric-truth context, dashboards, `/api/metrics`, and CV page.
 
 ## Scripts
 

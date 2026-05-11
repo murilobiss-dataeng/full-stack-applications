@@ -31,8 +31,8 @@ export default function DashboardPage() {
       <Reveal delayMs={120}>
         <Card className="mt-6 border-dashed border-border/80 bg-muted/10">
           <CardContent className="py-4 text-xs text-muted-foreground sm:text-sm">
-            Synthetic data. In production, Analytics Engineering adds RLS, metric ownership, change logs, and SLAs so
-            self-service never silently diverges from the warehouse.
+            Synthetic data. In production, data teams add RLS, metric ownership, change logs, and SLAs so dashboards never
+            silently diverge from the warehouse.
           </CardContent>
         </Card>
       </Reveal>

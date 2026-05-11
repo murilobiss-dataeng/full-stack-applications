@@ -9,8 +9,8 @@ export function Footer() {
         <div className="lg:col-span-1">
           <p className="font-semibold tracking-tight text-foreground">{SITE_PRODUCT_NAME}</p>
           <p className="mt-2 max-w-xs text-xs leading-relaxed">
-            Murilo Biss — Analytics Engineering in the open: metric definitions in SQL/dbt, tests, lineage discipline, and
-            a governed boundary for BI self-service (Looker / Sigma class).
+            Murilo Biss — Data Analyst work in the open: questions framed with SQL, charts and checks on curated data, and
+            clear hand-offs when the metric layer already exists (dbt / warehouse owned elsewhere).
           </p>
           <p className="mt-2 max-w-xs text-[11px] leading-relaxed text-muted-foreground/90">
             <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> is a fictional DoorDash-class marketplace
