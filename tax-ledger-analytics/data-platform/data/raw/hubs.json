@@ -1,0 +1,7 @@
+{
+  "records": [
+    {"hub_id": "H-LON-01", "hub_name": "London Shoreditch Hub", "region_code": "GB", "tier": "metro_a"},
+    {"hub_id": "H-MAN-02", "hub_name": "Manchester City Hub", "region_code": "GB", "tier": "metro_a"},
+    {"hub_id": "H-BRS-03", "hub_name": "Bristol South Hub", "region_code": "GB", "tier": "metro_b"}
+  ]
+}

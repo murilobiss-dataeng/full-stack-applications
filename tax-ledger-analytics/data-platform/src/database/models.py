@@ -1,12 +1,12 @@
 """
-PostgreSQL logical schema for the legal warehouse.
+PostgreSQL logical schema for the DoorRush marketplace warehouse (partners, hubs, orders).
 
 Indexing strategy (B-tree unless noted):
-- lawyers(lawyer_id) PK — clustered surrogate from source systems.
-- lawyers(resolved_entity_id) — partial index for golden record joins.
-- cases(case_id) PK; cases(court_id, filed_at) — common filter for docket analytics.
-- case_lawyer(case_id, lawyer_id) composite PK prevents duplicate role rows.
-- courts(court_id) PK; courts(state_code, tier) for regional dashboards.
+- partners(partner_id) PK — clustered surrogate from source systems.
+- partners(resolved_entity_id) — partial index for golden record joins.
+- orders(order_id) PK; orders(hub_id, placed_at) — common filter for SLA / tax windows.
+- order_partner(order_id, partner_id) composite PK prevents duplicate role rows per grain.
+- hubs(hub_id) PK; hubs(region_code, tier) for regional dashboards.
 
 Foreign keys enforce referential integrity at load time; in a lakehouse pattern,
 dbt tests assert the same constraints on curated tables.
@@ -14,65 +14,65 @@ dbt tests assert the same constraints on curated tables.
 
 from __future__ import annotations
 
-LAWYERS_DDL = """
-CREATE TABLE IF NOT EXISTS lawyers (
-    lawyer_id         TEXT PRIMARY KEY,
-    full_name         TEXT NOT NULL,
-    name_canonical    TEXT NOT NULL,
+PARTNERS_DDL = """
+CREATE TABLE IF NOT EXISTS partners (
+    partner_id         TEXT PRIMARY KEY,
+    full_name          TEXT NOT NULL,
+    name_canonical     TEXT NOT NULL,
     resolved_entity_id TEXT NOT NULL,
-    bar_state         TEXT,
-    practice_area     TEXT,
-    created_at        TIMESTAMPTZ DEFAULT NOW()
+    hub_region          TEXT,
+    partner_category    TEXT,
+    created_at         TIMESTAMPTZ DEFAULT NOW()
 );
-CREATE INDEX IF NOT EXISTS idx_lawyers_resolved_entity
-    ON lawyers (resolved_entity_id);
-CREATE INDEX IF NOT EXISTS idx_lawyers_canonical_name
-    ON lawyers (name_canonical);
+CREATE INDEX IF NOT EXISTS idx_partners_resolved_entity
+    ON partners (resolved_entity_id);
+CREATE INDEX IF NOT EXISTS idx_partners_canonical_name
+    ON partners (name_canonical);
 """
 
-COURTS_DDL = """
-CREATE TABLE IF NOT EXISTS courts (
-    court_id    TEXT PRIMARY KEY,
-    court_name  TEXT NOT NULL,
-    state_code  CHAR(2) NOT NULL,
-    tier        TEXT NOT NULL
+HUBS_DDL = """
+CREATE TABLE IF NOT EXISTS hubs (
+    hub_id     TEXT PRIMARY KEY,
+    hub_name   TEXT NOT NULL,
+    region_code CHAR(2) NOT NULL,
+    tier       TEXT NOT NULL
 );
-CREATE INDEX IF NOT EXISTS idx_courts_state_tier
-    ON courts (state_code, tier);
+CREATE INDEX IF NOT EXISTS idx_hubs_region_tier
+    ON hubs (region_code, tier);
 """
 
-CASES_DDL = """
-CREATE TABLE IF NOT EXISTS cases (
-    case_id      TEXT PRIMARY KEY,
-    court_id     TEXT NOT NULL REFERENCES courts(court_id),
-    case_title   TEXT,
-    filed_at     DATE NOT NULL,
-    closed_at    DATE,
-    outcome      TEXT,
-    duration_days INTEGER
+ORDERS_DDL = """
+CREATE TABLE IF NOT EXISTS orders (
+    order_id      TEXT PRIMARY KEY,
+    hub_id        TEXT NOT NULL REFERENCES hubs(hub_id),
+    order_ref     TEXT,
+    placed_at     DATE NOT NULL,
+    delivered_at  DATE,
+    status        TEXT,
+    sla_days      INTEGER
 );
-CREATE INDEX IF NOT EXISTS idx_cases_court_filed
-    ON cases (court_id, filed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_orders_hub_placed
+    ON orders (hub_id, placed_at DESC);
 """
 
-CASE_LAWYER_DDL = """
-CREATE TABLE IF NOT EXISTS case_lawyer (
-    case_id   TEXT NOT NULL REFERENCES cases(case_id) ON DELETE CASCADE,
-    lawyer_id TEXT NOT NULL REFERENCES lawyers(lawyer_id) ON DELETE CASCADE,
-    role      TEXT NOT NULL CHECK (role IN ('lead', 'co_counsel', 'local_counsel')),
-    PRIMARY KEY (case_id, lawyer_id, role)
+ORDER_PARTNER_DDL = """
+CREATE TABLE IF NOT EXISTS order_partner (
+    order_id    TEXT NOT NULL REFERENCES orders(order_id) ON DELETE CASCADE,
+    partner_id  TEXT NOT NULL REFERENCES partners(partner_id) ON DELETE CASCADE,
+    role        TEXT NOT NULL CHECK (role IN ('primary_merchant', 'co_partner', 'backup')),
+    PRIMARY KEY (order_id, partner_id, role)
 );
-CREATE INDEX IF NOT EXISTS idx_case_lawyer_lawyer
-    ON case_lawyer (lawyer_id);
+CREATE INDEX IF NOT EXISTS idx_order_partner_partner
+    ON order_partner (partner_id);
 """
 
 RESOLVED_ENTITIES_DDL = """
 CREATE TABLE IF NOT EXISTS resolved_entities (
-    resolved_entity_id TEXT PRIMARY KEY,
-    display_name       TEXT NOT NULL,
-    member_lawyer_count INTEGER NOT NULL DEFAULT 0,
-    max_confidence     NUMERIC(6,4),
-    updated_at         TIMESTAMPTZ DEFAULT NOW()
+    resolved_entity_id   TEXT PRIMARY KEY,
+    display_name         TEXT NOT NULL,
+    member_partner_count INTEGER NOT NULL DEFAULT 0,
+    max_confidence       NUMERIC(6,4),
+    updated_at           TIMESTAMPTZ DEFAULT NOW()
 );
 CREATE INDEX IF NOT EXISTS idx_resolved_entities_display
     ON resolved_entities (display_name);
@@ -95,5 +95,5 @@ CREATE INDEX IF NOT EXISTS idx_ingestion_batch_status
 """
 
 ALL_DDL = "\n".join(
-    [LAWYERS_DDL, COURTS_DDL, CASES_DDL, CASE_LAWYER_DDL, RESOLVED_ENTITIES_DDL, INGESTION_BATCH_DDL],
+    [PARTNERS_DDL, HUBS_DDL, ORDERS_DDL, ORDER_PARTNER_DDL, RESOLVED_ENTITIES_DDL, INGESTION_BATCH_DDL],
 )

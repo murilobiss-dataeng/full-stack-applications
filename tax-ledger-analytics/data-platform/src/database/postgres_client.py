@@ -20,44 +20,44 @@ logger = get_logger(__name__)
 class SimulatedPostgres:
     """Minimal CRUD simulation; swap for ``psycopg`` when a real DSN is available."""
 
-    lawyers: dict[str, dict[str, Any]] = field(default_factory=dict)
-    cases: dict[str, dict[str, Any]] = field(default_factory=dict)
-    courts: dict[str, dict[str, Any]] = field(default_factory=dict)
-    case_lawyer: list[dict[str, Any]] = field(default_factory=list)
+    partners: dict[str, dict[str, Any]] = field(default_factory=dict)
+    orders: dict[str, dict[str, Any]] = field(default_factory=dict)
+    hubs: dict[str, dict[str, Any]] = field(default_factory=dict)
+    order_partner: list[dict[str, Any]] = field(default_factory=list)
 
-    def insert_lawyers_batch(self, rows: list[dict[str, Any]]) -> int:
+    def insert_partners_batch(self, rows: list[dict[str, Any]]) -> int:
         for row in rows:
-            self.lawyers[row["lawyer_id"]] = dict(row)
+            self.partners[row["partner_id"]] = dict(row)
         logger.info("db_insert", extra={"stage": "warehouse", "record_count": len(rows)})
         return len(rows)
 
-    def insert_courts_batch(self, rows: list[dict[str, Any]]) -> int:
+    def insert_hubs_batch(self, rows: list[dict[str, Any]]) -> int:
         for row in rows:
-            self.courts[row["court_id"]] = dict(row)
+            self.hubs[row["hub_id"]] = dict(row)
         return len(rows)
 
-    def insert_cases_batch(self, rows: list[dict[str, Any]]) -> int:
+    def insert_orders_batch(self, rows: list[dict[str, Any]]) -> int:
         for row in rows:
-            self.cases[row["case_id"]] = dict(row)
+            self.orders[row["order_id"]] = dict(row)
         return len(rows)
 
-    def link_case_lawyer(self, case_id: str, lawyer_id: str, role: str) -> None:
-        self.case_lawyer.append({"case_id": case_id, "lawyer_id": lawyer_id, "role": role})
+    def link_order_partner(self, order_id: str, partner_id: str, role: str) -> None:
+        self.order_partner.append({"order_id": order_id, "partner_id": partner_id, "role": role})
 
-    def query_cases_by_court(self, court_id: str) -> list[dict[str, Any]]:
-        # Filter pushdown: in Postgres, idx_cases_court_filed supports this predicate.
-        return [c for c in self.cases.values() if c["court_id"] == court_id]
+    def query_orders_by_hub(self, hub_id: str) -> list[dict[str, Any]]:
+        # Filter pushdown: in Postgres, idx_orders_hub_placed supports this predicate.
+        return [o for o in self.orders.values() if o["hub_id"] == hub_id]
 
-    def query_lawyer_performance(self, resolved_entity_id: str) -> list[dict[str, Any]]:
-        lawyer_ids = {
-            lid for lid, l in self.lawyers.items() if l.get("resolved_entity_id") == resolved_entity_id
+    def query_partner_performance(self, resolved_entity_id: str) -> list[dict[str, Any]]:
+        partner_ids = {
+            pid for pid, p in self.partners.items() if p.get("resolved_entity_id") == resolved_entity_id
         }
         results: list[dict[str, Any]] = []
-        for link in self.case_lawyer:
-            if link["lawyer_id"] in lawyer_ids:
-                case = self.cases.get(link["case_id"])
-                if case:
-                    results.append({**link, **case})
+        for link in self.order_partner:
+            if link["partner_id"] in partner_ids:
+                order = self.orders.get(link["order_id"])
+                if order:
+                    results.append({**link, **order})
         return results
 
 

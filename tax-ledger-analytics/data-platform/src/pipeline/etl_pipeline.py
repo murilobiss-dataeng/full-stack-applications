@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from src.processing.deduplication import flag_duplicates
-from src.processing.entity_resolution import resolve_lawyer_entities
+from src.processing.entity_resolution import resolve_partner_entities
 from src.processing.normalization import normalize_record_fields
 from src.utils.config import get_settings
 from src.utils.logger import get_logger
@@ -20,29 +20,32 @@ class PipelineError(RuntimeError):
     pass
 
 
-def _read_raw_lawyers(raw_dir: Path, batch_id: str) -> list[dict[str, Any]]:
-    path = raw_dir / f"lawyers_{batch_id}.json"
-    if not path.exists():
-        alt = raw_dir / "lawyers.json"
-        if alt.exists():
-            path = alt
-        else:
-            raise PipelineError(f"missing raw lawyers file: {path}")
+def _read_raw_partner_feed(raw_dir: Path, batch_id: str) -> list[dict[str, Any]]:
+    """Bronze: ``partner_vendor_feed.json`` or per-batch ``partners_{batch}.json``."""
+    candidates = [
+        raw_dir / f"partners_{batch_id}.json",
+        raw_dir / "partner_vendor_feed.json",
+    ]
+    path = next((p for p in candidates if p.exists()), None)
+    if path is None:
+        raise PipelineError(
+            f"missing raw partner feed: tried {[str(p) for p in candidates]}",
+        )
     doc = json.loads(path.read_text(encoding="utf-8"))
     records = doc.get("records", doc) if isinstance(doc, dict) else doc
     if not isinstance(records, list):
-        raise PipelineError("lawyers payload must be a list or {records: []}")
+        raise PipelineError("partner feed payload must be a list or {records: []}")
     return records
 
 
-def _validate_lawyer(rec: dict[str, Any], index: int) -> None:
-    required = ("lawyer_id", "full_name")
+def _validate_partner(rec: dict[str, Any], index: int) -> None:
+    required = ("partner_id", "full_name")
     missing = [k for k in required if k not in rec or rec[k] in (None, "")]
     if missing:
-        raise PipelineError(f"lawyer index {index} missing fields: {missing}")
+        raise PipelineError(f"partner index {index} missing fields: {missing}")
 
 
-def run_lawyer_pipeline(
+def run_partner_pipeline(
     *,
     batch_id: str | None = None,
     data_root: Path | None = None,
@@ -51,8 +54,8 @@ def run_lawyer_pipeline(
     Incremental-style run: read raw batch, normalize, dedupe flags, resolve entities.
 
     Writes:
-      - ``processed/lawyers_staging_{batch}.json``
-      - ``curated/lawyers_curated_{batch}.json``
+      - ``processed/partners_staging_{batch}.json``
+      - ``curated/partners_curated_{batch}.json``
     """
     settings = get_settings()
     root = data_root or settings.data_root
@@ -66,18 +69,18 @@ def run_lawyer_pipeline(
     start = time.perf_counter()
     logger.info("pipeline_start", extra={"batch_id": batch, "stage": "raw_read"})
 
-    raw_records = _read_raw_lawyers(raw_dir, batch)
+    raw_records = _read_raw_partner_feed(raw_dir, batch)
     for i, rec in enumerate(raw_records):
-        _validate_lawyer(rec, i)
+        _validate_partner(rec, i)
 
     normalized = [normalize_record_fields(dict(r)) for r in raw_records]
     deduped = flag_duplicates(normalized)
-    resolved = resolve_lawyer_entities(deduped)
+    resolved = resolve_partner_entities(deduped)
 
-    staging_path = processed_dir / f"lawyers_staging_{batch}.json"
+    staging_path = processed_dir / f"partners_staging_{batch}.json"
     staging_path.write_text(json.dumps(resolved, indent=2), encoding="utf-8")
 
-    curated_path = curated_dir / f"lawyers_curated_{batch}.json"
+    curated_path = curated_dir / f"partners_curated_{batch}.json"
     curated_path.write_text(json.dumps(resolved, indent=2), encoding="utf-8")
 
     duration_ms = int((time.perf_counter() - start) * 1000)

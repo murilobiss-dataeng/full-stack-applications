@@ -61,7 +61,7 @@ const mergeTab: TabItem = {
             <CardTitle className="text-sm">Source precedence</CardTitle>
           </CardHeader>
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
-            Court-certified roster beats paid aggregator beats scraped directory. Store{" "}
+            POS-registered merchant profile beats paid aggregator beats scraped directory. Store{" "}
             <code className="text-foreground">source_rank</code> and <code className="text-foreground">last_verified_at</code>; on tie, prefer higher
             rank + fresher verification timestamp.
           </CardContent>
@@ -71,7 +71,7 @@ const mergeTab: TabItem = {
             <CardTitle className="text-sm">Survivorship</CardTitle>
           </CardHeader>
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
-            Prefer longest clean display name; never merge two lawyer_ids without a shared hard key (bar number, tax ID).
+            Prefer longest clean display name; never merge two partner_ids without a shared hard key (VAT number, Companies House ID, tax ID).
             Emit <code className="text-foreground">merge_decision_id</code> for downstream reversibility.
           </CardContent>
         </Card>
@@ -92,17 +92,17 @@ const mergeTab: TabItem = {
             </thead>
             <tbody>
               <tr className="border-b border-border/60">
-                <td className="py-2 pr-2">Different bar numbers</td>
+                <td className="py-2 pr-2">Different VAT numbers</td>
                 <td className="py-2 pr-2">Never auto-merge</td>
                 <td className="py-2">Human + document exception</td>
               </tr>
               <tr className="border-b border-border/60">
-                <td className="py-2 pr-2">Same bar, different spelling</td>
+                <td className="py-2 pr-2">Same VAT, different trading name</td>
                 <td className="py-2 pr-2">Auto-merge if confidence ≥ 0.95</td>
                 <td className="py-2">Queue if 0.85–0.94</td>
               </tr>
               <tr>
-                <td className="py-2 pr-2">Missing bar, high name similarity</td>
+                <td className="py-2 pr-2">Missing VAT, high name similarity</td>
                 <td className="py-2 pr-2">Suggest only</td>
                 <td className="py-2">Analyst confirms</td>
               </tr>
@@ -126,7 +126,7 @@ const validationTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="grid gap-2 sm:grid-cols-2">
             <li>
-              <strong className="text-foreground">Accuracy / validity:</strong> bar numbers, date ranges, enum courts —
+              <strong className="text-foreground">Accuracy / validity:</strong> VAT numbers, date ranges, hub tiers —
               reject impossible combinations early.
             </li>
             <li>
@@ -138,7 +138,7 @@ const validationTab: TabItem = {
               <code className="text-foreground">resolved_entity_id</code> uniqueness before mart publish.
             </li>
             <li>
-              <strong className="text-foreground">Consistency:</strong> referential checks (case ↔ court ↔ lawyer bridge)
+              <strong className="text-foreground">Consistency:</strong> referential checks (order ↔ hub ↔ partner bridge)
               in dbt; cross-table balance checks when facts exist.
             </li>
             <li>
@@ -157,17 +157,17 @@ const validationTab: TabItem = {
           <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Execution order</p>
           <ol className="list-inside list-decimal space-y-2 text-xs leading-relaxed">
             <li>Pipeline schema checks reject malformed batches.</li>
-            <li>Staging distribution checks and anomaly tolerances (see Data pipeline → Data quality).</li>
+            <li>Staging distribution checks and anomaly tolerances (see Infrastructure → Marts &amp; pipelines → Data quality).</li>
             <li>dbt tests on uniqueness, relationships, and accepted values in marts.</li>
             <li>API / consumer contract tests so partial deploys never break the UI silently.</li>
           </ol>
           <p className="mt-4 text-xs">
             Cross-reference:{" "}
-            <Link href="/architecture?section=governance" className="text-primary underline-offset-4 hover:underline">
+            <Link href="/infrastructure?section=governance" className="text-primary underline-offset-4 hover:underline">
               Governance
             </Link>{" "}
             for ownership + classification, and{" "}
-            <Link href="/data-pipeline" className="text-primary underline-offset-4 hover:underline">
+            <Link href="/infrastructure?section=pipeline" className="text-primary underline-offset-4 hover:underline">
               Pipeline
             </Link>{" "}
             for quarantine replay.

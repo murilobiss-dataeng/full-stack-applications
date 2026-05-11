@@ -1,88 +1,91 @@
 version: 2
 
 seeds:
-  - name: lawyers_seed
-    description: Warehouse-shaped lawyer rows (post-resolution grain for dbt demo).
+  - name: partners_seed
+    description: Warehouse-shaped partner rows (post-resolution grain for dbt demo).
     columns:
-      - name: lawyer_id
-        tests: [not_null, unique]
-      - name: resolved_entity_id
-        tests: [not_null]
-
-  - name: courts_seed
+      - name: partner_id
+        tests:
+          - unique
+          - not_null
+  - name: hubs_seed
     columns:
-      - name: court_id
-        tests: [not_null, unique]
-
-  - name: cases_seed
+      - name: hub_id
+        tests:
+          - unique
+          - not_null
+  - name: orders_seed
     columns:
-      - name: case_id
-        tests: [not_null, unique]
-      - name: court_id
-        tests: [not_null]
-
-  - name: case_lawyer_seed
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: hub_id
+        tests:
+          - not_null
+  - name: order_partner_seed
     columns:
-      - name: case_id
-        tests: [not_null]
-      - name: lawyer_id
-        tests: [not_null]
+      - name: order_id
+        tests:
+          - not_null
+      - name: partner_id
+        tests:
+          - not_null
 
 models:
-  - name: lawyers
-    description: Core lawyer dimension keyed by source lawyer_id.
+  - name: partners
+    description: Core partner dimension keyed by source partner_id.
     columns:
-      - name: lawyer_id
-        tests: [not_null, unique]
-      - name: resolved_entity_id
-        tests: [not_null]
-
-  - name: courts
-    columns:
-      - name: court_id
-        tests: [not_null, unique]
-
-  - name: cases
-    columns:
-      - name: case_id
-        tests: [not_null, unique]
-      - name: court_id
+      - name: partner_id
         tests:
-          - not_null
-          - relationships:
-              to: ref("courts")
-              field: court_id
-
-  - name: case_lawyer
-    columns:
-      - name: case_id
-        tests:
-          - not_null
-          - relationships:
-              to: ref("cases")
-              field: case_id
-      - name: lawyer_id
-        tests:
-          - not_null
-          - relationships:
-              to: ref("lawyers")
-              field: lawyer_id
-
-  - name: lawyer_metrics
-    description: Golden-record lawyer performance metrics
-    columns:
-      - name: resolved_entity_id
-        tests:
-          - not_null
           - unique
-      - name: cases_touched
-        tests:
           - not_null
-
-  - name: case_aggregations
-    description: Court-level rollups for dashboards
+  - name: hubs
     columns:
-      - name: court_id
+      - name: hub_id
+        tests:
+          - unique
+          - not_null
+  - name: orders
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: hub_id
         tests:
           - not_null
+          - relationships:
+              to: ref("hubs")
+              field: hub_id
+  - name: order_partner
+    columns:
+      - name: order_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref("orders")
+              field: order_id
+      - name: partner_id
+        tests:
+          - not_null
+          - relationships:
+              to: ref("partners")
+              field: partner_id
+  - name: partner_metrics
+    description: Golden-record partner performance metrics
+    columns:
+      - name: resolved_entity_id
+        tests:
           - unique
+          - not_null
+      - name: orders_touched
+        tests:
+          - not_null
+  - name: hub_aggregations
+    description: Hub-level rollups for dashboards
+    columns:
+      - name: hub_id
+        tests:
+          - unique
+          - not_null

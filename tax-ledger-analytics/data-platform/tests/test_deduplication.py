@@ -7,8 +7,8 @@ def test_similarity_ratio_identical():
 
 def test_find_duplicate_groups_collapses_identical_canonical():
     records = [
-        {"lawyer_id": "a", "name_canonical": "acme legal llc"},
-        {"lawyer_id": "b", "name_canonical": "acme legal llc"},
+        {"partner_id": "a", "name_canonical": "acme legal llc"},
+        {"partner_id": "b", "name_canonical": "acme legal llc"},
     ]
     groups = find_duplicate_groups(records, threshold=0.99)
     assert [0, 1] in groups or groups == [[0, 1]]

@@ -60,28 +60,28 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
       }),
       d("data", "chore: sample zones", [
         d("raw", "data: DoorRush demo feeds", [
-          f("lawyers.json", "data: merchant variants", {
-            description: "Demo rows (John Smith / J. Smith) — stand in for DoorRush partner legal names in ETL.",
-            sample: '{ "records": [ { "lawyer_id": "L001", "full_name": "John Smith" }, ... ] }',
+          f("partner_vendor_feed.json", "data: bronze partner feed", {
+            description: "Demo rows (John Smith / J. Smith) — DoorRush partner legal names before ETL.",
+            sample: '{ "records": [ { "partner_id": "P001", "full_name": "John Smith" }, ... ] }',
           }),
-          f("courts.json", "data: hubs", { description: "City / region hub dimension (DoorRush UK hubs)." }),
-          f("cases.json", "data: orders", { description: "Order-level mock facts linked to hubs." }),
-          f("case_lawyer.json", "data: bridge", { description: "Order ↔ partner allocation bridge for warehouse FK demos." }),
+          f("hubs.json", "data: hubs", { description: "City / region hub dimension (DoorRush UK hubs)." }),
+          f("orders.json", "data: orders", { description: "Order-level mock facts linked to hubs." }),
+          f("order_partner.json", "data: bridge", { description: "Order ↔ partner allocation bridge for warehouse FK demos." }),
         ]),
         d("processed", "etl: staging outputs", [
-          f("lawyers_staging_*.json", "etl: staging batch", {
-            description: "Written by `run_lawyer_pipeline` — normalized + dedupe flags.",
+          f("partners_staging_*.json", "etl: staging batch", {
+            description: "Written by `run_partner_pipeline` — normalized + dedupe flags.",
           }),
         ]),
         d("curated", "etl: golden-ready", [
-          f("lawyers_curated_*.json", "etl: resolved entities", {
+          f("partners_curated_*.json", "etl: resolved entities", {
             description: "Includes `resolved_entity_id` and confidence for each row.",
           }),
         ]),
       ]),
       d("contracts", "feat: data contracts", [
-          f("raw_lawyer.schema.json", "docs: JSON Schema", {
-            description: "Validates raw partner-shaped records before ETL (lawyer_id field name kept in schema for compatibility).",
+          f("raw_partner.schema.json", "docs: JSON Schema", {
+            description: "Validates raw partner_vendor_feed.records before ETL.",
           }),
       ]),
       d("src", "refactor: package layout", [
@@ -110,14 +110,14 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
         d("pipeline", "feat: ETL orchestration", [
           f("etl_pipeline.py", "feat: raw → curated", {
             description: "Runs validation, normalization, dedupe, resolution; writes staging + curated JSON.",
-            sample: "def run_lawyer_pipeline(*, batch_id, data_root) -> dict:",
+            sample: "def run_partner_pipeline(*, batch_id, data_root) -> dict:",
           }),
           f("__main__.py", "chore: CLI entry", { description: "Run with `python -m src.pipeline` from `data-platform/`." }),
           f("__init__.py", "chore: package export", {}),
         ]),
         d("database", "docs: warehouse DDL", [
           f("models.py", "docs: SQL DDL strings", {
-            description: "lawyers, courts, cases, case_lawyer, resolved_entities, ingestion_batch + indexes.",
+            description: "partners, hubs, orders, order_partner, resolved_entities, ingestion_batch + indexes.",
           }),
           f("postgres_client.py", "feat: simulated PG", {
             description: "In-memory warehouse for demos; swap for psycopg in production.",
@@ -135,22 +135,22 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
           }),
           f("__init__.py", "chore: package marker", {}),
           d("seeds", "data: warehouse slice", [
-            f("lawyers_seed.csv", "seed: lawyers", {}),
-            f("courts_seed.csv", "seed: courts", {}),
-            f("cases_seed.csv", "seed: cases", {}),
-            f("case_lawyer_seed.csv", "seed: bridge", {}),
+            f("partners_seed.csv", "seed: partners", {}),
+            f("hubs_seed.csv", "seed: hubs", {}),
+            f("orders_seed.csv", "seed: orders", {}),
+            f("order_partner_seed.csv", "seed: bridge", {}),
           ]),
           d("models", "feat: core + marts", [
-            f("lawyers.sql", "sql: core", {}),
-            f("courts.sql", "sql: core", {}),
-            f("cases.sql", "sql: core", {}),
-            f("case_lawyer.sql", "sql: core", {}),
-            f("lawyer_metrics.sql", "sql: mart", { description: "Refs lawyers, case_lawyer, cases." }),
-            f("case_aggregations.sql", "sql: mart", {}),
+            f("partners.sql", "sql: core", {}),
+            f("hubs.sql", "sql: core", {}),
+            f("orders.sql", "sql: core", {}),
+            f("order_partner.sql", "sql: core", {}),
+            f("partner_metrics.sql", "sql: mart", { description: "Refs partners, order_partner, orders." }),
+            f("hub_aggregations.sql", "sql: mart", {}),
             f("schema.yml", "test: yaml", { description: "Relationships + not_null across core and marts." }),
           ]),
           d("tests", "test: singular", [
-            f("assert_case_lawyer_grain.sql", "test: grain", { description: "No duplicate bridge keys." }),
+            f("assert_order_partner_grain.sql", "test: grain", { description: "No duplicate bridge keys." }),
           ]),
         ]),
         f("__init__.py", "chore: tax-analytics package", { description: "Marks `src` as a Python package." }),

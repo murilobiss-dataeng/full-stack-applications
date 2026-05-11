@@ -43,12 +43,12 @@ const executiveTab: TabItem = {
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">
         For platform alternatives (Glue, Databricks, Snowflake, etc.) ordered from lean to premium, see{" "}
-        <Link href="/architecture?section=platform" className="text-primary underline-offset-4 hover:underline">
+        <Link href="/infrastructure?section=platform" className="text-primary underline-offset-4 hover:underline">
           Platform → Architecture (cloud ladder inside)
         </Link>
         . For merge rules and conflict resolution, see{" "}
         <Link href="/source-of-truth?section=truth" className="text-primary underline-offset-4 hover:underline">
-          Truth &amp; cases → Source of truth
+          Truth &amp; lineage → Source of truth
         </Link>
         . For Terraform, Docker, and CI OIDC patterns, open the <strong className="text-foreground">Infra as code</strong> tab
         below and the <code className="text-foreground">infra/</code> folder in the repo.
@@ -367,7 +367,7 @@ const performanceTab: TabItem = {
               needed; index size and write amplification trade off against ad-hoc search latency.
             </li>
             <li>
-              <strong className="text-foreground">Partial indexes</strong> for hot subsets (e.g. open cases only).
+              <strong className="text-foreground">Partial indexes</strong> for hot subsets (e.g. in-flight orders only).
             </li>
             <li>
               Run <code className="text-foreground">EXPLAIN (ANALYZE, BUFFERS)</code> on top dashboard queries; fix seq scans
@@ -384,7 +384,7 @@ const performanceTab: TabItem = {
           <ul className="list-inside list-disc space-y-1.5">
             <li>
               <strong className="text-foreground">Batch vs streaming:</strong> DoorRush marketplace feeds are mostly batch; introduce
-              streaming (Kafka + consumer) only for near-real-time docket alerts when revenue covers ops burden.
+              streaming (Kafka + consumer) only for near-real-time SLA or fraud alerts when revenue covers ops burden.
             </li>
             <li>
               <strong className="text-foreground">Partitioning:</strong> large fact tables by day or hub; attach

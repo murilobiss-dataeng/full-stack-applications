@@ -1,11 +1,13 @@
 import Link from "next/link";
 import {
   ArrowRight,
+  Award,
   BarChart3,
   Database,
   Download,
   FileText,
   GitBranch,
+  GraduationCap,
   Layers,
   LineChart,
   Linkedin,
@@ -32,51 +34,37 @@ const kpis = [
 
 const stackChips = ["Python", "Spark", "Airflow", "AWS", "Azure", "Terraform", "Agile / global"] as const;
 
-const jdItems = [
+/** Full role-fit mapping (same substance as the original CV page). */
+const jdMapping = [
   {
     Icon: Target,
-    title: "Governed marts & self-service",
-    bullets: [
-      "Workshops on grain + naming before BI touches SQL",
-      "Tarmac.IO · AB InBev · Banco Bari — definitions I owned",
-      "Looker / Power BI on top of models I controlled",
-    ],
+    ask: "Translate tax / finance questions into governed marts and self-service",
+    proof:
+      "Own the middle: requirements workshops, metric grain, naming, and dbt/SQL models before BI — Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, Banco Bari banking analytics. Stakeholders get Looker/Power BI on top of definitions I controlled.",
   },
   {
     Icon: GitBranch,
-    title: "dbt-style rigor",
-    bullets: [
-      "Medallion + factory patterns at enterprise scale",
-      "Singular + relationship tests like a real release gate",
-      "This repo = living sketch of how I gate marts",
-    ],
+    ask: "dbt (or equivalent) as the default for reusable transforms and tests",
+    proof:
+      "Production dbt with Snowflake and Databricks; medallion patterns; factory-style reusable pipelines at AB InBev. This repo shows singular tests, relationship tests, and mart rollups the way an analytics team would gate a release.",
   },
   {
     Icon: BarChart3,
-    title: "Metrics catalog mindset",
-    bullets: [
-      "/api/metrics + dashboards = semantic boundary demo",
-      "Versionable contracts, not one-off spreadsheets",
-      "Safe for analysts — no raw-table roulette",
-    ],
+    ask: "Sigma / Looker-class experience: metrics catalog mindset",
+    proof:
+      "Shipped BI in Looker and Power BI in real roles; here the /api/metrics contract + dashboard pages mimic a semantic layer boundary — documented, versionable, and safe for analysts.",
   },
   {
     Icon: Zap,
-    title: "Scale & ownership",
-    bullets: [
-      "7+ yrs · Spark/PySpark · Airflow certified",
-      "Senior analyst roots → engineer depth",
-      "SLAs + backlog language without losing grain",
-    ],
+    ask: "5+ years at scale: SQL depth, ETL, controls, independent prioritization",
+    proof:
+      "7+ years data roles; Senior Data Analyst background; Spark/PySpark 5+ years; Airflow certified; Agile with global teams. I default to tests, lineage, and clear ownership — what hiring managers expect from senior Analytics Engineering.",
   },
   {
     Icon: Layers,
-    title: "Cross-team delivery",
-    bullets: [
-      "Product & engineering at Tarmac",
-      "Multi-market KPI alignment at AB InBev",
-      "Terraform / CI where it moves the needle",
-    ],
+    ask: "Work across Data Eng, tax, finance, and product without dropping detail",
+    proof:
+      "Embedded with product and engineering at Tarmac; cross-market alignment at AB InBev; Terraform/CI where relevant. I speak JIRA and backlog language while keeping grain and SLAs explicit.",
   },
 ] as const;
 
@@ -84,24 +72,50 @@ const roles = [
   {
     org: "Tarmac.IO",
     role: "Senior Data Engineer",
-    period: "2025 — present",
+    period: "May 2025 — present · Brazil",
     accent: "from-primary/20 to-transparent",
-    tags: ["dbt", "Snowflake", "DLT", "Terraform"],
+    tags: ["dbt", "Snowflake", "Databricks", "DLT", "Terraform"],
+    body: [
+      "Embedded: logistics company — supply chain data platform, real-time inventory, routes, material lifecycle; medallion Bronze/Silver/Gold, ELT, data products for ops and BI.",
+      "Embedded: healthcare — workforce & compensation analytics on Databricks Lakehouse; Delta Live Tables, data quality, lineage, governance; Terraform and cloud-native automation.",
+      "Leading client data engineering for internal tools and customer-facing products: Python, SQL, Spark, migrating legacy to Snowflake/Databricks, scalable models, monitoring and retries for jobs, Agile with global teams, AWS + Terraform.",
+    ],
   },
   {
     org: "AB InBev",
     role: "Data Engineer",
-    period: "2023 — 2025",
+    period: "Aug 2023 — May 2025",
     accent: "from-red-100/80 to-transparent",
-    tags: ["Databricks", "Factory ETL", "Global KPIs"],
+    tags: ["Databricks", "Snowflake", "Factory ETL", "Global KPIs"],
+    body: [
+      "The Loop Hub — centralized data platform for sales, marketing, and ops across markets; standardized KPIs and decisions; Databricks + Snowflake lakehouse, scalable models, near real-time analytics.",
+      "Factory-style reusable ETL across domains; requirements analysis, business rules, structures for unified analytics; Spark, Azure Data Factory, Azure DevOps; Agile with multidisciplinary teams; communicating results and blockers in ceremonies.",
+    ],
   },
   {
     org: "Banco Bari",
-    role: "Data Engineer / Sr. Data Analyst",
-    period: "2019 — 2023",
+    role: "Data Engineer / Senior Data Analyst",
+    period: "2019 — 2023 · Curitiba, PR",
     accent: "from-primary/15 to-transparent",
-    tags: ["AWS", "Airflow", "SQL", "Dashboards"],
+    tags: ["AWS", "Glue", "Redshift", "Airflow", "Power BI"],
+    body: [
+      "Data Engineer (Jan 2022 — Sep 2023): modern banking analytics platform — AWS (S3, Glue, Athena, Redshift), ETL, Airflow DAGs, advanced SQL, Agile delivery, cross-functional communication.",
+      "Senior Data Analyst (Dec 2020 — Dec 2021): dashboards and KPIs for business units; Power BI, SQL, AWS Athena, Power Query M, Python; exploratory analysis, data culture; defining and tracking metrics for objectives.",
+      "Project Analyst (Aug 2019 — Dec 2020): outsourcing & IT projects — scope, budget, planning, risk, status reporting.",
+    ],
   },
+] as const;
+
+const certifications = [
+  "Astronomer — Apache Airflow Fundamentals",
+  "Liderança e Gestão de Pessoas",
+  "Fullstack Labs — Certified Data Engineer",
+] as const;
+
+const education = [
+  "FIAP — Pós-graduação Lato Sensu, Engenharia de Software (March 2025 — August 2026)",
+  "Pontifícia Universidade Católica do Paraná — Engenharia de Produção (2011 — 2015)",
+  "Universidade Tecnológica Federal do Paraná — Engenharia Civil (2007 — 2012)",
 ] as const;
 
 export function CvContent() {
@@ -112,21 +126,28 @@ export function CvContent() {
         <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" aria-hidden />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-primary/5 blur-2xl" aria-hidden />
         <div className="relative flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-xl space-y-4">
+          <div className="max-w-2xl space-y-4">
             <p className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
-              Analytics Engineering
+              Analytics Engineering · application
             </p>
             <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Murilo Biss</h1>
-            <p className="text-lg text-muted-foreground sm:text-xl">
-              From messy ops data to{" "}
-              <span className="font-semibold text-foreground">metrics that survive scrutiny</span> — SQL, dbt, warehouses,
-              and BI surfaces people actually use.
+            <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
+              <strong className="font-semibold text-foreground">Analytics Engineer</strong> (and hands-on Data Engineer where
+              the stack demands it). I own the path from messy operational data to{" "}
+              <strong className="font-semibold text-foreground">named metrics, tested SQL, and analyst-ready surfaces</strong>{" "}
+              — the profile you want for tax, finance, or marketplace analytics expansion.
+            </p>
+            <p className="text-base leading-relaxed text-muted-foreground">
+              From raw feeds to <span className="font-medium text-foreground">metrics that survive scrutiny</span> — same
+              rigor whether the story is{" "}
+              <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> in this portfolio or your production
+              warehouse.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               <a href={CV_PDF_HREF} download className={cn(buttonVariants(), "gap-2 shadow-md shadow-primary/20")}>
                 <Download className="h-4 w-4" aria-hidden />
-                CV (PDF)
+                Download CV (PDF)
               </a>
               <a
                 href={CV_PDF_HREF}
@@ -135,14 +156,14 @@ export function CvContent() {
                 className={cn(buttonVariants({ variant: "outline" }), "gap-2 border-primary/30 bg-white/80")}
               >
                 <FileText className="h-4 w-4" aria-hidden />
-                Open PDF
+                Open PDF in new tab
               </a>
               <Link href="/dashboard" className={cn(buttonVariants({ variant: "outline" }), "gap-2 bg-white/80")}>
                 <LineChart className="h-4 w-4" aria-hidden />
                 Live metrics
               </Link>
               <Link href="/" className={cn(buttonVariants({ variant: "ghost" }), "gap-1")}>
-                Home
+                Portfolio home
                 <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
@@ -162,7 +183,7 @@ export function CvContent() {
         </div>
       </section>
 
-      {/* Contact strip */}
+      {/* Contact */}
       <section aria-label="Contact" className="flex flex-wrap gap-2 sm:gap-3">
         <a
           href="mailto:murilobiss@gmail.com"
@@ -182,31 +203,37 @@ export function CvContent() {
           className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-3 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
         >
           <Linkedin className="h-4 w-4 text-primary" aria-hidden />
-          LinkedIn
+          linkedin.com/in/murilobiss
         </a>
         <span className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-3 text-sm text-muted-foreground shadow-sm">
           <MapPin className="h-4 w-4 text-primary" aria-hidden />
-          Brazil · EN / PT
+          Brazil · English &amp; Portuguese (professional)
         </span>
       </section>
 
-      {/* Value prop — bento */}
-      <section className="grid gap-4 md:grid-cols-2">
-        <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white p-6 shadow-sm">
+      {/* Bento: full “why hire” + stack */}
+      <section className="grid gap-4 lg:grid-cols-2">
+        <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-2 text-primary">
-            <ShieldCheck className="h-5 w-5" aria-hidden />
-            <h2 className="text-sm font-bold uppercase tracking-wide">Why hire (AE lens)</h2>
+            <ShieldCheck className="h-5 w-5 shrink-0" aria-hidden />
+            <h2 className="text-sm font-bold uppercase tracking-wide">What you get when you hire me (Analytics Engineering)</h2>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">
-            I sit where <strong className="text-foreground">definitions meet SQL</strong>: workshops on grain, versioned
-            dbt models, tests, then a thin API so Sigma / Looker / planners inherit one truth — including{" "}
-            <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong>-style high-volume marketplace narratives in
-            this portfolio.
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            Someone who <strong className="text-foreground">writes the metric definitions with you</strong>, encodes them in
+            versioned SQL/dbt, documents grain, and negotiates trade-offs with Data Engineering on ingestion — then trains
+            finance and tax partners to self-serve without forked logic.
+          </p>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
+            I am not only a pipeline plumber; I am the person who makes sure{" "}
+            <strong className="text-foreground">the number in the board deck matches the warehouse row</strong> and that we
+            can explain why — including when the business is a high-volume marketplace like the fictional{" "}
+            <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> scenario used in this portfolio (large-scale
+            last-mile delivery and marketplace ops; not a real company).
           </p>
         </div>
-        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm">
+        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-2 text-primary">
-            <Database className="h-5 w-5" aria-hidden />
+            <Database className="h-5 w-5 shrink-0" aria-hidden />
             <h2 className="text-sm font-bold uppercase tracking-wide">Stack signal</h2>
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
@@ -242,83 +269,109 @@ export function CvContent() {
               <div className="h-full w-[85%] rounded-full bg-gradient-to-r from-primary to-red-400" />
             </div>
           </div>
-          <p className="mt-3 text-[11px] text-muted-foreground">Illustrative bars — not exam scores; full detail in the PDF.</p>
+          <p className="mt-3 text-[11px] text-muted-foreground">
+            Bars are illustrative emphasis only; certifications, education, and full timeline remain in the PDF and in the
+            sections below.
+          </p>
         </div>
       </section>
 
-      {/* Role fit grid */}
+      {/* Professional summary — full copy */}
+      <section
+        aria-labelledby="summary-heading"
+        className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8 lg:border-l-4 lg:border-l-primary"
+      >
+        <h2 id="summary-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
+          <BarChart3 className="h-5 w-5 text-primary" aria-hidden />
+          Professional summary
+        </h2>
+        <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
+          Seven-plus years moving from raw operational and financial data to{" "}
+          <strong className="text-foreground">metrics people actually use in decisions</strong>. Stack: Python, SQL, Spark
+          (PySpark), Databricks, Snowflake, AWS and Azure data services, Airflow, dbt,{" "}
+          <strong className="text-foreground">Looker</strong> and <strong className="text-foreground">Power BI</strong>. I am
+          comfortable owning the full analytics engineering slice — ingest contracts with Data Engineering, transforms and
+          tests, documentation, and the BI hand-off — in Agile teams with global stakeholders.
+        </p>
+      </section>
+
+      {/* Role fit — full ask + proof per row */}
       <section aria-labelledby="fit-heading" className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h2 id="fit-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <BarChart3 className="h-5 w-5 text-primary" aria-hidden />
-              Role fit — how I already work
+              <Target className="h-5 w-5 text-primary" aria-hidden />
+              Role bar → how I already operate
             </h2>
-            <p className="mt-1 max-w-2xl text-sm text-muted-foreground">
-              Hiring bar on the left; proof on the right. Built for recruiters and hiring managers who skim in seconds.
+            <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+              Strong Analytics Engineering teams care about semantic clarity, test coverage, and safe self-service. Below is
+              a straight line from what you are hiring for to what I have shipped — plus this repo as a working sketch of how
+              I structure the work.
             </p>
           </div>
-          <Link
-            href="/data-pipeline"
-            className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-          >
+          <Link href="/infrastructure?section=pipeline" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
             See the repo →
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {jdItems.map(({ Icon, title, bullets }, i) => (
+        <div className="space-y-4">
+          {jdMapping.map(({ Icon, ask, proof }, i) => (
             <div
-              key={title}
-              className="group relative overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-sm transition hover:border-primary/30 hover:shadow-lg"
+              key={ask}
+              className="relative overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-sm transition hover:border-primary/25 hover:shadow-md sm:p-6"
             >
-              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary to-red-400 opacity-90" aria-hidden />
-              <div className="pl-3">
-                <div className="flex items-start justify-between gap-2">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition group-hover:bg-primary/15">
+              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary to-red-400" aria-hidden />
+              <div className="pl-4 sm:pl-5">
+                <div className="flex flex-wrap items-start gap-3">
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
                     <Icon className="h-5 w-5" aria-hidden />
                   </span>
-                  <span className="font-mono text-xs font-bold text-muted-foreground/80">0{i + 1}</span>
+                  <div className="min-w-0 flex-1">
+                    <span className="font-mono text-xs font-bold text-muted-foreground">0{i + 1}</span>
+                    <h3 className="mt-1 text-base font-semibold leading-snug text-foreground sm:text-lg">{ask}</h3>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{proof}</p>
+                  </div>
                 </div>
-                <h3 className="mt-3 text-sm font-semibold leading-snug text-foreground">{title}</h3>
-                <ul className="mt-3 space-y-2">
-                  {bullets.map((b) => (
-                    <li key={b} className="flex gap-2 text-xs leading-relaxed text-muted-foreground">
-                      <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-primary" aria-hidden />
-                      <span>{b}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Timeline roles */}
+      {/* Roles — full paragraphs */}
       <section aria-labelledby="roles-heading" className="space-y-4">
         <h2 id="roles-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
           <Zap className="h-5 w-5 text-primary" aria-hidden />
-          Selected impact
+          Selected roles
         </h2>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-3">
           {roles.map((r) => (
             <div
               key={r.org}
               className={cn(
-                "relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br p-5 shadow-sm transition hover:shadow-md",
+                "flex flex-col rounded-2xl border border-border bg-gradient-to-br p-5 shadow-sm transition hover:shadow-md sm:p-6",
                 r.accent,
               )}
             >
-              <span className="rounded-md bg-primary/15 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-primary">
+              <span className="w-fit rounded-md bg-primary/15 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-primary">
                 {r.period}
               </span>
-              <p className="mt-3 text-base font-bold text-foreground">{r.org}</p>
-              <p className="text-sm text-muted-foreground">{r.role}</p>
-              <div className="mt-4 flex flex-wrap gap-1.5">
+              <p className="mt-3 text-lg font-bold text-foreground">{r.org}</p>
+              <p className="text-sm font-medium text-muted-foreground">{r.role}</p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
                 {r.tags.map((t) => (
-                  <span key={t} className="rounded-md bg-white/80 px-2 py-0.5 text-[11px] font-medium text-foreground ring-1 ring-border/80">
+                  <span
+                    key={t}
+                    className="rounded-md bg-white/90 px-2 py-0.5 text-[11px] font-medium text-foreground ring-1 ring-border/80"
+                  >
                     {t}
                   </span>
+                ))}
+              </div>
+              <div className="mt-4 space-y-3 border-t border-border/60 pt-4">
+                {r.body.map((para, idx) => (
+                  <p key={`${r.org}-${idx}`} className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                    {para}
+                  </p>
                 ))}
               </div>
             </div>
@@ -326,24 +379,63 @@ export function CvContent() {
         </div>
       </section>
 
-      <footer className="rounded-2xl border border-dashed border-primary/25 bg-red-50/30 px-5 py-4 text-center text-sm text-muted-foreground">
-        Full history stays in the{" "}
-        <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
-          PDF
-        </a>
-        . This page is the <strong className="text-foreground">visual pitch</strong> — explore{" "}
-        <Link href="/dashboard" className="font-medium text-primary underline-offset-4 hover:underline">
-          dashboards
-        </Link>
-        ,{" "}
-        <Link href="/source-of-truth" className="font-medium text-primary underline-offset-4 hover:underline">
-          metric truth
-        </Link>
-        , and{" "}
-        <Link href="/ai-lab" className="font-medium text-primary underline-offset-4 hover:underline">
-          self-service lab
-        </Link>
-        .
+      {/* Certifications & education */}
+      <section className="grid gap-4 md:grid-cols-2" aria-label="Certifications and education">
+        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="flex items-center gap-2 text-base font-bold text-foreground">
+            <Award className="h-5 w-5 text-primary" aria-hidden />
+            Certifications
+          </h2>
+          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+            {certifications.map((c) => (
+              <li key={c} className="flex gap-2">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+                <span>{c}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
+          <h2 className="flex items-center gap-2 text-base font-bold text-foreground">
+            <GraduationCap className="h-5 w-5 text-primary" aria-hidden />
+            Education
+          </h2>
+          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+            {education.map((e) => (
+              <li key={e} className="flex gap-2">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
+                <span>{e}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <footer className="rounded-2xl border border-dashed border-primary/25 bg-red-50/40 px-5 py-5 text-center text-sm leading-relaxed text-muted-foreground">
+        <p>
+          <strong className="text-foreground">PDF</strong> remains the signed-off résumé file —{" "}
+          <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
+            download
+          </a>{" "}
+          or{" "}
+          <a href={CV_PDF_HREF} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">
+            open
+          </a>
+          . This page mirrors the <strong className="text-foreground">same information depth</strong> with a{" "}
+          <strong className="text-foreground">DoorRush-style</strong> layout; explore{" "}
+          <Link href="/dashboard" className="font-medium text-primary underline-offset-4 hover:underline">
+            dashboards
+          </Link>
+          ,{" "}
+          <Link href="/source-of-truth" className="font-medium text-primary underline-offset-4 hover:underline">
+            metric truth
+          </Link>
+          , and{" "}
+          <Link href="/ai-lab" className="font-medium text-primary underline-offset-4 hover:underline">
+            self-service lab
+          </Link>
+          .
+        </p>
       </footer>
     </div>
   );

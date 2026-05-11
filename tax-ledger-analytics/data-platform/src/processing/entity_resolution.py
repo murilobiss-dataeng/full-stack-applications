@@ -1,4 +1,4 @@
-"""Fuzzy entity resolution for counterparty / party identities (demo uses lawyer-shaped records)."""
+"""Fuzzy entity resolution for marketplace partner / vendor identities."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ def _score(a: str, b: str) -> float:
     return SequenceMatcher(None, a, b).ratio()
 
 
-def resolve_lawyer_entities(
+def resolve_partner_entities(
     records: list[dict],
     *,
     similarity_threshold: float = 0.78,

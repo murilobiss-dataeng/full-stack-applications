@@ -1,28 +1,20 @@
 import type { Metadata } from "next";
-import { DataHubClient } from "./DataHubClient";
-import { PageHeader } from "@/components/PageHeader";
-import { PageShell } from "@/components/PageShell";
-import { Reveal } from "@/components/Reveal";
+import { redirect } from "next/navigation";
+
+const SECTIONS = new Set(["platform", "governance", "explorer", "pipeline", "modeling"]);
 
 export const metadata: Metadata = {
-  title: "Marts & pipelines",
-  description:
-    "Analytics Engineering core: zones, Python transforms, dbt-style SQL, tests, and modeling choices that make metrics reproducible before BI.",
+  title: "Marts & pipelines (redirect)",
+  robots: { index: false, follow: true },
 };
 
-export default function DataPipelinePage() {
-  return (
-    <PageShell>
-      <Reveal>
-        <PageHeader
-          kicker="Analytics Engineering"
-          title="From raw landing to trusted marts"
-          description="This is where definitions harden: ingest contracts, transforms, data-quality gates, then relational design and dbt tests — the work that must be right before any dashboard earns trust."
-        />
-      </Reveal>
-      <Reveal delayMs={80}>
-        <DataHubClient />
-      </Reveal>
-    </PageShell>
-  );
+export default function DataPipelineRedirectPage({
+  searchParams,
+}: {
+  searchParams: Record<string, string | string[] | undefined>;
+}) {
+  const raw = searchParams.section;
+  const s = typeof raw === "string" ? raw : undefined;
+  const section = s && SECTIONS.has(s) ? s : "pipeline";
+  redirect(`/infrastructure?section=${section}`);
 }

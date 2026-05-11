@@ -1,6 +1,6 @@
 # DoorRush — Data Platform
 
-Python ETL for **DoorRush**-style marketplace data: partner feeds, hubs, orders — **bronze → silver → gold** for tax and finance marts. Demo table names (`lawyers`, etc.) remain for a runnable repo; copy describes DoorRush merchants and logistics.
+Python ETL for **DoorRush**-style marketplace data: partner feeds, hubs, orders — **bronze → silver → gold** for tax and finance marts. Warehouse table names match the narrative (`partners`, `hubs`, `orders`, `order_partner`).
 
 ## Layout
 
@@ -26,4 +26,4 @@ python -m src.pipeline
 
 ## Outputs
 
-Pipeline writes `processed/lawyers_staging_<batch>.json` and `curated/lawyers_curated_<batch>.json` (naming unchanged in code).
+Pipeline writes `processed/partners_staging_<batch>.json` and `curated/partners_curated_<batch>.json`. Bronze input is `data/raw/partner_vendor_feed.json` (or `partners_<batch>.json` when batch-specific).

@@ -2,7 +2,7 @@
 
 ## Data plane (`data-platform/`)
 
-1. **Raw zone** — JSON under `data/raw/` (demo filenames `lawyers` / `courts` / `cases` map conceptually to **DoorRush** merchants, hubs, and orders for the portfolio narrative).
+1. **Raw zone** — JSON under `data/raw/` (`partner_vendor_feed.json`, `hubs.json`, `orders.json`, `order_partner.json`) for **DoorRush** merchants, hubs, and orders.
 2. **Processing** — Python normalizes, flags duplicates, resolves merchant identities; writes `processed/` and `curated/`.
 3. **Warehouse DDL** — `src/database/models.py` documents Postgres tables for the demo grain.
 4. **dbt** — `src/dbt/`: project name **`tax_analytics`**. Tests in `models/schema.yml` and `tests/`.

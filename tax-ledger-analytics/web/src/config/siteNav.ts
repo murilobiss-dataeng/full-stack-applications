@@ -8,19 +8,18 @@ export const primaryNav: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/cv", label: "CV", spotlight: true },
   { href: "/method", label: "Approach" },
-  { href: "/architecture", label: "Platform" },
-  { href: "/data-pipeline", label: "Marts & pipelines" },
+  { href: "/infrastructure", label: "Infrastructure" },
   { href: "/source-of-truth", label: "Metric truth" },
+  { href: "/ai-lab", label: "AI Lab" },
   { href: "/dashboard", label: "BI surface" },
 ];
 
 export const homeDocLinks: readonly { href: string; label: string }[] = [
   { href: "/cv", label: "CV + why Analytics Eng" },
   { href: "/method", label: "Approach (trusted definitions)" },
-  { href: "/ai-lab", label: "Self-service on governed metrics" },
-  { href: "/architecture", label: "Platform & governance" },
-  { href: "/data-pipeline", label: "dbt, tests, SQL → marts" },
-  { href: "/source-of-truth", label: "Grain, lineage, API" },
+  { href: "/ai-lab", label: "AI Lab (governed metrics)" },
+  { href: "/infrastructure", label: "Infrastructure — platform, marts & pipelines" },
+  { href: "/source-of-truth", label: "Metric truth — scaffold + visualization" },
 ] as const;
 
 export const footerColumns: readonly { title: string; links: readonly { href: string; label: string }[] }[] = [
@@ -34,14 +33,14 @@ export const footerColumns: readonly { title: string; links: readonly { href: st
   {
     title: "Build the mart",
     links: [
-      { href: "/data-pipeline", label: "Marts & pipelines" },
-      { href: "/architecture", label: "Platform & explorer" },
+      { href: "/infrastructure", label: "Infrastructure" },
+      { href: "/infrastructure?section=explorer", label: "Repo explorer" },
     ],
   },
   {
     title: "Ship to analysts",
     links: [
-      { href: "/ai-lab", label: "Self-service lab" },
+      { href: "/ai-lab", label: "AI Lab" },
       { href: "/source-of-truth", label: "Metric truth" },
       { href: "/dashboard", label: "BI surface" },
       { href: "/api/metrics", label: "Metrics API" },

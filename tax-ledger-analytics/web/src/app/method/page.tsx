@@ -43,13 +43,13 @@ const pillars = [
 ] as const;
 
 const mapRows = [
-  { pillar: "Clean", href: "/data-pipeline?section=pipeline", label: "Pipeline, tests & DQ" },
-  { pillar: "Structured", href: "/data-pipeline?section=modeling", label: "Modeling & SQL" },
+  { pillar: "Clean", href: "/infrastructure?section=pipeline", label: "Pipeline, tests & DQ" },
+  { pillar: "Structured", href: "/infrastructure?section=modeling", label: "Modeling & SQL" },
   { pillar: "Connected", href: "/source-of-truth?section=truth", label: "Source of truth & API" },
-  { pillar: "Trust", href: "/architecture?section=governance", label: "Governance & lineage" },
+  { pillar: "Trust", href: "/infrastructure?section=governance", label: "Governance & lineage" },
   { pillar: "CV", href: "/cv", label: "PDF + job-description mapping" },
-  { pillar: "Explore", href: "/architecture?section=explorer", label: "Repo explorer" },
-  { pillar: "End-to-end", href: "/architecture?section=platform", label: "Architecture & cloud ladder" },
+  { pillar: "Explore", href: "/infrastructure?section=explorer", label: "Repo explorer" },
+  { pillar: "End-to-end", href: "/infrastructure?section=platform", label: "Architecture & cloud ladder" },
 ];
 
 export default function MethodPage() {
@@ -107,20 +107,20 @@ export default function MethodPage() {
             <CardTitle className="text-base">Pragmatic platform choices</CardTitle>
             <CardDescription className="text-sm leading-relaxed">
               Favor <strong className="text-foreground">tests + contracts + dbt</strong> before buying shelfware. Open{" "}
-              <Link href="/architecture?section=governance" className="text-primary underline-offset-4 hover:underline">
-                Platform → Governance
+              <Link href="/infrastructure?section=governance" className="text-primary underline-offset-4 hover:underline">
+                Infrastructure → Governance
               </Link>{" "}
               for IAM, contracts, and cost planning;{" "}
-              <Link href="/architecture?section=platform" className="text-primary underline-offset-4 hover:underline">
-                Platform → Architecture
+              <Link href="/infrastructure?section=platform" className="text-primary underline-offset-4 hover:underline">
+                Infrastructure → Platform
               </Link>{" "}
               for cloud options (Snowflake, Databricks, Glue, …); try{" "}
               <Link href="/ai-lab" className="text-primary underline-offset-4 hover:underline">
                 Self-service lab
               </Link>{" "}
               for analyst-style prompts over metrics; use{" "}
-              <Link href="/data-pipeline?section=pipeline" className="text-primary underline-offset-4 hover:underline">
-                Data → Pipeline
+              <Link href="/infrastructure?section=pipeline" className="text-primary underline-offset-4 hover:underline">
+                Infrastructure → Marts &amp; pipelines
               </Link>{" "}
               for tests and quality gates between zones.
             </CardDescription>
@@ -154,7 +154,7 @@ export default function MethodPage() {
           <Database className="mr-1.5 h-4 w-4" />
           See metrics dashboard
         </Link>
-        <Link href="/architecture?section=explorer" className={cn(buttonVariants({ variant: "outline" }), "text-sm")}>
+        <Link href="/infrastructure?section=explorer" className={cn(buttonVariants({ variant: "outline" }), "text-sm")}>
           Browse repo structure
         </Link>
       </Reveal>

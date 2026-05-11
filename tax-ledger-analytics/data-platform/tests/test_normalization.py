@@ -10,7 +10,7 @@ def test_standardize_strips_dr_prefix():
 
 
 def test_normalize_record_fields_sets_canonical():
-    rec = {"lawyer_id": "x", "full_name": "Jonathan A Smith"}
+    rec = {"partner_id": "x", "full_name": "Jonathan A Smith"}
     out = normalize_record_fields(rec)
     assert "name_canonical" in out
     assert "jonathan" in out["name_canonical"]

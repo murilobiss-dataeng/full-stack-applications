@@ -276,7 +276,7 @@ const platformLadderTab: TabItem = {
       <p className="text-xs leading-relaxed text-muted-foreground">
         <strong className="text-foreground">Governance tie-in:</strong> expensive platforms do not replace contracts — they
         automate enforcement. Pair any tier with{" "}
-        <Link href="/architecture?section=governance" className="text-primary underline-offset-4 hover:underline">
+        <Link href="/infrastructure?section=governance" className="text-primary underline-offset-4 hover:underline">
           Governance &amp; security
         </Link>{" "}
         so spend tracks risk.

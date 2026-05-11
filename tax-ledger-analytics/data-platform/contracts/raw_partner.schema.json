@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tax-analytics.local/schemas/raw_partner.json",
+  "title": "RawPartnerRecord",
+  "description": "Expected shape for each element in raw partner_vendor_feed.records before ETL.",
+  "type": "object",
+  "required": ["partner_id", "full_name"],
+  "properties": {
+    "partner_id": { "type": "string", "minLength": 1, "pattern": "^P[0-9]+$" },
+    "full_name": { "type": "string", "minLength": 1 },
+    "hub_region": { "type": "string" },
+    "partner_category": { "type": "string" }
+  },
+  "additionalProperties": true
+}

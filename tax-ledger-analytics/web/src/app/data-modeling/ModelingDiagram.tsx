@@ -2,18 +2,18 @@
 
 import { useEffect, useState } from "react";
 
-type NodeId = "courts" | "lawyers" | "cases" | "bridge";
+type NodeId = "hubs" | "partners" | "orders" | "bridge";
 
 const flow: { from: NodeId; to: NodeId; caption: string }[] = [
-  { from: "courts", to: "cases", caption: "orders.hub_id → hubs.hub_id (regional tax / SLA grain)" },
-  { from: "lawyers", to: "bridge", caption: "order_partner.partner_id → partners.partner_id" },
-  { from: "cases", to: "bridge", caption: "order_partner.order_id → orders.order_id" },
+  { from: "hubs", to: "orders", caption: "orders.hub_id → hubs.hub_id (regional tax / SLA grain)" },
+  { from: "partners", to: "bridge", caption: "order_partner.partner_id → partners.partner_id" },
+  { from: "orders", to: "bridge", caption: "order_partner.order_id → orders.order_id" },
 ];
 
 const nodes: { id: NodeId; title: string; subtitle: string }[] = [
-  { id: "courts", title: "hubs", subtitle: "DoorRush city / region" },
-  { id: "lawyers", title: "partners", subtitle: "merchants + golden id" },
-  { id: "cases", title: "orders", subtitle: "transactions / filings" },
+  { id: "hubs", title: "hubs", subtitle: "DoorRush city / region" },
+  { id: "partners", title: "partners", subtitle: "merchants + golden id" },
+  { id: "orders", title: "orders", subtitle: "transactions / fulfillment" },
   { id: "bridge", title: "order_partner", subtitle: "allocation (M:N)" },
 ];
 

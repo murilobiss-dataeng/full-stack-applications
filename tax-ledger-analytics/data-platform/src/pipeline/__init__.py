@@ -1,3 +1,3 @@
-from .etl_pipeline import PipelineError, run_lawyer_pipeline
+from .etl_pipeline import PipelineError, run_partner_pipeline
 
-__all__ = ["PipelineError", "run_lawyer_pipeline"]
+__all__ = ["PipelineError", "run_partner_pipeline"]

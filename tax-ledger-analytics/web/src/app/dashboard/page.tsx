@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DashboardCharts } from "./DashboardCharts";
+import { PlatformScaffoldBanner } from "@/components/PlatformScaffoldBanner";
 import { PageHeader } from "@/components/PageHeader";
 import { PageShell } from "@/components/PageShell";
 import { Reveal } from "@/components/Reveal";
@@ -8,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const metadata: Metadata = {
   title: "BI surface",
   description:
-    "Analytics Engineering demo: charts bound to a versioned /api/metrics contract — how Looker or Sigma would consume curated mart outputs.",
+    "Data visualization on a fixed contract: charts bound to /api/metrics — the proof surface that turns Metric truth and Infrastructure into decisions stakeholders see.",
 };
 
 export default function DashboardPage() {
@@ -16,10 +17,13 @@ export default function DashboardPage() {
     <PageShell wide>
       <Reveal>
         <PageHeader
-          kicker="Analytics Engineering"
-          title="BI surface on a governed metrics contract"
-          description="Every chart reads from /api/metrics — the same pattern as exposing a semantic layer or curated explores: analysts never query raw landing tables; they inherit grain, filters, and definitions from the mart."
+          kicker="Data visualization · value on a governed contract"
+          title="BI surface — charts that inherit the mart"
+          description="The warehouse and API layers are already modeled in this portfolio. This page is where you show impact: readable trends, comparisons, and guardrails — the same numbers a Looker explore or Sigma workbook would consume, without one-off SQL."
         />
+      </Reveal>
+      <Reveal delayMs={40}>
+        <PlatformScaffoldBanner focus="This is the fastest place to prove DV craft: every series comes from the published metrics route, not mock spreadsheets." />
       </Reveal>
       <Reveal delayMs={60}>
         <DashboardCharts />

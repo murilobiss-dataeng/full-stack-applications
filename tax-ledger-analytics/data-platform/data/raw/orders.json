@@ -1,0 +1,8 @@
+{
+  "records": [
+    {"order_id": "O-1001", "hub_id": "H-LON-01", "order_ref": "Acme takeaway #4412", "placed_at": "2022-01-10", "delivered_at": "2023-04-20", "status": "delivered", "sla_days": 465},
+    {"order_id": "O-1002", "hub_id": "H-LON-01", "order_ref": "Gamma grocery batch", "placed_at": "2023-06-01", "delivered_at": "2024-01-15", "status": "delivered", "sla_days": 228},
+    {"order_id": "O-1003", "hub_id": "H-MAN-02", "order_ref": "Delta catering contract", "placed_at": "2021-03-22", "delivered_at": "2022-11-30", "status": "refunded", "sla_days": 618},
+    {"order_id": "O-1004", "hub_id": "H-BRS-03", "order_ref": "Epsilon late-night", "placed_at": "2024-02-01", "delivered_at": null, "status": null, "sla_days": null}
+  ]
+}

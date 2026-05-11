@@ -50,8 +50,8 @@ export default function HomePage() {
               >
                 Approach
               </Link>
-              <Link href="/data-pipeline" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
-                Marts &amp; pipelines
+              <Link href="/infrastructure?section=pipeline" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
+                Infrastructure
               </Link>
               <Link href="/dashboard" className={cn(buttonVariants({ variant: "outline" }), "h-9 px-4 text-sm")}>
                 BI surface

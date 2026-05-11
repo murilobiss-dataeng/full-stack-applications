@@ -1,0 +1,47 @@
+[
+  {
+    "partner_id": "P001",
+    "full_name": "John Smith",
+    "hub_region": "GB",
+    "partner_category": "Restaurant",
+    "name_canonical": "john smith",
+    "resolved_entity_id": "66e4e1da-0688-4d73-9bfd-79e6499aa5da",
+    "resolution_confidence": 1.0
+  },
+  {
+    "partner_id": "P002",
+    "full_name": "J. Smith",
+    "hub_region": "GB",
+    "partner_category": "Restaurant",
+    "name_canonical": "j. smith",
+    "resolved_entity_id": "81f0e961-41f9-42ab-b410-9e2a971a7ebb",
+    "resolution_confidence": 0.7778
+  },
+  {
+    "partner_id": "P003",
+    "full_name": "Jonathan A Smith",
+    "hub_region": "GB",
+    "partner_category": "Restaurant",
+    "name_canonical": "jonathan a smith",
+    "resolved_entity_id": "5a74f506-38b7-4496-8f15-e3d25950d1af",
+    "resolution_confidence": 0.6923
+  },
+  {
+    "partner_id": "P004",
+    "full_name": "Maria Lopez",
+    "hub_region": "GB",
+    "partner_category": "Grocery",
+    "name_canonical": "maria lopez",
+    "resolved_entity_id": "26c4fdcf-cab1-48ac-b946-5df25b52d3ab",
+    "resolution_confidence": 0.2222
+  },
+  {
+    "partner_id": "P005",
+    "full_name": "Maria L\u00f3pez",
+    "hub_region": "GB",
+    "partner_category": "Grocery",
+    "name_canonical": "maria l\u00f3pez",
+    "resolved_entity_id": "26c4fdcf-cab1-48ac-b946-5df25b52d3ab",
+    "resolution_confidence": 0.9091
+  }
+]

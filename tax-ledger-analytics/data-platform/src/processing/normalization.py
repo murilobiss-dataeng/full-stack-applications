@@ -1,4 +1,4 @@
-"""String normalization for legal entity fields."""
+"""String normalization for marketplace entity fields."""
 
 from __future__ import annotations
 
@@ -23,9 +23,9 @@ def standardize_person_name(value: str) -> str:
 
 
 def normalize_record_fields(record: dict) -> dict:
-    """Apply normalization to known string keys on a lawyer-like record."""
+    """Apply normalization to known string keys on a partner-shaped record."""
     out = dict(record)
-    for key in ("full_name", "display_name", "court_name", "case_title"):
+    for key in ("full_name", "display_name", "hub_name", "order_ref"):
         if key in out and isinstance(out[key], str):
             out[key] = normalize_whitespace(normalize_unicode(out[key]))
     if "full_name" in out and isinstance(out["full_name"], str):

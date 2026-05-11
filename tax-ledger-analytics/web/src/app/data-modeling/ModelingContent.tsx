@@ -13,20 +13,20 @@ const diagramTab: TabItem = {
 
 const tables: { name: string; body: string }[] = [
   {
-    name: "lawyers",
-    body: "PK lawyer_id; resolved_entity_id, name_canonical; indexes for golden joins and search.",
+    name: "partners",
+    body: "PK partner_id; resolved_entity_id, name_canonical; indexes for golden joins and search.",
   },
   {
-    name: "courts",
-    body: "PK court_id; index (state_code, tier) for regional rollups.",
+    name: "hubs",
+    body: "PK hub_id; index (region_code, tier) for regional rollups.",
   },
   {
-    name: "cases",
-    body: "PK case_id; FK court_id; index (court_id, filed_at DESC) for venue timelines.",
+    name: "orders",
+    body: "PK order_id; FK hub_id; index (hub_id, placed_at DESC) for SLA timelines.",
   },
   {
-    name: "case_lawyer",
-    body: "Composite PK (case_id, lawyer_id, role); FK cascades; bridge for counsel roles.",
+    name: "order_partner",
+    body: "Composite PK (order_id, partner_id, role); FK cascades; bridge for fulfillment roles.",
   },
 ];
 
@@ -57,7 +57,7 @@ const designTab: TabItem = {
           <CardTitle className="text-sm">Normalization</CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground">
-          Conformed dimensions for courts and lawyers; case outcomes on facts with DATE types for deterministic windows.
+          Conformed dimensions for hubs and partners; order status on facts with DATE types for deterministic windows.
         </CardContent>
       </Card>
       <Card>
@@ -65,7 +65,7 @@ const designTab: TabItem = {
           <CardTitle className="text-sm">Keys & integrity</CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground">
-          <code className="text-foreground">case_lawyer</code> enforces real edges; ON DELETE CASCADE avoids orphan links on sandbox rollback.
+          <code className="text-foreground">order_partner</code> enforces real edges; ON DELETE CASCADE avoids orphan links on sandbox rollback.
         </CardContent>
       </Card>
       <Card>
@@ -73,8 +73,8 @@ const designTab: TabItem = {
           <CardTitle className="text-sm">Query path</CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground">
-          EXPLAIN on SDNY timelines should hit idx on court + filed_at. Heavy marts from dbt (
-          <code className="text-foreground">src/dbt/models/lawyer_metrics.sql</code>) keep dashboards off raw joins.
+          EXPLAIN on London hub timelines should hit idx on hub + placed_at. Heavy marts from dbt (
+          <code className="text-foreground">src/dbt/models/partner_metrics.sql</code>) keep dashboards off raw joins.
         </CardContent>
       </Card>
     </div>
@@ -96,8 +96,8 @@ const toolsTab: TabItem = {
           </CardHeader>
           <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
             <p>
-              <strong className="text-foreground">Postgres</strong> (Neon, RDS, AlloyDB) — lowest ops for OLTP-shaped legal
-              marts. <strong className="text-foreground">Snowflake / BigQuery / Redshift</strong> when cross-org sharing and
+              <strong className="text-foreground">Postgres</strong> (Neon, RDS, AlloyDB) — lowest ops for OLTP-shaped
+              marketplace marts. <strong className="text-foreground">Snowflake / BigQuery / Redshift</strong> when cross-org sharing and
               elastic compute beat egress math.
             </p>
             <p>
@@ -142,14 +142,14 @@ const queriesTab: TabItem = {
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/40 p-3 text-[10px] leading-relaxed text-muted-foreground">
             {`SELECT re.resolved_entity_id,
        re.display_name,
-       COUNT(DISTINCT cl.case_id) AS matters,
-       AVG(c.outcome = 'win')::float AS win_rate
+       COUNT(DISTINCT op.order_id) AS orders,
+       AVG(o.status = 'delivered')::float AS delivered_rate
 FROM resolved_entities re
-JOIN lawyers l USING (resolved_entity_id)
-JOIN case_lawyer cl ON cl.lawyer_id = l.lawyer_id
-JOIN cases c ON c.case_id = cl.case_id
+JOIN partners p USING (resolved_entity_id)
+JOIN order_partner op ON op.partner_id = p.partner_id
+JOIN orders o ON o.order_id = op.order_id
 GROUP BY 1, 2
-ORDER BY matters DESC
+ORDER BY orders DESC
 LIMIT 4;`}
           </pre>
         </CardContent>
@@ -160,12 +160,12 @@ LIMIT 4;`}
         </CardHeader>
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-background/80 p-3 text-[10px] leading-relaxed text-muted-foreground">
-            {` resolved_entity_id | display_name      | matters | win_rate
---------------------+-------------------+---------+----------
- re-001             | J. A. Smith Group |      48 |     0.61
- re-002             | Rivera & Assoc.   |      36 |     0.54
- re-003             | Chen Litigation   |      52 |     0.58
- re-004             | Ortiz Trial Team  |      29 |     0.49`}
+            {` resolved_entity_id | display_name      | orders | delivered_rate
+--------------------+-------------------+--------+---------------
+ re-001             | J. A. Smith Group |     48 |          0.61
+ re-002             | Rivera & Assoc.   |     36 |          0.54
+ re-003             | Chen Catering     |     52 |          0.58
+ re-004             | Ortiz Kitchens    |     29 |          0.49`}
           </pre>
           <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
             Same numbers feed <Link href="/dashboard" className="text-primary underline-offset-4 hover:underline">Dashboard</Link>{" "}
@@ -181,13 +181,13 @@ LIMIT 4;`}
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/40 p-3 text-[10px] leading-relaxed text-muted-foreground">
             {`EXPLAIN (ANALYZE, BUFFERS)
-SELECT c.case_id, c.caption, c.filed_at
-FROM cases c
-WHERE c.court_id = 'SDNY'
-  AND c.filed_at >= '2024-01-01'
-ORDER BY c.filed_at DESC
+SELECT o.order_id, o.order_ref, o.placed_at
+FROM orders o
+WHERE o.hub_id = 'H-LON-01'
+  AND o.placed_at >= '2024-01-01'
+ORDER BY o.placed_at DESC
 LIMIT 50;
--- Expect: Index Scan using idx_cases_court_filed`}
+-- Expect: Index Scan using idx_orders_hub_placed`}
           </pre>
         </CardContent>
       </Card>
@@ -209,10 +209,10 @@ const performanceTab: TabItem = {
           <ul className="list-inside list-disc space-y-1.5">
             <li>
               <strong className="text-foreground">B-Tree</strong> on foreign keys used in joins and on range columns (
-              <code className="text-foreground">filed_at DESC</code>) keeps timeline queries index-only where possible.
+              <code className="text-foreground">placed_at DESC</code>) keeps timeline queries index-friendly where possible.
             </li>
             <li>
-              <strong className="text-foreground">GIN + pg_trgm</strong> for fuzzy lawyer name search — add after measuring
+              <strong className="text-foreground">GIN + pg_trgm</strong> for fuzzy merchant name search — add after measuring
               sequential scans; every extra index slows writes.
             </li>
             <li>
@@ -230,7 +230,7 @@ const performanceTab: TabItem = {
           Push heavy rollups to dbt marts; cap ORM N+1 patterns in the API; run{" "}
           <code className="text-foreground">EXPLAIN (ANALYZE, BUFFERS)</code> on the slowest three queries monthly. For
           cost and governance context (RLS, classification), see{" "}
-          <Link href="/architecture?section=governance" className="text-primary underline-offset-4 hover:underline">
+          <Link href="/infrastructure?section=governance" className="text-primary underline-offset-4 hover:underline">
             Governance
           </Link>
           .

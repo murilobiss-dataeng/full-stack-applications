@@ -83,7 +83,7 @@ export function TruthJourneySim() {
 partners_staging_*.json
    │ entity_resolution (fuzzy + rules)
    ▼
-partners_curated_*.json  ──►  Postgres (demo: lawyers/cases/courts tables)
+partners_curated_*.json  ──►  Postgres (partners / hubs / orders / order_partner)
                                     │
                                     ▼
                               dbt marts (partner_metrics, …)
