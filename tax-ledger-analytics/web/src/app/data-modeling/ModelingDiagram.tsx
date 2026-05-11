@@ -5,16 +5,16 @@ import { useEffect, useState } from "react";
 type NodeId = "courts" | "lawyers" | "cases" | "bridge";
 
 const flow: { from: NodeId; to: NodeId; caption: string }[] = [
-  { from: "courts", to: "cases", caption: "cases.court_id → courts.court_id (jurisdiction grain for nexus / filing venue)" },
-  { from: "lawyers", to: "bridge", caption: "case_lawyer.lawyer_id → lawyers.lawyer_id (counterparty ↔ transaction bridge)" },
-  { from: "cases", to: "bridge", caption: "case_lawyer.case_id → cases.case_id" },
+  { from: "courts", to: "cases", caption: "orders.hub_id → hubs.hub_id (regional tax / SLA grain)" },
+  { from: "lawyers", to: "bridge", caption: "order_partner.partner_id → partners.partner_id" },
+  { from: "cases", to: "bridge", caption: "order_partner.order_id → orders.order_id" },
 ];
 
 const nodes: { id: NodeId; title: string; subtitle: string }[] = [
-  { id: "courts", title: "courts", subtitle: "jurisdiction dimension" },
-  { id: "lawyers", title: "lawyers", subtitle: "counterparty / party + golden id" },
-  { id: "cases", title: "cases", subtitle: "transaction / filing facts" },
-  { id: "bridge", title: "case_lawyer", subtitle: "allocation bridge (M:N)" },
+  { id: "courts", title: "hubs", subtitle: "DoorRush city / region" },
+  { id: "lawyers", title: "partners", subtitle: "merchants + golden id" },
+  { id: "cases", title: "orders", subtitle: "transactions / filings" },
+  { id: "bridge", title: "order_partner", subtitle: "allocation (M:N)" },
 ];
 
 export function ModelingDiagram() {

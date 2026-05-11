@@ -59,7 +59,7 @@ export default function MethodPage() {
         <PageHeader
           kicker="Analytics Engineering"
           title="Clean, structured, connected data"
-          description={`${SITE_PRODUCT_NAME} is Murilo Biss’s independent portfolio build, with a fictional ${DEMO_MARKETPLACE_BRAND} marketplace (DoorDash-class last-mile scale) as the narrative anchor for UK / multi-entity tax marts. It follows Clean, Structured, Connected (CSC) — to turn fragmented operational feeds into governed metrics and self-service. Below is how that pattern maps to this repository.`}
+          description={`${SITE_PRODUCT_NAME} is Murilo Biss’s portfolio build: a fictional high-volume marketplace and logistics brand for UK / multi-entity tax and operations marts. It follows Clean, Structured, Connected (CSC) to turn fragmented feeds into governed metrics. Below is how that maps to this repository.`}
         />
       </Reveal>
 

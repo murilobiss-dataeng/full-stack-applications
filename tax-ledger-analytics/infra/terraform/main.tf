@@ -6,7 +6,7 @@
 #   required_providers { aws = { source = "hashicorp/aws", version = "~> 5.0" } }
 #   backend "s3" {
 #     bucket = "YOUR_STATE_BUCKET"
-#     key    = "courtlytics/terraform.tfstate"
+#     key    = "doorrush/terraform.tfstate"
 #     region = "us-east-1"
 #   }
 # }

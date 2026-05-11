@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import type { MetricsPayload } from "@/types/metrics";
 
 const DEFAULT_PROMPT =
-  "Summarize entity resolution quality and top lawyer metrics from the latest curated batch. Include risks in one bullet.";
+  "Summarize DoorRush entity resolution quality and top partner hubs from the latest curated batch. Include one risk bullet.";
 
 type Phase = "idle" | "fetching" | "typing" | "done";
 
@@ -115,33 +115,33 @@ function buildNarrative(m: MetricsPayload, userPrompt: string): string {
   const p = m.pipeline as { rowsProcessed?: number; validationPassRate?: number; lastRunDurationMs?: number } | undefined;
   const e = m.entityResolution as { clustersMerged?: number; avgConfidence?: number } | undefined;
   const batch = typeof m.batchId === "string" ? m.batchId : "unknown-batch";
-  const lawyers = Array.isArray(m.lawyerPerformance)
-    ? (m.lawyerPerformance as { name?: string; cases?: number; winRate?: number }[])
+  const partners = Array.isArray(m.partnerPerformance)
+    ? (m.partnerPerformance as { name?: string; orders?: number; onTimeRate?: number }[])
     : [];
 
-  const top = lawyers
+  const top = partners
     .slice()
-    .sort((a, b) => (b.cases ?? 0) - (a.cases ?? 0))
+    .sort((a, b) => (b.orders ?? 0) - (a.orders ?? 0))
     .slice(0, 2)
-    .map((l) => `${l.name ?? "?"} (${l.cases ?? 0} matters, win ~${Math.round((l.winRate ?? 0) * 100)}%)`)
+    .map((p) => `${p.name ?? "?"} (${(p.orders ?? 0).toLocaleString()} orders, on-time ~${Math.round((p.onTimeRate ?? 0) * 100)}%)`)
     .join("; ");
 
   return [
     `» Request (truncated): ${userPrompt.slice(0, 120)}${userPrompt.length > 120 ? "…" : ""}`,
     "",
-    "Executive read — curated mart + pipeline health",
+    "Executive read — DoorRush curated mart + pipeline health",
     `• Batch: ${batch}`,
     `• Rows processed (last run): ${p?.rowsProcessed?.toLocaleString?.() ?? "—"}`,
     `• Validation pass rate: ${p?.validationPassRate != null ? (p.validationPassRate * 100).toFixed(1) + "%" : "—"}`,
     `• Job duration: ${p?.lastRunDurationMs?.toLocaleString?.() ?? "—"} ms`,
-    `• Entity clusters merged: ${e?.clustersMerged?.toLocaleString?.() ?? "—"} at avg confidence ${e?.avgConfidence != null ? (e.avgConfidence * 100).toFixed(0) + "%" : "—"}`,
+    `• Merchant clusters merged: ${e?.clustersMerged?.toLocaleString?.() ?? "—"} at avg confidence ${e?.avgConfidence != null ? (e.avgConfidence * 100).toFixed(0) + "%" : "—"}`,
     "",
-    "Top performers (golden IDs)",
-    `• ${top || "No lawyer slice in payload."}`,
+    "Top partner clusters (golden IDs)",
+    `• ${top || "No partner slice in payload."}`,
     "",
     "Risk / watchlist",
     "• If validation pass slips below 99.5%, freeze mart publish and replay quarantine (see Governance + Source of truth).",
-    "• Low-confidence merges should land in a human queue before CRM sync — policy, not model magic.",
+    "• Low-confidence merges should land in a human queue before payouts / tax reporting — policy, not model magic.",
     "",
     "Next step in a real deployment: log this summary with run_id + user role; call the same API the dashboard uses.",
   ].join("\n");

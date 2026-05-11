@@ -11,5 +11,5 @@
 #   - rds: connect to reader endpoint, role limited to views in curated + marts schemas
 #
 # github_actions_oidc:
-#   - federated principal repo:yourorg/courtlytics
+#   - federated principal repo:yourorg/doorrush-tax-analytics
 #   - sts:AssumeRoleWithWebIdentity -> short-lived role for plan/apply or ECR push

@@ -1,5 +1,5 @@
-# Tax Analytics — data platform tests
+# DoorRush — data platform tests
 
-See `../README.md` for how to run `pytest` from the `data-platform/` directory.
+See `../README.md` for `pytest` from `data-platform/`.
 
-Environment: prefer `TAX_ANALYTICS_DATA_ROOT`; legacy `TAX_LEDGER_DATA_ROOT` and `COURTLYTICS_DATA_ROOT` are still honored in `src/utils/config.py`.
+Environment: prefer `DOORRUSH_DATA_ROOT` or `TAX_ANALYTICS_DATA_ROOT`; `TAX_LEDGER_DATA_ROOT` is still honored in `src/utils/config.py`.

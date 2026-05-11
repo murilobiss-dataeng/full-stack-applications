@@ -1,8 +1,8 @@
-/** Mock output shaped like a curated pipeline + warehouse metrics (used by /api/metrics). */
+/** Mock /api/metrics payload — DoorRush fictional marketplace (delivery, merchants, tax-relevant ops). */
 
 export const mockPipelineMetrics = {
   generatedAt: "2026-05-01T12:00:00.000Z",
-  batchId: "demo-batch-42",
+  batchId: "doorrush-demo-uk-42",
   pipeline: {
     stages: ["raw", "staging", "curated", "warehouse_views"],
     lastRunDurationMs: 18420,
@@ -13,31 +13,33 @@ export const mockPipelineMetrics = {
     clustersMerged: 8420,
     avgConfidence: 0.91,
     sampleCluster: {
-      canonicalName: "Jonathan A. Smith",
-      variants: ["John Smith", "J. Smith", "Jonathan Smith", "Smith, John A."],
+      canonicalName: "Northside Pizza Collective Ltd",
+      variants: ["N. Pizza Collective", "Northside Pizza Co", "NS Pizza Ltd", "Northside Pizza — UK"],
     },
   },
-  caseDurationTrend: [
-    { quarter: "Q1 24", avgDays: 312 },
-    { quarter: "Q2 24", avgDays: 298 },
-    { quarter: "Q3 24", avgDays: 305 },
-    { quarter: "Q4 24", avgDays: 288 },
-    { quarter: "Q1 26", avgDays: 276 },
+  /** Avg hours from order placed to delivered (mock mart). */
+  fulfillmentLatencyTrend: [
+    { quarter: "Q1 24", avgHours: 38 },
+    { quarter: "Q2 24", avgHours: 36 },
+    { quarter: "Q3 24", avgHours: 35 },
+    { quarter: "Q4 24", avgHours: 33 },
+    { quarter: "Q1 26", avgHours: 31 },
   ],
-  winRateByCourt: [
-    { court: "SDNY", rate: 0.42 },
-    { court: "NDCA", rate: 0.38 },
-    { court: "EDTX", rate: 0.51 },
-    { court: "D.Del.", rate: 0.45 },
-    { court: "N.D.Ill.", rate: 0.39 },
+  /** On-time delivery rate by city hub (mock). */
+  onTimeRateByHub: [
+    { hub: "London", rate: 0.94 },
+    { hub: "Manchester", rate: 0.91 },
+    { hub: "Birmingham", rate: 0.89 },
+    { hub: "Leeds", rate: 0.92 },
+    { hub: "Bristol", rate: 0.90 },
   ],
-  lawyerPerformance: [
-    { name: "Resolved Entity A", cases: 48, winRate: 0.61, medianDays: 240 },
-    { name: "Resolved Entity B", cases: 36, winRate: 0.54, medianDays: 265 },
-    { name: "Resolved Entity C", cases: 52, winRate: 0.58, medianDays: 228 },
-    { name: "Resolved Entity D", cases: 29, winRate: 0.49, medianDays: 302 },
+  /** Top merchant partners after golden-entity roll-up (mock). */
+  partnerPerformance: [
+    { name: "Merchant cluster A", orders: 48200, onTimeRate: 0.96, prepMins: 12 },
+    { name: "Merchant cluster B", orders: 36100, onTimeRate: 0.93, prepMins: 14 },
+    { name: "Merchant cluster C", orders: 52400, onTimeRate: 0.95, prepMins: 11 },
+    { name: "Merchant cluster D", orders: 28900, onTimeRate: 0.90, prepMins: 16 },
   ],
-  /** Records landed per day (mock ingest telemetry). */
   ingestVolumeDaily: [
     { day: "Mon", files: 118 },
     { day: "Tue", files: 132 },
@@ -47,7 +49,6 @@ export const mockPipelineMetrics = {
     { day: "Sat", files: 44 },
     { day: "Sun", files: 38 },
   ],
-  /** dbt-style check pass rates (%). */
   dqCheckResults: [
     { name: "not_null keys", passRate: 99.9 },
     { name: "unique resolved_entity", passRate: 100 },
@@ -55,11 +56,11 @@ export const mockPipelineMetrics = {
     { name: "accepted_values status", passRate: 100 },
     { name: "freshness bronze", passRate: 98.2 },
   ],
-  casesByOutcome: [
-    { outcome: "Settled", count: 420 },
-    { outcome: "Judgment", count: 180 },
-    { outcome: "Dismissed", count: 265 },
-    { outcome: "Pending", count: 310 },
+  ordersByStatus: [
+    { status: "Delivered", count: 184200 },
+    { status: "In transit", count: 22100 },
+    { status: "Cancelled", count: 8900 },
+    { status: "Refund pending", count: 4200 },
   ],
   monthlyThroughput: [
     { month: "Nov", millionRows: 1.1 },

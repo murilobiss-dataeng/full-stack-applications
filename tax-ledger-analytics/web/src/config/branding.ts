@@ -1,7 +1,8 @@
 /**
- * Public portfolio name + fictional scenario brand.
- * DoorRush is a made-up last-mile / marketplace name for narrative only (not affiliated with any real company).
+ * DoorRush — fictional last-mile marketplace & logistics brand for this portfolio only
+ * (not affiliated with any real company). Red/white visual identity inspired by major US delivery apps.
  */
-export const SITE_PRODUCT_NAME = "Tax Analytics";
+export const SITE_PRODUCT_NAME = "DoorRush";
 
+/** Same as product name; kept for imports that expected a “scenario” label. */
 export const DEMO_MARKETPLACE_BRAND = "DoorRush";

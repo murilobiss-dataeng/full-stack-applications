@@ -1,6 +1,6 @@
-# Tax Analytics — Web
+# DoorRush — Web
 
-Next.js 14 app for **Tax Analytics** (Murilo Biss): architecture docs, pipeline narrative, modeling, dashboards, `/api/metrics`, CV page, and a **DoorRush** fictional marketplace scenario in copy (DoorDash-class last-mile; not affiliated with any real brand).
+Next.js 14 app for **DoorRush** (Murilo Biss): tax & marketplace analytics engineering portfolio, red/white UI, architecture docs, pipelines, modeling, dashboards, `/api/metrics`, and CV page.
 
 ## Scripts
 
@@ -9,9 +9,11 @@ Next.js 14 app for **Tax Analytics** (Murilo Biss): architecture docs, pipeline 
 - `npm run start` — serve production build
 - `npm run lint` — ESLint
 
-## Branding
+## Vercel Web Analytics
 
-- `src/config/branding.ts` — `SITE_PRODUCT_NAME` (**Tax Analytics**), `DEMO_MARKETPLACE_BRAND` (**DoorRush**).
+Same as the main app: `@vercel/analytics` in `package.json`, and `src/app/layout.tsx` imports `Analytics` from `@vercel/analytics/next` and renders `<Analytics />` in the document body. After deploy, turn on **Web Analytics** in the Vercel project (**Analytics** tab).
+
+- `src/config/branding.ts` — `SITE_PRODUCT_NAME` / scenario: **DoorRush**.
 
 ## Static assets
 

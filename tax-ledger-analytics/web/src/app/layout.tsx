@@ -4,7 +4,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { SITE_PRODUCT_NAME, DEMO_MARKETPLACE_BRAND } from "@/config/branding";
+import { SITE_PRODUCT_NAME } from "@/config/branding";
 import "./globals.css";
 
 const inter = Inter({
@@ -37,14 +37,13 @@ function resolveMetadataBase(): URL {
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
   title: {
-    default: `Murilo Biss — Tax Analytics (${DEMO_MARKETPLACE_BRAND}-style scenario)`,
+    default: `Murilo Biss — ${SITE_PRODUCT_NAME} · Tax & marketplace analytics`,
     template: `%s | ${SITE_PRODUCT_NAME}`,
   },
   description:
-    `Murilo Biss: Analytics Engineering portfolio for tax & finance marts — semantic metrics in SQL/dbt, governed APIs for BI, framed as a fictional ${DEMO_MARKETPLACE_BRAND} marketplace expansion (last-mile / multi-entity tax data).`,
+    `Murilo Biss: Analytics Engineering portfolio for ${SITE_PRODUCT_NAME} — tax, finance, and marketplace marts; semantic metrics in SQL/dbt; governed APIs for BI. ${SITE_PRODUCT_NAME} is a fictional DoorDash-class last-mile brand used only in this demo.`,
   keywords: [
     SITE_PRODUCT_NAME,
-    DEMO_MARKETPLACE_BRAND,
     "Murilo Biss",
     "Analytics Engineering",
     "semantic layer",
@@ -64,7 +63,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `Murilo Biss — ${SITE_PRODUCT_NAME}`,
     description:
-      `Trusted metrics, dbt, SQL, and analyst-ready surfaces — ${DEMO_MARKETPLACE_BRAND} scenario for marketplace tax / finance analytics engineering.`,
+      `Trusted metrics, dbt, SQL, and analyst-ready surfaces — ${SITE_PRODUCT_NAME} tax & marketplace analytics engineering portfolio.`,
     type: "website",
   },
   robots: { index: true, follow: true },
@@ -72,7 +71,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body className={`${inter.variable} ${jetbrains.variable} min-h-screen font-sans`}>
         <a
           href="#main-content"

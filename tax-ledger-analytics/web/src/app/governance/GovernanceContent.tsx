@@ -180,7 +180,7 @@ const governanceTab: TabItem = {
           </p>
           <p>
             <strong className="text-foreground">Schema versioning:</strong> additive changes ship freely; breaking changes
-            require a new model version or parallel table (<code className="text-foreground">lawyers_v2</code>) with a
+            require a new model version or parallel table (<code className="text-foreground">partners_v2</code>) with a
             deprecation window — never silent renames in prod.
           </p>
         </CardContent>
@@ -196,19 +196,19 @@ const lineageTab: TabItem = {
     <div className="space-y-4">
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">End-to-end lineage (lawyers path)</CardTitle>
+          <CardTitle className="text-sm">End-to-end lineage (DoorRush partner path)</CardTitle>
           <CardDescription className="text-xs">Where did the metric come from? Which transforms ran?</CardDescription>
         </CardHeader>
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/40 p-3 text-[11px] leading-relaxed text-muted-foreground">
-            {`raw_lawyers.json (bronze)
+            {`raw_partner_feed.json (bronze)
     → normalize_record_fields
     → flag_duplicates
-    → resolve_lawyer_entities
-    → lawyers_curated_*.json (gold-ready)
-    → warehouse.lawyers (+ case_lawyer edges)
-    → dbt: lawyer_metrics.sql / case_aggregations.sql
-    → /api/metrics → Dashboard`}
+    → resolve_merchant_entities
+    → partners_curated_*.json (gold-ready)
+    → warehouse.partners (+ order_partner edges)
+    → dbt: partner_metrics.sql / order_aggregations.sql
+    → /api/metrics → DoorRush dashboard`}
           </pre>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
             In production, capture <strong className="text-foreground">batch_id + git SHA + dbt manifest</strong> in run
@@ -228,7 +228,7 @@ const lineageTab: TabItem = {
             </li>
             <li>
               <strong className="text-foreground">Null checks:</strong> <code className="text-foreground">not_null</code> on
-              keys and legally required fields.
+              keys and regulator-required fields.
             </li>
             <li>
               <strong className="text-foreground">Uniqueness:</strong> <code className="text-foreground">unique</code> on{" "}
@@ -236,7 +236,7 @@ const lineageTab: TabItem = {
             </li>
             <li>
               <strong className="text-foreground">Referential integrity:</strong>{" "}
-              <code className="text-foreground">relationships</code> to courts and cases.
+              <code className="text-foreground">relationships</code> to hubs and orders.
             </li>
             <li>
               <strong className="text-foreground">Freshness:</strong> dbt source <code className="text-foreground">loaded_at_field</code>{" "}
@@ -289,7 +289,7 @@ const observabilityTab: TabItem = {
         <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
           <p>
             A <strong className="text-foreground">DAG</strong> declares tasks and dependencies: e.g.{" "}
-            <code className="text-foreground">ingest_raw</code> → <code className="text-foreground">normalize_lawyers</code>{" "}
+            <code className="text-foreground">ingest_raw</code> → <code className="text-foreground">normalize_partners</code>{" "}
             → <code className="text-foreground">resolve_entities</code> → <code className="text-foreground">load_warehouse</code>{" "}
             → <code className="text-foreground">dbt_run</code> → <code className="text-foreground">cache_warm</code>. Retries
             and backfills are scoped per task; idempotent tasks make replays safe.
@@ -327,7 +327,7 @@ const versioningTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           Partition by <code className="text-foreground">ingest_date</code> or <code className="text-foreground">source_batch_id</code>.
           Backfill replays bronze→gold for affected partitions only; <strong className="text-foreground">incremental models</strong> in
-          dbt reduce warehouse cost. For legal holds, freeze partitions immutably — never overwrite evidence buckets.
+          dbt reduce warehouse cost. For tax audit holds, freeze partitions immutably — never overwrite evidence buckets.
         </CardContent>
       </Card>
       <Card>
@@ -335,7 +335,7 @@ const versioningTab: TabItem = {
           <CardTitle className="text-sm">Source of truth — merge &amp; conflicts</CardTitle>
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
-          Document <strong className="text-foreground">source priority</strong> (court roster &gt; paid vendor &gt; scrape),
+          Document <strong className="text-foreground">source priority</strong> (DoorRush internal master &gt; PSP &gt; scrape),
           survivorship rules, and human-in-the-loop for high-risk merges. Full detail:{" "}
           <Link href="/source-of-truth?section=truth" className="text-primary underline-offset-4 hover:underline">
             Source of truth
@@ -360,10 +360,10 @@ const performanceTab: TabItem = {
           <ul className="list-inside list-disc space-y-1.5">
             <li>
               <strong className="text-foreground">B-Tree</strong> on equality/range predicates (
-              <code className="text-foreground">court_id</code>, <code className="text-foreground">filed_at</code>, foreign keys used in joins).
+              <code className="text-foreground">hub_id</code>, <code className="text-foreground">placed_at</code>, foreign keys used in joins).
             </li>
             <li>
-              <strong className="text-foreground">GIN / pg_trgm</strong> for fuzzy name search and lawyer lookup — only where
+              <strong className="text-foreground">GIN / pg_trgm</strong> for fuzzy merchant name search — only where
               needed; index size and write amplification trade off against ad-hoc search latency.
             </li>
             <li>
@@ -383,11 +383,11 @@ const performanceTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="list-inside list-disc space-y-1.5">
             <li>
-              <strong className="text-foreground">Batch vs streaming:</strong> legal feeds are mostly batch; introduce
+              <strong className="text-foreground">Batch vs streaming:</strong> DoorRush marketplace feeds are mostly batch; introduce
               streaming (Kafka + consumer) only for near-real-time docket alerts when revenue covers ops burden.
             </li>
             <li>
-              <strong className="text-foreground">Partitioning:</strong> large fact tables by month or court tier; attach
+              <strong className="text-foreground">Partitioning:</strong> large fact tables by day or hub; attach
               and detach partitions for cheap archival.
             </li>
             <li>

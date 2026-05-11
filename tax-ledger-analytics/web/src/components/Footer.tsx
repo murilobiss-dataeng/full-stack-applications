@@ -13,8 +13,8 @@ export function Footer() {
             a governed boundary for BI self-service (Looker / Sigma class).
           </p>
           <p className="mt-2 max-w-xs text-[11px] leading-relaxed text-muted-foreground/90">
-            Scenario brand <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> is fictional — a
-            DoorDash-style last-mile marketplace anchor for tax &amp; finance mart narratives only.
+            <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> is a fictional DoorDash-class marketplace
+            used only in this portfolio narrative and UI — not a real company.
           </p>
         </div>
         {footerColumns.map((col) => (

@@ -26,7 +26,7 @@ export function Navbar() {
           <span className="flex flex-col leading-tight">
             <span>{SITE_PRODUCT_NAME}</span>
             <span className="hidden text-[10px] font-normal text-muted-foreground sm:block sm:text-xs">
-              {DEMO_MARKETPLACE_BRAND} · fictional last-mile marketplace scenario
+              Tax &amp; marketplace data · Analytics Engineering
             </span>
           </span>
         </Link>

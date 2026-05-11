@@ -1,5 +1,5 @@
 /**
- * Static tree mirroring the Tax Analytics monorepo for the GitHub-style explorer.
+ * Static tree mirroring the DoorRush portfolio monorepo for the GitHub-style explorer.
  * Paths are segments from the repository root (`tax-analytics` — portfolio folder may still be `tax-ledger-analytics` on disk).
  */
 
@@ -29,8 +29,8 @@ function d(name: string, commitHint: string, children: RepoNode[]): RepoNode {
 
 export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
   f("README.md", "docs: project overview", {
-    description: "Tax Analytics — finance-grade marts, dbt, SQL, Python ETL, Next.js portfolio by Murilo Biss (DoorRush fictional scenario).",
-    sample: `# Tax Analytics\n\nTax & marketplace analytics engineering portfolio`,
+    description: "DoorRush — tax & marketplace marts, dbt, SQL, Python ETL, Next.js portfolio (Murilo Biss).",
+    sample: `# DoorRush\n\nTax & marketplace analytics engineering portfolio`,
   }),
   d("infra", "feat: IaC + containers", [
     f("README.md", "docs: infra layout", { description: "Terraform stubs, Docker Compose for local Postgres, pipeline Dockerfile." }),
@@ -59,14 +59,14 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
         description: "How to run the pipeline, env vars (`TAX_LEDGER_DATA_ROOT`), and zone layout.",
       }),
       d("data", "chore: sample zones", [
-        d("raw", "data: mock lawyers & cases", [
-          f("lawyers.json", "data: entity variants", {
-            description: "Mock lawyer rows used by the ETL demo (John Smith / J. Smith / …).",
+        d("raw", "data: DoorRush demo feeds", [
+          f("lawyers.json", "data: merchant variants", {
+            description: "Demo rows (John Smith / J. Smith) — stand in for DoorRush partner legal names in ETL.",
             sample: '{ "records": [ { "lawyer_id": "L001", "full_name": "John Smith" }, ... ] }',
           }),
-          f("courts.json", "data: dimensions", { description: "Court dimension seed data." }),
-          f("cases.json", "data: fact rows", { description: "Matter-level mock facts linked to courts." }),
-          f("case_lawyer.json", "data: bridge", { description: "Many-to-many case ↔ lawyer roles for warehouse FK demos." }),
+          f("courts.json", "data: hubs", { description: "City / region hub dimension (DoorRush UK hubs)." }),
+          f("cases.json", "data: orders", { description: "Order-level mock facts linked to hubs." }),
+          f("case_lawyer.json", "data: bridge", { description: "Order ↔ partner allocation bridge for warehouse FK demos." }),
         ]),
         d("processed", "etl: staging outputs", [
           f("lawyers_staging_*.json", "etl: staging batch", {
@@ -80,9 +80,9 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
         ]),
       ]),
       d("contracts", "feat: data contracts", [
-        f("raw_lawyer.schema.json", "docs: JSON Schema", {
-          description: "Validates raw lawyer records before ETL (lawyer_id, full_name, optional fields).",
-        }),
+          f("raw_lawyer.schema.json", "docs: JSON Schema", {
+            description: "Validates raw partner-shaped records before ETL (lawyer_id field name kept in schema for compatibility).",
+          }),
       ]),
       d("src", "refactor: package layout", [
         d("ingestion", "feat: raw landing", [
@@ -125,7 +125,7 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
           f("__init__.py", "chore: package export", {}),
         ]),
         d("utils", "feat: config + logging", [
-          f("config.py", "feat: env settings", { description: "`TAX_ANALYTICS_DATA_ROOT` (or legacy `TAX_LEDGER_DATA_ROOT`, `COURTLYTICS_DATA_ROOT`), `LOG_LEVEL`, `ETL_BATCH_ID`." }),
+          f("config.py", "feat: env settings", { description: "`DOORRUSH_DATA_ROOT` or `TAX_ANALYTICS_DATA_ROOT` (legacy `TAX_LEDGER_DATA_ROOT`), `LOG_LEVEL`, `ETL_BATCH_ID`." }),
           f("logger.py", "feat: JSON logs", { description: "Structured logs for batch_id, stage, duration_ms." }),
           f("__init__.py", "chore: package export", {}),
         ]),
@@ -171,10 +171,10 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
     f("next.config.mjs", "chore: next config", {}),
     d("src", "refactor: app router", [
       d("app", "feat: routes + API", [
-        f("page.tsx", "ui: home", { description: "Tax / finance mart narrative; CSC pillars; link to CV PDF." }),
+        f("page.tsx", "ui: home", { description: "DoorRush narrative; Analytics Engineering pillars; CV link." }),
         d("cv", "feat: application packet", [
           f("page.tsx", "ui: CV shell", { description: "Metadata + PageShell wrapper." }),
-          f("CvContent.tsx", "ui: CV + JD map", { description: "PDF download, contact, role-fit bullets from résumé." }),
+          f("CvContent.tsx", "ui: CV + visual pitch", { description: "Hero KPI tiles, stack bars, role-fit grid, timeline — no certs block." }),
         ]),
         d("method", "docs: methodology", [
           f("page.tsx", "ui: CSC method", {

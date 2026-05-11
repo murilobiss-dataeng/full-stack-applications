@@ -13,7 +13,7 @@ export default function HomePage() {
     <PageShell className="pb-16 pt-10 md:pb-20 md:pt-12">
       <Reveal>
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/40 px-5 py-7 sm:px-7 sm:py-9">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,hsl(217,91%,24%,0.45),transparent)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,hsl(355,92%,56%,0.18),transparent)]" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-widest text-primary">
               Murilo Biss · Analytics Engineering · SQL · dbt · Snowflake / Databricks · Looker / Power BI
@@ -33,12 +33,11 @@ export default function HomePage() {
               the same muscle memory as expanding a <strong className="text-foreground">tax or finance data mart</strong>{" "}
               with self-service guardrails.
             </p>
-            <p className="mt-3 max-w-2xl rounded-lg border border-border/60 bg-muted/20 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-              <strong className="text-foreground">Scenario:</strong> metrics are framed around{" "}
-              <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> — a{" "}
-              <em>fictional</em> high-scale last-mile marketplace (think DoorDash-class logistics and local commerce) where
-              a UK-facing entity needs consolidated tax reporting, indirect tax inputs, and planning KPIs. Name and company
-              are invented for the portfolio; the engineering patterns are real.
+            <p className="mt-3 max-w-2xl rounded-lg border border-primary/20 bg-primary/5 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+              <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> is a{" "}
+              <em>fictional</em> last-mile marketplace and logistics brand (red-and-white identity like major US delivery
+              apps) used only in this portfolio: UK hubs, merchant partners, indirect tax inputs, and planning KPIs. No
+              affiliation with any real company — the stack patterns are production-grade.
             </p>
             <div className="mt-5 flex flex-wrap items-center gap-2">
               <Link href="/cv" className={cn(buttonVariants(), "inline-flex h-9 gap-1.5 px-4 text-sm")}>
@@ -79,7 +78,7 @@ export default function HomePage() {
             Overview
           </h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <Card className="transition-all duration-200 hover:border-[hsl(217,33%,24%)] hover:shadow-sm">
+            <Card className="transition-all duration-200 hover:border-[hsl(355,33%,85%)] hover:shadow-sm">
               <CardHeader className="pb-2 pt-5">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                   <Sparkles className="h-4 w-4 text-primary" />
@@ -92,7 +91,7 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="transition-all duration-200 hover:border-[hsl(217,33%,24%)] hover:shadow-sm">
+            <Card className="transition-all duration-200 hover:border-[hsl(355,33%,85%)] hover:shadow-sm">
               <CardHeader className="pb-2 pt-5">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                   <Layers className="h-4 w-4 text-primary" />
@@ -105,7 +104,7 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="sm:col-span-2 lg:col-span-1 transition-all duration-200 hover:border-[hsl(217,33%,24%)] hover:shadow-sm">
+            <Card className="sm:col-span-2 lg:col-span-1 transition-all duration-200 hover:border-[hsl(355,33%,85%)] hover:shadow-sm">
               <CardHeader className="pb-2 pt-5">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                   <GitMerge className="h-4 w-4 text-primary" />
@@ -128,7 +127,7 @@ export default function HomePage() {
       <Reveal delayMs={200} className="mt-8">
         <Link
           href="/cv"
-          className="group flex flex-col gap-1 rounded-2xl border border-primary/35 bg-gradient-to-br from-primary/15 via-card/80 to-violet-600/10 p-4 transition-all hover:border-primary/55 hover:shadow-lg hover:shadow-primary/10 sm:flex-row sm:items-center sm:justify-between sm:p-5"
+          className="group flex flex-col gap-1 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-white to-red-50/80 p-4 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/15 sm:flex-row sm:items-center sm:justify-between sm:p-5"
         >
           <div>
             <p className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-primary">

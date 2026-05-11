@@ -23,9 +23,9 @@ class Settings:
     @classmethod
     def from_env(cls) -> Settings:
         env_root = (
-            os.getenv("TAX_ANALYTICS_DATA_ROOT")
+            os.getenv("DOORRUSH_DATA_ROOT")
+            or os.getenv("TAX_ANALYTICS_DATA_ROOT")
             or os.getenv("TAX_LEDGER_DATA_ROOT")
-            or os.getenv("COURTLYTICS_DATA_ROOT")
         )
         if env_root:
             root = Path(env_root).resolve()

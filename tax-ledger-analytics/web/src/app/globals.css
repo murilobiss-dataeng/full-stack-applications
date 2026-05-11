@@ -2,18 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* DoorRush-inspired: white surfaces, DoorDash-class red accents (hsl, no hsl() wrapper — Tailwind/shadcn pattern) */
 :root {
-  --background: 222 47% 6%;
-  --foreground: 210 40% 98%;
-  --muted: 217 33% 12%;
-  --muted-foreground: 215 20% 65%;
-  --card: 222 47% 8%;
-  --card-foreground: 210 40% 98%;
-  --border: 217 33% 16%;
-  --accent: 217 91% 60%;
-  --primary: 217 91% 60%;
-  --primary-foreground: 222 47% 6%;
-  --ring: 217 91% 60%;
+  --background: 0 0% 100%;
+  --foreground: 222 47% 11%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 220 9% 40%;
+  --card: 0 0% 100%;
+  --card-foreground: 222 47% 11%;
+  --border: 0 0% 90%;
+  --accent: 355 100% 97%;
+  --primary: 355 92% 56%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 355 92% 48%;
 }
 
 html {
