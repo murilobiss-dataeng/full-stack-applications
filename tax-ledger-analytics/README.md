@@ -12,6 +12,7 @@ See **[ARCHITECTURE.md](./ARCHITECTURE.md)** for how the data plane, dbt layer, 
 
 | Path | Description |
 |------|-------------|
+| `cv/` | Source HTML for the printable CV; output is copied to `web/public/cv-murilo-biss.pdf` for site download |
 | `web/` | Next.js 14 (App Router), TypeScript, Tailwind, Recharts, `/api/metrics`, **CV page**, Governance & self-service lab |
 | `data-platform/` | Python ETL, ingestion, entity resolution, pytest, mock JSON under `data/raw` |
 | `infra/` | Terraform stubs, `docker-compose.yml` (local Postgres), sample `Dockerfile.pipeline` for batch jobs |

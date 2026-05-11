@@ -16,7 +16,7 @@ export default function HomePage() {
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,hsl(355,92%,56%,0.18),transparent)]" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-widest text-primary">
-              Murilo Biss · Data visualization · Analytics Engineering · SQL · dbt · Power BI · Python
+              Murilo Biss · Data visualization · Analytics Engineering · SQL · dbt · Snowflake · Power BI · Python
             </p>
             <h1 className="mt-2 max-w-2xl text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
               I turn raw finance and operations data into metrics people trust
@@ -25,7 +25,7 @@ export default function HomePage() {
               In this portfolio, <strong className="text-foreground">Data Engineering is treated as the shelf that is already
               there</strong> (landing, scheduling, core tables). What you are evaluating is{" "}
               <strong className="text-foreground">Analytics Engineering</strong> on top of it: translate questions into grain
-              and definitions, build reusable SQL and dbt models, add tests and lineage, then ship a thin governed surface
+              and definitions, build reusable SQL and dbt models on warehouses such as <strong className="text-foreground">Snowflake</strong>, add tests and lineage, then ship a thin governed surface
               (APIs or semantic layers) so Sigma, Tableau, Power BI, or planning tools consume{" "}
               <strong className="text-foreground">one version of the truth</strong>.{" "}
               <strong className="text-foreground">Data visualization</strong> is how that truth is read in reviews: trends,

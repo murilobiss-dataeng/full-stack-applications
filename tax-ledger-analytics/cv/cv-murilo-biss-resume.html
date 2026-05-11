@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Murilo Biss — Curriculum Vitae</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 16mm;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    html {
+      font-size: 10.5pt;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      line-height: 1.45;
+      color: #1a1a1a;
+      background: #fff;
+    }
+    .page {
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 0;
+    }
+    header.doc-header {
+      border-left: 5px solid #0f3d5c;
+      padding: 0 0 0 1.1rem;
+      margin-bottom: 1.25rem;
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.85rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0f3d5c;
+    }
+    .tagline {
+      margin: 0.35rem 0 0;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #333;
+    }
+    .contact-row {
+      margin-top: 0.65rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.25rem;
+      font-size: 0.88rem;
+      color: #444;
+    }
+    .contact-row a {
+      color: #0f5a8a;
+      text-decoration: none;
+    }
+    .contact-row a:hover {
+      text-decoration: underline;
+    }
+    h2 {
+      margin: 1.1rem 0 0.45rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #0f3d5c;
+      border-bottom: 1px solid #c5d4dc;
+      padding-bottom: 0.2rem;
+    }
+    h2:first-of-type {
+      margin-top: 0.5rem;
+    }
+    .profile p {
+      margin: 0.4rem 0 0;
+      text-align: justify;
+      hyphens: auto;
+    }
+    .competency-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 1.5rem;
+      margin-top: 0.35rem;
+    }
+    @media print {
+      .competency-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    .competency-grid dt {
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: #2c5282;
+      margin: 0;
+    }
+    .competency-grid dd {
+      margin: 0.15rem 0 0;
+      font-size: 0.86rem;
+      color: #333;
+    }
+    .role {
+      margin-top: 0.85rem;
+      page-break-inside: avoid;
+    }
+    .role:first-of-type {
+      margin-top: 0.5rem;
+    }
+    .role-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 0.25rem 1rem;
+    }
+    .role-title {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #111;
+    }
+    .role-org {
+      font-weight: 600;
+      color: #0f3d5c;
+    }
+    .role-meta {
+      font-size: 0.82rem;
+      color: #555;
+      white-space: nowrap;
+    }
+    .role-location {
+      font-size: 0.82rem;
+      color: #666;
+      margin-top: 0.1rem;
+    }
+    .role ul {
+      margin: 0.35rem 0 0;
+      padding-left: 1.1rem;
+    }
+    .role li {
+      margin: 0.2rem 0;
+      font-size: 0.88rem;
+    }
+    .role .lede {
+      margin: 0.35rem 0 0;
+      font-size: 0.88rem;
+    }
+    .older-block {
+      margin-top: 0.65rem;
+      page-break-inside: avoid;
+    }
+    .older-block .role-head {
+      margin-bottom: 0.15rem;
+    }
+    .older-block p {
+      margin: 0.2rem 0;
+      font-size: 0.84rem;
+    }
+    .cert-list,
+    .edu-list,
+    .lang-list {
+      margin: 0.35rem 0 0;
+      padding-left: 1.1rem;
+      font-size: 0.88rem;
+    }
+    .cert-list li,
+    .edu-list li {
+      margin: 0.25rem 0;
+    }
+    .edu-list .inst {
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="doc-header">
+      <h1>Murilo Biss</h1>
+      <p class="tagline">Senior Data Engineer · Analytics Engineering · Python</p>
+      <div class="contact-row">
+        <span>Brazil</span>
+        <span>+55 (41) 99835-8844</span>
+        <a href="mailto:murilobiss@gmail.com">murilobiss@gmail.com</a>
+        <a href="https://www.linkedin.com/in/murilobiss">linkedin.com/in/murilobiss</a>
+        <a href="https://github.com/murilobiss">github.com/murilobiss</a>
+      </div>
+    </header>
+
+    <section class="profile" aria-labelledby="sec-profile">
+      <h2 id="sec-profile">Professional profile</h2>
+      <p>
+        Data Engineer and Analytics Engineer with 7+ years of experience turning operational and business data into reliable,
+        scalable analytics. Strong SQL practice, cloud platforms (AWS, Azure, GCP), and production ETL/ELT design. 5+ years
+        hands-on with <strong>Databricks</strong>, <strong>Snowflake</strong>, and Spark (PySpark); 3+ years with Azure Data Factory.
+        <strong>AWS Certified Cloud Practitioner</strong>; Apache Airflow certified (Astronomer); practical experience with data lake
+        and data warehouse architectures. Fluent delivery in Python, SQL, dbt, Spark, Snowflake, and Databricks, with emphasis on
+        performance, observability, and maintainable pipelines.
+      </p>
+      <p>
+        Comfortable translating business rules into data models, collaborating in Agile Scrum teams, and communicating
+        results to technical and non-technical stakeholders. Driven by automation, clear metrics, and measurable impact.
+      </p>
+    </section>
+
+    <section aria-labelledby="sec-comp">
+      <h2 id="sec-comp">Core competencies</h2>
+      <dl class="competency-grid">
+        <div>
+          <dt>Cloud &amp; warehouse</dt>
+          <dd><strong>Snowflake</strong> (warehousing, tasks, sharing); AWS (S3, Glue, Redshift, Athena); Azure (Databricks, Data Factory, DevOps); GCP (BigQuery)</dd>
+        </div>
+        <div>
+          <dt>Data &amp; orchestration</dt>
+          <dd>PySpark, Kafka, Delta Lake; <strong>Snowflake</strong> + <strong>dbt</strong> in production; Airflow; CI/CD (Azure DevOps); observability</dd>
+        </div>
+        <div>
+          <dt>BI &amp; analytics</dt>
+          <dd>Power BI, Looker, visualization, metric-driven decisions</dd>
+        </div>
+        <div>
+          <dt>Delivery</dt>
+          <dd>Agile Scrum, cross-functional work, requirements analysis, solution architecture, project leadership</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section aria-labelledby="sec-exp">
+      <h2 id="sec-exp">Professional experience</h2>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Senior Data Engineer</span>
+            <span class="role-org"> — Tarmac.IO</span>
+          </div>
+          <span class="role-meta">May 2025 — Present</span>
+        </div>
+        <p class="role-location">Brazil</p>
+        <p class="lede">
+          <strong>Embedded — logistics.</strong> Supply chain and logistics data platform: real-time inventory, route optimization,
+          material lifecycle. Medallion architecture (Bronze / Silver / Gold), modern ELT, scalable data products for operations and BI.
+        </p>
+        <p class="lede">
+          <strong>Embedded — healthcare.</strong> Workforce and compensation analytics on Databricks Lakehouse; Delta Live Tables;
+          data quality, lineage, and governance. Infrastructure automation, orchestration, and performance tuning with Terraform and cloud-native tooling.
+        </p>
+        <ul>
+          <li>Lead data engineering for internal tools and customer-facing products: Python, SQL, dbt, Spark.</li>
+          <li>Migrate legacy systems to Snowflake and Databricks; scalable models for analytics and reporting.</li>
+          <li>Partner with product and engineering; automated monitoring and retries for scheduled jobs and notifications.</li>
+          <li>Agile ceremonies and sprint planning with global teams; AWS and Terraform for provisioning and automation.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Data Engineer</span>
+            <span class="role-org"> — AB InBev</span>
+          </div>
+          <span class="role-meta">Aug 2023 — May 2025</span>
+        </div>
+        <p class="lede">
+          <strong>The Loop Hub.</strong> Centralized platform for global sales, marketing, and operations: standardized KPIs and
+          decisions. Lakehouse on Databricks and Snowflake; scalable models and near real-time analytics. Factory-style ETL pattern
+          for modular, reusable pipelines across domains.
+        </p>
+        <ul>
+          <li>Requirements analysis, business rules, and structures for a unified analytics environment.</li>
+          <li>ETL in Databricks and Snowflake; Spark integrations; Azure Data Factory and Azure DevOps for reliability.</li>
+          <li>Agile Scrum with multidisciplinary teams; clear communication of results and blockers.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Data Engineer</span>
+            <span class="role-org"> — Banco Bari</span>
+          </div>
+          <span class="role-meta">Jan 2022 — Sep 2023</span>
+        </div>
+        <p class="role-location">Curitiba, PR</p>
+        <p class="lede">
+          Modern banking analytics platform: internal and external financial sources on AWS (S3, Glue, Athena, Redshift). ETL for
+          scalable processing, reliable ingestion, and performance on large datasets; improved accessibility for financial and operational teams.
+        </p>
+        <ul>
+          <li>ETL with AWS (S3, Athena, EC2, EKS, ECR, Redshift, Glue); advanced SQL.</li>
+          <li>Apache Airflow DAGs for reliability and observability; Agile planning and delivery.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Senior Data Analyst</span>
+            <span class="role-org"> — Banco Bari</span>
+          </div>
+          <span class="role-meta">Dec 2020 — Dec 2021</span>
+        </div>
+        <p class="role-location">Curitiba, PR</p>
+        <ul>
+          <li>Dashboards and KPIs for business units; Power BI, SQL, AWS Athena, Power Query M, Python.</li>
+          <li>Exploratory analysis, metric definition for objectives, and stronger data culture across areas.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Project Analyst</span>
+            <span class="role-org"> — Banco Bari</span>
+          </div>
+          <span class="role-meta">Aug 2019 — Dec 2020</span>
+        </div>
+        <p class="role-location">Curitiba and region, Brazil</p>
+        <ul>
+          <li>Outsourcing and IT projects: scope, budget, planning, risk, status reporting, and contractual compliance.</li>
+          <li>Phases, estimates, supplier payments, negotiations, and third-party contracts.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Process Analyst</span>
+            <span class="role-org"> — Groupe Renault (Segula Technologies)</span>
+          </div>
+          <span class="role-meta">Mar 2019 — Aug 2019</span>
+        </div>
+        <p class="role-location">Curitiba, Paraná</p>
+        <ul>
+          <li>Project financial control (investments vs expenses); CAPEX/OPEX on vehicle capacity programs (large financial volumes).</li>
+          <li>Stakeholder coordination, budgets aligned to strategy, and reporting to management.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Project Analyst</span>
+            <span class="role-org"> — Bradesco Seguros</span>
+          </div>
+          <span class="role-meta">Aug 2016 — Aug 2018</span>
+        </div>
+        <p class="role-location">Curitiba and region, Brazil</p>
+        <ul>
+          <li>BIA — Business Intelligence Analytics (social security): MS Project, reduced delivery timeline, milestone reporting.</li>
+          <li>Risk management, integrated testing, partnerships with business areas, process definition support.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Process Analyst</span>
+            <span class="role-org"> — HSBC</span>
+          </div>
+          <span class="role-meta">May 2014 — Aug 2016</span>
+        </div>
+        <p class="role-location">Curitiba and region, Brazil</p>
+        <ul>
+          <li>Process improvement, root-cause analysis, tools for control and management, SLA compliance.</li>
+          <li>Benchmarks, process documentation to standards.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Part Owner</span>
+            <span class="role-org"> — PrimeLook Inc.</span>
+          </div>
+          <span class="role-meta">Oct 2011 — Oct 2014</span>
+        </div>
+        <p class="role-location">Curitiba and region, Brazil</p>
+        <ul>
+          <li>Regional cosmetics distribution; key accounts, technical team, marketing for Visat Hair Group portfolio.</li>
+          <li>Planning and control: sales, inventory, productivity indicators.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Quality Assurance Trainee</span>
+            <span class="role-org"> — Faurecia</span>
+          </div>
+          <span class="role-meta">Jan 2011 — Dec 2011</span>
+        </div>
+        <p class="role-location">Quatro Barras</p>
+        <ul>
+          <li>Support to production methods, process documentation, supplier support.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Engineer Trainee</span>
+            <span class="role-org"> — PDG Realty</span>
+          </div>
+          <span class="role-meta">Apr 2010 — Mar 2011</span>
+        </div>
+        <p class="role-location">Curitiba</p>
+        <ul>
+          <li>Site monitoring, measurements, planning and production control.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Engineer Trainee</span>
+            <span class="role-org"> — Plaenge Empreendimentos</span>
+          </div>
+          <span class="role-meta">Jan 2009 — Dec 2009</span>
+        </div>
+        <p class="role-location">Curitiba</p>
+        <ul>
+          <li>PBQP-H monitoring, quantity surveys, site inspection.</li>
+        </ul>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <div>
+            <span class="role-title">Industrial Trainee</span>
+            <span class="role-org"> — TREVES</span>
+          </div>
+          <span class="role-meta">Oct 2007 — Sep 2008</span>
+        </div>
+        <p class="role-location">Quatro Barras</p>
+        <ul>
+          <li>5S program, production methods support, process improvement.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section aria-labelledby="sec-cert">
+      <h2 id="sec-cert">Certifications</h2>
+      <ul class="cert-list">
+        <li>AWS Certified Cloud Practitioner</li>
+        <li>Astronomer Certification — Apache Airflow Fundamentals</li>
+        <li>Fullstack Labs Certified — Data Engineer</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="sec-edu">
+      <h2 id="sec-edu">Education</h2>
+      <ul class="edu-list">
+        <li><span class="inst">FIAP</span> — Postgraduate (lato sensu), Software Engineering (Mar 2025 — Aug 2026)</li>
+        <li><span class="inst">Pontifícia Universidade Católica do Paraná (PUCPR)</span> — Production Engineering (2011 — 2015)</li>
+        <li><span class="inst">Universidade Tecnológica Federal do Paraná (UTFPR)</span> — Civil Engineering (2007 — 2012)</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="sec-lang">
+      <h2 id="sec-lang">Languages</h2>
+      <ul class="lang-list">
+        <li>English — native or bilingual proficiency</li>
+        <li>Portuguese — native or bilingual proficiency</li>
+        <li>Spanish — limited working proficiency</li>
+      </ul>
+    </section>
+
+  </div>
+</body>
+</html>

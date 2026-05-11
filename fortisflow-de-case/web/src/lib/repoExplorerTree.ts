@@ -1,5 +1,5 @@
 /**
- * Static tree mirroring the DoorRush portfolio monorepo for the GitHub-style explorer.
+ * Static tree mirroring the FortisFlow portfolio monorepo for the GitHub-style explorer.
  * Paths are segments from the repository root (`tax-analytics`; portfolio folder may still be `tax-ledger-analytics` on disk).
  */
 
@@ -29,15 +29,9 @@ function d(name: string, commitHint: string, children: RepoNode[]): RepoNode {
 
 export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
   f("README.md", "docs: project overview", {
-    description: "DoorRush: tax and marketplace marts, dbt, SQL, Python ETL, Next.js portfolio (Murilo Biss).",
-    sample: `# DoorRush\n\nTax & marketplace analytics engineering portfolio`,
+    description: "FortisFlow: Snowflake-centric Data Engineering portfolio — ELT, DW layers, governance, Next.js case site (Murilo Biss).",
+    sample: `# FortisFlow\n\nEnterprise DW and pipeline optimization portfolio`,
   }),
-  d("cv", "docs: résumé source", [
-    f("cv-murilo-biss-resume.html", "docs: print HTML", {
-      description:
-        "Print-oriented CV HTML; regenerate `web/public/cv-murilo-biss.pdf` with headless Chrome after edits (see web README).",
-    }),
-  ]),
   d("infra", "feat: IaC + containers", [
     f("README.md", "docs: infra layout", { description: "Terraform stubs, Docker Compose for local Postgres, pipeline Dockerfile." }),
     f("docker-compose.yml", "chore: local postgres", { description: "Postgres 16 on port 5433 for integration tests." }),
@@ -65,12 +59,12 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
         description: "How to run the pipeline, env vars (`TAX_LEDGER_DATA_ROOT`), and zone layout.",
       }),
       d("data", "chore: sample zones", [
-        d("raw", "data: DoorRush demo feeds", [
+        d("raw", "data: FortisFlow demo feeds", [
           f("partner_vendor_feed.json", "data: bronze partner feed", {
-            description: "Demo rows (John Smith / J. Smith): DoorRush partner legal names before ETL.",
+            description: "Demo rows (John Smith / J. Smith): FortisFlow partner legal names before ETL.",
             sample: '{ "records": [ { "partner_id": "P001", "full_name": "John Smith" }, ... ] }',
           }),
-          f("hubs.json", "data: hubs", { description: "City / region hub dimension (DoorRush UK hubs)." }),
+          f("hubs.json", "data: hubs", { description: "City / region hub dimension (FortisFlow UK hubs)." }),
           f("orders.json", "data: orders", { description: "Order-level mock facts linked to hubs." }),
           f("order_partner.json", "data: bridge", { description: "Order ↔ partner allocation bridge for warehouse FK demos." }),
         ]),
@@ -177,7 +171,7 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
     f("next.config.mjs", "chore: next config", {}),
     d("src", "refactor: app router", [
       d("app", "feat: routes + API", [
-        f("page.tsx", "ui: home", { description: "DoorRush narrative; AE + DV positioning; CV + marts links." }),
+        f("page.tsx", "ui: home", { description: "FortisFlow narrative; AE + DV positioning; CV + marts links." }),
         d("cv", "feat: application packet", [
           f("page.tsx", "ui: CV shell", { description: "Metadata + PageShell wrapper." }),
           f("CvContent.tsx", "ui: CV + visual pitch", { description: "Hero KPI tiles, stack bars, role-fit grid, timeline; no certs or education blocks." }),

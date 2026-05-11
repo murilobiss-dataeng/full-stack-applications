@@ -17,4 +17,12 @@ Same as the main app: `@vercel/analytics` in `package.json`, and `src/app/layout
 
 ## Static assets
 
-- `public/cv-murilo-biss.pdf` · served at `/cv-murilo-biss.pdf`
+- `public/cv-murilo-biss.pdf` · served at `/cv-murilo-biss.pdf` (download buttons on `/cv` use this URL)
+- Source HTML lives at **`../cv/cv-murilo-biss-resume.html`** (repo root `cv/` next to `web/`). After editing, regenerate the PDF and overwrite `public/cv-murilo-biss.pdf`, for example:
+
+```bash
+# from repo root (tax-ledger-analytics), paths absolute or adjust:
+google-chrome --headless --disable-gpu --no-pdf-header-footer \
+  --print-to-pdf="$PWD/web/public/cv-murilo-biss.pdf" \
+  "file://$PWD/cv/cv-murilo-biss-resume.html"
+```

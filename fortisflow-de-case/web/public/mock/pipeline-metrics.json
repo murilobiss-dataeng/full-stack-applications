@@ -1,0 +1,10 @@
+{
+  "note": "Static sample aligned with /api/metrics for demos without running Next.js.",
+  "batchId": "demo-batch-42",
+  "pipeline": {
+    "stages": ["raw", "staging", "curated", "warehouse_views"],
+    "lastRunDurationMs": 18420,
+    "rowsProcessed": 128400,
+    "validationPassRate": 0.997
+  }
+}

@@ -26,11 +26,25 @@ const CV_PDF_HREF = "/cv-murilo-biss.pdf";
 const kpis = [
   { value: "7+", label: "Years in data", hint: "SQL → marts → BI" },
   { value: "dbt", label: "Production", hint: "Snowflake · Databricks" },
+  { value: "SF", label: "Snowflake", hint: "Marts · ELT · AB InBev + Tarmac" },
   { value: "PBI+", label: "BI & visuals", hint: "Power BI · enterprise BI" },
-  { value: "∞", label: "Grain first", hint: "Charts · tests · lineage" },
 ] as const;
 
-const stackChips = ["Python", "Spark", "Airflow", "AWS", "Azure", "Terraform", "Power BI", "Agile / PO"] as const;
+const stackChips = [
+  "Python",
+  "SQL",
+  "Snowflake",
+  "dbt",
+  "Spark",
+  "Airflow",
+  "AWS",
+  "Azure",
+  "Terraform",
+  "Power BI",
+  "Agile / PO",
+] as const;
+
+const credentialChips = ["AWS Certified Cloud Practitioner", "Apache Airflow (Astronomer)"] as const;
 
 /** Full role-fit mapping (same substance as the original CV page). */
 const jdMapping = [
@@ -38,7 +52,7 @@ const jdMapping = [
     Icon: Target,
     ask: "Translate tax and finance questions into governed marts, metrics, and self-service BI",
     proof:
-      "Own the middle: requirements workshops, metric grain, naming, and dbt or SQL models before dashboards, at Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, and Banco Bari banking analytics. Stakeholders got Power BI and other enterprise BI on definitions I could explain and reconcile.",
+      "Own the middle: requirements workshops, metric grain, naming, and dbt or SQL models on Snowflake or Databricks before dashboards, at Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, and Banco Bari banking analytics. Stakeholders got Power BI and other enterprise BI on definitions I could explain and reconcile.",
   },
   {
     Icon: GitBranch,
@@ -56,7 +70,7 @@ const jdMapping = [
     Icon: Zap,
     ask: "5+ years at scale: SQL depth, ETL, controls, independent prioritization",
     proof:
-      "7+ years in data roles; strong Data Engineering and Analytics Engineering delivery; Spark/PySpark 5+ years; Airflow in production; Agile with global teams. I default to tests, lineage, and clear ownership of the number on the slide.",
+      "7+ years in data roles; strong Data Engineering and Analytics Engineering delivery; Snowflake and Databricks in production (marts, ELT, factory patterns); Spark/PySpark 5+ years; Airflow in production; Agile with global teams. I default to tests, lineage, and clear ownership of the number on the slide.",
   },
   {
     Icon: Layers,
@@ -70,9 +84,9 @@ const roles = [
   {
     org: "Tarmac.IO",
     role: "Senior Data Engineer",
-    period: "May 2025 to present · Brazil",
+    period: "May 2025 to present",
     accent: "from-primary/20 to-transparent",
-    tags: ["dbt", "Snowflake", "Databricks", "DLT", "Terraform"],
+    tags: ["dbt", "Databricks", "Snowflake", "DLT", "Terraform"],
     body: [
       "Embedded: logistics company: supply chain data platform, real-time inventory, routes, material lifecycle; medallion Bronze/Silver/Gold, ELT, data products for ops and BI.",
       "Embedded: healthcare: workforce and compensation analytics on Databricks Lakehouse; Delta Live Tables, data quality, lineage, governance; Terraform and cloud-native automation.",
@@ -126,7 +140,7 @@ export function CvContent() {
           <div className="max-w-2xl space-y-4">
             <p className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
-              Data visualization · Analytics Engineering · Data Engineering · Product
+              Data visualization · Analytics Engineering · Data Engineering · Snowflake · Product
             </p>
             <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Murilo Biss</h1>
             <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
@@ -142,7 +156,7 @@ export function CvContent() {
               From raw feeds to <span className="font-medium text-foreground">metrics that survive scrutiny</span>, same
               rigor whether the story is{" "}
               <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> in this portfolio or your production
-              warehouse.
+              Snowflake / Databricks warehouse.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               <a href={CV_PDF_HREF} download className={cn(buttonVariants(), "gap-2 shadow-md shadow-primary/20")}>
@@ -222,7 +236,7 @@ export function CvContent() {
             Someone who <strong className="text-foreground">frames the question with you</strong>, validates cuts in SQL and
             dbt, documents assumptions, and lands the answer in{" "}
             <strong className="text-foreground">Power BI or your standard enterprise BI stack</strong>, while staying
-            pipeline-adjacent enough to unblock the warehouse when the mart needs a change.
+            pipeline-adjacent enough to unblock <strong className="text-foreground">Snowflake</strong> or the lakehouse when the mart needs a change.
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
             I care that <strong className="text-foreground">the chart matches the agreed definition</strong> and that we can
@@ -246,6 +260,17 @@ export function CvContent() {
               </span>
             ))}
           </div>
+          <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Credentials</p>
+          <div className="mt-1.5 flex flex-wrap gap-2">
+            {credentialChips.map((chip) => (
+              <span
+                key={chip}
+                className="rounded-lg border border-emerald-700/20 bg-emerald-50/90 px-3 py-1.5 text-xs font-medium text-foreground"
+              >
+                {chip}
+              </span>
+            ))}
+          </div>
           <div className="mt-5 space-y-2">
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>SQL &amp; modeling</span>
@@ -255,7 +280,7 @@ export function CvContent() {
               <div className="h-full w-[92%] rounded-full bg-gradient-to-r from-primary to-red-400" />
             </div>
             <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Marts / dbt / tests</span>
+              <span>Snowflake / marts / dbt / tests</span>
               <span className="font-mono text-primary">●●●●○</span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-muted">
@@ -286,9 +311,9 @@ export function CvContent() {
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
           Seven-plus years moving from raw operational and financial data to{" "}
-          <strong className="text-foreground">metrics and visuals people act on</strong>. Stack: Python, SQL, Spark (PySpark),
-          Databricks, Snowflake, AWS and Azure data services, Airflow, dbt,{" "}
-          <strong className="text-foreground">Power BI</strong> and other enterprise BI. Comfortable across{" "}
+          <strong className="text-foreground">metrics and visuals people act on</strong>. Stack: Python, SQL, Spark (PySpark),{" "}
+          <strong className="text-foreground">Snowflake</strong>, Databricks, AWS (including AWS Certified Cloud Practitioner) and
+          Azure data services, Airflow, dbt, <strong className="text-foreground">Power BI</strong> and other enterprise BI. Comfortable across{" "}
           <strong className="text-foreground">Data Engineering</strong>, <strong className="text-foreground">Analytics Engineering</strong>, and{" "}
           <strong className="text-foreground">data visualization</strong>, including VAT and statutory reporting cuts where Tax
           is in the room; <strong className="text-foreground">Product Owner</strong> delivery at HSBC for Agile, backlog, and
