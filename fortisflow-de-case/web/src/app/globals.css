@@ -2,19 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-/* sigma-sec: cool slate surfaces + cyan accent (Snowflake-adjacent, enterprise) */
+/* sigma-sec: monochrome Sigma-style (black + white) */
 :root {
-  --background: 210 40% 98%;
-  --foreground: 222 47% 11%;
-  --muted: 210 24% 96%;
-  --muted-foreground: 215 16% 40%;
+  --background: 0 0% 100%;
+  --foreground: 0 0% 10%;
+  --muted: 0 0% 98%;
+  --muted-foreground: 0 0% 35%;
   --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --border: 214 20% 90%;
-  --accent: 199 100% 97%;
-  --primary: 199 89% 48%;
-  --primary-foreground: 222 47% 99%;
-  --ring: 199 89% 40%;
+  --card-foreground: 0 0% 10%;
+  --border: 0 0% 85%;
+  --accent: 0 0% 15%;
+  --primary: 0 0% 0%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 0 0% 10%;
 }
 
 html {

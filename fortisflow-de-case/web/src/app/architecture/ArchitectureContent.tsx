@@ -15,7 +15,7 @@ const flowTab: TabItem = {
         Bronze → silver → gold: immutable raw, typed staging, curated entities, dbt marts, then a thin API for products.
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
-        <Card className="transition-colors hover:border-[hsl(217,33%,24%)]">
+        <Card className="transition-colors hover:border-primary/20">
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-sm">Ingestion</CardTitle>
             <CardDescription className="text-xs leading-relaxed">
@@ -23,7 +23,7 @@ const flowTab: TabItem = {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="transition-colors hover:border-[hsl(217,33%,24%)]">
+        <Card className="transition-colors hover:border-primary/20">
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-sm">Serving</CardTitle>
             <CardDescription className="text-xs leading-relaxed">
@@ -45,7 +45,7 @@ const lakeTab: TabItem = {
         <CardHeader className="pb-2">
           <CardTitle className="text-base">APIs</CardTitle>
           <CardDescription className="text-sm">
-            sigma-sec partner and OMS APIs push JSON into the raw zone. Idempotent writers avoid double-counting on webhook retries.
+            sigma-sec supplier and ERP/MES APIs push JSON into the raw zone. Idempotent writers avoid double-counting on webhook retries.
           </CardDescription>
         </CardHeader>
       </Card>
@@ -109,7 +109,7 @@ const warehouseTab: TabItem = {
           <CardTitle className="text-base">PostgreSQL</CardTitle>
         </CardHeader>
         <CardContent className="text-sm text-muted-foreground">
-          Foreign keys across orders, hubs, and partners. Composite indexes (e.g. <code className="text-foreground">hub_id + placed_at</code>)
+          Foreign keys across work_orders, plants, and suppliers. Composite indexes (e.g. <code className="text-foreground">plant_id + requested_at</code>)
           avoid sequential scans on dashboard filters.
         </CardContent>
       </Card>
@@ -386,7 +386,7 @@ const aiTab: TabItem = {
           </CardHeader>
           <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
             <p>
-              <strong className="text-foreground">Match review queue:</strong> LLM summarizes why two merchant profiles might
+              <strong className="text-foreground">Match review queue:</strong> LLM summarizes why two supplier profiles might
               match (evidence bullets); human approves merge; API costs bounded by queue depth + caching.
             </p>
             <p>

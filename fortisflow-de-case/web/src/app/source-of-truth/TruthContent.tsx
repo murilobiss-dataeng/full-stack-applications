@@ -61,7 +61,7 @@ const mergeTab: TabItem = {
             <CardTitle className="text-sm">Source precedence</CardTitle>
           </CardHeader>
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
-            POS-registered merchant profile beats paid aggregator beats scraped directory. Store{" "}
+            ERP-registered supplier profile beats aggregator beats scraped directory. Store{" "}
             <code className="text-foreground">source_rank</code> and <code className="text-foreground">last_verified_at</code>; on tie, prefer higher
             rank + fresher verification timestamp.
           </CardContent>
@@ -71,7 +71,7 @@ const mergeTab: TabItem = {
             <CardTitle className="text-sm">Survivorship</CardTitle>
           </CardHeader>
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
-            Prefer longest clean display name; never merge two partner_ids without a shared hard key (VAT number, Companies House ID, tax ID).
+            Prefer longest clean display name; never merge two supplier_ids without a shared hard key (tax ID, registry ID, legal registration).
             Emit <code className="text-foreground">merge_decision_id</code> for downstream reversibility.
           </CardContent>
         </Card>
@@ -138,7 +138,7 @@ const validationTab: TabItem = {
               <code className="text-foreground">resolved_entity_id</code> uniqueness before mart publish.
             </li>
             <li>
-              <strong className="text-foreground">Consistency:</strong> referential checks (order ↔ hub ↔ partner bridge)
+              <strong className="text-foreground">Consistency:</strong> referential checks (work_orders ↔ plants ↔ supplier bridge)
               in dbt; cross-table balance checks when facts exist.
             </li>
             <li>

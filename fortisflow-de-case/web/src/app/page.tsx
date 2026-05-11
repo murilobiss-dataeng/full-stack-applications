@@ -13,7 +13,7 @@ export default function HomePage() {
     <PageShell className="pb-16 pt-10 md:pb-20 md:pt-12">
       <Reveal>
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/40 px-5 py-7 sm:px-7 sm:py-9">
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,hsl(199,89%,48%,0.16),transparent)]" />
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,hsl(0,0%,0%,0.16),transparent)]" />
           <div className="relative">
             <p className="text-xs font-medium uppercase tracking-widest text-primary">
               Murilo Biss · Data Engineering · Snowflake · SQL · ELT · dbt · Quality · Cost &amp; performance
@@ -73,7 +73,7 @@ export default function HomePage() {
             Overview
           </h2>
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            <Card className="transition-all duration-200 hover:border-[hsl(199,33%,82%)] hover:shadow-sm">
+            <Card className="transition-all duration-200 hover:border-primary/25 hover:shadow-sm">
               <CardHeader className="pb-2 pt-5">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                   <Cpu className="h-4 w-4 text-primary" aria-hidden />
@@ -85,7 +85,7 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="transition-all duration-200 hover:border-[hsl(199,33%,82%)] hover:shadow-sm">
+            <Card className="transition-all duration-200 hover:border-primary/25 hover:shadow-sm">
               <CardHeader className="pb-2 pt-5">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                   <Layers className="h-4 w-4 text-primary" aria-hidden />
@@ -97,7 +97,7 @@ export default function HomePage() {
                 </CardDescription>
               </CardHeader>
             </Card>
-            <Card className="sm:col-span-2 lg:col-span-1 transition-all duration-200 hover:border-[hsl(199,33%,82%)] hover:shadow-sm">
+            <Card className="sm:col-span-2 lg:col-span-1 transition-all duration-200 hover:border-primary/25 hover:shadow-sm">
               <CardHeader className="pb-2 pt-5">
                 <CardTitle className="flex items-center gap-2 text-sm font-medium">
                   <GitMerge className="h-4 w-4 text-primary" aria-hidden />
@@ -136,7 +136,7 @@ export default function HomePage() {
       <Reveal delayMs={200} className="mt-8">
         <Link
           href="/prep"
-          className="group flex flex-col gap-1 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-white to-cyan-50/80 p-4 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/15 sm:flex-row sm:items-center sm:justify-between sm:p-5"
+          className="group flex flex-col gap-1 rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 via-white to-muted/80 p-4 transition-all hover:border-primary/50 hover:shadow-lg hover:shadow-primary/15 sm:flex-row sm:items-center sm:justify-between sm:p-5"
         >
           <div>
             <p className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-primary">

@@ -27,7 +27,7 @@ function d(name: string, commitHint: string, children: RepoNode[]): RepoNode {
   return { name, type: "dir", commitHint, children };
 }
 
-export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
+export const repoRoot: RepoNode = d("sigma-sec", "Portfolio monorepo", [
   f("README.md", "docs: project overview", {
     description: "sigma-sec: Snowflake-centric Data Engineering portfolio — ELT, DW layers, governance, Next.js case site (Murilo Biss).",
     sample: `# sigma-sec\n\nEnterprise DW and pipeline optimization portfolio`,
@@ -60,28 +60,28 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
       }),
       d("data", "chore: sample zones", [
         d("raw", "data: sigma-sec demo feeds", [
-          f("partner_vendor_feed.json", "data: bronze partner feed", {
-            description: "Demo rows (John Smith / J. Smith): sigma-sec partner legal names before ETL.",
-            sample: '{ "records": [ { "partner_id": "P001", "full_name": "John Smith" }, ... ] }',
+          f("supplier_vendor_feed.json", "data: bronze supplier feed", {
+            description: "Demo rows (John Smith / J. Smith): sigma-sec supplier legal names before ETL.",
+            sample: '{ "records": [ { "supplier_id": "S001", "legal_name": "John Smith" }, ... ] }',
           }),
-          f("hubs.json", "data: hubs", { description: "City / region hub dimension (sigma-sec UK hubs)." }),
-          f("orders.json", "data: orders", { description: "Order-level mock facts linked to hubs." }),
-          f("order_partner.json", "data: bridge", { description: "Order ↔ partner allocation bridge for warehouse FK demos." }),
+          f("plants.json", "data: plants", { description: "City / region plant dimension (sigma-sec UK plants)." }),
+          f("work_orders.json", "data: work_orders", { description: "Work-order-level mock facts linked to plants." }),
+          f("work_order_supplier.json", "data: bridge", { description: "Work order ↔ supplier allocation bridge for warehouse FK demos." }),
         ]),
         d("processed", "etl: staging outputs", [
-          f("partners_staging_*.json", "etl: staging batch", {
-            description: "Written by `run_partner_pipeline`; normalized + dedupe flags.",
+          f("suppliers_staging_*.json", "etl: staging batch", {
+            description: "Written by `run_supplier_pipeline`; normalized + dedupe flags.",
           }),
         ]),
         d("curated", "etl: golden-ready", [
-          f("partners_curated_*.json", "etl: resolved entities", {
+          f("suppliers_curated_*.json", "etl: resolved entities", {
             description: "Includes `resolved_entity_id` and confidence for each row.",
           }),
         ]),
       ]),
       d("contracts", "feat: data contracts", [
-          f("raw_partner.schema.json", "docs: JSON Schema", {
-            description: "Validates raw partner_vendor_feed.records before ETL.",
+          f("raw_supplier.schema.json", "docs: JSON Schema", {
+            description: "Validates raw supplier_vendor_feed.records before ETL.",
           }),
       ]),
       d("src", "refactor: package layout", [
@@ -110,14 +110,14 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
         d("pipeline", "feat: ETL orchestration", [
           f("etl_pipeline.py", "feat: raw → curated", {
             description: "Runs validation, normalization, dedupe, resolution; writes staging + curated JSON.",
-            sample: "def run_partner_pipeline(*, batch_id, data_root) -> dict:",
+            sample: "def run_supplier_pipeline(*, batch_id, data_root) -> dict:",
           }),
           f("__main__.py", "chore: CLI entry", { description: "Run with `python -m src.pipeline` from `data-platform/`." }),
           f("__init__.py", "chore: package export", {}),
         ]),
         d("database", "docs: warehouse DDL", [
           f("models.py", "docs: SQL DDL strings", {
-            description: "partners, hubs, orders, order_partner, resolved_entities, ingestion_batch + indexes.",
+            description: "suppliers, plants, work_orders, work_order_supplier, resolved_entities, ingestion_batch + indexes.",
           }),
           f("postgres_client.py", "feat: simulated PG", {
             description: "In-memory warehouse for demos; swap for psycopg in production.",
@@ -125,35 +125,35 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
           f("__init__.py", "chore: package export", {}),
         ]),
         d("utils", "feat: config + logging", [
-          f("config.py", "feat: env settings", { description: "`DOORRUSH_DATA_ROOT` or `TAX_ANALYTICS_DATA_ROOT` (legacy `TAX_LEDGER_DATA_ROOT`), `LOG_LEVEL`, `ETL_BATCH_ID`." }),
+          f("config.py", "feat: env settings", { description: "`SIGMA_SEC_DATA_ROOT`, `LOG_LEVEL`, `ETL_BATCH_ID` (demo config names in this explorer)." }),
           f("logger.py", "feat: JSON logs", { description: "Structured logs for batch_id, stage, duration_ms." }),
           f("__init__.py", "chore: package export", {}),
         ]),
         d("dbt", "feat: dbt project under src", [
           f("dbt_project.yml", "chore: dbt project", {
-            description: "`tax_analytics` dbt project: model-paths, seed-paths, test-paths.",
+            description: "`sigma_sec` dbt project: model-paths, seed-paths, test-paths.",
           }),
           f("__init__.py", "chore: package marker", {}),
           d("seeds", "data: warehouse slice", [
-            f("partners_seed.csv", "seed: partners", {}),
-            f("hubs_seed.csv", "seed: hubs", {}),
-            f("orders_seed.csv", "seed: orders", {}),
-            f("order_partner_seed.csv", "seed: bridge", {}),
+            f("suppliers_seed.csv", "seed: suppliers", {}),
+            f("plants_seed.csv", "seed: plants", {}),
+            f("work_orders_seed.csv", "seed: work_orders", {}),
+            f("work_order_supplier_seed.csv", "seed: bridge", {}),
           ]),
           d("models", "feat: core + marts", [
-            f("partners.sql", "sql: core", {}),
-            f("hubs.sql", "sql: core", {}),
-            f("orders.sql", "sql: core", {}),
-            f("order_partner.sql", "sql: core", {}),
-            f("partner_metrics.sql", "sql: mart", { description: "Refs partners, order_partner, orders." }),
+            f("suppliers.sql", "sql: core", {}),
+            f("plants.sql", "sql: core", {}),
+            f("work_orders.sql", "sql: core", {}),
+            f("work_order_supplier.sql", "sql: core", {}),
+            f("supplier_metrics.sql", "sql: mart", { description: "Refs suppliers, work_order_supplier, work_orders." }),
             f("hub_aggregations.sql", "sql: mart", {}),
             f("schema.yml", "test: yaml", { description: "Relationships + not_null across core and marts." }),
           ]),
           d("tests", "test: singular", [
-            f("assert_order_partner_grain.sql", "test: grain", { description: "No duplicate bridge keys." }),
+            f("assert_work_order_supplier_grain.sql", "test: grain", { description: "No duplicate bridge keys." }),
           ]),
         ]),
-        f("__init__.py", "chore: tax-analytics package", { description: "Marks `src` as a Python package." }),
+        f("__init__.py", "chore: sigma-sec package", { description: "Marks `src` as a Python package." }),
       ]),
       d("tests", "test: pytest coverage", [
         f("test_normalization.py", "test: strings", {}),
@@ -164,9 +164,9 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
     ],
   ),
   d("web", "feat: Next.js 14 UI", [
-    f("package.json", "chore: tax-analytics-web", {
+    f("package.json", "chore: sigma-sec-web", {
       description: "Next.js app dependencies and scripts (`dev`, `build`, `start`).",
-      sample: '{ "name": "tax-analytics-web", "dependencies": { "next": "14.2.18", ... } }',
+      sample: '{ "name": "sigma-sec-web", "dependencies": { "next": "14.2.18", ... } }',
     }),
     f("next.config.mjs", "chore: next config", {}),
     d("src", "refactor: app router", [

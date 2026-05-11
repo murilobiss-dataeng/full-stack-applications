@@ -13,20 +13,20 @@ const diagramTab: TabItem = {
 
 const tables: { name: string; body: string }[] = [
   {
-    name: "partners",
-    body: "PK partner_id; resolved_entity_id, name_canonical; indexes for golden joins and search.",
+    name: "suppliers",
+    body: "PK supplier_id; resolved_entity_id, name_canonical; indexes for golden joins and legal-name search.",
   },
   {
-    name: "hubs",
-    body: "PK hub_id; index (region_code, tier) for regional rollups.",
+    name: "plants",
+    body: "PK plant_id; index (region_code, tier) for regional rollups.",
   },
   {
-    name: "orders",
-    body: "PK order_id; FK hub_id; index (hub_id, placed_at DESC) for SLA timelines.",
+    name: "work_orders",
+    body: "PK work_order_id; FK plant_id; index (plant_id, requested_at DESC) for production SLA timelines.",
   },
   {
-    name: "order_partner",
-    body: "Composite PK (order_id, partner_id, role); FK cascades; bridge for fulfillment roles.",
+    name: "work_order_supplier",
+    body: "Composite PK (work_order_id, supplier_id, role); FK cascades; bridge for production supply roles.",
   },
 ];
 
@@ -36,7 +36,7 @@ const schemaTab: TabItem = {
   content: (
     <div className="grid gap-2 sm:grid-cols-2">
       {tables.map((t) => (
-        <Card key={t.name} className="transition-colors hover:border-[hsl(217,33%,24%)]">
+        <Card key={t.name} className="transition-colors hover:border-primary/20">
           <CardHeader className="pb-1 pt-4">
             <CardTitle className="font-mono text-sm">{t.name}</CardTitle>
           </CardHeader>
@@ -57,7 +57,7 @@ const designTab: TabItem = {
           <CardTitle className="text-sm">Normalization</CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground">
-          Conformed dimensions for hubs and partners; order status on facts with DATE types for deterministic windows.
+          Conformed dimensions for plants and suppliers; work order status on facts with DATE types for deterministic windows.
         </CardContent>
       </Card>
       <Card>
@@ -65,7 +65,7 @@ const designTab: TabItem = {
           <CardTitle className="text-sm">Keys & integrity</CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground">
-          <code className="text-foreground">order_partner</code> enforces real edges; ON DELETE CASCADE avoids orphan links on sandbox rollback.
+          <code className="text-foreground">work_order_supplier</code> enforces real edges; ON DELETE CASCADE avoids orphan links on sandbox rollback.
         </CardContent>
       </Card>
       <Card>
@@ -73,8 +73,8 @@ const designTab: TabItem = {
           <CardTitle className="text-sm">Query path</CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground">
-          EXPLAIN on London hub timelines should hit idx on hub + placed_at. Heavy marts from dbt (
-          <code className="text-foreground">src/dbt/models/partner_metrics.sql</code>) keep dashboards off raw joins.
+          EXPLAIN on London plant timelines should hit idx on plant + requested_at. Heavy marts from dbt (
+          <code className="text-foreground">src/dbt/models/supplier_metrics.sql</code>) keep dashboards off raw joins.
         </CardContent>
       </Card>
     </div>
@@ -150,14 +150,14 @@ const queriesTab: TabItem = {
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/40 p-3 text-[10px] leading-relaxed text-muted-foreground">
             {`SELECT re.resolved_entity_id,
        re.display_name,
-       COUNT(DISTINCT op.order_id) AS orders,
-       AVG(o.status = 'delivered')::float AS delivered_rate
+       COUNT(DISTINCT wos.work_order_id) AS work_orders,
+       AVG(wo.status = 'produced')::float AS produced_rate
 FROM resolved_entities re
-JOIN partners p USING (resolved_entity_id)
-JOIN order_partner op ON op.partner_id = p.partner_id
-JOIN orders o ON o.order_id = op.order_id
+JOIN suppliers s USING (resolved_entity_id)
+JOIN work_order_supplier wos ON wos.supplier_id = s.supplier_id
+JOIN work_orders wo ON wo.work_order_id = wos.work_order_id
 GROUP BY 1, 2
-ORDER BY orders DESC
+ORDER BY work_orders DESC
 LIMIT 4;`}
           </pre>
         </CardContent>
@@ -168,12 +168,12 @@ LIMIT 4;`}
         </CardHeader>
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-background/80 p-3 text-[10px] leading-relaxed text-muted-foreground">
-            {` resolved_entity_id | display_name      | orders | delivered_rate
---------------------+-------------------+--------+---------------
- re-001             | J. A. Smith Group |     48 |          0.61
- re-002             | Rivera & Assoc.   |     36 |          0.54
- re-003             | Chen Catering     |     52 |          0.58
- re-004             | Ortiz Kitchens    |     29 |          0.49`}
+            {` resolved_entity_id | display_name      | work_orders | produced_rate
+--------------------+-------------------+--------------+---------------
+re-001             | J. A. Smith Group |           48 |          0.61
+re-002             | Rivera & Assoc.   |           36 |          0.54
+re-003             | Chen Catering     |           52 |          0.58
+re-004             | Ortiz Kitchens    |           29 |          0.49`}
           </pre>
           <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
             Same numbers feed <Link href="/dashboard" className="text-primary underline-offset-4 hover:underline">Dashboard</Link>{" "}
@@ -189,13 +189,13 @@ LIMIT 4;`}
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/40 p-3 text-[10px] leading-relaxed text-muted-foreground">
             {`EXPLAIN (ANALYZE, BUFFERS)
-SELECT o.order_id, o.order_ref, o.placed_at
-FROM orders o
-WHERE o.hub_id = 'H-LON-01'
-  AND o.placed_at >= '2024-01-01'
-ORDER BY o.placed_at DESC
+SELECT wo.work_order_id, wo.work_order_ref, wo.requested_at
+FROM work_orders wo
+WHERE wo.plant_id = 'P-LON-01'
+  AND wo.requested_at >= '2024-01-01'
+ORDER BY wo.requested_at DESC
 LIMIT 50;
--- Expect: Index Scan using idx_orders_hub_placed`}
+-- Expect: Index Scan using idx_work_orders_plant_requested`}
           </pre>
         </CardContent>
       </Card>
@@ -220,10 +220,10 @@ const performanceTab: TabItem = {
           <ul className="list-inside list-disc space-y-1.5">
             <li>
               <strong className="text-foreground">B-Tree</strong> on foreign keys used in joins and on range columns (
-              <code className="text-foreground">placed_at DESC</code>) keeps timeline queries index-friendly where possible.
+              <code className="text-foreground">requested_at DESC</code>) keeps work-order timelines index-friendly where possible.
             </li>
             <li>
-              <strong className="text-foreground">GIN + pg_trgm</strong> for fuzzy merchant name search; add after measuring
+              <strong className="text-foreground">GIN + pg_trgm</strong> for fuzzy supplier legal-name search; add after measuring
               sequential scans; every extra index slows writes.
             </li>
             <li>
@@ -241,8 +241,8 @@ const performanceTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="list-inside list-disc space-y-1.5">
             <li>
-              Define clustering keys on large facts (for example <code className="text-foreground">hub_id</code>,{" "}
-              <code className="text-foreground">order_date</code>) so selective BI queries prune micro-partitions.
+              Define clustering keys on large facts (for example <code className="text-foreground">plant_id</code>,{" "}
+              <code className="text-foreground">requested_date</code>) so selective analytics queries prune micro-partitions.
             </li>
             <li>
               Materialized marts as Dynamic Tables or incremental dbt models; use warehouse auto-suspend and query acceleration
@@ -250,7 +250,7 @@ const performanceTab: TabItem = {
             </li>
             <li>
               Use <code className="text-foreground">QUERY_TAG</code> from dbt or the semantic layer so Snowflake access history
-              lines up with dashboard tiles and tax close batches.
+              lines up with dashboard tiles and compliance release batches.
             </li>
           </ul>
         </CardContent>

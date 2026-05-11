@@ -27,24 +27,24 @@ import { ChartContainer } from "@/components/ChartContainer";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { MetricsPayload } from "@/types/metrics";
 
-const axisStyle = { fill: "hsl(220, 9%, 40%)", fontSize: 11 };
+const axisStyle = { fill: "hsl(var(--muted-foreground))", fontSize: 11 };
 const gridColor = "hsl(0, 0%, 88%)";
 const tooltipStyle = {
   backgroundColor: "hsl(0, 0%, 100%)",
   border: "1px solid hsl(0, 0%, 90%)",
   borderRadius: "8px",
-  color: "hsl(222, 47%, 11%)",
+  color: "hsl(var(--foreground))",
 };
 
-const ACCENT = "hsl(199, 89%, 48%)";
-const ACCENT_DARK = "hsl(199, 75%, 38%)";
-const ACCENT_SOFT = "hsl(199, 70%, 48%)";
-const PIE_COLORS = [ACCENT, ACCENT_SOFT, "hsl(0, 0%, 55%)", "hsl(199, 55%, 72%)"];
+const ACCENT = "hsl(0, 0%, 10%)";
+const ACCENT_DARK = "hsl(0, 0%, 5%)";
+const ACCENT_SOFT = "hsl(0, 0%, 35%)";
+const PIE_COLORS = [ACCENT, ACCENT_SOFT, "hsl(0, 0%, 55%)", "hsl(0, 0%, 70%)"];
 
-const COHORT_LINE_COLORS = ["hsl(199, 75%, 38%)", "hsl(199, 72%, 48%)", "hsl(217, 70%, 48%)", "hsl(142, 45%, 38%)"];
+const COHORT_LINE_COLORS = ["hsl(0, 0%, 10%)", "hsl(0, 0%, 25%)", "hsl(0, 0%, 45%)", "hsl(0, 0%, 70%)"];
 
-const BRIDGE_POS = "hsl(142, 48%, 40%)";
-const BRIDGE_NEG = "hsl(199, 65%, 48%)";
+const BRIDGE_POS = "hsl(0, 0%, 55%)";
+const BRIDGE_NEG = "hsl(0, 0%, 25%)";
 
 export function DashboardCharts() {
   const [data, setData] = useState<MetricsPayload | null>(null);
@@ -67,7 +67,7 @@ export function DashboardCharts() {
   const partnerChartData = useMemo(() => {
     if (!data) return [];
     return data.partnerPerformance.map((p) => ({
-      name: p.name.replace("Merchant cluster ", "M"),
+      name: p.name.replace("Supplier cluster ", "S"),
       orders: p.orders,
       onTimePct: Math.round(p.onTimeRate * 100),
     }));
@@ -76,7 +76,7 @@ export function DashboardCharts() {
   const scatterQuality = useMemo(() => {
     if (!data) return [];
     return data.partnerPerformance.map((p) => ({
-      name: p.name.replace("Merchant cluster ", "M"),
+      name: p.name.replace("Supplier cluster ", "S"),
       prepMin: p.prepMins,
       onTimePct: Math.round(p.onTimeRate * 100),
       z: Math.sqrt(p.orders) / 80,
@@ -118,7 +118,7 @@ export function DashboardCharts() {
         {[
           { label: "Rows processed", value: data.pipeline.rowsProcessed.toLocaleString() },
           { label: "Validation pass", value: `${(data.pipeline.validationPassRate * 100).toFixed(1)}%` },
-          { label: "Merchant clusters merged", value: data.entityResolution.clustersMerged.toLocaleString() },
+          { label: "Supplier clusters merged", value: data.entityResolution.clustersMerged.toLocaleString() },
           { label: "Avg match confidence", value: `${(data.entityResolution.avgConfidence * 100).toFixed(0)}%` },
           { label: "Last run (ms)", value: data.pipeline.lastRunDurationMs.toLocaleString() },
           { label: "Batch", value: data.batchId },
@@ -139,8 +139,8 @@ export function DashboardCharts() {
         <div>
           <h2 className="text-lg font-semibold tracking-tight text-foreground">Cohorts, funnels, and mix</h2>
           <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
-            Same slices you would ship in Power BI, Tableau, or Sigma: retention by signup cohort, operational funnel compression, GMV
-            mix by segment, and a simple KPI bridge. All series bind to the published metrics contract.
+            Same slices you would ship in Power BI, Tableau, or Sigma: retention by signup cohort, operational funnel compression, release
+            volume mix by segment, and a simple KPI bridge. All series bind to the published metrics contract.
           </p>
         </div>
         <div className="grid gap-4 lg:grid-cols-2">
@@ -148,8 +148,8 @@ export function DashboardCharts() {
             <ChartContainer
               className="lg:col-span-2"
               chartClassName="h-[280px] sm:h-[300px]"
-              title="Merchant activity retention by signup cohort"
-              description="Percent of merchants with ≥1 order in week N after cohort month (illustrative mart grain)."
+              title="Supplier activity retention by onboarding cohort"
+              description="Percent of suppliers with ≥1 work order in week N after cohort month (illustrative mart grain)."
             >
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={cohort} margin={{ left: 4, right: 16, top: 8 }}>
@@ -169,15 +169,15 @@ export function DashboardCharts() {
 
           {funnel.length > 0 ? (
             <ChartContainer
-              title="Fulfillment funnel (counts)"
-              description="Compression from placement to delivered; use for SLA staffing and leakage alerts."
+              title="Production funnel (counts)"
+              description="Compression from request to production; use for schedule staffing and leakage alerts."
             >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={funnel} layout="vertical" margin={{ left: 8, right: 16, top: 8 }}>
                   <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                   <XAxis type="number" tick={axisStyle} axisLine={{ stroke: gridColor }} tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`} />
                   <YAxis type="category" dataKey="step" width={108} tick={axisStyle} axisLine={{ stroke: gridColor }} />
-                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [v.toLocaleString(), "Orders"]} />
+                  <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [v.toLocaleString(), "Work orders"]} />
                   <Bar dataKey="count" fill={ACCENT_DARK} radius={[0, 6, 6, 0]} name="Volume" />
                 </BarChart>
               </ResponsiveContainer>
@@ -186,8 +186,8 @@ export function DashboardCharts() {
 
           {segmentMix.length > 0 ? (
             <ChartContainer
-              title="GMV mix by customer segment"
-              description="100% stacked bars: SMB vs mid-market vs enterprise (mock finance / tax segmentation)."
+              title="Release volume mix by segment"
+              description="100% stacked bars: SMB vs mid-market vs enterprise (mock compliance segmentation)."
             >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={segmentMix} margin={{ left: 0, right: 8, top: 8 }}>
@@ -196,9 +196,9 @@ export function DashboardCharts() {
                   <YAxis tickFormatter={(v) => `${v}%`} domain={[0, 100]} tick={axisStyle} axisLine={{ stroke: gridColor }} />
                   <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`, ""]} />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
-                  <Bar dataKey="smb" stackId="mix" fill="hsl(199, 85%, 52%)" name="SMB" radius={[0, 0, 0, 0]} />
-                  <Bar dataKey="midMarket" stackId="mix" fill="hsl(217, 55%, 52%)" name="Mid-market" />
-                  <Bar dataKey="enterprise" stackId="mix" fill="hsl(142, 40%, 42%)" name="Enterprise" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="smb" stackId="mix" fill="hsl(0, 0%, 20%)" name="SMB" radius={[0, 0, 0, 0]} />
+                  <Bar dataKey="midMarket" stackId="mix" fill="hsl(0, 0%, 45%)" name="Mid-market" />
+                  <Bar dataKey="enterprise" stackId="mix" fill="hsl(0, 0%, 70%)" name="Enterprise" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
@@ -216,13 +216,13 @@ export function DashboardCharts() {
                   <XAxis dataKey="label" tick={axisStyle} axisLine={{ stroke: gridColor }} interval={0} angle={-12} textAnchor="end" height={56} />
                   <YAxis tick={axisStyle} axisLine={{ stroke: gridColor }} domain={[90, "auto"]} tickFormatter={(v) => `${v}`} />
                   <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [v, "Index"]} />
-                  <ReferenceLine y={100} stroke="hsl(220, 9%, 70%)" strokeDasharray="4 4" />
+                  <ReferenceLine y={100} stroke="hsl(0, 0%, 70%)" strokeDasharray="4 4" />
                   <Bar dataKey="value" radius={[6, 6, 0, 0]} name="Index">
                     {bridge.map((row, i) => {
                       const prev = bridge[i - 1]?.value ?? row.value;
                       const up = row.value >= prev || i === 0;
                       const isOutcome = i === bridge.length - 1;
-                      const fill = i === 0 || isOutcome ? "hsl(220, 14%, 46%)" : up ? BRIDGE_POS : BRIDGE_NEG;
+                      const fill = i === 0 || isOutcome ? "hsl(0, 0%, 46%)" : up ? BRIDGE_POS : BRIDGE_NEG;
                       return <Cell key={row.label} fill={fill} />;
                     })}
                   </Bar>
@@ -235,36 +235,36 @@ export function DashboardCharts() {
 
       <section className="space-y-4">
         <div>
-          <h2 className="text-lg font-semibold tracking-tight text-foreground">Operations, hubs, and quality</h2>
+          <h2 className="text-lg font-semibold tracking-tight text-foreground">Operations, plants, and quality</h2>
           <p className="mt-1 max-w-3xl text-sm text-muted-foreground">
             Time series, geo hubs, ingest cadence, and entity-resolution health: the layer analysts watch during close or
-            marketplace peaks.
+            manufacturing peaks.
           </p>
         </div>
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartContainer
-            title="Fulfillment latency"
-            description="Average hours from order to delivered, sigma-sec UK mock mart."
+            title="Production cycle time"
+            description="Average hours from request to production, sigma-sec UK mock mart."
           >
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data.fulfillmentLatencyTrend} margin={{ left: 0, right: 8, top: 8 }}>
                 <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                 <XAxis dataKey="quarter" tick={axisStyle} axisLine={{ stroke: gridColor }} />
                 <YAxis tick={axisStyle} axisLine={{ stroke: gridColor }} />
-                <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "hsl(222, 47%, 11%)" }} />
+                <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "hsl(var(--foreground))" }} />
                 <Line type="monotone" dataKey="avgHours" name="Avg hours" stroke={ACCENT} strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
           </ChartContainer>
 
-          <ChartContainer title="On-time rate by hub" description="City hubs with internal 93% SLA reference (mock).">
+          <ChartContainer title="On-time rate by plant" description="Plant sites with internal 93% SLA reference (mock).">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={data.onTimeRateByHub} margin={{ left: 0, right: 8, top: 8 }}>
                 <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                 <XAxis dataKey="hub" tick={axisStyle} axisLine={{ stroke: gridColor }} />
                 <YAxis tickFormatter={(v) => `${Math.round(v * 100)}%`} tick={axisStyle} axisLine={{ stroke: gridColor }} domain={[0.8, 1]} />
                 <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => [`${(value * 100).toFixed(1)}%`, "On-time"]} />
-                <ReferenceLine y={0.93} stroke="hsl(220, 9%, 65%)" strokeDasharray="5 5" label={{ value: "SLA 93%", fill: axisStyle.fill, fontSize: 10 }} />
+                <ReferenceLine y={0.93} stroke="hsl(0, 0%, 65%)" strokeDasharray="5 5" label={{ value: "SLA 93%", fill: axisStyle.fill, fontSize: 10 }} />
                 <Bar dataKey="rate" fill={ACCENT} radius={[6, 6, 0, 0]} name="On-time rate" />
               </ComposedChart>
             </ResponsiveContainer>
@@ -307,12 +307,12 @@ export function DashboardCharts() {
                 <XAxis type="number" domain={[95, 100]} tick={axisStyle} axisLine={{ stroke: gridColor }} unit="%" />
                 <YAxis type="category" dataKey="name" width={120} tick={axisStyle} axisLine={{ stroke: gridColor }} />
                 <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`, "Pass rate"]} />
-                <Bar dataKey="pass" fill="hsl(142, 55%, 38%)" radius={[0, 4, 4, 0]} name="Pass %" />
+                <Bar dataKey="pass" fill="hsl(0, 0%, 30%)" radius={[0, 4, 4, 0]} name="Pass %" />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
 
-          <ChartContainer title="Orders by status" description="sigma-sec marketplace snapshot (synthetic).">
+          <ChartContainer title="Work order status" description="sigma-sec manufacturing snapshot (synthetic).">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart margin={{ top: 8, bottom: 8 }}>
                 <Pie
@@ -337,8 +337,8 @@ export function DashboardCharts() {
 
           <div className="lg:col-span-2">
             <ChartContainer
-              title="Partner performance (golden merchants)"
-              description="Order volume (bars) vs on-time % (line) after entity resolution."
+              title="Supplier performance (golden suppliers)"
+              description="Work order volume (bars) vs on-time % (line) after entity resolution."
             >
               <ResponsiveContainer width="100%" height="100%">
                 <ComposedChart data={partnerChartData} margin={{ left: 8, right: 12, top: 8 }}>
@@ -348,7 +348,7 @@ export function DashboardCharts() {
                   <YAxis yAxisId="right" orientation="right" tickFormatter={(v) => `${v}%`} tick={axisStyle} axisLine={{ stroke: gridColor }} />
                   <Tooltip contentStyle={tooltipStyle} />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
-                  <Bar yAxisId="left" dataKey="orders" fill="hsl(199 92% 88%)" radius={[4, 4, 0, 0]} name="Orders" />
+                  <Bar yAxisId="left" dataKey="orders" fill="hsl(0 0% 88%)" radius={[4, 4, 0, 0]} name="Work orders" />
                   <Line
                     yAxisId="right"
                     type="monotone"
@@ -384,7 +384,7 @@ export function DashboardCharts() {
           <div className="lg:col-span-2">
             <ChartContainer
               title="Entity resolution confidence"
-              description="Merchant / partner clusters by match confidence (mock)."
+              description="Supplier clusters by match confidence (mock)."
             >
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.resolutionConfidenceBuckets} margin={{ left: 4, right: 8, top: 8 }}>

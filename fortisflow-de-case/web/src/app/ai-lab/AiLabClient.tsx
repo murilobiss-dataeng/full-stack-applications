@@ -45,7 +45,7 @@ export function AiLabClient() {
       <Card className="overflow-hidden border-primary/35 bg-gradient-to-br from-primary/10 via-card/90 to-card shadow-lg shadow-primary/5">
         <div className="flex items-center gap-2 border-b border-primary/20 bg-primary/10 px-4 py-2.5 text-xs font-medium text-primary">
           <Sparkles className="h-4 w-4 shrink-0" aria-hidden />
-          Simulation: answers are generated client-side from live mock JSON (not a real LLM).
+          Simulation: answers are generated client-side from live governed mock metrics (not a real LLM).
         </div>
         <CardHeader className="pb-3 pt-5">
           <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">

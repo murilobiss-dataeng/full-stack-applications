@@ -22,7 +22,7 @@ export default function SourceOfTruthPage() {
         />
       </Reveal>
       <Reveal delayMs={40}>
-        <PlatformScaffoldBanner focus="This page wires lineage and contracts; pair it with the BI surface to show end-to-end trust." />
+        <PlatformScaffoldBanner focus="This page wires lineage and contracts; pair it with the Analytics surface to show end-to-end trust." />
       </Reveal>
       <Reveal delayMs={80}>
         <TruthHubClient />

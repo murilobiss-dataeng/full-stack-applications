@@ -5,16 +5,16 @@ import { useEffect, useState } from "react";
 type NodeId = "hubs" | "partners" | "orders" | "bridge";
 
 const flow: { from: NodeId; to: NodeId; caption: string }[] = [
-  { from: "hubs", to: "orders", caption: "orders.hub_id → hubs.hub_id (regional tax / SLA grain)" },
-  { from: "partners", to: "bridge", caption: "order_partner.partner_id → partners.partner_id" },
-  { from: "orders", to: "bridge", caption: "order_partner.order_id → orders.order_id" },
+  { from: "hubs", to: "orders", caption: "work_orders.plant_id → plants.plant_id (regional production SLA grain)" },
+  { from: "partners", to: "bridge", caption: "work_order_supplier.supplier_id → suppliers.supplier_id" },
+  { from: "orders", to: "bridge", caption: "work_order_supplier.work_order_id → work_orders.work_order_id" },
 ];
 
 const nodes: { id: NodeId; title: string; subtitle: string }[] = [
-  { id: "hubs", title: "hubs", subtitle: "sigma-sec city / region" },
-  { id: "partners", title: "partners", subtitle: "merchants + golden id" },
-  { id: "orders", title: "orders", subtitle: "transactions / fulfillment" },
-  { id: "bridge", title: "order_partner", subtitle: "allocation (M:N)" },
+  { id: "hubs", title: "plants", subtitle: "sigma-sec plant / region" },
+  { id: "partners", title: "suppliers", subtitle: "suppliers + golden supplier id" },
+  { id: "orders", title: "work_orders", subtitle: "work orders / production" },
+  { id: "bridge", title: "work_order_supplier", subtitle: "allocation (M:N)" },
 ];
 
 export function ModelingDiagram() {
@@ -40,7 +40,7 @@ export function ModelingDiagram() {
               key={n.id}
               className={`flex flex-col justify-center rounded-xl border px-4 py-3 font-mono text-sm transition-all duration-500 ${
                 hot
-                  ? "border-primary bg-primary/10 text-foreground shadow-[0_0_0_1px_hsl(217,91%,40%,0.35)]"
+                  ? "border-primary bg-primary/10 text-foreground shadow-[0_0_0_1px_hsl(0,0%,0%,0.35)]"
                   : "border-border bg-card/40 text-muted-foreground"
               }`}
             >

@@ -21,7 +21,7 @@ export function TruthVisualizationPanel() {
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
           <Link href="/dashboard" className={cn(buttonVariants(), "text-sm")}>
-            Open BI surface
+            Open Analytics surface
             <ArrowRight className="ml-1.5 h-3.5 w-3.5" aria-hidden />
           </Link>
           <Link href="/api/metrics" className={cn(buttonVariants({ variant: "outline" }), "text-sm")} target="_blank" rel="noreferrer">
@@ -65,7 +65,7 @@ export function TruthVisualizationPanel() {
               │                                        │
               └──────────────────┬─────────────────────┘
                                  ▼
-                    [ Data visualization / BI surface ]
+                    [ Data visualization / Analytics surface ]
                     charts ← same contract → decisions`}
       </pre>
     </div>

@@ -15,7 +15,7 @@ export function ChartContainer({ title, description, children, className, chartC
   return (
     <div
       className={cn(
-        "rounded-xl border border-border bg-card/60 p-4 shadow-sm backdrop-blur-sm transition-colors hover:border-[hsl(199,33%,82%)] md:p-6",
+        "rounded-xl border border-border bg-card/60 p-4 shadow-sm backdrop-blur-sm transition-colors hover:border-primary/30 md:p-6",
         className,
       )}
     >

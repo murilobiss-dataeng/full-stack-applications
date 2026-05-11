@@ -177,7 +177,7 @@ const governanceTab: TabItem = {
           </p>
           <p>
             <strong className="text-foreground">Schema versioning:</strong> additive changes ship freely; breaking changes
-            require a new model version or parallel table (<code className="text-foreground">partners_v2</code>) with a
+            require a new model version or parallel table (<code className="text-foreground">suppliers_v2</code>) with a
             deprecation window; never silent renames in prod.
           </p>
         </CardContent>
@@ -193,18 +193,18 @@ const lineageTab: TabItem = {
     <div className="space-y-4">
       <Card>
           <CardHeader className="pb-2">
-          <CardTitle className="text-sm">End-to-end lineage (sigma-sec partner path)</CardTitle>
+          <CardTitle className="text-sm">End-to-end lineage (sigma-sec supplier path)</CardTitle>
           <CardDescription className="text-xs">Where did the metric come from? Which transforms ran?</CardDescription>
         </CardHeader>
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/40 p-3 text-[11px] leading-relaxed text-muted-foreground">
-            {`raw_partner_feed.json (bronze)
+            {`raw_supplier_feed.json (bronze)
     → normalize_record_fields
     → flag_duplicates
-    → resolve_merchant_entities
-    → partners_curated_*.json (gold-ready)
-    → warehouse.partners (+ order_partner edges)
-    → dbt: partner_metrics.sql / order_aggregations.sql
+    → resolve_supplier_entities
+    → suppliers_curated_*.json (gold-ready)
+    → warehouse.suppliers (+ work_order_supplier edges)
+    → dbt: supplier_metrics.sql / work_order_aggregations.sql
     → /api/metrics → sigma-sec dashboard`}
           </pre>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
@@ -233,7 +233,7 @@ const lineageTab: TabItem = {
             </li>
             <li>
               <strong className="text-foreground">Referential integrity:</strong>{" "}
-              <code className="text-foreground">relationships</code> to hubs and orders.
+              <code className="text-foreground">relationships</code> to plants and work_orders.
             </li>
             <li>
               <strong className="text-foreground">Freshness:</strong> dbt source <code className="text-foreground">loaded_at_field</code>{" "}
@@ -286,7 +286,7 @@ const observabilityTab: TabItem = {
         <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
           <p>
             A <strong className="text-foreground">DAG</strong> declares tasks and dependencies: e.g.{" "}
-            <code className="text-foreground">ingest_raw</code> → <code className="text-foreground">normalize_partners</code>{" "}
+            <code className="text-foreground">ingest_raw</code> → <code className="text-foreground">normalize_suppliers</code>{" "}
             → <code className="text-foreground">resolve_entities</code> → <code className="text-foreground">load_warehouse</code>{" "}
             → <code className="text-foreground">dbt_run</code> → <code className="text-foreground">cache_warm</code>. Retries
             and backfills are scoped per task; idempotent tasks make replays safe.
@@ -357,14 +357,14 @@ const performanceTab: TabItem = {
           <ul className="list-inside list-disc space-y-1.5">
             <li>
               <strong className="text-foreground">B-Tree</strong> on equality/range predicates (
-              <code className="text-foreground">hub_id</code>, <code className="text-foreground">placed_at</code>, foreign keys used in joins).
+              <code className="text-foreground">plant_id</code>, <code className="text-foreground">requested_at</code>, foreign keys used in joins).
             </li>
             <li>
-              <strong className="text-foreground">GIN / pg_trgm</strong> for fuzzy merchant name search; only where
+              <strong className="text-foreground">GIN / pg_trgm</strong> for fuzzy supplier legal-name search; only where
               needed; index size and write amplification trade off against ad-hoc search latency.
             </li>
             <li>
-              <strong className="text-foreground">Partial indexes</strong> for hot subsets (e.g. in-flight orders only).
+              <strong className="text-foreground">Partial indexes</strong> for hot subsets (e.g. in-flight work orders only).
             </li>
             <li>
               Run <code className="text-foreground">EXPLAIN (ANALYZE, BUFFERS)</code> on top dashboard queries; fix seq scans
@@ -380,7 +380,7 @@ const performanceTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="list-inside list-disc space-y-1.5">
             <li>
-              <strong className="text-foreground">Batch vs streaming:</strong> sigma-sec marketplace feeds are mostly batch; introduce
+              <strong className="text-foreground">Batch vs streaming:</strong> sigma-sec manufacturing feeds are mostly batch; introduce
               streaming (Kafka + consumer) only for near-real-time SLA or fraud alerts when revenue covers ops burden.
             </li>
             <li>

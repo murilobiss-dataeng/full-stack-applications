@@ -48,12 +48,12 @@ export function RepoExplorer() {
   }, [segments]);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-border bg-[hsl(222,47%,7%)] shadow-lg">
+    <div className="overflow-hidden rounded-xl border border-border bg-[hsl(0,0%,10%)] shadow-lg">
       {/* GitHub-ish repo bar */}
       <div className="flex flex-col gap-3 border-b border-border/90 bg-muted/20 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-5">
         <div className="flex min-w-0 flex-wrap items-center gap-2 text-sm">
           <Scale className="h-4 w-4 shrink-0 text-muted-foreground" aria-hidden />
-          <span className="font-semibold text-foreground">tax-analytics</span>
+          <span className="font-semibold text-foreground">{repoRoot.name}</span>
           <span className="text-muted-foreground">/</span>
           <span className="truncate font-medium text-muted-foreground">full-stack-applications</span>
           <span className="rounded-full border border-border bg-background/60 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wide text-muted-foreground">
@@ -157,7 +157,7 @@ export function RepoExplorer() {
         </div>
 
         {/* Blob / preview */}
-        <div className="flex min-h-[280px] flex-col bg-[hsl(222,44%,8%)] lg:min-h-[420px]">
+        <div className="flex min-h-[280px] flex-col bg-[hsl(0,0%,8%)] lg:min-h-[420px]">
           {selected ? (
             <>
               <div className="border-b border-border/80 px-4 py-2.5 sm:px-5">

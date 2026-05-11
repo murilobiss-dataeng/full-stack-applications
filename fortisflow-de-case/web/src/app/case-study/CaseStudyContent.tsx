@@ -110,7 +110,7 @@ const scaleTab: TabItem = {
         </CardHeader>
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/30 p-4 text-[11px] leading-relaxed text-muted-foreground">
-            {`   [ ERP + marketplace + payroll files ]
+            {`   [ ERP + supplier master + production master files ]
             │   secure transfer / API
             ▼
       +------------------+

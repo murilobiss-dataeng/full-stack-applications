@@ -3,16 +3,16 @@
 import { TabPanel, type TabItem } from "@/components/TabPanel";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-const pySnippet = `def run_partner_pipeline(*, batch_id: str | None = None) -> dict:
-    raw_records = _read_raw_partner_feed(raw_dir, batch)
+const pySnippet = `def run_supplier_quality_pipeline(*, batch_id: str | None = None) -> dict:
+    raw_records = _read_raw_supplier_feed(raw_dir, batch)
     normalized = [normalize_record_fields(dict(r)) for r in raw_records]
     deduped = flag_duplicates(normalized)
-    resolved = resolve_partner_entities(deduped)`;
+    resolved = resolve_supplier_entities(deduped)`;
 
 const sqlSnippet = `SELECT resolved_entity_id,
-       COUNT(DISTINCT order_id) AS orders_touched
-FROM partners p
-JOIN order_partner op USING (partner_id)
+       COUNT(DISTINCT work_order_id) AS work_orders_touched
+FROM suppliers s
+JOIN work_order_supplier wos USING (supplier_id)
 GROUP BY 1;`;
 
 const flowTab: TabItem = {
@@ -25,7 +25,7 @@ const flowTab: TabItem = {
         { zone: "Staging", desc: "Normalized strings, duplicate flags, profiling." },
         { zone: "Curated", desc: "Golden-ready rows + resolved_entity_id + validation." },
       ].map((z) => (
-        <Card key={z.zone} className="transition-colors hover:border-[hsl(217,33%,24%)]">
+        <Card key={z.zone} className="transition-colors hover:border-primary/20">
           <CardHeader className="pb-1 pt-4">
             <CardTitle className="text-sm">{z.zone}</CardTitle>
           </CardHeader>
@@ -79,7 +79,7 @@ const testingTab: TabItem = {
                 under <code className="text-foreground">tests/</code>.
               </li>
               <li>
-                Table-driven scenarios: one JSON per case (messy name, alias collision, missing hub); easy for analysts /
+                Table-driven scenarios: one JSON per case (messy name, alias collision, missing plant); easy for analysts /
                 PMs to review as living spec.
               </li>
               <li>
@@ -136,7 +136,7 @@ const dqTab: TabItem = {
             <CardTitle className="text-xs">Staging → curated</CardTitle>
           </CardHeader>
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
-            Distribution checks: null rate jumps, cardinality of <code className="text-foreground">hub_id</code>, max
+            Distribution checks: null rate jumps, cardinality of <code className="text-foreground">plant_id</code>, max
             string lengths. Compare row count to trailing 7-day median ± threshold.
           </CardContent>
         </Card>

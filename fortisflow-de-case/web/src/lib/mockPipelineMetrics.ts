@@ -1,8 +1,8 @@
-/** Mock /api/metrics payload: sigma-sec fictional marketplace (delivery, merchants, tax-relevant ops). */
+/** Mock /api/metrics payload: sigma-sec fictional manufacturing program (production releases, supplier quality, compliance ops). */
 
 export const mockPipelineMetrics = {
   generatedAt: "2026-05-01T12:00:00.000Z",
-  batchId: "doorrush-demo-uk-42",
+  batchId: "sigma-sec-manufacturing-uk-42",
   pipeline: {
     stages: ["raw", "staging", "curated", "warehouse_views"],
     lastRunDurationMs: 18420,
@@ -13,11 +13,11 @@ export const mockPipelineMetrics = {
     clustersMerged: 8420,
     avgConfidence: 0.91,
     sampleCluster: {
-      canonicalName: "Northside Pizza Collective Ltd",
-      variants: ["N. Pizza Collective", "Northside Pizza Co", "NS Pizza Ltd", "Northside Pizza (UK)"],
+      canonicalName: "Acme Components Group Ltd",
+      variants: ["Acme Components", "ACME Components Group", "Acme Comp. Group Ltd", "Acme Components UK"],
     },
   },
-  /** Avg hours from order placed to delivered (mock mart). */
+  /** Avg hours from request to production complete (mock mart). */
   fulfillmentLatencyTrend: [
     { quarter: "Q1 24", avgHours: 38 },
     { quarter: "Q2 24", avgHours: 36 },
@@ -25,7 +25,7 @@ export const mockPipelineMetrics = {
     { quarter: "Q4 24", avgHours: 33 },
     { quarter: "Q1 26", avgHours: 31 },
   ],
-  /** On-time delivery rate by city hub (mock). */
+  /** On-time production rate by plant hub (mock). */
   onTimeRateByHub: [
     { hub: "London", rate: 0.94 },
     { hub: "Manchester", rate: 0.91 },
@@ -33,12 +33,12 @@ export const mockPipelineMetrics = {
     { hub: "Leeds", rate: 0.92 },
     { hub: "Bristol", rate: 0.90 },
   ],
-  /** Top merchant partners after golden-entity roll-up (mock). */
+  /** Top supplier clusters after golden-entity roll-up (mock). */
   partnerPerformance: [
-    { name: "Merchant cluster A", orders: 48200, onTimeRate: 0.96, prepMins: 12 },
-    { name: "Merchant cluster B", orders: 36100, onTimeRate: 0.93, prepMins: 14 },
-    { name: "Merchant cluster C", orders: 52400, onTimeRate: 0.95, prepMins: 11 },
-    { name: "Merchant cluster D", orders: 28900, onTimeRate: 0.90, prepMins: 16 },
+    { name: "Supplier cluster A", orders: 48200, onTimeRate: 0.96, prepMins: 12 },
+    { name: "Supplier cluster B", orders: 36100, onTimeRate: 0.93, prepMins: 14 },
+    { name: "Supplier cluster C", orders: 52400, onTimeRate: 0.95, prepMins: 11 },
+    { name: "Supplier cluster D", orders: 28900, onTimeRate: 0.90, prepMins: 16 },
   ],
   ingestVolumeDaily: [
     { day: "Mon", files: 118 },
@@ -57,10 +57,10 @@ export const mockPipelineMetrics = {
     { name: "freshness bronze", passRate: 98.2 },
   ],
   ordersByStatus: [
-    { status: "Delivered", count: 184200 },
-    { status: "In transit", count: 22100 },
-    { status: "Cancelled", count: 8900 },
-    { status: "Refund pending", count: 4200 },
+    { status: "Produced", count: 184200 },
+    { status: "In production", count: 22100 },
+    { status: "Scrapped", count: 8900 },
+    { status: "Quality hold pending", count: 4200 },
   ],
   monthlyThroughput: [
     { month: "Nov", millionRows: 1.1 },
@@ -77,8 +77,8 @@ export const mockPipelineMetrics = {
     { bucket: "<0.70", count: 200 },
   ],
   /**
-   * Mock cohort curves: % of merchants placing ≥1 order in week N after signup cohort month.
-   * Same shape you would build from a mart fct_orders joined to dim_merchant_first_order.
+   * Mock cohort curves: % of suppliers producing ≥1 work order in week N after onboarding cohort month.
+   * Same shape you would build from a mart fct_work_orders joined to dim_supplier_first_work_order.
    */
   cohortMerchantRetentionPct: [
     { relWeek: "W+0", m09: 100, m10: 100, m11: 100, m12: 100 },
@@ -88,15 +88,15 @@ export const mockPipelineMetrics = {
     { relWeek: "W+4", m09: 28, m10: 31, m11: 33, m12: 35 },
     { relWeek: "W+8", m09: 22, m10: 25, m11: 27, m12: 29 },
   ],
-  /** Funnel from placement to proof-of-delivery (counts), mock ops mart. */
+  /** Funnel from request to production complete (counts), mock ops mart. */
   fulfillmentFunnel: [
-    { step: "Placed", count: 284000 },
-    { step: "Accepted", count: 268200 },
-    { step: "In kitchen", count: 251400 },
-    { step: "Out for delivery", count: 239800 },
-    { step: "Delivered", count: 228400 },
+    { step: "Requested", count: 284000 },
+    { step: "Validated", count: 268200 },
+    { step: "Scheduled", count: 251400 },
+    { step: "In production", count: 239800 },
+    { step: "Produced", count: 228400 },
   ],
-  /** % of GMV by segment (stacked = 100), weekly decomposition mock. */
+  /** % of release volume by segment (stacked = 100), weekly decomposition mock. */
   segmentGmvMixPct: [
     { week: "W40", smb: 52, midMarket: 34, enterprise: 14 },
     { week: "W41", smb: 51, midMarket: 35, enterprise: 14 },
@@ -110,9 +110,9 @@ export const mockPipelineMetrics = {
   /** YoY-style lift drivers (index), illustrative bridge chart. */
   kpiBridgeIndex: [
     { label: "Q3 baseline", value: 100 },
-    { label: "+ Orders", value: 108 },
-    { label: "+ AOV", value: 114 },
-    { label: "− Promo", value: 109 },
+    { label: "+ Work orders", value: 108 },
+    { label: "+ Release volume", value: 114 },
+    { label: "− Rework", value: 109 },
     { label: "Q4 outcome", value: 109 },
   ],
 };

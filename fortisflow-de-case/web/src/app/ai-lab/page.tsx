@@ -9,7 +9,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Self-service lab",
   description:
-    "Self-service UX on a ready metrics stack: natural-language prompts answered only from governed /api/metrics, visualization-adjacent proof without raw-table access.",
+    "Self-service UX on a governed sigma-sec metrics stack: prompts answered only from approved /api/metrics, with analytics-grade proof without raw-table access.",
 };
 
 export default function AiLabPage() {
@@ -23,7 +23,7 @@ export default function AiLabPage() {
         <PageHeader
           kicker="Self-service without metric chaos"
           title="AI Lab: prompt the governed metrics layer"
-          description="Analytics Engineering sits on a fixed metrics layer: prompts here resolve only to approved aggregates (here, /api/metrics), same contract as Metric truth and BI, conversational UX without inventing a second source of numbers."
+          description="For a regulated manufacturer, Analytics Engineering sits on a fixed, audited metrics layer: prompts here resolve only to approved aggregates (here, /api/metrics), same contract as Metric truth and Analytics surface — conversational UX without inventing a second source of numbers."
         />
       </Reveal>
       <Reveal delayMs={40}>
