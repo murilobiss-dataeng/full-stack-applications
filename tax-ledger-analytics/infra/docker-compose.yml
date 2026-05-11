@@ -1,0 +1,21 @@
+# Local warehouse for ETL + dbt integration tests (no production data).
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: tax-analytics-postgres
+    environment:
+      POSTGRES_USER: taxanalytics
+      POSTGRES_PASSWORD: taxanalytics_dev_only
+      POSTGRES_DB: taxanalytics
+    ports:
+      - "5433:5432"
+    volumes:
+      - taxanalytics_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U taxanalytics -d taxanalytics"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  taxanalytics_pgdata:

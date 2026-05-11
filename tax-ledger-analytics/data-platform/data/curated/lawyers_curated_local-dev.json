@@ -1,0 +1,47 @@
+[
+  {
+    "lawyer_id": "L001",
+    "full_name": "John Smith",
+    "bar_state": "NY",
+    "practice_area": "Litigation",
+    "name_canonical": "john smith",
+    "resolved_entity_id": "ae9cf041-d8b6-4131-bed6-ddec1c1285fc",
+    "resolution_confidence": 1.0
+  },
+  {
+    "lawyer_id": "L002",
+    "full_name": "J. Smith",
+    "bar_state": "NY",
+    "practice_area": "Litigation",
+    "name_canonical": "j. smith",
+    "resolved_entity_id": "4bdec18b-2ed1-4672-89ce-d6ffeb60b479",
+    "resolution_confidence": 0.7778
+  },
+  {
+    "lawyer_id": "L003",
+    "full_name": "Jonathan A Smith",
+    "bar_state": "NY",
+    "practice_area": "Litigation",
+    "name_canonical": "jonathan a smith",
+    "resolved_entity_id": "5d17d891-9faf-4e41-b788-9605f8a5296f",
+    "resolution_confidence": 0.6923
+  },
+  {
+    "lawyer_id": "L004",
+    "full_name": "Maria Lopez",
+    "bar_state": "CA",
+    "practice_area": "IP",
+    "name_canonical": "maria lopez",
+    "resolved_entity_id": "427beee9-e560-47f2-b652-c698b605745a",
+    "resolution_confidence": 0.2222
+  },
+  {
+    "lawyer_id": "L005",
+    "full_name": "Maria L\u00f3pez",
+    "bar_state": "CA",
+    "practice_area": "IP",
+    "name_canonical": "maria l\u00f3pez",
+    "resolved_entity_id": "427beee9-e560-47f2-b652-c698b605745a",
+    "resolution_confidence": 0.9091
+  }
+]

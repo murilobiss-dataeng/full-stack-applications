@@ -1,0 +1,7 @@
+{
+  "records": [
+    {"court_id": "C-NYSD-01", "court_name": "Southern District of New York", "state_code": "NY", "tier": "federal_district"},
+    {"court_id": "C-CAND-02", "court_name": "Northern District of California", "state_code": "CA", "tier": "federal_district"},
+    {"court_id": "C-NYSC-03", "court_name": "New York Supreme Court", "state_code": "NY", "tier": "state_trial"}
+  ]
+}

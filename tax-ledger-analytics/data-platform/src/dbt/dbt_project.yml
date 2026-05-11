@@ -1,0 +1,14 @@
+name: "tax_analytics"
+version: "1.0.0"
+config-version: 2
+
+# Portfolio layout: models live next to this file under models/
+model-paths: ["models"]
+analysis-paths: []
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: []
+
+models:
+  tax_analytics:
+    +materialized: table
