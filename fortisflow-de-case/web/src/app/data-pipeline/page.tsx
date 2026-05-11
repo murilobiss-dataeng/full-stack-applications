@@ -7,7 +7,7 @@ import { PipelineContent } from "./PipelineContent";
 export const metadata: Metadata = {
   title: "Snowflake & ELT",
   description:
-    "FortisFlow demo: pipeline zones, incremental patterns, tests, data-quality gates, and reliability — framed for Snowflake performance, cost control, and secure multi-source integration.",
+    "sigma-sec demo: pipeline zones, incremental patterns, tests, data-quality gates, and reliability — framed for Snowflake performance, cost control, and secure multi-source integration.",
 };
 
 export default function DataPipelinePage() {

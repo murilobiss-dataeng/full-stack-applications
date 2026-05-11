@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* FortisFlow: cool slate surfaces + cyan accent (Snowflake-adjacent, enterprise) */
+/* sigma-sec: cool slate surfaces + cyan accent (Snowflake-adjacent, enterprise) */
 :root {
   --background: 210 40% 98%;
   --foreground: 222 47% 11%;

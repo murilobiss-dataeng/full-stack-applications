@@ -1,11 +1,11 @@
 /**
- * FortisFlow: fictional regulated manufacturing and supply-chain analytics program for this portfolio only.
- * Not affiliated with Sigma Software, any Sigma client assignment, or any real manufacturer.
+ * Sigma-Sec: fictional regulated security-adjacent analytics program for this portfolio only.
+ * Not affiliated with any real Sigma Software client or any real manufacturer.
  */
-export const SITE_PRODUCT_NAME = "FortisFlow";
+export const SITE_PRODUCT_NAME = "sigma-sec";
 
 /** Fictional scenario brand (same as product name). */
-export const DEMO_MARKETPLACE_BRAND = "FortisFlow";
+export const DEMO_MARKETPLACE_BRAND = "sigma-sec";
 
 /** Shown under the logo on desktop. */
 export const SITE_NAV_DESCRIPTOR =

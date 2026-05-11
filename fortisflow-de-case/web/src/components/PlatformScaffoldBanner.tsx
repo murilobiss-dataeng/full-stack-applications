@@ -34,7 +34,7 @@ export function PlatformScaffoldBanner({ focus }: PlatformScaffoldBannerProps) {
             className="inline-flex items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
           >
             <BarChart3 className="h-3.5 w-3.5 shrink-0" aria-hidden />
-            Ops surface (charts prove the contract)
+            Analytics surface (charts prove the contract)
           </Link>
           <span className="text-muted-foreground/80">·</span>
           <Link href="/prep" className="font-medium text-primary underline-offset-4 hover:underline">

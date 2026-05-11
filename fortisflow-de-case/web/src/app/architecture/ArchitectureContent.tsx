@@ -45,7 +45,7 @@ const lakeTab: TabItem = {
         <CardHeader className="pb-2">
           <CardTitle className="text-base">APIs</CardTitle>
           <CardDescription className="text-sm">
-            FortisFlow partner and OMS APIs push JSON into the raw zone. Idempotent writers avoid double-counting on webhook retries.
+            sigma-sec partner and OMS APIs push JSON into the raw zone. Idempotent writers avoid double-counting on webhook retries.
           </CardDescription>
         </CardHeader>
       </Card>

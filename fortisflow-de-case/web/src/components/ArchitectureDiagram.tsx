@@ -10,7 +10,7 @@ const layers = [
 export function ArchitectureDiagram() {
   return (
     <div className="overflow-x-auto rounded-xl border border-border bg-cyan-50/30 p-6">
-      <svg viewBox="0 0 560 260" className="mx-auto h-auto min-w-[560px]" aria-label="FortisFlow system architecture diagram">
+      <svg viewBox="0 0 560 260" className="mx-auto h-auto min-w-[560px]" aria-label="sigma-sec system architecture diagram">
         <defs>
           <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
             <path d="M0,0 L8,4 L0,8 Z" fill="hsl(199, 92%, 45%)" />
@@ -43,7 +43,7 @@ export function ArchitectureDiagram() {
           opacity="0.85"
         />
         <text x="280" y="252" textAnchor="middle" fill="hsl(220, 9%, 45%)" fontSize="10">
-          FortisFlow: bronze → silver → gold, contracts in dbt and at the API boundary
+          sigma-sec: bronze → silver → gold, contracts in dbt and at the API boundary
         </text>
       </svg>
     </div>

@@ -1,6 +1,6 @@
-# FortisFlow · Web
+# sigma-sec · Web
 
-Next.js 14 app for **FortisFlow** (Murilo Biss): a **Senior Data Engineer / Snowflake** portfolio case — pipeline zones, tests, DW modeling, governance, `/api/metrics`, and a PM-call prep hub. Cyan-on-slate UI; **FortisFlow** is a fictional regulated enterprise program, not a real company or Sigma client.
+Next.js 14 app for **sigma-sec** (Murilo Biss): a **Senior Data Engineer / Snowflake** portfolio case — pipeline zones, tests, DW modeling, governance, `/api/metrics`, and a PM-call prep hub. Cyan-on-slate UI; **sigma-sec** is a fictional regulated enterprise program, not a real company or Sigma client.
 
 ## Scripts
 
@@ -10,7 +10,7 @@ Next.js 14 app for **FortisFlow** (Murilo Biss): a **Senior Data Engineer / Snow
 
 ## Key files
 
-- `src/config/branding.ts` · product name **FortisFlow** and nav descriptor
+- `src/config/branding.ts` · product name **sigma-sec** and nav descriptor
 - `src/config/siteNav.ts` · primary navigation
 - `src/app/prep/` · Project Manager interview prep (Sigma / Snowflake alignment)
 - `src/app/data-pipeline/` · Snowflake & ELT narrative + `PipelineContent`

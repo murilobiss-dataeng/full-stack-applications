@@ -11,7 +11,7 @@ const flow: { from: NodeId; to: NodeId; caption: string }[] = [
 ];
 
 const nodes: { id: NodeId; title: string; subtitle: string }[] = [
-  { id: "hubs", title: "hubs", subtitle: "FortisFlow city / region" },
+  { id: "hubs", title: "hubs", subtitle: "sigma-sec city / region" },
   { id: "partners", title: "partners", subtitle: "merchants + golden id" },
   { id: "orders", title: "orders", subtitle: "transactions / fulfillment" },
   { id: "bridge", title: "order_partner", subtitle: "allocation (M:N)" },

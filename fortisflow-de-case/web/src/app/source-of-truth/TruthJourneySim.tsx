@@ -15,7 +15,7 @@ const steps: Step[] = [
   {
     id: "raw",
     title: "1. Bronze: partner / order feeds",
-    detail: "Immutable FortisFlow marketplace payloads land with batch_id. POS, OMS, and tax-relevant adjustments may differ by vendor.",
+    detail: "Immutable sigma-sec marketplace payloads land with batch_id. POS, OMS, and tax-relevant adjustments may differ by vendor.",
     artifact: "s3://raw/doorrush/partner_feed_batch_009.json",
     risk: "Duplicate webhook delivery → idempotent writer required or double rows downstream.",
   },
@@ -70,7 +70,7 @@ export function TruthJourneySim() {
     <div className="space-y-4">
       <Card className="border-primary/25 bg-primary/5">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Lineage: raw → API (FortisFlow golden path)</CardTitle>
+          <CardTitle className="text-sm">Lineage: raw → API (sigma-sec golden path)</CardTitle>
           <CardDescription className="text-xs">
             Simulation: highlights advance automatically to show custody of data and where things break in real life.
           </CardDescription>

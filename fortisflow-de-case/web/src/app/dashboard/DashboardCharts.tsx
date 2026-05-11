@@ -244,7 +244,7 @@ export function DashboardCharts() {
         <div className="grid gap-4 lg:grid-cols-2">
           <ChartContainer
             title="Fulfillment latency"
-            description="Average hours from order to delivered, FortisFlow UK mock mart."
+            description="Average hours from order to delivered, sigma-sec UK mock mart."
           >
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data.fulfillmentLatencyTrend} margin={{ left: 0, right: 8, top: 8 }}>
@@ -312,7 +312,7 @@ export function DashboardCharts() {
             </ResponsiveContainer>
           </ChartContainer>
 
-          <ChartContainer title="Orders by status" description="FortisFlow marketplace snapshot (synthetic).">
+          <ChartContainer title="Orders by status" description="sigma-sec marketplace snapshot (synthetic).">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart margin={{ top: 8, bottom: 8 }}>
                 <Pie

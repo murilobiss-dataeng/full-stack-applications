@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import type { MetricsPayload } from "@/types/metrics";
 
 const DEFAULT_PROMPT =
-  "Summarize FortisFlow entity resolution quality and top partner hubs from the latest curated batch. Include one risk bullet.";
+  "Summarize sigma-sec manufacturing/supply-chain identity resolution quality and top supplier plants from the latest curated batch. Include one risk bullet.";
 
 type Phase = "idle" | "fetching" | "typing" | "done";
 
@@ -123,25 +123,30 @@ function buildNarrative(m: MetricsPayload, userPrompt: string): string {
     .slice()
     .sort((a, b) => (b.orders ?? 0) - (a.orders ?? 0))
     .slice(0, 2)
-    .map((p) => `${p.name ?? "?"} (${(p.orders ?? 0).toLocaleString()} orders, on-time ~${Math.round((p.onTimeRate ?? 0) * 100)}%)`)
+    .map(
+      (p) =>
+        `${p.name ?? "?"} (${(p.orders ?? 0).toLocaleString()} work orders, on-time ~${Math.round(
+          (p.onTimeRate ?? 0) * 100,
+        )}%)`,
+    )
     .join("; ");
 
   return [
     `» Request (truncated): ${userPrompt.slice(0, 120)}${userPrompt.length > 120 ? "…" : ""}`,
     "",
-    "Executive read: FortisFlow curated mart + pipeline health",
+    "Executive read: sigma-sec curated mart + pipeline health",
     `• Batch: ${batch}`,
     `• Rows processed (last run): ${p?.rowsProcessed?.toLocaleString?.() ?? "n/a"}`,
     `• Validation pass rate: ${p?.validationPassRate != null ? (p.validationPassRate * 100).toFixed(1) + "%" : "n/a"}`,
     `• Job duration: ${p?.lastRunDurationMs?.toLocaleString?.() ?? "n/a"} ms`,
-    `• Merchant clusters merged: ${e?.clustersMerged?.toLocaleString?.() ?? "n/a"} at avg confidence ${e?.avgConfidence != null ? (e.avgConfidence * 100).toFixed(0) + "%" : "n/a"}`,
+    `• Supplier clusters merged: ${e?.clustersMerged?.toLocaleString?.() ?? "n/a"} at avg confidence ${e?.avgConfidence != null ? (e.avgConfidence * 100).toFixed(0) + "%" : "n/a"}`,
     "",
-    "Top partner clusters (golden IDs)",
+    "Top supplier plants (golden IDs)",
     `• ${top || "No partner slice in payload."}`,
     "",
     "Risk / watchlist",
     "• If validation pass slips below 99.5%, freeze mart publish and replay quarantine (see Governance + Source of truth).",
-    "• Low-confidence merges should land in a human queue before payouts and tax reporting: policy, not model magic.",
+    "• Low-confidence merges should land in a human queue before production releases and compliance reporting: policy, not model magic.",
     "",
     "Next step in a real deployment: log this summary with run_id + user role; call the same API the dashboard uses.",
   ].join("\n");

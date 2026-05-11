@@ -7,7 +7,7 @@ import { Reveal } from "@/components/Reveal";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "BI surface",
+  title: "Analytics surface",
   description:
     "Analytics-style dashboards on a fixed contract: cohort retention, funnels, segment mix, KPI bridges, and ops diagnostics from /api/metrics, aligned with Snowflake marts and governed semantics.",
 };
@@ -18,7 +18,7 @@ export default function DashboardPage() {
       <Reveal>
         <PageHeader
           kicker="Data visualization · analytics-grade BI"
-          title="BI surface: cohorts, funnels, and governed metrics"
+          title="Analytics surface: cohorts, funnels, and governed metrics"
           description="This page mirrors what you ship after Snowflake marts and semantic contracts exist: retention curves, funnel compression, segment mix, bridges, and ops diagnostics. Every series is bound to the same /api/metrics payload a Power BI dataset or Sigma workbook would call, so grain and definitions stay aligned with Analytics Engineering."
         />
       </Reveal>

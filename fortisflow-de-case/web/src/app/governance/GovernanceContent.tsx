@@ -192,8 +192,8 @@ const lineageTab: TabItem = {
   content: (
     <div className="space-y-4">
       <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm">End-to-end lineage (FortisFlow partner path)</CardTitle>
+          <CardHeader className="pb-2">
+          <CardTitle className="text-sm">End-to-end lineage (sigma-sec partner path)</CardTitle>
           <CardDescription className="text-xs">Where did the metric come from? Which transforms ran?</CardDescription>
         </CardHeader>
         <CardContent>
@@ -205,7 +205,7 @@ const lineageTab: TabItem = {
     → partners_curated_*.json (gold-ready)
     → warehouse.partners (+ order_partner edges)
     → dbt: partner_metrics.sql / order_aggregations.sql
-    → /api/metrics → FortisFlow dashboard`}
+    → /api/metrics → sigma-sec dashboard`}
           </pre>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
             In production, capture <strong className="text-foreground">batch_id + git SHA + dbt manifest</strong> in run
@@ -332,7 +332,7 @@ const versioningTab: TabItem = {
           <CardTitle className="text-sm">Source of truth: merge &amp; conflicts</CardTitle>
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
-          Document <strong className="text-foreground">source priority</strong> (FortisFlow internal master &gt; PSP &gt; scrape),
+          Document <strong className="text-foreground">source priority</strong> (sigma-sec internal master &gt; PSP &gt; scrape),
           survivorship rules, and human-in-the-loop for high-risk merges. Full detail:{" "}
           <Link href="/source-of-truth?section=truth" className="text-primary underline-offset-4 hover:underline">
             Source of truth
@@ -380,7 +380,7 @@ const performanceTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="list-inside list-disc space-y-1.5">
             <li>
-              <strong className="text-foreground">Batch vs streaming:</strong> FortisFlow marketplace feeds are mostly batch; introduce
+              <strong className="text-foreground">Batch vs streaming:</strong> sigma-sec marketplace feeds are mostly batch; introduce
               streaming (Kafka + consumer) only for near-real-time SLA or fraud alerts when revenue covers ops burden.
             </li>
             <li>

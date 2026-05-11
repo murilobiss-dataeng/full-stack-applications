@@ -8,7 +8,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Repo hub · pipelines & modeling",
   description:
-    "FortisFlow demo: monorepo explorer plus combined pipeline and modeling panels — Snowflake-oriented Data Engineering narrative.",
+    "sigma-sec demo: monorepo explorer plus combined pipeline and modeling panels — Snowflake-oriented Data Engineering narrative.",
 };
 
 export default function InfrastructurePage() {

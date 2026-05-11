@@ -1,4 +1,4 @@
-/** Mock /api/metrics payload: FortisFlow fictional marketplace (delivery, merchants, tax-relevant ops). */
+/** Mock /api/metrics payload: sigma-sec fictional marketplace (delivery, merchants, tax-relevant ops). */
 
 export const mockPipelineMetrics = {
   generatedAt: "2026-05-01T12:00:00.000Z",

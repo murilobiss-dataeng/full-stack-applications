@@ -7,7 +7,7 @@ import { ModelingContent } from "./ModelingContent";
 export const metadata: Metadata = {
   title: "DW modeling",
   description:
-    "FortisFlow demo: dimensional grain, conformed dimensions, bridge tables, and Snowflake-oriented modeling notes for analytics-ready marts.",
+    "sigma-sec demo: dimensional grain, conformed dimensions, bridge tables, and Snowflake-oriented modeling notes for analytics-ready marts.",
 };
 
 export default function DataModelingPage() {

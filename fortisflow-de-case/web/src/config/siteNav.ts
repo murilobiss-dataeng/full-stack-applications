@@ -7,14 +7,16 @@ export type NavItem = { href: string; label: string; spotlight?: boolean };
 export const primaryNav: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/prep", label: "PM call prep", spotlight: true },
+  { href: "/cv", label: "CV" },
   { href: "/data-pipeline", label: "Snowflake & ELT" },
   { href: "/data-modeling", label: "DW modeling" },
   { href: "/governance", label: "Quality & governance" },
-  { href: "/dashboard", label: "Ops surface" },
+  { href: "/dashboard", label: "Analytics surface" },
 ];
 
 export const homeDocLinks: readonly { href: string; label: string }[] = [
   { href: "/prep", label: "Project Manager call · talking points" },
+  { href: "/cv", label: "CV (PDF + on-page)" },
   { href: "/data-pipeline", label: "Snowflake optimization & pipelines" },
   { href: "/data-modeling", label: "Layers, grain, reusable SQL" },
   { href: "/governance", label: "Quality, lineage, access control" },
@@ -25,6 +27,7 @@ export const footerColumns: readonly { title: string; links: readonly { href: st
     title: "Interview",
     links: [
       { href: "/prep", label: "PM call prep" },
+      { href: "/cv", label: "CV" },
       { href: "/data-pipeline", label: "Snowflake & ELT" },
     ],
   },
@@ -38,7 +41,7 @@ export const footerColumns: readonly { title: string; links: readonly { href: st
   {
     title: "Demo",
     links: [
-      { href: "/dashboard", label: "Ops surface" },
+      { href: "/dashboard", label: "Analytics surface" },
       { href: "/api/metrics", label: "Metrics API" },
     ],
   },

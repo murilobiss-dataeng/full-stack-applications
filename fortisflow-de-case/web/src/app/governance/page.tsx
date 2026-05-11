@@ -7,7 +7,7 @@ import { GovernanceContent } from "./GovernanceContent";
 export const metadata: Metadata = {
   title: "Quality & governance",
   description:
-    "FortisFlow demo: contracts, lineage, RBAC patterns, observability, and audit-ready controls aligned with Snowflake-heavy Senior Data Engineer interviews.",
+    "sigma-sec demo: contracts, lineage, RBAC patterns, observability, and audit-ready controls aligned with Snowflake-heavy Senior Data Engineer interviews.",
 };
 
 export default function GovernancePage() {
