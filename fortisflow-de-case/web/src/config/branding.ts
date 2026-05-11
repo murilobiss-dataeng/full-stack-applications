@@ -10,6 +10,5 @@ export const DEMO_MARKETPLACE_BRAND = "sigma-sec";
 /** Readable casing for the fictional program on the home hero only. */
 export const HOME_SCENARIO_DISPLAY_NAME = "Sigma Sec";
 
-/** Shown under the logo on desktop. */
-export const SITE_NAV_DESCRIPTOR =
-  "Senior Data Engineer case · Snowflake, ELT, DW layers, cost & quality (fictional enterprise program)";
+/** Shown under the program name in the navbar (short line only). */
+export const SITE_NAV_DESCRIPTOR = "Senior Data Engineer case";

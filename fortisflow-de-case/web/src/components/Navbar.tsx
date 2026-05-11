@@ -1,13 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Database, Menu, Sparkles, X } from "lucide-react";
+import { Menu, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { primaryNav } from "@/config/siteNav";
-import { SITE_PRODUCT_NAME, SITE_NAV_DESCRIPTOR } from "@/config/branding";
+import { HOME_SCENARIO_DISPLAY_NAME, SITE_NAV_DESCRIPTOR } from "@/config/branding";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -18,16 +19,21 @@ export function Navbar() {
       <div className="mx-auto flex min-h-16 max-w-6xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
         <Link
           href="/"
-          className="flex items-start gap-2 font-semibold tracking-tight transition-all duration-200 hover:opacity-90 active:scale-[0.99]"
+          className="flex min-w-0 items-center gap-2.5 font-semibold tracking-tight transition-all duration-200 hover:opacity-90 active:scale-[0.99] sm:gap-3"
         >
-          <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors duration-200 hover:bg-primary/25">
-            <Database className="h-5 w-5" aria-hidden />
+          <span className="relative flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-primary/20 bg-white shadow-sm ring-1 ring-primary/10 sm:h-11 sm:w-11">
+            <Image
+              src="/sigma_logo.png"
+              alt={`${HOME_SCENARIO_DISPLAY_NAME} logo`}
+              width={44}
+              height={44}
+              className="object-contain p-1.5"
+              priority
+            />
           </span>
-          <span className="flex flex-col leading-tight">
-            <span>{SITE_PRODUCT_NAME}</span>
-            <span className="hidden text-[10px] font-normal text-muted-foreground sm:block sm:text-xs">
-              {SITE_NAV_DESCRIPTOR}
-            </span>
+          <span className="flex min-w-0 flex-col leading-tight">
+            <span className="truncate text-[15px] text-foreground sm:text-base">{HOME_SCENARIO_DISPLAY_NAME}</span>
+            <span className="truncate text-[11px] font-normal text-muted-foreground sm:text-xs">{SITE_NAV_DESCRIPTOR}</span>
           </span>
         </Link>
         <nav className="hidden shrink-0 items-center gap-1 md:flex" aria-label="Primary">

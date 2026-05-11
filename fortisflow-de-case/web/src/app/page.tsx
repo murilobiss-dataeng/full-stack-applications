@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Cpu, GitMerge, Layers, Shield, Sparkles, Wand2 } from "lucide-react";
 import { PageShell } from "@/components/PageShell";
@@ -16,41 +15,27 @@ export default function HomePage() {
         <div className="relative overflow-hidden rounded-2xl border border-border bg-card/40 px-5 py-7 sm:px-7 sm:py-9">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-20%,hsl(199,89%,48%,0.16),transparent)]" />
           <div className="relative">
-            <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
-              <div className="flex shrink-0 items-center justify-center rounded-2xl border border-primary/25 bg-gradient-to-br from-white to-cyan-50/90 p-3 shadow-md shadow-primary/10 ring-1 ring-primary/5 sm:p-3.5">
-                <Image
-                  src="/sigma_logo.png"
-                  alt="Sigma Sec — portfolio scenario"
-                  width={72}
-                  height={72}
-                  className="h-[52px] w-[52px] object-contain sm:h-16 sm:w-16"
-                  priority
-                />
-              </div>
-              <div className="min-w-0 flex-1 space-y-3">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-widest text-primary">
-                    Murilo Biss · Senior Data Engineer · Snowflake · ELT · dbt · Quality
-                  </p>
-                  <p className="mt-1.5 text-sm text-muted-foreground">
-                    <span className="font-semibold text-foreground">{HOME_SCENARIO_DISPLAY_NAME}</span>
-                    <span className="text-muted-foreground/90"> · fictional enterprise program framing this case study</span>
-                  </p>
-                </div>
-                <h1 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                  Data engineering you can ship, explain, and operate
-                </h1>
-                <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
-                  Pipelines, tests, and contracts wired for production: one walkthrough for{" "}
-                  <strong className="text-foreground">Infrastructure</strong>, a governed{" "}
-                  <code className="rounded bg-muted px-1 py-0.5 text-foreground">/api/metrics</code>, dashboards, and an{" "}
-                  <strong className="text-foreground">AI Lab</strong> that stays inside that contract.
-                </p>
-                <p className="max-w-2xl rounded-lg border border-primary/20 bg-primary/5 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                  <strong className="text-foreground">{HOME_SCENARIO_DISPLAY_NAME}</strong> is a <em>fictional</em> regulated
-                  manufacturing / supply-chain scenario for this portfolio only — not a real client or employer program.
-                </p>
-              </div>
+            <div className="space-y-3">
+              <p className="text-xs font-medium uppercase tracking-widest text-primary">
+                Murilo Biss · Senior Data Engineer · Snowflake · ELT · dbt · Quality
+              </p>
+              <p className="text-sm text-muted-foreground">
+                <span className="font-semibold text-foreground">{HOME_SCENARIO_DISPLAY_NAME}</span>
+                <span className="text-muted-foreground/90"> · fictional enterprise program framing this case study</span>
+              </p>
+              <h1 className="max-w-2xl text-balance text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                Senior Data Engineer case: governed pipelines to trusted analytics
+              </h1>
+              <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+                Pipelines, tests, and contracts wired for production: one walkthrough for{" "}
+                <strong className="text-foreground">Infrastructure</strong>, a governed{" "}
+                <code className="rounded bg-muted px-1 py-0.5 text-foreground">/api/metrics</code>, dashboards, and an{" "}
+                <strong className="text-foreground">AI Lab</strong> that stays inside that contract.
+              </p>
+              <p className="max-w-2xl rounded-lg border border-primary/20 bg-primary/5 px-3 py-2.5 text-xs leading-relaxed text-muted-foreground sm:text-sm">
+                <strong className="text-foreground">{HOME_SCENARIO_DISPLAY_NAME}</strong> is a <em>fictional</em> regulated
+                manufacturing / supply-chain scenario for this portfolio only — not a real client or employer program.
+              </p>
             </div>
             <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-border/80 pt-5">
               <Link href="/ai-lab" className={cn(buttonVariants(), "inline-flex h-9 gap-1.5 px-4 text-sm")}>

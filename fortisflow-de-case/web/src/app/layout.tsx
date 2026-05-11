@@ -4,7 +4,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { SITE_PRODUCT_NAME } from "@/config/branding";
+import { HOME_SCENARIO_DISPLAY_NAME } from "@/config/branding";
 import "./globals.css";
 
 const inter = Inter({
@@ -37,13 +37,13 @@ function resolveMetadataBase(): URL {
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
   title: {
-    default: `Murilo Biss · ${SITE_PRODUCT_NAME} · Snowflake Senior Data Engineer case`,
-    template: `%s | ${SITE_PRODUCT_NAME}`,
+    default: `Murilo Biss · ${HOME_SCENARIO_DISPLAY_NAME} · Senior Data Engineer case`,
+    template: `%s | ${HOME_SCENARIO_DISPLAY_NAME}`,
   },
   description:
-    `Murilo Biss: Snowflake-centric Data Engineering portfolio case (${SITE_PRODUCT_NAME}). ELT, warehouse layers, cost and performance discipline, data quality, and governance framing for enterprise / regulated contexts. ${SITE_PRODUCT_NAME} is a fictional program used only in this demo.`,
+    `Murilo Biss: Snowflake-centric Data Engineering portfolio case (${HOME_SCENARIO_DISPLAY_NAME}). ELT, warehouse layers, cost and performance discipline, data quality, and governance framing for enterprise / regulated contexts. ${HOME_SCENARIO_DISPLAY_NAME} is a fictional program used only in this demo.`,
   keywords: [
-    SITE_PRODUCT_NAME,
+    HOME_SCENARIO_DISPLAY_NAME,
     "Murilo Biss",
     "Senior Data Engineer",
     "Snowflake",
@@ -58,8 +58,8 @@ export const metadata: Metadata = {
     "Python",
   ],
   openGraph: {
-    title: `Murilo Biss · ${SITE_PRODUCT_NAME}`,
-    description: `Snowflake, DW design, and data quality: ${SITE_PRODUCT_NAME} Data Engineering portfolio (Murilo Biss).`,
+    title: `Murilo Biss · ${HOME_SCENARIO_DISPLAY_NAME}`,
+    description: `Senior Data Engineer portfolio case: Snowflake, DW design, and governed metrics (${HOME_SCENARIO_DISPLAY_NAME}).`,
     type: "website",
   },
   robots: { index: true, follow: true },

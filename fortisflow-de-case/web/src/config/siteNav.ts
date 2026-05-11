@@ -9,8 +9,6 @@ export const primaryNav: NavItem[] = [
   { href: "/ai-lab", label: "AI Lab", spotlight: true },
   { href: "/cv", label: "CV" },
   { href: "/infrastructure", label: "Infrastructure" },
-  { href: "/data-modeling", label: "DW modeling" },
-  { href: "/source-of-truth", label: "Source of truth" },
   { href: "/dashboard", label: "Analytics surface" },
 ];
 
