@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_PRODUCT_NAME}`,
   },
   description:
-    `Murilo Biss: data visualization, Analytics Engineering, and Data Engineering portfolio for ${SITE_PRODUCT_NAME}. SQL, dbt, Snowflake, Power BI, and tax-aware metrics on marketplace scenarios; demo charts on a fixed API contract. This site stresses the visualization and semantic layer story; CV covers Product Owner (HSBC) and broader delivery. ${SITE_PRODUCT_NAME} is a fictional DoorDash-class last-mile brand used only in this demo.`,
+    `Murilo Biss: data visualization, Analytics Engineering, and Data Engineering portfolio for ${SITE_PRODUCT_NAME}. SQL, dbt, Snowflake, Power BI, and tax-aware metrics on marketplace scenarios; demo charts on a fixed API contract. This site stresses the visualization and semantic layer story; the /cv page mirrors the downloadable résumé PDF. ${SITE_PRODUCT_NAME} is a fictional DoorDash-class last-mile brand used only in this demo.`,
   keywords: [
     SITE_PRODUCT_NAME,
     "Murilo Biss",

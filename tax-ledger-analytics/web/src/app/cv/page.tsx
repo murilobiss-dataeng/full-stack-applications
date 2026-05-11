@@ -6,7 +6,7 @@ import { CvContent } from "./CvContent";
 export const metadata: Metadata = {
   title: "CV · visualization, Analytics Engineering, and product",
   description:
-    "Murilo Biss · CV (PDF) and on-page role fit: data visualization, Analytics Engineering, Data Engineering, and Product Owner experience (including HSBC); Snowflake, dbt, Power BI, SQL, AWS Certified Cloud Practitioner, and the DoorRush demo portfolio.",
+    "Murilo Biss · CV page and PDF: same profile, experience, certifications, education, and languages; Snowflake, dbt, Power BI, SQL, AWS Certified Cloud Practitioner. DoorRush sections elsewhere are a portfolio demo only.",
 };
 
 export default function CvPage() {

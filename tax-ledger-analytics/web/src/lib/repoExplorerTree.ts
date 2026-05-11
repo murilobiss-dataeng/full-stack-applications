@@ -180,7 +180,7 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
         f("page.tsx", "ui: home", { description: "DoorRush narrative; AE + DV positioning; CV + marts links." }),
         d("cv", "feat: application packet", [
           f("page.tsx", "ui: CV shell", { description: "Metadata + PageShell wrapper." }),
-          f("CvContent.tsx", "ui: CV + visual pitch", { description: "Hero KPI tiles, stack bars, role-fit grid, timeline; no certs or education blocks." }),
+          f("CvContent.tsx", "ui: CV + visual pitch", { description: "Mirrors PDF résumé (profile, competencies, certs, education, languages, full experience); portfolio demo called out separately." }),
         ]),
         f("method/page.tsx", "redirect: legacy", {
           description: "Redirects to /; standalone methodology route removed (Data Analyst framing).",
