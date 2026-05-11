@@ -13,7 +13,7 @@ export type NavRailSection = {
 
 type NavRailProps = {
   sections: NavRailSection[];
-  /** Query key, e.g. `section` → `?section=pipeline` */
+  /** Query key, e.g. `section` → `?section=infrastructure` */
   paramName: string;
   /** Path for `router.replace` (no trailing slash) */
   basePath: string;

@@ -36,7 +36,7 @@ const schemaTab: TabItem = {
   content: (
     <div className="grid gap-2 sm:grid-cols-2">
       {tables.map((t) => (
-        <Card key={t.name} className="transition-colors hover:border-primary/20">
+        <Card key={t.name} className="transition-colors hover:border-[hsl(217,33%,24%)]">
           <CardHeader className="pb-1 pt-4">
             <CardTitle className="font-mono text-sm">{t.name}</CardTitle>
           </CardHeader>

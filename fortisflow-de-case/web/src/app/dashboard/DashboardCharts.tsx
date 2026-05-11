@@ -27,24 +27,24 @@ import { ChartContainer } from "@/components/ChartContainer";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { MetricsPayload } from "@/types/metrics";
 
-const axisStyle = { fill: "hsl(var(--muted-foreground))", fontSize: 11 };
+const axisStyle = { fill: "hsl(220, 9%, 40%)", fontSize: 11 };
 const gridColor = "hsl(0, 0%, 88%)";
 const tooltipStyle = {
   backgroundColor: "hsl(0, 0%, 100%)",
   border: "1px solid hsl(0, 0%, 90%)",
   borderRadius: "8px",
-  color: "hsl(var(--foreground))",
+  color: "hsl(222, 47%, 11%)",
 };
 
-const ACCENT = "hsl(0, 0%, 10%)";
-const ACCENT_DARK = "hsl(0, 0%, 5%)";
-const ACCENT_SOFT = "hsl(0, 0%, 35%)";
-const PIE_COLORS = [ACCENT, ACCENT_SOFT, "hsl(0, 0%, 55%)", "hsl(0, 0%, 70%)"];
+const ACCENT = "hsl(199, 89%, 48%)";
+const ACCENT_DARK = "hsl(199, 75%, 38%)";
+const ACCENT_SOFT = "hsl(199, 70%, 48%)";
+const PIE_COLORS = [ACCENT, ACCENT_SOFT, "hsl(0, 0%, 55%)", "hsl(199, 55%, 72%)"];
 
-const COHORT_LINE_COLORS = ["hsl(0, 0%, 10%)", "hsl(0, 0%, 25%)", "hsl(0, 0%, 45%)", "hsl(0, 0%, 70%)"];
+const COHORT_LINE_COLORS = ["hsl(199, 75%, 38%)", "hsl(199, 72%, 48%)", "hsl(217, 70%, 48%)", "hsl(142, 45%, 38%)"];
 
-const BRIDGE_POS = "hsl(0, 0%, 55%)";
-const BRIDGE_NEG = "hsl(0, 0%, 25%)";
+const BRIDGE_POS = "hsl(142, 48%, 40%)";
+const BRIDGE_NEG = "hsl(199, 65%, 48%)";
 
 export function DashboardCharts() {
   const [data, setData] = useState<MetricsPayload | null>(null);
@@ -125,7 +125,7 @@ export function DashboardCharts() {
         ].map((s) => (
           <div
             key={s.label}
-            className="rounded-xl border border-border bg-gradient-to-br from-white to-red-50/40 px-4 py-3 transition-transform duration-300 motion-safe:hover:-translate-y-0.5"
+            className="rounded-xl border border-border bg-gradient-to-br from-white to-cyan-50/40 px-4 py-3 transition-transform duration-300 motion-safe:hover:-translate-y-0.5"
           >
             <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">{s.label}</p>
             <p className="mt-1 truncate font-mono text-lg font-semibold tabular-nums tracking-tight text-foreground xl:text-xl">
@@ -196,9 +196,9 @@ export function DashboardCharts() {
                   <YAxis tickFormatter={(v) => `${v}%`} domain={[0, 100]} tick={axisStyle} axisLine={{ stroke: gridColor }} />
                   <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`, ""]} />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
-                  <Bar dataKey="smb" stackId="mix" fill="hsl(0, 0%, 20%)" name="SMB" radius={[0, 0, 0, 0]} />
-                  <Bar dataKey="midMarket" stackId="mix" fill="hsl(0, 0%, 45%)" name="Mid-market" />
-                  <Bar dataKey="enterprise" stackId="mix" fill="hsl(0, 0%, 70%)" name="Enterprise" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="smb" stackId="mix" fill="hsl(199, 85%, 52%)" name="SMB" radius={[0, 0, 0, 0]} />
+                  <Bar dataKey="midMarket" stackId="mix" fill="hsl(217, 55%, 52%)" name="Mid-market" />
+                  <Bar dataKey="enterprise" stackId="mix" fill="hsl(142, 40%, 42%)" name="Enterprise" radius={[6, 6, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
             </ChartContainer>
@@ -216,13 +216,13 @@ export function DashboardCharts() {
                   <XAxis dataKey="label" tick={axisStyle} axisLine={{ stroke: gridColor }} interval={0} angle={-12} textAnchor="end" height={56} />
                   <YAxis tick={axisStyle} axisLine={{ stroke: gridColor }} domain={[90, "auto"]} tickFormatter={(v) => `${v}`} />
                   <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [v, "Index"]} />
-                  <ReferenceLine y={100} stroke="hsl(0, 0%, 70%)" strokeDasharray="4 4" />
+                  <ReferenceLine y={100} stroke="hsl(220, 9%, 70%)" strokeDasharray="4 4" />
                   <Bar dataKey="value" radius={[6, 6, 0, 0]} name="Index">
                     {bridge.map((row, i) => {
                       const prev = bridge[i - 1]?.value ?? row.value;
                       const up = row.value >= prev || i === 0;
                       const isOutcome = i === bridge.length - 1;
-                      const fill = i === 0 || isOutcome ? "hsl(0, 0%, 46%)" : up ? BRIDGE_POS : BRIDGE_NEG;
+                      const fill = i === 0 || isOutcome ? "hsl(220, 14%, 46%)" : up ? BRIDGE_POS : BRIDGE_NEG;
                       return <Cell key={row.label} fill={fill} />;
                     })}
                   </Bar>
@@ -251,7 +251,7 @@ export function DashboardCharts() {
                 <CartesianGrid stroke={gridColor} strokeDasharray="3 3" />
                 <XAxis dataKey="quarter" tick={axisStyle} axisLine={{ stroke: gridColor }} />
                 <YAxis tick={axisStyle} axisLine={{ stroke: gridColor }} />
-                <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "hsl(var(--foreground))" }} />
+                <Tooltip contentStyle={tooltipStyle} labelStyle={{ color: "hsl(222, 47%, 11%)" }} />
                 <Line type="monotone" dataKey="avgHours" name="Avg hours" stroke={ACCENT} strokeWidth={2} dot={false} />
               </LineChart>
             </ResponsiveContainer>
@@ -264,7 +264,7 @@ export function DashboardCharts() {
                 <XAxis dataKey="hub" tick={axisStyle} axisLine={{ stroke: gridColor }} />
                 <YAxis tickFormatter={(v) => `${Math.round(v * 100)}%`} tick={axisStyle} axisLine={{ stroke: gridColor }} domain={[0.8, 1]} />
                 <Tooltip contentStyle={tooltipStyle} formatter={(value: number) => [`${(value * 100).toFixed(1)}%`, "On-time"]} />
-                <ReferenceLine y={0.93} stroke="hsl(0, 0%, 65%)" strokeDasharray="5 5" label={{ value: "SLA 93%", fill: axisStyle.fill, fontSize: 10 }} />
+                <ReferenceLine y={0.93} stroke="hsl(220, 9%, 65%)" strokeDasharray="5 5" label={{ value: "SLA 93%", fill: axisStyle.fill, fontSize: 10 }} />
                 <Bar dataKey="rate" fill={ACCENT} radius={[6, 6, 0, 0]} name="On-time rate" />
               </ComposedChart>
             </ResponsiveContainer>
@@ -307,7 +307,7 @@ export function DashboardCharts() {
                 <XAxis type="number" domain={[95, 100]} tick={axisStyle} axisLine={{ stroke: gridColor }} unit="%" />
                 <YAxis type="category" dataKey="name" width={120} tick={axisStyle} axisLine={{ stroke: gridColor }} />
                 <Tooltip contentStyle={tooltipStyle} formatter={(v: number) => [`${v}%`, "Pass rate"]} />
-                <Bar dataKey="pass" fill="hsl(0, 0%, 30%)" radius={[0, 4, 4, 0]} name="Pass %" />
+                <Bar dataKey="pass" fill="hsl(142, 55%, 38%)" radius={[0, 4, 4, 0]} name="Pass %" />
               </BarChart>
             </ResponsiveContainer>
           </ChartContainer>
@@ -348,7 +348,7 @@ export function DashboardCharts() {
                   <YAxis yAxisId="right" orientation="right" tickFormatter={(v) => `${v}%`} tick={axisStyle} axisLine={{ stroke: gridColor }} />
                   <Tooltip contentStyle={tooltipStyle} />
                   <Legend wrapperStyle={{ fontSize: 11 }} />
-                  <Bar yAxisId="left" dataKey="orders" fill="hsl(0 0% 88%)" radius={[4, 4, 0, 0]} name="Work orders" />
+                  <Bar yAxisId="left" dataKey="orders" fill="hsl(199 92% 88%)" radius={[4, 4, 0, 0]} name="Work orders" />
                   <Line
                     yAxisId="right"
                     type="monotone"

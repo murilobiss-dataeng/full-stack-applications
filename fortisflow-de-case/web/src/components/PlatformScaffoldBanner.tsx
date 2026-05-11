@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BarChart3, Layers } from "lucide-react";
+import { BarChart3, Layers, Sparkles } from "lucide-react";
 
 type PlatformScaffoldBannerProps = {
   /** One line: what this route demonstrates on top of the shared stack */
@@ -25,8 +25,8 @@ export function PlatformScaffoldBanner({ focus }: PlatformScaffoldBannerProps) {
         </p>
         <p>
           Ingest zones, warehouse DDL, dbt-style tests, and <code className="rounded bg-muted px-1 py-0.5 text-foreground">/api/metrics</code> are
-          already modeled in this repo (same spine as <strong className="text-foreground">Snowflake &amp; ELT</strong> and{" "}
-          <strong className="text-foreground">DW modeling</strong> standalone pages). {focus}
+          already modeled in this repo (same spine as <strong className="text-foreground">Infrastructure</strong> and{" "}
+          <strong className="text-foreground">DW modeling</strong>). {focus}
         </p>
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
           <Link
@@ -37,8 +37,9 @@ export function PlatformScaffoldBanner({ focus }: PlatformScaffoldBannerProps) {
             Analytics surface (charts prove the contract)
           </Link>
           <span className="text-muted-foreground/80">·</span>
-          <Link href="/prep" className="font-medium text-primary underline-offset-4 hover:underline">
-            PM call prep (talking points)
+          <Link href="/ai-lab" className="inline-flex items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline">
+            <Sparkles className="h-3.5 w-3.5 shrink-0" aria-hidden />
+            AI Lab (prompt the metrics layer)
           </Link>
         </p>
       </div>

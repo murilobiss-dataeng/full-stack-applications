@@ -40,7 +40,7 @@ export function ModelingDiagram() {
               key={n.id}
               className={`flex flex-col justify-center rounded-xl border px-4 py-3 font-mono text-sm transition-all duration-500 ${
                 hot
-                  ? "border-primary bg-primary/10 text-foreground shadow-[0_0_0_1px_hsl(0,0%,0%,0.35)]"
+                  ? "border-primary bg-primary/10 text-foreground shadow-[0_0_0_1px_hsl(217,91%,40%,0.35)]"
                   : "border-border bg-card/40 text-muted-foreground"
               }`}
             >

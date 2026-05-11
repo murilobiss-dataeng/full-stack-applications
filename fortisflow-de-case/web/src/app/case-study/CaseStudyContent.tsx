@@ -27,7 +27,7 @@ const plainTab: TabItem = {
           <strong className="text-foreground">tax data mart</strong> for a multi-entity group.
         </p>
         <p>
-          <Link href="/prep" className="text-primary underline-offset-4 hover:underline">
+          <Link href="/cv" className="text-primary underline-offset-4 hover:underline">
             Open CV &amp; role fit
           </Link>{" "}
           for how Murilo Biss maps this stack to hands-on delivery (Snowflake, Databricks, dbt, Power BI, Agile partners).

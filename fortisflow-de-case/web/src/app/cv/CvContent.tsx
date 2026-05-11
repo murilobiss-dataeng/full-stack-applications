@@ -10,7 +10,6 @@ import {
   Github,
   GraduationCap,
   Languages,
-  LineChart,
   Linkedin,
   Mail,
   MapPin,
@@ -18,40 +17,37 @@ import {
   ShieldCheck,
   Sparkles,
   Target,
+  Wand2,
   Zap,
 } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { DEMO_MARKETPLACE_BRAND } from "@/config/branding";
 
 const CV_PDF_HREF = "/cv-murilo-biss.pdf";
 
-/** Same tagline as `cv/cv-murilo-biss-resume.html` (PDF source). */
-const PDF_TAGLINE = "Senior Data Engineer · Analytics Engineering · Python";
+const PDF_TAGLINE = "Senior Data Engineer · Snowflake · ELT · SQL";
 
 const kpis = [
   { value: "7+", label: "Years in data", hint: "SQL → marts → BI" },
   { value: "dbt", label: "Production", hint: "Snowflake · Databricks" },
-  { value: "SF", label: "Snowflake", hint: "Marts · ELT · AB InBev + Tarmac" },
-  { value: "PBI+", label: "BI & visuals", hint: "Power BI · enterprise BI" },
+  { value: "SF", label: "Snowflake", hint: "Marts · ELT · optimization" },
+  { value: "DQ", label: "Quality", hint: "tests · lineage · gates" },
 ] as const;
 
-/** Mirrors PDF “Core competencies” themes; chips are a compact index of the same stack. */
 const stackChips = [
   "Python",
   "SQL",
   "Snowflake",
   "dbt",
-  "Spark",
   "Airflow",
+  "Terraform",
   "AWS",
   "Azure",
-  "GCP",
+  "Databricks",
   "Kafka",
   "Delta Lake",
-  "Terraform",
-  "Power BI",
-  "Looker",
+  "Data quality",
+  "RBAC / Security",
   "Agile / Scrum",
 ] as const;
 
@@ -64,11 +60,10 @@ const credentialChips = [
 const profileParagraphs = [
   <>
     Data Engineer and Analytics Engineer with 7+ years of experience turning operational and business data into reliable,
-    scalable analytics. Strong SQL practice, cloud platforms (AWS, Azure, GCP), and production ETL/ELT design. 5+ years hands-on
-    with <strong className="text-foreground">Databricks</strong>, <strong className="text-foreground">Snowflake</strong>, and
-    Spark (PySpark); 3+ years with Azure Data Factory. <strong className="text-foreground">AWS Certified Cloud Practitioner</strong>
-    ; Apache Airflow certified (Astronomer); practical experience with data lake and data warehouse architectures. Fluent delivery in
-    Python, SQL, dbt, Spark, Snowflake, and Databricks, with emphasis on performance, observability, and maintainable pipelines.
+    scalable analytics. Strong SQL practice, cloud platforms (AWS, Azure, GCP), and production ETL/ELT design. Hands-on with{" "}
+    <strong className="text-foreground">Snowflake</strong>, <strong className="text-foreground">Databricks</strong>, and Spark
+    (PySpark); practical experience with data lake and data warehouse architectures. Emphasis on performance, observability, and
+    maintainable pipelines.
   </>,
   <>
     Comfortable translating business rules into data models, collaborating in Agile Scrum teams, and communicating results to
@@ -78,18 +73,18 @@ const profileParagraphs = [
 
 const coreCompetencies = [
   {
-    title: "Cloud & warehouse",
+    title: "Warehouse & cloud",
     body:
-      "Snowflake (warehousing, tasks, sharing); AWS (S3, Glue, Redshift, Athena); Azure (Databricks, Data Factory, DevOps); GCP (BigQuery).",
+      "Snowflake (warehousing patterns, tasks, sharing); AWS (S3, Glue, Redshift, Athena); Azure (Databricks, Data Factory, DevOps); GCP (BigQuery).",
   },
   {
-    title: "Data & orchestration",
+    title: "Pipelines & orchestration",
     body:
-      "PySpark, Kafka, Delta Lake; Snowflake + dbt in production; Airflow; CI/CD (Azure DevOps); observability.",
+      "ELT/ETL in production; dbt-style modular transforms and tests; Airflow; CI/CD; observability, retries, and idempotent loads.",
   },
   {
-    title: "BI & analytics",
-    body: "Power BI, Looker, visualization, metric-driven decisions.",
+    title: "Modeling & SQL",
+    body: "Dimensional modeling, grain discipline, incremental loads, advanced SQL for analytics and troubleshooting.",
   },
   {
     title: "Delivery",
@@ -126,7 +121,6 @@ type CvExperienceRole = {
   tags: readonly string[];
 };
 
-/** Chronology and copy aligned with `cv/cv-murilo-biss-resume.html` / PDF. */
 const experienceRoles: CvExperienceRole[] = [
   {
     org: "Tarmac.IO",
@@ -158,7 +152,7 @@ const experienceRoles: CvExperienceRole[] = [
       "ETL in Databricks and Snowflake; Spark integrations; Azure Data Factory and Azure DevOps for reliability.",
       "Agile Scrum with multidisciplinary teams; clear communication of results and blockers.",
     ],
-    accent: "from-red-100/80 to-transparent",
+    accent: "from-primary/15 to-transparent",
     tags: ["Databricks", "Snowflake", "Factory ETL", "Global KPIs"],
   },
   {
@@ -241,40 +235,40 @@ const experienceRoles: CvExperienceRole[] = [
 const jdMapping = [
   {
     Icon: Target,
-    ask: "Translate tax and finance questions into governed marts, metrics, and self-service BI",
+    ask: "Design, scale, and optimize Snowflake-centric pipelines and marts",
     proof:
-      "Own the middle: requirements workshops, metric grain, naming, and dbt or SQL models on Snowflake or Databricks before dashboards, at Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, and Banco Bari banking analytics. Stakeholders got Power BI and other enterprise BI on definitions I could explain and reconcile.",
+      "Own the middle: requirements workshops, metric grain, naming, and dbt or SQL models on Snowflake or Databricks before dashboards, at Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, and Banco Bari banking analytics.",
   },
   {
     Icon: GitBranch,
-    ask: "dbt (or equivalent) as the default for reusable transforms and tests",
+    ask: "Reusable transforms + tests (dbt or equivalent discipline)",
     proof:
-      "Production dbt with Snowflake and Databricks; medallion patterns; factory-style reusable pipelines at AB InBev. This repo shows singular tests, relationship tests, and mart rollups the way an analytics team would gate a release.",
+      "Production dbt with Snowflake and Databricks; medallion patterns; factory-style reusable pipelines at AB InBev. I default to gating releases with tests, documented contracts, and lineage.",
   },
   {
     Icon: BarChart3,
-    ask: "Data visualization plus a metrics-catalog mindset (semantic hand-off)",
+    ask: "Curated hand-off for analytics consumers (semantic mindset)",
     proof:
-      "Shipped dashboards and reporting packs in Power BI in production roles; here the /api/metrics contract and BI surface mimic the same boundary you would get from a governed semantic layer before any specific BI tool: documented, versionable, and safe for analysts.",
+      "Shipped dashboards and reporting packs in Power BI; here the /api/metrics contract and dashboard route mimic the boundary you would get from a governed semantic layer before any specific BI tool: versionable, safe for analysts.",
   },
   {
     Icon: Zap,
-    ask: "5+ years at scale: SQL depth, ETL, controls, independent prioritization",
+    ask: "Ownership under constraints (cost, performance, compliance)",
     proof:
-      "7+ years in data roles; strong Data Engineering and Analytics Engineering delivery; Snowflake and Databricks in production (marts, ELT, factory patterns); Spark/PySpark 5+ years; Airflow in production; Agile with global teams. I default to tests, lineage, and clear ownership of the number on the slide.",
+      "Snowflake and Databricks in production; Spark/PySpark; Airflow; and enterprise delivery patterns. I prioritize cost and reliability, not only feature velocity.",
   },
   {
     Icon: ShieldCheck,
-    ask: "Process discipline and regulated-industry delivery (including HSBC)",
+    ask: "Regulated-industry discipline (including HSBC)",
     proof:
-      "HSBC (May 2014–Aug 2016) as Process Analyst: process improvement, root-cause analysis, SLA compliance, and documentation in a regulated banking environment. Same rigor today when grain, SLAs, and auditability matter on Snowflake or Databricks.",
+      "HSBC (May 2014–Aug 2016) as Process Analyst: process improvement, root-cause analysis, SLA compliance, and documentation in a regulated banking environment. Same rigor today when auditability, access control, and change management matter in data platforms.",
   },
 ] as const;
 
 export function CvContent() {
   return (
     <div className="space-y-10 px-1 sm:px-0">
-      <section className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-white via-red-50/40 to-white px-6 py-8 shadow-lg shadow-primary/10 sm:px-10 sm:py-10">
+      <section className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-white via-cyan-50/40 to-white px-6 py-8 shadow-lg shadow-primary/10 sm:px-10 sm:py-10">
         <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" aria-hidden />
         <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-primary/5 blur-2xl" aria-hidden />
         <div className="relative flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
@@ -289,10 +283,8 @@ export function CvContent() {
               <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
                 downloadable PDF
               </a>{" "}
-              (same profile, competencies, experience, certifications, education, and languages). The sections below repeat that
-              résumé for accessibility; the{" "}
-              <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> portfolio elsewhere on this site is a separate
-              demo layer.
+              (same profile, competencies, experience, certifications, education, and languages). Supplementary pages on this
+              site illustrate a sample data platform; they are not part of the PDF.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
               <a href={CV_PDF_HREF} download className={cn(buttonVariants(), "gap-2 shadow-md shadow-primary/20")}>
@@ -308,9 +300,9 @@ export function CvContent() {
                 <FileText className="h-4 w-4" aria-hidden />
                 Open PDF in new tab
               </a>
-              <Link href="/dashboard" className={cn(buttonVariants({ variant: "outline" }), "gap-2 bg-white/80")}>
-                <LineChart className="h-4 w-4" aria-hidden />
-                Live metrics
+              <Link href="/ai-lab" className={cn(buttonVariants({ variant: "outline" }), "gap-2 bg-white/80")}>
+                <Wand2 className="h-4 w-4" aria-hidden />
+                AI Lab
               </Link>
               <Link href="/" className={cn(buttonVariants({ variant: "ghost" }), "gap-1")}>
                 Portfolio home
@@ -403,12 +395,11 @@ export function CvContent() {
         <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-2 text-primary">
             <ShieldCheck className="h-5 w-5 shrink-0" aria-hidden />
-            <h2 className="text-sm font-bold uppercase tracking-wide">Portfolio demo (not on the PDF)</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wide">Portfolio walkthrough (not on the PDF)</h2>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            The <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> pages on this site are a fictional scenario
-            for hiring managers to click through: metrics API, dashboards, and governance copy. They do not change the facts on
-            the résumé or PDF.
+            Extra routes here (infrastructure, dashboards, lineage narrative) are a self-contained demo for reviewers. They do not
+            change the facts on the résumé or PDF.
           </p>
         </div>
         <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
@@ -418,10 +409,7 @@ export function CvContent() {
           </div>
           <div className="mt-4 flex flex-wrap gap-2">
             {stackChips.map((chip) => (
-              <span
-                key={chip}
-                className="rounded-lg border border-primary/15 bg-primary/5 px-3 py-1.5 text-xs font-medium text-foreground"
-              >
+              <span key={chip} className="rounded-lg border border-primary/15 bg-primary/5 px-3 py-1.5 text-xs font-medium text-foreground">
                 {chip}
               </span>
             ))}
@@ -443,26 +431,24 @@ export function CvContent() {
               <span className="font-mono text-primary">●●●●●</span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-muted">
-              <div className="h-full w-[92%] rounded-full bg-gradient-to-r from-primary to-red-400" />
+              <div className="h-full w-[92%] rounded-full bg-gradient-to-r from-primary to-cyan-400" />
             </div>
             <div className="flex items-center justify-between text-xs text-muted-foreground">
               <span>Snowflake / marts / dbt / tests</span>
               <span className="font-mono text-primary">●●●●○</span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-muted">
-              <div className="h-full w-[88%] rounded-full bg-gradient-to-r from-primary to-red-400" />
+              <div className="h-full w-[88%] rounded-full bg-gradient-to-r from-primary to-cyan-400" />
             </div>
             <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>BI &amp; storytelling</span>
+              <span>Governance &amp; delivery</span>
               <span className="font-mono text-primary">●●●●○</span>
             </div>
             <div className="h-2 overflow-hidden rounded-full bg-muted">
-              <div className="h-full w-[85%] rounded-full bg-gradient-to-r from-primary to-red-400" />
+              <div className="h-full w-[85%] rounded-full bg-gradient-to-r from-primary to-cyan-400" />
             </div>
           </div>
-          <p className="mt-3 text-[11px] text-muted-foreground">
-            Bars are illustrative only; authoritative wording is the PDF and the sections above.
-          </p>
+          <p className="mt-3 text-[11px] text-muted-foreground">Bars are illustrative only; authoritative wording is the PDF.</p>
         </div>
       </section>
 
@@ -514,8 +500,8 @@ export function CvContent() {
               experience timeline below.
             </p>
           </div>
-          <Link href="/infrastructure?section=pipeline" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
-            See the repo →
+          <Link href="/infrastructure?section=infrastructure" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
+            See infrastructure →
           </Link>
         </div>
         <div className="space-y-4">
@@ -524,7 +510,7 @@ export function CvContent() {
               key={ask}
               className="relative overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-sm transition hover:border-primary/25 hover:shadow-md sm:p-6"
             >
-              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary to-red-400" aria-hidden />
+              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary to-cyan-400" aria-hidden />
               <div className="pl-4 sm:pl-5">
                 <div className="flex flex-wrap items-start gap-3">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
@@ -593,7 +579,7 @@ export function CvContent() {
         </div>
       </section>
 
-      <footer className="rounded-2xl border border-dashed border-primary/25 bg-red-50/40 px-5 py-5 text-center text-sm leading-relaxed text-muted-foreground">
+      <footer className="rounded-2xl border border-dashed border-primary/25 bg-cyan-50/40 px-5 py-5 text-center text-sm leading-relaxed text-muted-foreground">
         <p>
           <strong className="text-foreground">PDF</strong> is the same résumé as this page:{" "}
           <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
@@ -603,17 +589,17 @@ export function CvContent() {
           <a href={CV_PDF_HREF} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">
             open
           </a>
-          . Explore the demo app:{" "}
-          <Link href="/dashboard" className="font-medium text-primary underline-offset-4 hover:underline">
-            dashboards
+          . Explore the case:{" "}
+          <Link href="/infrastructure" className="font-medium text-primary underline-offset-4 hover:underline">
+            Infrastructure
           </Link>
           ,{" "}
-          <Link href="/source-of-truth" className="font-medium text-primary underline-offset-4 hover:underline">
-            metric truth
+          <Link href="/ai-lab" className="font-medium text-primary underline-offset-4 hover:underline">
+            AI Lab
           </Link>
           , and{" "}
-          <Link href="/ai-lab" className="font-medium text-primary underline-offset-4 hover:underline">
-            self-service lab
+          <Link href="/dashboard" className="font-medium text-primary underline-offset-4 hover:underline">
+            dashboards
           </Link>
           .
         </p>
@@ -621,3 +607,4 @@ export function CvContent() {
     </div>
   );
 }
+

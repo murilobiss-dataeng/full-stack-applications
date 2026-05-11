@@ -15,7 +15,7 @@ const flowTab: TabItem = {
         Bronze → silver → gold: immutable raw, typed staging, curated entities, dbt marts, then a thin API for products.
       </p>
       <div className="grid gap-3 sm:grid-cols-2">
-        <Card className="transition-colors hover:border-primary/20">
+        <Card className="transition-colors hover:border-[hsl(217,33%,24%)]">
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-sm">Ingestion</CardTitle>
             <CardDescription className="text-xs leading-relaxed">
@@ -23,7 +23,7 @@ const flowTab: TabItem = {
             </CardDescription>
           </CardHeader>
         </Card>
-        <Card className="transition-colors hover:border-primary/20">
+        <Card className="transition-colors hover:border-[hsl(217,33%,24%)]">
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-sm">Serving</CardTitle>
             <CardDescription className="text-xs leading-relaxed">

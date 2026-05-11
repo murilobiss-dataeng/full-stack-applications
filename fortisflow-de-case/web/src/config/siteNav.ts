@@ -6,36 +6,36 @@ export type NavItem = { href: string; label: string; spotlight?: boolean };
 
 export const primaryNav: NavItem[] = [
   { href: "/", label: "Home" },
-  { href: "/prep", label: "PM call prep", spotlight: true },
+  { href: "/ai-lab", label: "AI Lab", spotlight: true },
   { href: "/cv", label: "CV" },
-  { href: "/data-pipeline", label: "Snowflake & ELT" },
+  { href: "/infrastructure", label: "Infrastructure" },
   { href: "/data-modeling", label: "DW modeling" },
-  { href: "/governance", label: "Quality & governance" },
+  { href: "/source-of-truth", label: "Source of truth" },
   { href: "/dashboard", label: "Analytics surface" },
 ];
 
 export const homeDocLinks: readonly { href: string; label: string }[] = [
-  { href: "/prep", label: "Project Manager call · talking points" },
+  { href: "/ai-lab", label: "AI Lab (governed metrics)" },
   { href: "/cv", label: "CV (PDF + on-page)" },
-  { href: "/data-pipeline", label: "Snowflake optimization & pipelines" },
-  { href: "/data-modeling", label: "Layers, grain, reusable SQL" },
-  { href: "/governance", label: "Quality, lineage, access control" },
+  { href: "/infrastructure", label: "Infrastructure (ELT · performance · DQ)" },
+  { href: "/data-modeling", label: "DW modeling & SQL" },
+  { href: "/source-of-truth", label: "Lineage & narrative" },
 ] as const;
 
 export const footerColumns: readonly { title: string; links: readonly { href: string; label: string }[] }[] = [
   {
-    title: "Interview",
+    title: "Profile",
     links: [
-      { href: "/prep", label: "PM call prep" },
       { href: "/cv", label: "CV" },
-      { href: "/data-pipeline", label: "Snowflake & ELT" },
+      { href: "/ai-lab", label: "AI Lab" },
+      { href: "/infrastructure", label: "Infrastructure" },
     ],
   },
   {
-    title: "Design & quality",
+    title: "Design & trust",
     links: [
       { href: "/data-modeling", label: "DW modeling" },
-      { href: "/governance", label: "Quality & governance" },
+      { href: "/source-of-truth", label: "Source of truth" },
     ],
   },
   {

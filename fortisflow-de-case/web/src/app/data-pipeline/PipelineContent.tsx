@@ -25,7 +25,7 @@ const flowTab: TabItem = {
         { zone: "Staging", desc: "Normalized strings, duplicate flags, profiling." },
         { zone: "Curated", desc: "Golden-ready rows + resolved_entity_id + validation." },
       ].map((z) => (
-        <Card key={z.zone} className="transition-colors hover:border-primary/20">
+        <Card key={z.zone} className="transition-colors hover:border-[hsl(217,33%,24%)]">
           <CardHeader className="pb-1 pt-4">
             <CardTitle className="text-sm">{z.zone}</CardTitle>
           </CardHeader>

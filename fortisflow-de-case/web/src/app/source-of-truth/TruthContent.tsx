@@ -167,8 +167,8 @@ const validationTab: TabItem = {
               Metric truth
             </Link>{" "}
             for ownership and definitions, and{" "}
-            <Link href="/infrastructure?section=pipeline" className="text-primary underline-offset-4 hover:underline">
-              Pipeline
+            <Link href="/infrastructure?section=infrastructure" className="text-primary underline-offset-4 hover:underline">
+              Infrastructure
             </Link>{" "}
             for quarantine replay.
           </p>
