@@ -37,22 +37,24 @@ function resolveMetadataBase(): URL {
 export const metadata: Metadata = {
   metadataBase: resolveMetadataBase(),
   title: {
-    default: `Murilo Biss — ${SITE_PRODUCT_NAME} · Tax & marketplace analytics`,
+    default: `Murilo Biss · ${SITE_PRODUCT_NAME} · Tax and marketplace analytics`,
     template: `%s | ${SITE_PRODUCT_NAME}`,
   },
   description:
-    `Murilo Biss: Data Analyst portfolio for ${SITE_PRODUCT_NAME} — SQL, BI, and clear metrics on tax/finance & marketplace scenarios; demo data and charts on a fixed API contract. ${SITE_PRODUCT_NAME} is a fictional DoorDash-class last-mile brand used only in this demo.`,
+    `Murilo Biss: Analytics Engineering and data visualization portfolio for ${SITE_PRODUCT_NAME}. SQL, dbt, BI, and tax-aware metrics on marketplace scenarios; demo charts on a fixed API contract. Data Engineering paths are intentionally thin here. ${SITE_PRODUCT_NAME} is a fictional DoorDash-class last-mile brand used only in this demo.`,
   keywords: [
     SITE_PRODUCT_NAME,
     "Murilo Biss",
-    "Data Analyst",
+    "Analytics Engineering",
+    "data visualization",
     "SQL",
     "business intelligence",
+    "tax reporting",
+    "VAT",
     "metrics",
     "dbt",
     "Snowflake",
     "Databricks",
-    "Looker",
     "Power BI",
     "self-service analytics",
     "data mart",
@@ -61,9 +63,9 @@ export const metadata: Metadata = {
     "Airflow",
   ],
   openGraph: {
-    title: `Murilo Biss — ${SITE_PRODUCT_NAME}`,
+    title: `Murilo Biss · ${SITE_PRODUCT_NAME}`,
     description:
-      `SQL, BI, and analyst-ready metrics — ${SITE_PRODUCT_NAME} Data Analyst portfolio (Murilo Biss).`,
+      `SQL, dbt, BI, and tax-aware metrics: ${SITE_PRODUCT_NAME} Analytics Engineering portfolio (Murilo Biss).`,
     type: "website",
   },
   robots: { index: true, follow: true },

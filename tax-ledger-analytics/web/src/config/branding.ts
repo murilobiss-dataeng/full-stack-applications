@@ -1,5 +1,5 @@
 /**
- * DoorRush — fictional last-mile marketplace & logistics brand for this portfolio only
+ * DoorRush: fictional last-mile marketplace & logistics brand for this portfolio only
  * (not affiliated with any real company). Red/white visual identity inspired by major US delivery apps.
  */
 export const SITE_PRODUCT_NAME = "DoorRush";

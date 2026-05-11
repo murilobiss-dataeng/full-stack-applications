@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-const SECTIONS = new Set(["platform", "governance", "explorer", "pipeline", "modeling"]);
+const SECTIONS = new Set(["explorer", "pipeline", "modeling"]);
 
 export const metadata: Metadata = {
   title: "Marts & pipelines (redirect)",

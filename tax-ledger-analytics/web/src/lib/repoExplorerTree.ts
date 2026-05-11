@@ -1,6 +1,6 @@
 /**
  * Static tree mirroring the DoorRush portfolio monorepo for the GitHub-style explorer.
- * Paths are segments from the repository root (`tax-analytics` — portfolio folder may still be `tax-ledger-analytics` on disk).
+ * Paths are segments from the repository root (`tax-analytics`; portfolio folder may still be `tax-ledger-analytics` on disk).
  */
 
 export type RepoNode = {
@@ -29,7 +29,7 @@ function d(name: string, commitHint: string, children: RepoNode[]): RepoNode {
 
 export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
   f("README.md", "docs: project overview", {
-    description: "DoorRush — tax & marketplace marts, dbt, SQL, Python ETL, Next.js portfolio (Murilo Biss).",
+    description: "DoorRush: tax and marketplace marts, dbt, SQL, Python ETL, Next.js portfolio (Murilo Biss).",
     sample: `# DoorRush\n\nTax & marketplace analytics engineering portfolio`,
   }),
   d("infra", "feat: IaC + containers", [
@@ -61,7 +61,7 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
       d("data", "chore: sample zones", [
         d("raw", "data: DoorRush demo feeds", [
           f("partner_vendor_feed.json", "data: bronze partner feed", {
-            description: "Demo rows (John Smith / J. Smith) — DoorRush partner legal names before ETL.",
+            description: "Demo rows (John Smith / J. Smith): DoorRush partner legal names before ETL.",
             sample: '{ "records": [ { "partner_id": "P001", "full_name": "John Smith" }, ... ] }',
           }),
           f("hubs.json", "data: hubs", { description: "City / region hub dimension (DoorRush UK hubs)." }),
@@ -70,7 +70,7 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
         ]),
         d("processed", "etl: staging outputs", [
           f("partners_staging_*.json", "etl: staging batch", {
-            description: "Written by `run_partner_pipeline` — normalized + dedupe flags.",
+            description: "Written by `run_partner_pipeline`; normalized + dedupe flags.",
           }),
         ]),
         d("curated", "etl: golden-ready", [
@@ -171,26 +171,26 @@ export const repoRoot: RepoNode = d("tax-analytics", "Portfolio monorepo", [
     f("next.config.mjs", "chore: next config", {}),
     d("src", "refactor: app router", [
       d("app", "feat: routes + API", [
-        f("page.tsx", "ui: home", { description: "DoorRush narrative; Data Analyst positioning; CV + infra links." }),
+        f("page.tsx", "ui: home", { description: "DoorRush narrative; AE + DV positioning; CV + marts links." }),
         d("cv", "feat: application packet", [
           f("page.tsx", "ui: CV shell", { description: "Metadata + PageShell wrapper." }),
-          f("CvContent.tsx", "ui: CV + visual pitch", { description: "Hero KPI tiles, stack bars, role-fit grid, timeline — no certs block." }),
+          f("CvContent.tsx", "ui: CV + visual pitch", { description: "Hero KPI tiles, stack bars, role-fit grid, timeline; no certs or education blocks." }),
         ]),
         f("method/page.tsx", "redirect: legacy", {
-          description: "Redirects to / — standalone methodology route removed (Data Analyst framing).",
+          description: "Redirects to /; standalone methodology route removed (Data Analyst framing).",
         }),
         d("infrastructure", "feat: merged platform hub", [
-          f("page.tsx", "ui: Infrastructure", { description: "Rails: platform, governance, explorer, pipeline, modeling." }),
+          f("page.tsx", "ui: Marts hub", { description: "NavRail: repo explorer, marts & pipelines, modeling (AE scope)." }),
           f("InfrastructureHubClient.tsx", "ui: NavRail", {}),
         ]),
         d("governance", "feat: trust & TCO (embedded)", [
-          f("page.tsx", "redirect", { description: "→ /infrastructure?section=governance" }),
+          f("page.tsx", "redirect", { description: "→ /source-of-truth (governance narrative lives there)" }),
           f("GovernanceContent.tsx", "ui: tab body", {
             description: "Executive charter, security, IAM, IaC tab, DQ, orchestration, cost scenarios.",
           }),
         ]),
         d("ai-lab", "feat: AI simulation", [
-          f("page.tsx", "ui: AI lab", { description: "Simulated assistant over /api/metrics — demo only." }),
+          f("page.tsx", "ui: AI lab", { description: "Simulated assistant over /api/metrics; demo only." }),
           f("AiLabClient.tsx", "ui: prompt UX", { description: "Client-side typing + structured answer from live mock API." }),
         ]),
         f("layout.tsx", "ui: shell + metadata", {}),

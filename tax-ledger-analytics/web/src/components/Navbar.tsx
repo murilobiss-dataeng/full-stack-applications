@@ -26,7 +26,7 @@ export function Navbar() {
           <span className="flex flex-col leading-tight">
             <span>{SITE_PRODUCT_NAME}</span>
             <span className="hidden text-[10px] font-normal text-muted-foreground sm:block sm:text-xs">
-              Tax &amp; marketplace data · Data Analyst
+              Tax &amp; marketplace data · Analytics Engineering and visualization
             </span>
           </span>
         </Link>

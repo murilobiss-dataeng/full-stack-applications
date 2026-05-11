@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-/** Legacy route — portfolio is framed around Data Analyst delivery, not a separate methodology page. */
+/** Legacy route: portfolio centers on Analytics Engineering and visualization, not a standalone methodology page. */
 export default function MethodRedirectPage() {
   redirect("/");
 }

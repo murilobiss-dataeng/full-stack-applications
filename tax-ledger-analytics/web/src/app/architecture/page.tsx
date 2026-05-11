@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-const SECTIONS = new Set(["platform", "governance", "explorer", "pipeline", "modeling"]);
+const SECTIONS = new Set(["explorer", "pipeline", "modeling"]);
 
 export const metadata: Metadata = {
-  title: "Platform (redirect)",
+  title: "Legacy route (redirect)",
   robots: { index: false, follow: true },
 };
 
@@ -15,6 +15,6 @@ export default function ArchitectureRedirectPage({
 }) {
   const raw = searchParams.section;
   const s = typeof raw === "string" ? raw : undefined;
-  const section = s && SECTIONS.has(s) ? s : "platform";
+  const section = s && SECTIONS.has(s) ? s : "explorer";
   redirect(`/infrastructure?section=${section}`);
 }

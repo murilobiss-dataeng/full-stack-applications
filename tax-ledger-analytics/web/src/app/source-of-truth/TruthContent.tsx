@@ -43,7 +43,7 @@ const dedupTab: TabItem = {
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           Alert when average cluster size spikes (bad threshold) or singleton rate jumps (over-split). Compare weekly to a
-          trailing baseline — cheap SQL on staging metadata.
+          trailing baseline, using cheap SQL on staging metadata.
         </CardContent>
       </Card>
     </div>
@@ -126,8 +126,8 @@ const validationTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="grid gap-2 sm:grid-cols-2">
             <li>
-              <strong className="text-foreground">Accuracy / validity:</strong> VAT numbers, date ranges, hub tiers —
-              reject impossible combinations early.
+              <strong className="text-foreground">Accuracy / validity:</strong> VAT numbers, date ranges, hub tiers; reject
+              impossible combinations early.
             </li>
             <li>
               <strong className="text-foreground">Completeness:</strong> required attributes per source contract; optional
@@ -142,8 +142,8 @@ const validationTab: TabItem = {
               in dbt; cross-table balance checks when facts exist.
             </li>
             <li>
-              <strong className="text-foreground">Timeliness:</strong> freshness SLA per source — alert if bronze ingest
-              misses a window.
+              <strong className="text-foreground">Timeliness:</strong> freshness SLA per source; alert if bronze ingest misses
+              a window.
             </li>
             <li>
               <strong className="text-foreground">Bias / audit:</strong> log merge decisions with rule version + optional
@@ -157,16 +157,16 @@ const validationTab: TabItem = {
           <p className="mb-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">Execution order</p>
           <ol className="list-inside list-decimal space-y-2 text-xs leading-relaxed">
             <li>Pipeline schema checks reject malformed batches.</li>
-            <li>Staging distribution checks and anomaly tolerances (see Infrastructure → Marts &amp; pipelines → Data quality).</li>
+            <li>Staging distribution checks and anomaly tolerances (see Marts hub → Marts &amp; pipelines → Data quality).</li>
             <li>dbt tests on uniqueness, relationships, and accepted values in marts.</li>
             <li>API / consumer contract tests so partial deploys never break the UI silently.</li>
           </ol>
           <p className="mt-4 text-xs">
             Cross-reference:{" "}
-            <Link href="/infrastructure?section=governance" className="text-primary underline-offset-4 hover:underline">
-              Governance
+            <Link href="/source-of-truth" className="text-primary underline-offset-4 hover:underline">
+              Metric truth
             </Link>{" "}
-            for ownership + classification, and{" "}
+            for ownership and definitions, and{" "}
             <Link href="/infrastructure?section=pipeline" className="text-primary underline-offset-4 hover:underline">
               Pipeline
             </Link>{" "}

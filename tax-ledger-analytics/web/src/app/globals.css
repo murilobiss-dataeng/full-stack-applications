@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* DoorRush-inspired: white surfaces, DoorDash-class red accents (hsl, no hsl() wrapper — Tailwind/shadcn pattern) */
+/* DoorRush-inspired: white surfaces, DoorDash-class red accents (hsl, no hsl() wrapper; Tailwind/shadcn pattern) */
 :root {
   --background: 0 0% 100%;
   --foreground: 222 47% 11%;

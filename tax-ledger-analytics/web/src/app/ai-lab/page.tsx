@@ -9,7 +9,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Self-service lab",
   description:
-    "Self-service UX on a ready metrics stack: natural-language prompts answered only from governed /api/metrics — visualization-adjacent proof without raw-table access.",
+    "Self-service UX on a ready metrics stack: natural-language prompts answered only from governed /api/metrics, visualization-adjacent proof without raw-table access.",
 };
 
 export default function AiLabPage() {
@@ -22,12 +22,12 @@ export default function AiLabPage() {
         </div>
         <PageHeader
           kicker="Self-service without metric chaos"
-          title="AI Lab — prompt the governed metrics layer"
-          description="As a Data Analyst you often sit on top of a fixed metrics layer: prompts here resolve only to approved aggregates (here, /api/metrics) — same contract as Metric truth and BI, conversational UX without inventing a second source of numbers."
+          title="AI Lab: prompt the governed metrics layer"
+          description="Analytics Engineering sits on a fixed metrics layer: prompts here resolve only to approved aggregates (here, /api/metrics), same contract as Metric truth and BI, conversational UX without inventing a second source of numbers."
         />
       </Reveal>
       <Reveal delayMs={40}>
-        <PlatformScaffoldBanner focus="LLM UX is optional; the non-negotiable is the metrics contract underneath — already wired here for demo." />
+        <PlatformScaffoldBanner focus="LLM UX is optional; the non-negotiable is the metrics contract underneath, already wired here for demo." />
       </Reveal>
       <Reveal delayMs={80}>
         <AiLabClient />

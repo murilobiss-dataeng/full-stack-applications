@@ -8,7 +8,7 @@ import { Reveal } from "@/components/Reveal";
 export const metadata: Metadata = {
   title: "Metric truth",
   description:
-    "Portfolio-ready metric layer: grain, lineage, merge rules, and /api/metrics — structured so data visualization and stakeholder narrative prove value on a fixed contract.",
+    "Portfolio-ready metric layer: grain, lineage, merge rules, and /api/metrics, structured so data visualization and stakeholder narrative prove value on a fixed contract.",
 };
 
 export default function SourceOfTruthPage() {
@@ -17,8 +17,8 @@ export default function SourceOfTruthPage() {
       <Reveal>
         <PageHeader
           kicker="Structured stack · visualization proves value"
-          title="Metric truth — definitions you can chart"
-          description="This route mirrors the same pattern as Infrastructure: the heavy lifting (grain, dedup, validation, published API) is already sketched in code. Your hire signal is how those guarantees become clear visuals, comparisons, and exec-ready reads — without silent drift from the warehouse."
+          title="Metric truth: definitions you can chart"
+          description="This route mirrors the same pattern as the Marts hub: the heavy lifting (grain, dedup, validation, published API) is already sketched in code. Your hire signal is how those guarantees become clear visuals, comparisons, and exec-ready reads, without silent drift from the warehouse."
         />
       </Reveal>
       <Reveal delayMs={40}>

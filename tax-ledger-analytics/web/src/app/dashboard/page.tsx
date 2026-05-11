@@ -9,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const metadata: Metadata = {
   title: "BI surface",
   description:
-    "Data visualization on a fixed contract: charts bound to /api/metrics — the proof surface that turns Metric truth and Infrastructure into decisions stakeholders see.",
+    "Analytics-style dashboards on a fixed contract: cohort retention, funnels, segment mix, KPI bridges, and ops diagnostics from /api/metrics, aligned with Snowflake marts and governed semantics.",
 };
 
 export default function DashboardPage() {
@@ -17,13 +17,13 @@ export default function DashboardPage() {
     <PageShell wide>
       <Reveal>
         <PageHeader
-          kicker="Data visualization · value on a governed contract"
-          title="BI surface — charts that inherit the mart"
-          description="The warehouse and API layers are already modeled in this portfolio. This page is where you show impact: readable trends, comparisons, and guardrails — the same numbers a Looker explore or Sigma workbook would consume, without one-off SQL."
+          kicker="Data visualization · analytics-grade BI"
+          title="BI surface: cohorts, funnels, and governed metrics"
+          description="This page mirrors what you ship after Snowflake marts and semantic contracts exist: retention curves, funnel compression, segment mix, bridges, and ops diagnostics. Every series is bound to the same /api/metrics payload a Power BI dataset or Sigma workbook would call, so grain and definitions stay aligned with Analytics Engineering."
         />
       </Reveal>
       <Reveal delayMs={40}>
-        <PlatformScaffoldBanner focus="This is the fastest place to prove DV craft: every series comes from the published metrics route, not mock spreadsheets." />
+        <PlatformScaffoldBanner focus="Cohort, funnel, and bridge panels are intentionally richer than a single KPI strip: they show how you think about self-service analytics, not only chart styling." />
       </Reveal>
       <Reveal delayMs={60}>
         <DashboardCharts />

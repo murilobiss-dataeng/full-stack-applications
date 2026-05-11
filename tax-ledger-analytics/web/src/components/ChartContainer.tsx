@@ -7,9 +7,11 @@ type ChartContainerProps = {
   description?: string;
   children: React.ReactNode;
   className?: string;
+  /** Override inner chart viewport height (default fits most Recharts panels). */
+  chartClassName?: string;
 };
 
-export function ChartContainer({ title, description, children, className }: ChartContainerProps) {
+export function ChartContainer({ title, description, children, className, chartClassName }: ChartContainerProps) {
   return (
     <div
       className={cn(
@@ -21,7 +23,7 @@ export function ChartContainer({ title, description, children, className }: Char
         <h3 className="text-base font-semibold">{title}</h3>
         {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
       </div>
-      <div className="h-[240px] w-full sm:h-[252px]">{children}</div>
+      <div className={cn("h-[240px] w-full sm:h-[252px]", chartClassName)}>{children}</div>
     </div>
   );
 }

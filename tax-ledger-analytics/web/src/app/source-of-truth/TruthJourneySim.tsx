@@ -14,21 +14,21 @@ type Step = {
 const steps: Step[] = [
   {
     id: "raw",
-    title: "1. Bronze — partner / order feeds",
+    title: "1. Bronze: partner / order feeds",
     detail: "Immutable DoorRush marketplace payloads land with batch_id. POS, OMS, and tax-relevant adjustments may differ by vendor.",
     artifact: "s3://raw/doorrush/partner_feed_batch_009.json",
     risk: "Duplicate webhook delivery → idempotent writer required or double rows downstream.",
   },
   {
     id: "staging",
-    title: "2. Silver — normalized merchants",
+    title: "2. Silver: normalized merchants",
     detail: "Unicode NFKC, trimmed names, duplicate flags. Still multiple source IDs per same merchant legal entity.",
     artifact: "partners_staging_009.json (name_canonical, dup_group_hint)",
     risk: "Threshold drift on fuzzy flags → monitor cluster size distribution.",
   },
   {
     id: "curated",
-    title: "3. Gold — resolved merchants",
+    title: "3. Gold: resolved merchants",
     detail: "Union-find merge; each row gets resolved_entity_id + confidence for tax and payout joins.",
     artifact: "partners_curated_009.json",
     risk: "Over-merge on common trading names → VAT ID / Companies House gate or human review queue.",
@@ -50,7 +50,7 @@ const steps: Step[] = [
   {
     id: "api",
     title: "6. Curated API",
-    detail: "GET /api/metrics serves JSON from published marts — BI never reads raw landing tables.",
+    detail: "GET /api/metrics serves JSON from published marts; BI never reads raw landing tables.",
     artifact: '{ "partnerPerformance": [ … ], "batchId": "doorrush-demo-uk-42" }',
     risk: "Schema drift vs UI → contract tests + validation on the route.",
   },
@@ -72,7 +72,7 @@ export function TruthJourneySim() {
         <CardHeader className="pb-2">
           <CardTitle className="text-sm">Lineage: raw → API (DoorRush golden path)</CardTitle>
           <CardDescription className="text-xs">
-            Simulation — highlights advance automatically to show custody of data and where things break in real life.
+            Simulation: highlights advance automatically to show custody of data and where things break in real life.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">

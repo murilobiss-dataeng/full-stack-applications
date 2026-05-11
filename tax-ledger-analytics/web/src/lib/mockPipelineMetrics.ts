@@ -1,4 +1,4 @@
-/** Mock /api/metrics payload — DoorRush fictional marketplace (delivery, merchants, tax-relevant ops). */
+/** Mock /api/metrics payload: DoorRush fictional marketplace (delivery, merchants, tax-relevant ops). */
 
 export const mockPipelineMetrics = {
   generatedAt: "2026-05-01T12:00:00.000Z",
@@ -14,7 +14,7 @@ export const mockPipelineMetrics = {
     avgConfidence: 0.91,
     sampleCluster: {
       canonicalName: "Northside Pizza Collective Ltd",
-      variants: ["N. Pizza Collective", "Northside Pizza Co", "NS Pizza Ltd", "Northside Pizza — UK"],
+      variants: ["N. Pizza Collective", "Northside Pizza Co", "NS Pizza Ltd", "Northside Pizza (UK)"],
     },
   },
   /** Avg hours from order placed to delivered (mock mart). */
@@ -75,5 +75,44 @@ export const mockPipelineMetrics = {
     { bucket: "0.85–0.94", count: 1580 },
     { bucket: "0.70–0.84", count: 520 },
     { bucket: "<0.70", count: 200 },
+  ],
+  /**
+   * Mock cohort curves: % of merchants placing ≥1 order in week N after signup cohort month.
+   * Same shape you would build from a mart fct_orders joined to dim_merchant_first_order.
+   */
+  cohortMerchantRetentionPct: [
+    { relWeek: "W+0", m09: 100, m10: 100, m11: 100, m12: 100 },
+    { relWeek: "W+1", m09: 42, m10: 45, m11: 47, m12: 49 },
+    { relWeek: "W+2", m09: 35, m10: 38, m11: 40, m12: 42 },
+    { relWeek: "W+3", m09: 31, m10: 34, m11: 36, m12: 38 },
+    { relWeek: "W+4", m09: 28, m10: 31, m11: 33, m12: 35 },
+    { relWeek: "W+8", m09: 22, m10: 25, m11: 27, m12: 29 },
+  ],
+  /** Funnel from placement to proof-of-delivery (counts), mock ops mart. */
+  fulfillmentFunnel: [
+    { step: "Placed", count: 284000 },
+    { step: "Accepted", count: 268200 },
+    { step: "In kitchen", count: 251400 },
+    { step: "Out for delivery", count: 239800 },
+    { step: "Delivered", count: 228400 },
+  ],
+  /** % of GMV by segment (stacked = 100), weekly decomposition mock. */
+  segmentGmvMixPct: [
+    { week: "W40", smb: 52, midMarket: 34, enterprise: 14 },
+    { week: "W41", smb: 51, midMarket: 35, enterprise: 14 },
+    { week: "W42", smb: 50, midMarket: 35, enterprise: 15 },
+    { week: "W43", smb: 49, midMarket: 36, enterprise: 15 },
+    { week: "W44", smb: 48, midMarket: 37, enterprise: 15 },
+    { week: "W45", smb: 47, midMarket: 38, enterprise: 15 },
+    { week: "W46", smb: 47, midMarket: 38, enterprise: 15 },
+    { week: "W47", smb: 46, midMarket: 39, enterprise: 15 },
+  ],
+  /** YoY-style lift drivers (index), illustrative bridge chart. */
+  kpiBridgeIndex: [
+    { label: "Q3 baseline", value: 100 },
+    { label: "+ Orders", value: 108 },
+    { label: "+ AOV", value: 114 },
+    { label: "− Promo", value: 109 },
+    { label: "Q4 outcome", value: 109 },
   ],
 };

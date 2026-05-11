@@ -45,7 +45,7 @@ export function AiLabClient() {
       <Card className="overflow-hidden border-primary/35 bg-gradient-to-br from-primary/10 via-card/90 to-card shadow-lg shadow-primary/5">
         <div className="flex items-center gap-2 border-b border-primary/20 bg-primary/10 px-4 py-2.5 text-xs font-medium text-primary">
           <Sparkles className="h-4 w-4 shrink-0" aria-hidden />
-          Simulation — answers are generated client-side from live mock JSON (not a real LLM).
+          Simulation: answers are generated client-side from live mock JSON (not a real LLM).
         </div>
         <CardHeader className="pb-3 pt-5">
           <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
@@ -54,7 +54,7 @@ export function AiLabClient() {
           </CardTitle>
           <CardDescription className="text-sm">
             Ask in natural language; the demo stitches <code className="text-foreground">/api/metrics</code> fields into a
-            structured brief — the same pattern a RAG agent would use over your metadata + mart API.
+            structured brief, the same pattern a RAG agent would use over your metadata and mart API.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -93,7 +93,7 @@ export function AiLabClient() {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm">Structured answer</CardTitle>
-          <CardDescription className="text-xs">Typed progressively for effect — content is deterministic from the API.</CardDescription>
+          <CardDescription className="text-xs">Typed progressively for effect; content is deterministic from the API.</CardDescription>
         </CardHeader>
         <CardContent>
           <div
@@ -129,19 +129,19 @@ function buildNarrative(m: MetricsPayload, userPrompt: string): string {
   return [
     `» Request (truncated): ${userPrompt.slice(0, 120)}${userPrompt.length > 120 ? "…" : ""}`,
     "",
-    "Executive read — DoorRush curated mart + pipeline health",
+    "Executive read: DoorRush curated mart + pipeline health",
     `• Batch: ${batch}`,
-    `• Rows processed (last run): ${p?.rowsProcessed?.toLocaleString?.() ?? "—"}`,
-    `• Validation pass rate: ${p?.validationPassRate != null ? (p.validationPassRate * 100).toFixed(1) + "%" : "—"}`,
-    `• Job duration: ${p?.lastRunDurationMs?.toLocaleString?.() ?? "—"} ms`,
-    `• Merchant clusters merged: ${e?.clustersMerged?.toLocaleString?.() ?? "—"} at avg confidence ${e?.avgConfidence != null ? (e.avgConfidence * 100).toFixed(0) + "%" : "—"}`,
+    `• Rows processed (last run): ${p?.rowsProcessed?.toLocaleString?.() ?? "n/a"}`,
+    `• Validation pass rate: ${p?.validationPassRate != null ? (p.validationPassRate * 100).toFixed(1) + "%" : "n/a"}`,
+    `• Job duration: ${p?.lastRunDurationMs?.toLocaleString?.() ?? "n/a"} ms`,
+    `• Merchant clusters merged: ${e?.clustersMerged?.toLocaleString?.() ?? "n/a"} at avg confidence ${e?.avgConfidence != null ? (e.avgConfidence * 100).toFixed(0) + "%" : "n/a"}`,
     "",
     "Top partner clusters (golden IDs)",
     `• ${top || "No partner slice in payload."}`,
     "",
     "Risk / watchlist",
     "• If validation pass slips below 99.5%, freeze mart publish and replay quarantine (see Governance + Source of truth).",
-    "• Low-confidence merges should land in a human queue before payouts / tax reporting — policy, not model magic.",
+    "• Low-confidence merges should land in a human queue before payouts and tax reporting: policy, not model magic.",
     "",
     "Next step in a real deployment: log this summary with run_id + user role; call the same API the dashboard uses.",
   ].join("\n");

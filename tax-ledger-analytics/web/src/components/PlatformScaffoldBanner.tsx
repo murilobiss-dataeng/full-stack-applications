@@ -7,8 +7,8 @@ type PlatformScaffoldBannerProps = {
 };
 
 /**
- * Shared callout: the repo already implements pipelines, contracts, and API boundaries —
- * the hire signal is how that foundation becomes visuals and decisions (data viz + narrative).
+ * Shared callout: the repo already implements pipelines, contracts, and API boundaries.
+ * The hire signal is how that foundation becomes visuals and decisions (data visualization and narrative).
  */
 export function PlatformScaffoldBanner({ focus }: PlatformScaffoldBannerProps) {
   return (
@@ -21,11 +21,11 @@ export function PlatformScaffoldBanner({ focus }: PlatformScaffoldBannerProps) {
       </div>
       <div className="min-w-0 flex-1 space-y-2 text-xs leading-relaxed text-muted-foreground sm:text-sm">
         <p className="font-semibold text-foreground">
-          Ready-made portfolio stack — you add visualization &amp; narrative
+          Ready-made portfolio stack: you add visualization and narrative
         </p>
         <p>
           Ingest zones, warehouse DDL, dbt-style tests, and <code className="rounded bg-muted px-1 py-0.5 text-foreground">/api/metrics</code> are
-          already modeled in this repo (same spine as <strong className="text-foreground">Infrastructure</strong> and{" "}
+          already modeled in this repo (same spine as <strong className="text-foreground">Marts &amp; modeling</strong> and{" "}
           <strong className="text-foreground">Metric truth</strong>). {focus}
         </p>
         <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -34,11 +34,11 @@ export function PlatformScaffoldBanner({ focus }: PlatformScaffoldBannerProps) {
             className="inline-flex items-center gap-1.5 font-medium text-primary underline-offset-4 hover:underline"
           >
             <BarChart3 className="h-3.5 w-3.5 shrink-0" aria-hidden />
-            BI surface — where charts prove the contract
+            BI surface (charts prove the contract)
           </Link>
           <span className="text-muted-foreground/80">·</span>
           <Link href="/source-of-truth?section=visualization" className="font-medium text-primary underline-offset-4 hover:underline">
-            Visualization &amp; value (Metric truth)
+            Visualization and value (Metric truth)
           </Link>
         </p>
       </div>

@@ -30,7 +30,7 @@ export function ModelingDiagram() {
   return (
     <div className="space-y-3">
       <p className="text-xs text-muted-foreground">
-        The diagram cycles through foreign-key paths — the same edges your mart SQL should traverse efficiently.
+        The diagram cycles through foreign-key paths; the same edges your mart SQL should traverse efficiently.
       </p>
       <div className="relative grid min-h-[220px] gap-3 sm:grid-cols-2 sm:grid-rows-2">
         {nodes.map((n) => {

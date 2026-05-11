@@ -27,7 +27,7 @@ const flowTab: TabItem = {
           <CardHeader className="pb-2 pt-4">
             <CardTitle className="text-sm">Serving</CardTitle>
             <CardDescription className="text-xs leading-relaxed">
-              Edge-friendly JSON from marts — see <code className="text-foreground">/api/metrics</code> for a mock payload.
+              Edge-friendly JSON from marts; see <code className="text-foreground">/api/metrics</code> for a mock payload.
             </CardDescription>
           </CardHeader>
         </Card>
@@ -137,7 +137,7 @@ const economicsTab: TabItem = {
       <div className="grid gap-3 lg:grid-cols-3">
         <Card className="border-primary/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Tier A — MVP (&lt;$200/mo typical)</CardTitle>
+            <CardTitle className="text-sm">Tier A: MVP (&lt;$200/mo typical)</CardTitle>
             <CardDescription className="text-xs">Solo or tiny team, nightly batches</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
@@ -151,7 +151,7 @@ const economicsTab: TabItem = {
             </p>
             <p>
               <span className="font-medium text-foreground">Warehouse:</span> Neon / Supabase / RDS{" "}
-              <code className="text-foreground">db.t4g.micro</code> — smallest instance that fits working set.
+              <code className="text-foreground">db.t4g.micro</code>: smallest instance that fits working set.
             </p>
             <p>
               <span className="font-medium text-foreground">Observability:</span> structured logs to stdout → CloudWatch
@@ -161,7 +161,7 @@ const economicsTab: TabItem = {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Tier B — Product traction</CardTitle>
+            <CardTitle className="text-sm">Tier B: Product traction</CardTitle>
             <CardDescription className="text-xs">Hourly loads, a few concurrent analysts</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
@@ -184,13 +184,13 @@ const economicsTab: TabItem = {
         </Card>
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm">Tier C — Scale-out</CardTitle>
+            <CardTitle className="text-sm">Tier C: Scale-out</CardTitle>
             <CardDescription className="text-xs">Multi-tenant, SLAs, heavy BI</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
             <p>
               <span className="font-medium text-foreground">Lakehouse (optional):</span> Iceberg/Delta on S3 + Trino or
-              warehouse-native external tables — only when cross-source SQL at lake scale beats egress costs.
+              warehouse-native external tables; only when cross-source SQL at lake scale beats egress costs.
             </p>
             <p>
               <span className="font-medium text-foreground">Separation:</span> dedicated ingestion accounts, row-level
@@ -214,7 +214,7 @@ const platformLadderTab: TabItem = {
     <div className="space-y-5">
       <p className="text-sm leading-relaxed text-muted-foreground">
         Same logical pipeline (bronze → silver → gold → warehouse → marts) can run on different clouds and price curves.
-        Below is a <strong className="text-foreground">cheapest-first ladder</strong> — upgrade when data volume, team size,
+        Below is a <strong className="text-foreground">cheapest-first ladder</strong>; upgrade when data volume, team size,
         or compliance forces it, not before.
       </p>
       <div className="overflow-x-auto rounded-xl border border-border">
@@ -230,12 +230,12 @@ const platformLadderTab: TabItem = {
             <tr className="border-b border-border/70">
               <td className="px-3 py-2 font-medium text-emerald-400/90">Lowest</td>
               <td className="px-3 py-2">Local disk or S3 + cron / GitHub Actions + Python on a small VM; Postgres managed free tier.</td>
-              <td className="px-3 py-2">MVP, &lt; few GB/day, one engineer — this repo mirrors that spirit.</td>
+              <td className="px-3 py-2">MVP, &lt; few GB/day, one engineer; this repo mirrors that spirit.</td>
             </tr>
             <tr className="border-b border-border/70">
               <td className="px-3 py-2 font-medium text-emerald-400/90">Low</td>
               <td className="px-3 py-2">S3 + AWS Lambda / Step Functions + RDS; or GCP Cloud Run jobs + Cloud SQL.</td>
-              <td className="px-3 py-2">Scheduled ETL, pay-per-invoke, minimal ops — still no Spark tax.</td>
+              <td className="px-3 py-2">Scheduled ETL, pay-per-invoke, minimal ops; still no Spark tax.</td>
             </tr>
             <tr className="border-b border-border/70">
               <td className="px-3 py-2 font-medium text-amber-400/90">Mid</td>
@@ -244,7 +244,7 @@ const platformLadderTab: TabItem = {
                 <strong className="text-foreground">Athena</strong> on curated Parquet/Iceberg; or{" "}
                 <strong className="text-foreground">BigQuery</strong> external tables + scheduled queries.
               </td>
-              <td className="px-3 py-2">Many small files, evolving schemas, catalog discovery — Glue catalog pays off.</td>
+              <td className="px-3 py-2">Many small files, evolving schemas, catalog discovery; Glue catalog pays off.</td>
             </tr>
             <tr className="border-b border-border/70">
               <td className="px-3 py-2 font-medium text-amber-400/90">Mid–high</td>
@@ -268,16 +268,16 @@ const platformLadderTab: TabItem = {
                 Databricks/Snowflake <span className="italic">plus</span> Fivetran / Matillion / observability (Monte Carlo
                 class) + multi-region DR.
               </td>
-              <td className="px-3 py-2">Regulated, multi-tenant, global footprint — executive sign-off once ARR supports fixed platform burn.</td>
+              <td className="px-3 py-2">Regulated, multi-tenant, global footprint; executive sign-off once ARR supports fixed platform burn.</td>
             </tr>
           </tbody>
         </table>
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">
-        <strong className="text-foreground">Governance tie-in:</strong> expensive platforms do not replace contracts — they
+        <strong className="text-foreground">Governance tie-in:</strong> expensive platforms do not replace contracts; they
         automate enforcement. Pair any tier with{" "}
-        <Link href="/infrastructure?section=governance" className="text-primary underline-offset-4 hover:underline">
-          Governance &amp; security
+        <Link href="/source-of-truth" className="text-primary underline-offset-4 hover:underline">
+          Metric truth
         </Link>{" "}
         so spend tracks risk.
       </p>
@@ -299,7 +299,7 @@ const testCiTab: TabItem = {
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
             <ul className="list-inside list-disc space-y-1.5">
               <li>
-                <strong className="text-foreground">Unit:</strong> normalization, dedupe flags, merge rules — pure functions
+                <strong className="text-foreground">Unit:</strong> normalization, dedupe flags, merge rules; pure functions
                 with fixtures (see <code className="text-foreground">tests/test_normalization.py</code> pattern).
               </li>
               <li>
@@ -355,13 +355,13 @@ const testCiTab: TabItem = {
               anomalies; Slack/webhook alerts.
             </li>
             <li>
-              <strong className="text-foreground">Heavier:</strong> Great Expectations or vendor DQ — add when false-positive
+              <strong className="text-foreground">Heavier:</strong> Great Expectations or vendor DQ; add when false-positive
               noise from (1)-(2) exceeds engineering time.
             </li>
           </ol>
           <p className="mt-3">
             <strong className="text-foreground">Quarantine pattern:</strong> failed rows land in{" "}
-            <code className="text-foreground">raw/quarantine/</code> with error code; never silently drop — fixes replay
+            <code className="text-foreground">raw/quarantine/</code> with error code; never silently drop; fixes replay
             from bronze.
           </p>
         </CardContent>
@@ -387,7 +387,7 @@ const aiTab: TabItem = {
           <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
             <p>
               <strong className="text-foreground">Match review queue:</strong> LLM summarizes why two merchant profiles might
-              match (evidence bullets); human approves merge — API costs bounded by queue depth + caching.
+              match (evidence bullets); human approves merge; API costs bounded by queue depth + caching.
             </p>
             <p>
               <strong className="text-foreground">RAG on internal metadata:</strong> embeddings over dbt model docs + column
@@ -395,7 +395,7 @@ const aiTab: TabItem = {
             </p>
             <p>
               <strong className="text-foreground">DQ copilot:</strong> feed anonymized schema + failing row patterns to
-              suggest fix SQL or upstream ticket text — optional, off by default in regulated contexts.
+              suggest fix SQL or upstream ticket text; optional, off by default in regulated contexts.
             </p>
           </CardContent>
         </Card>
@@ -407,7 +407,7 @@ const aiTab: TabItem = {
             <p>
               <strong className="text-foreground">Embeddings for similarity:</strong> small open models (e.g. sentence
               transformers) run batch on CPU for name/affiliation clustering; cache vectors in Postgres{" "}
-              <code className="text-foreground">pgvector</code> when latency matters — cheaper than LLM per row at volume.
+              <code className="text-foreground">pgvector</code> when latency matters; cheaper than LLM per row at volume.
             </p>
             <p>
               <strong className="text-foreground">Vendor LLM:</strong> pay-per-token APIs with redaction pipeline (strip
@@ -416,7 +416,7 @@ const aiTab: TabItem = {
             </p>
             <p>
               <strong className="text-foreground">Later:</strong> fine-tune a small classifier on labeled merge pairs when
-              you have thousands of examples — amortizes inference cost.
+              you have thousands of examples; amortizes inference cost.
             </p>
           </CardContent>
         </Card>

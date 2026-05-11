@@ -150,7 +150,7 @@ export function RepoExplorer() {
             })}
           </div>
           {invalidPath ? (
-            <p className="px-4 py-8 text-center text-sm text-amber-200/90 sm:px-5">Path not found — use the breadcrumb to go back.</p>
+            <p className="px-4 py-8 text-center text-sm text-amber-200/90 sm:px-5">Path not found; use the breadcrumb to go back.</p>
           ) : rows.length === 0 ? (
             <p className="px-4 py-8 text-center text-sm text-muted-foreground sm:px-5">This folder is empty.</p>
           ) : null}

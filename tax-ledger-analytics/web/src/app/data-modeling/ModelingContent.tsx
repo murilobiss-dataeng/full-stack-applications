@@ -87,7 +87,7 @@ const toolsTab: TabItem = {
   content: (
     <div className="space-y-3">
       <p className="text-xs leading-relaxed text-muted-foreground">
-        Same logical model can be implemented with different vendors — choose for cost, lock-in, and hiring pool.
+        Same logical model can be implemented with different vendors; choose for cost, lock-in, and hiring pool.
       </p>
       <div className="grid gap-3 md:grid-cols-2">
         <Card>
@@ -96,14 +96,21 @@ const toolsTab: TabItem = {
           </CardHeader>
           <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
             <p>
-              <strong className="text-foreground">Postgres</strong> (Neon, RDS, AlloyDB) — lowest ops for OLTP-shaped
-              marketplace marts. <strong className="text-foreground">Snowflake / BigQuery / Redshift</strong> when cross-org sharing and
-              elastic compute beat egress math.
+              <strong className="text-foreground">Snowflake</strong> is the default analytical plane in many tax and finance
+              programs: separate compute/warehouse, time travel for replay, native stages and tasks for incremental loads,
+              Streams for CDC-style capture, Dynamic Tables or dbt incremental models for marts, and row access policies for
+              tenant-safe self-service. Result cache and clustering keys matter once Power BI or Sigma workbook fan-out grows.
             </p>
             <p>
-              <strong className="text-foreground">dbt</strong> vs <strong className="text-foreground">SQLMesh / Dataform</strong>{" "}
-              for declarative transforms; <strong className="text-foreground">Liquibase / Flyway</strong> for imperative DDL
-              migrations alongside dbt snapshots.
+              <strong className="text-foreground">Postgres</strong> (Neon, RDS, AlloyDB) stays useful for app OLTP, local
+              fixtures, or small sandboxes; the same dbt project often targets Snowflake in prod and Postgres in CI with slim
+              seeds.
+            </p>
+            <p>
+              <strong className="text-foreground">dbt</strong> on Snowflake (or <strong className="text-foreground">SQLMesh</strong> /{" "}
+              <strong className="text-foreground">Dataform</strong>) for declarative transforms;{" "}
+              <strong className="text-foreground">Liquibase</strong> / <strong className="text-foreground">Flyway</strong> when you need imperative
+              DDL outside dbt snapshots.
             </p>
           </CardContent>
         </Card>
@@ -113,9 +120,10 @@ const toolsTab: TabItem = {
           </CardHeader>
           <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
             <p>
-              <strong className="text-foreground">OpenLineage</strong> events from the pipeline + dbt artifacts →{" "}
-              <strong className="text-foreground">Marquez / DataHub</strong> (OSS) or native Databricks/Snowflake lineage when
-              budget allows.
+              <strong className="text-foreground">OpenLineage</strong> events from the pipeline plus dbt artifacts into{" "}
+              <strong className="text-foreground">Marquez</strong> or <strong className="text-foreground">DataHub</strong> (OSS), or use{" "}
+              <strong className="text-foreground">Snowflake</strong> native lineage and object dependencies in Access History when
+              budget favors fewer moving parts.
             </p>
             <p>
               API layer: <strong className="text-foreground">Next.js</strong> routes (this app), or{" "}
@@ -169,7 +177,7 @@ LIMIT 4;`}
           </pre>
           <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
             Same numbers feed <Link href="/dashboard" className="text-primary underline-offset-4 hover:underline">Dashboard</Link>{" "}
-            via <code className="text-foreground">/api/metrics</code> — contract tests should lock column types and row grain.
+            via <code className="text-foreground">/api/metrics</code>; contract tests should lock column types and row grain.
           </p>
         </CardContent>
       </Card>
@@ -203,7 +211,10 @@ const performanceTab: TabItem = {
       <Card>
         <CardHeader className="pb-2">
           <CardTitle className="text-sm">Indexes</CardTitle>
-          <CardDescription className="text-xs">B-Tree for filters; GIN / trigram only where search demands it</CardDescription>
+          <CardDescription className="text-xs">
+            Postgres-shaped patterns for local CI; production Snowflake uses clustering keys and search optimization instead of
+            B-Tree wording, but the join discipline is the same.
+          </CardDescription>
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="list-inside list-disc space-y-1.5">
@@ -212,12 +223,34 @@ const performanceTab: TabItem = {
               <code className="text-foreground">placed_at DESC</code>) keeps timeline queries index-friendly where possible.
             </li>
             <li>
-              <strong className="text-foreground">GIN + pg_trgm</strong> for fuzzy merchant name search — add after measuring
+              <strong className="text-foreground">GIN + pg_trgm</strong> for fuzzy merchant name search; add after measuring
               sequential scans; every extra index slows writes.
             </li>
             <li>
               <strong className="text-foreground">Covering indexes</strong> (INCLUDE) for hot read paths that power the
-              dashboard — trade storage for fewer heap fetches.
+              dashboard; trade storage for fewer heap fetches.
+            </li>
+          </ul>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-sm">Snowflake rollups</CardTitle>
+          <CardDescription className="text-xs">Warehouse-native performance habits</CardDescription>
+        </CardHeader>
+        <CardContent className="text-xs leading-relaxed text-muted-foreground">
+          <ul className="list-inside list-disc space-y-1.5">
+            <li>
+              Define clustering keys on large facts (for example <code className="text-foreground">hub_id</code>,{" "}
+              <code className="text-foreground">order_date</code>) so selective BI queries prune micro-partitions.
+            </li>
+            <li>
+              Materialized marts as Dynamic Tables or incremental dbt models; use warehouse auto-suspend and query acceleration
+              where the workbook concurrency justifies it.
+            </li>
+            <li>
+              Use <code className="text-foreground">QUERY_TAG</code> from dbt or the semantic layer so Snowflake access history
+              lines up with dashboard tiles and tax close batches.
             </li>
           </ul>
         </CardContent>
@@ -229,9 +262,9 @@ const performanceTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           Push heavy rollups to dbt marts; cap ORM N+1 patterns in the API; run{" "}
           <code className="text-foreground">EXPLAIN (ANALYZE, BUFFERS)</code> on the slowest three queries monthly. For
-          cost and governance context (RLS, classification), see{" "}
-          <Link href="/infrastructure?section=governance" className="text-primary underline-offset-4 hover:underline">
-            Governance
+          cost and definitions context (metric owners, semantic contracts), see{" "}
+          <Link href="/source-of-truth" className="text-primary underline-offset-4 hover:underline">
+            Metric truth
           </Link>
           .
         </CardContent>

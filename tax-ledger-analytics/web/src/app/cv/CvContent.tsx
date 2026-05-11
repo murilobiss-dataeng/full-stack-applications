@@ -1,13 +1,11 @@
 import Link from "next/link";
 import {
   ArrowRight,
-  Award,
   BarChart3,
   Database,
   Download,
   FileText,
   GitBranch,
-  GraduationCap,
   Layers,
   LineChart,
   Linkedin,
@@ -28,43 +26,43 @@ const CV_PDF_HREF = "/cv-murilo-biss.pdf";
 const kpis = [
   { value: "7+", label: "Years in data", hint: "SQL → marts → BI" },
   { value: "dbt", label: "Production", hint: "Snowflake · Databricks" },
-  { value: "BI", label: "Looker · PBI", hint: "Semantic hand-off" },
-  { value: "∞", label: "QA first", hint: "Charts · reconciliations" },
+  { value: "PBI+", label: "BI & visuals", hint: "Power BI · enterprise BI" },
+  { value: "∞", label: "Grain first", hint: "Charts · tests · lineage" },
 ] as const;
 
-const stackChips = ["Python", "Spark", "Airflow", "AWS", "Azure", "Terraform", "Agile / global"] as const;
+const stackChips = ["Python", "Spark", "Airflow", "AWS", "Azure", "Terraform", "Power BI", "Agile / PO"] as const;
 
 /** Full role-fit mapping (same substance as the original CV page). */
 const jdMapping = [
   {
     Icon: Target,
-    ask: "Turn tax / finance questions into trusted metrics, SQL, and BI deliverables",
+    ask: "Translate tax and finance questions into governed marts, metrics, and self-service BI",
     proof:
-      "Own the question side: workshops, grain checks, and validated reporting before leadership sees a number — Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, Banco Bari banking analytics. Stakeholders got Looker/Power BI packs I could explain and reconcile.",
+      "Own the middle: requirements workshops, metric grain, naming, and dbt or SQL models before dashboards, at Tarmac.IO (healthcare compensation, logistics), AB InBev global KPIs, and Banco Bari banking analytics. Stakeholders got Power BI and other enterprise BI on definitions I could explain and reconcile.",
   },
   {
     Icon: GitBranch,
-    ask: "Work with tested transforms (dbt-style) and catch breaks before the dashboard",
+    ask: "dbt (or equivalent) as the default for reusable transforms and tests",
     proof:
       "Production dbt with Snowflake and Databricks; medallion patterns; factory-style reusable pipelines at AB InBev. This repo shows singular tests, relationship tests, and mart rollups the way an analytics team would gate a release.",
   },
   {
     Icon: BarChart3,
-    ask: "Sigma / Looker-class experience: metrics catalog mindset",
+    ask: "Data visualization plus a metrics-catalog mindset (semantic hand-off)",
     proof:
-      "Shipped BI in Looker and Power BI in real roles; here the /api/metrics contract + dashboard pages mimic a semantic layer boundary — documented, versionable, and safe for analysts.",
+      "Shipped dashboards and reporting packs in Power BI in production roles; here the /api/metrics contract and BI surface mimic the same boundary you would get from a governed semantic layer before any specific BI tool: documented, versionable, and safe for analysts.",
   },
   {
     Icon: Zap,
     ask: "5+ years at scale: SQL depth, ETL, controls, independent prioritization",
     proof:
-      "7+ years data roles; Senior Data Analyst background; Spark/PySpark 5+ years; Airflow certified; Agile with global teams. I default to reconciliations, clear documentation, and ownership of the numbers in the deck — what hiring managers expect from a senior Data Analyst.",
+      "7+ years in data roles; strong Data Engineering and Analytics Engineering delivery; Spark/PySpark 5+ years; Airflow in production; Agile with global teams. I default to tests, lineage, and clear ownership of the number on the slide.",
   },
   {
     Icon: Layers,
-    ask: "Work across Data Eng, tax, finance, and product without dropping detail",
+    ask: "Product ownership and cross-functional delivery (including HSBC)",
     proof:
-      "Embedded with product and engineering at Tarmac; cross-market alignment at AB InBev; Terraform/CI where relevant. I speak JIRA and backlog language while keeping grain and SLAs explicit.",
+      "Product Owner experience at HSBC: backlog, prioritization, and stakeholder alignment in a regulated banking context, alongside engineering. At Tarmac and AB InBev I stayed embedded with product and engineering; Terraform/CI where relevant. JIRA and backlog language while grain and SLAs stay explicit.",
   },
 ] as const;
 
@@ -72,50 +70,49 @@ const roles = [
   {
     org: "Tarmac.IO",
     role: "Senior Data Engineer",
-    period: "May 2025 — present · Brazil",
+    period: "May 2025 to present · Brazil",
     accent: "from-primary/20 to-transparent",
     tags: ["dbt", "Snowflake", "Databricks", "DLT", "Terraform"],
     body: [
-      "Embedded: logistics company — supply chain data platform, real-time inventory, routes, material lifecycle; medallion Bronze/Silver/Gold, ELT, data products for ops and BI.",
-      "Embedded: healthcare — workforce & compensation analytics on Databricks Lakehouse; Delta Live Tables, data quality, lineage, governance; Terraform and cloud-native automation.",
+      "Embedded: logistics company: supply chain data platform, real-time inventory, routes, material lifecycle; medallion Bronze/Silver/Gold, ELT, data products for ops and BI.",
+      "Embedded: healthcare: workforce and compensation analytics on Databricks Lakehouse; Delta Live Tables, data quality, lineage, governance; Terraform and cloud-native automation.",
       "Leading client data engineering for internal tools and customer-facing products: Python, SQL, Spark, migrating legacy to Snowflake/Databricks, scalable models, monitoring and retries for jobs, Agile with global teams, AWS + Terraform.",
     ],
   },
   {
     org: "AB InBev",
     role: "Data Engineer",
-    period: "Aug 2023 — May 2025",
+    period: "Aug 2023 to May 2025",
     accent: "from-red-100/80 to-transparent",
     tags: ["Databricks", "Snowflake", "Factory ETL", "Global KPIs"],
     body: [
-      "The Loop Hub — centralized data platform for sales, marketing, and ops across markets; standardized KPIs and decisions; Databricks + Snowflake lakehouse, scalable models, near real-time analytics.",
+      "The Loop Hub: centralized data platform for sales, marketing, and ops across markets; standardized KPIs and decisions; Databricks + Snowflake lakehouse, scalable models, near real-time analytics.",
       "Factory-style reusable ETL across domains; requirements analysis, business rules, structures for unified analytics; Spark, Azure Data Factory, Azure DevOps; Agile with multidisciplinary teams; communicating results and blockers in ceremonies.",
     ],
   },
   {
     org: "Banco Bari",
     role: "Data Engineer / Senior Data Analyst",
-    period: "2019 — 2023 · Curitiba, PR",
+    period: "2019 to 2023 · Curitiba, PR",
     accent: "from-primary/15 to-transparent",
     tags: ["AWS", "Glue", "Redshift", "Airflow", "Power BI"],
     body: [
-      "Data Engineer (Jan 2022 — Sep 2023): modern banking analytics platform — AWS (S3, Glue, Athena, Redshift), ETL, Airflow DAGs, advanced SQL, Agile delivery, cross-functional communication.",
-      "Senior Data Analyst (Dec 2020 — Dec 2021): dashboards and KPIs for business units; Power BI, SQL, AWS Athena, Power Query M, Python; exploratory analysis, data culture; defining and tracking metrics for objectives.",
-      "Project Analyst (Aug 2019 — Dec 2020): outsourcing & IT projects — scope, budget, planning, risk, status reporting.",
+      "Data Engineer (Jan 2022 to Sep 2023): modern banking analytics platform with AWS (S3, Glue, Athena, Redshift), ETL, Airflow DAGs, advanced SQL, Agile delivery, cross-functional communication.",
+      "Senior Data Analyst (Dec 2020 to Dec 2021): dashboards and KPIs for business units; Power BI, SQL, AWS Athena, Power Query M, Python; exploratory analysis, data culture; defining and tracking metrics for objectives.",
+      "Project Analyst (Aug 2019 to Dec 2020): outsourcing and IT projects with scope, budget, planning, risk, status reporting.",
     ],
   },
-] as const;
-
-const certifications = [
-  "Astronomer — Apache Airflow Fundamentals",
-  "Liderança e Gestão de Pessoas",
-  "Fullstack Labs — Certified Data Engineer",
-] as const;
-
-const education = [
-  "FIAP — Pós-graduação Lato Sensu, Engenharia de Software (March 2025 — August 2026)",
-  "Pontifícia Universidade Católica do Paraná — Engenharia de Produção (2011 — 2015)",
-  "Universidade Tecnológica Federal do Paraná — Engenharia Civil (2007 — 2012)",
+  {
+    org: "HSBC",
+    role: "Product Owner",
+    period: "Banking · Agile delivery (chronology in PDF)",
+    accent: "from-slate-100/90 to-transparent",
+    tags: ["Agile", "Backlog", "Stakeholders", "Regulatory context"],
+    body: [
+      "Owned prioritization, backlog, and acceptance criteria for data and reporting initiatives with business and engineering in a regulated banking environment.",
+      "Partnered across ceremonies and roadmaps so delivery stayed aligned with risk, compliance, and customer outcomes; full scope and dates are consolidated in the PDF.",
+    ],
+  },
 ] as const;
 
 export function CvContent() {
@@ -129,17 +126,20 @@ export function CvContent() {
           <div className="max-w-2xl space-y-4">
             <p className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
-              Data Analyst · portfolio demo
+              Data visualization · Analytics Engineering · Data Engineering · Product
             </p>
             <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Murilo Biss</h1>
             <p className="text-lg leading-relaxed text-muted-foreground sm:text-xl">
-              <strong className="font-semibold text-foreground">Senior Data Analyst</strong> (comfortable in SQL-heavy and
-              pipeline-adjacent work when the team is small). I focus on turning operational and financial data into{" "}
-              <strong className="font-semibold text-foreground">clear cuts, checks, and visuals</strong>{" "}
-              — the profile you want when the mart exists but the story still needs to be right.
+              <strong className="font-semibold text-foreground">Data visualization</strong> is often the hiring lens, but I
+              am not only that: I ship the full stack around it as{" "}
+              <strong className="font-semibold text-foreground">Analytics Engineering</strong> and{" "}
+              <strong className="font-semibold text-foreground">Data Engineering</strong> when the team is small, plus{" "}
+              <strong className="font-semibold text-foreground">Product Owner</strong> experience at HSBC (Agile banking,
+              backlog, stakeholders). I own the path from messy operational data to{" "}
+              <strong className="font-semibold text-foreground">named metrics, tested SQL, and visuals that match the mart</strong>.
             </p>
             <p className="text-base leading-relaxed text-muted-foreground">
-              From raw feeds to <span className="font-medium text-foreground">metrics that survive scrutiny</span> — same
+              From raw feeds to <span className="font-medium text-foreground">metrics that survive scrutiny</span>, same
               rigor whether the story is{" "}
               <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> in this portfolio or your production
               warehouse.
@@ -216,16 +216,17 @@ export function CvContent() {
         <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-2 text-primary">
             <ShieldCheck className="h-5 w-5 shrink-0" aria-hidden />
-            <h2 className="text-sm font-bold uppercase tracking-wide">What you get when you hire me (Data Analyst)</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wide">What you get when you hire me</h2>
           </div>
           <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Someone who <strong className="text-foreground">frames the question with you</strong>, validates cuts in SQL,
-            documents assumptions, and lands the answer in a dashboard or slide — partnering with Data Engineering when the
-            pipeline or mart needs a change, without losing the business thread.
+            Someone who <strong className="text-foreground">frames the question with you</strong>, validates cuts in SQL and
+            dbt, documents assumptions, and lands the answer in{" "}
+            <strong className="text-foreground">Power BI or your standard enterprise BI stack</strong>, while staying
+            pipeline-adjacent enough to unblock the warehouse when the mart needs a change.
           </p>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">
             I care that <strong className="text-foreground">the chart matches the agreed definition</strong> and that we can
-            explain variances — including when the business is a high-volume marketplace like the fictional{" "}
+            explain variances, including when the business is a high-volume marketplace like the fictional{" "}
             <strong className="text-foreground">{DEMO_MARKETPLACE_BRAND}</strong> scenario used in this portfolio (large-scale
             last-mile delivery and marketplace ops; not a real company).
           </p>
@@ -269,13 +270,12 @@ export function CvContent() {
             </div>
           </div>
           <p className="mt-3 text-[11px] text-muted-foreground">
-            Bars are illustrative emphasis only; certifications, education, and full timeline remain in the PDF and in the
-            sections below.
+            Bars are illustrative emphasis only; full role history and dates remain in the PDF.
           </p>
         </div>
       </section>
 
-      {/* Professional summary — full copy */}
+      {/* Professional summary, full copy */}
       <section
         aria-labelledby="summary-heading"
         className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8 lg:border-l-4 lg:border-l-primary"
@@ -285,16 +285,18 @@ export function CvContent() {
           Professional summary
         </h2>
         <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-          Seven-plus years turning operational and financial data into{" "}
-          <strong className="text-foreground">reporting packs and dashboards people act on</strong>. Stack: Python, SQL,
-          Spark (PySpark), Databricks, Snowflake, AWS and Azure data services, Airflow, dbt where the team uses it,{" "}
-          <strong className="text-foreground">Looker</strong> and <strong className="text-foreground">Power BI</strong>. I am
-          strongest on requirements, validation, and the BI hand-off — pairing with engineering on ingestion or models when
-          the answer depends on it — in Agile teams with global stakeholders.
+          Seven-plus years moving from raw operational and financial data to{" "}
+          <strong className="text-foreground">metrics and visuals people act on</strong>. Stack: Python, SQL, Spark (PySpark),
+          Databricks, Snowflake, AWS and Azure data services, Airflow, dbt,{" "}
+          <strong className="text-foreground">Power BI</strong> and other enterprise BI. Comfortable across{" "}
+          <strong className="text-foreground">Data Engineering</strong>, <strong className="text-foreground">Analytics Engineering</strong>, and{" "}
+          <strong className="text-foreground">data visualization</strong>, including VAT and statutory reporting cuts where Tax
+          is in the room; <strong className="text-foreground">Product Owner</strong> delivery at HSBC for Agile, backlog, and
+          stakeholder alignment. Agile teams with global stakeholders.
         </p>
       </section>
 
-      {/* Role fit — full ask + proof per row */}
+      {/* Role fit, full ask + proof per row */}
       <section aria-labelledby="fit-heading" className="space-y-4">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
@@ -303,8 +305,8 @@ export function CvContent() {
               Role bar → how I already operate
             </h2>
             <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              Strong data teams care about clear definitions, QA, and visuals that match the warehouse. Below is a straight
-              line from what you are hiring for to what I have shipped — plus this repo as a compact demo you can click
+              Strong Analytics Engineering teams care about semantic clarity, test coverage, and safe self-service. Below is a
+              straight line from what you are hiring for to what I have shipped, plus this repo as a compact demo you can click
               through.
             </p>
           </div>
@@ -336,13 +338,13 @@ export function CvContent() {
         </div>
       </section>
 
-      {/* Roles — full paragraphs */}
+      {/* Roles, full paragraphs */}
       <section aria-labelledby="roles-heading" className="space-y-4">
         <h2 id="roles-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
           <Zap className="h-5 w-5 text-primary" aria-hidden />
           Selected roles
         </h2>
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-2">
           {roles.map((r) => (
             <div
               key={r.org}
@@ -378,41 +380,9 @@ export function CvContent() {
         </div>
       </section>
 
-      {/* Certifications & education */}
-      <section className="grid gap-4 md:grid-cols-2" aria-label="Certifications and education">
-        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="flex items-center gap-2 text-base font-bold text-foreground">
-            <Award className="h-5 w-5 text-primary" aria-hidden />
-            Certifications
-          </h2>
-          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
-            {certifications.map((c) => (
-              <li key={c} className="flex gap-2">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span>{c}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
-          <h2 className="flex items-center gap-2 text-base font-bold text-foreground">
-            <GraduationCap className="h-5 w-5 text-primary" aria-hidden />
-            Education
-          </h2>
-          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
-            {education.map((e) => (
-              <li key={e} className="flex gap-2">
-                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" aria-hidden />
-                <span>{e}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>
-
       <footer className="rounded-2xl border border-dashed border-primary/25 bg-red-50/40 px-5 py-5 text-center text-sm leading-relaxed text-muted-foreground">
         <p>
-          <strong className="text-foreground">PDF</strong> remains the signed-off résumé file —{" "}
+          <strong className="text-foreground">PDF</strong> remains the signed-off résumé file.{" "}
           <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
             download
           </a>{" "}
@@ -420,8 +390,7 @@ export function CvContent() {
           <a href={CV_PDF_HREF} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">
             open
           </a>
-          . This page mirrors the <strong className="text-foreground">same information depth</strong> with a{" "}
-          <strong className="text-foreground">DoorRush-style</strong> layout; explore{" "}
+          . This page highlights role fit, stack, and selected experience; explore{" "}
           <Link href="/dashboard" className="font-medium text-primary underline-offset-4 hover:underline">
             dashboards
           </Link>

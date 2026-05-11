@@ -1,5 +1,5 @@
 /**
- * Single source of truth for primary navigation — keeps Navbar, mobile menu, and footer in sync.
+ * Single source of truth for primary navigation. Keeps Navbar, mobile menu, and footer in sync.
  */
 
 export type NavItem = { href: string; label: string; spotlight?: boolean };
@@ -7,17 +7,17 @@ export type NavItem = { href: string; label: string; spotlight?: boolean };
 export const primaryNav: NavItem[] = [
   { href: "/", label: "Home" },
   { href: "/cv", label: "CV", spotlight: true },
-  { href: "/infrastructure", label: "Infrastructure" },
+  { href: "/infrastructure", label: "Marts & modeling" },
   { href: "/source-of-truth", label: "Metric truth" },
   { href: "/ai-lab", label: "AI Lab" },
   { href: "/dashboard", label: "BI surface" },
 ];
 
 export const homeDocLinks: readonly { href: string; label: string }[] = [
-  { href: "/cv", label: "CV + Data Analyst fit" },
+  { href: "/cv", label: "CV + Analytics Engineering fit" },
   { href: "/ai-lab", label: "AI Lab (governed metrics)" },
-  { href: "/infrastructure", label: "Infrastructure — data & marts" },
-  { href: "/source-of-truth", label: "Metric truth — scaffold + visualization" },
+  { href: "/infrastructure", label: "Marts, pipelines, and repo layout" },
+  { href: "/source-of-truth", label: "Metric truth, scaffold, visualization" },
 ] as const;
 
 export const footerColumns: readonly { title: string; links: readonly { href: string; label: string }[] }[] = [
@@ -31,7 +31,7 @@ export const footerColumns: readonly { title: string; links: readonly { href: st
   {
     title: "Data & marts",
     links: [
-      { href: "/infrastructure", label: "Infrastructure" },
+      { href: "/infrastructure", label: "Marts & modeling" },
       { href: "/infrastructure?section=explorer", label: "Repo explorer" },
     ],
   },

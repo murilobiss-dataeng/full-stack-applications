@@ -14,7 +14,7 @@ const executiveTab: TabItem = {
           Each dataset has an owner and a defined contract.
         </blockquote>
         <figcaption className="mt-2 text-center text-xs text-muted-foreground">
-          Non-negotiable for audit-ready <strong className="text-foreground">finance and tax</strong> analytics — before
+          Non-negotiable for audit-ready <strong className="text-foreground">finance and tax</strong> analytics: before
           tools, before dashboards.
         </figcaption>
       </figure>
@@ -22,7 +22,7 @@ const executiveTab: TabItem = {
         {[
           {
             t: "Defensible decisions",
-            d: "Policies are written, versioned, and tied to roles — not tribal knowledge in Slack threads.",
+            d: "Policies are written, versioned, and tied to roles, not tribal knowledge in Slack threads.",
           },
           {
             t: "Predictable spend",
@@ -42,11 +42,8 @@ const executiveTab: TabItem = {
         ))}
       </div>
       <p className="text-xs leading-relaxed text-muted-foreground">
-        For platform alternatives (Glue, Databricks, Snowflake, etc.) ordered from lean to premium, see{" "}
-        <Link href="/infrastructure?section=platform" className="text-primary underline-offset-4 hover:underline">
-          Platform → Architecture (cloud ladder inside)
-        </Link>
-        . For merge rules and conflict resolution, see{" "}
+        For warehouse and ingestion patterns ordered from lean to premium, see your platform docs or internal architecture
+        standards. For merge rules and conflict resolution in this portfolio, see{" "}
         <Link href="/source-of-truth?section=truth" className="text-primary underline-offset-4 hover:underline">
           Truth &amp; lineage → Source of truth
         </Link>
@@ -113,7 +110,7 @@ const securityTab: TabItem = {
           </CardHeader>
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
             <strong className="text-foreground">Never hardcode</strong> DB passwords or API keys. Use AWS Secrets Manager,
-            GCP Secret Manager, or Doppler — injected at runtime into the job environment. Separate secrets per env
+            GCP Secret Manager, or Doppler, injected at runtime into the job environment. Separate secrets per env
             (dev/stage/prod) and rotate on joiners/leavers.
           </CardContent>
         </Card>
@@ -155,13 +152,13 @@ const governanceTab: TabItem = {
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
             <ul className="list-inside list-disc space-y-1">
               <li>
-                <strong className="text-foreground">Public</strong> — aggregated stats safe for marketing (no individuals).
+                <strong className="text-foreground">Public</strong>: aggregated stats safe for marketing (no individuals).
               </li>
               <li>
-                <strong className="text-foreground">Internal</strong> — operational metrics; company VPN + SSO.
+                <strong className="text-foreground">Internal</strong>: operational metrics; company VPN + SSO.
               </li>
               <li>
-                <strong className="text-foreground">Sensitive</strong> — PII, matter details, financials; column masking,
+                <strong className="text-foreground">Sensitive</strong>: PII, matter details, financials; column masking,
                 row-level security, audit log on select.
               </li>
             </ul>
@@ -181,7 +178,7 @@ const governanceTab: TabItem = {
           <p>
             <strong className="text-foreground">Schema versioning:</strong> additive changes ship freely; breaking changes
             require a new model version or parallel table (<code className="text-foreground">partners_v2</code>) with a
-            deprecation window — never silent renames in prod.
+            deprecation window; never silent renames in prod.
           </p>
         </CardContent>
       </Card>
@@ -218,7 +215,7 @@ const lineageTab: TabItem = {
       </Card>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Data quality — dbt-style seriousness</CardTitle>
+          <CardTitle className="text-sm">Data quality: dbt-style seriousness</CardTitle>
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="grid gap-2 sm:grid-cols-2">
@@ -283,7 +280,7 @@ const observabilityTab: TabItem = {
       </div>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Orchestration — Airflow mental model</CardTitle>
+          <CardTitle className="text-sm">Orchestration: Airflow mental model</CardTitle>
           <CardDescription className="text-xs">No need to run Airflow on day one; the concepts still govern design</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2 text-xs leading-relaxed text-muted-foreground">
@@ -327,12 +324,12 @@ const versioningTab: TabItem = {
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           Partition by <code className="text-foreground">ingest_date</code> or <code className="text-foreground">source_batch_id</code>.
           Backfill replays bronze→gold for affected partitions only; <strong className="text-foreground">incremental models</strong> in
-          dbt reduce warehouse cost. For tax audit holds, freeze partitions immutably — never overwrite evidence buckets.
+          dbt reduce warehouse cost. For tax audit holds, freeze partitions immutably; never overwrite evidence buckets.
         </CardContent>
       </Card>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Source of truth — merge &amp; conflicts</CardTitle>
+          <CardTitle className="text-sm">Source of truth: merge &amp; conflicts</CardTitle>
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           Document <strong className="text-foreground">source priority</strong> (DoorRush internal master &gt; PSP &gt; scrape),
@@ -354,7 +351,7 @@ const performanceTab: TabItem = {
     <div className="space-y-4">
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">PostgreSQL — index strategy</CardTitle>
+          <CardTitle className="text-sm">PostgreSQL: index strategy</CardTitle>
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ul className="list-inside list-disc space-y-1.5">
@@ -363,7 +360,7 @@ const performanceTab: TabItem = {
               <code className="text-foreground">hub_id</code>, <code className="text-foreground">placed_at</code>, foreign keys used in joins).
             </li>
             <li>
-              <strong className="text-foreground">GIN / pg_trgm</strong> for fuzzy merchant name search — only where
+              <strong className="text-foreground">GIN / pg_trgm</strong> for fuzzy merchant name search; only where
               needed; index size and write amplification trade off against ad-hoc search latency.
             </li>
             <li>
@@ -419,7 +416,7 @@ const infraIacTab: TabItem = {
       <p className="text-sm leading-relaxed text-muted-foreground">
         The monorepo now includes a small <strong className="text-foreground">infra/</strong> folder: Terraform stubs, a local{" "}
         <code className="text-foreground">docker-compose.yml</code> for Postgres, and a sample{" "}
-        <code className="text-foreground">Dockerfile.pipeline</code> for batch jobs. Treat it as a blueprint — wire providers,
+        <code className="text-foreground">Dockerfile.pipeline</code> for batch jobs. Treat it as a blueprint; wire providers,
         backends, and modules to your org standard.
       </p>
       <div className="grid gap-3 md:grid-cols-2">
@@ -469,7 +466,7 @@ const costTab: TabItem = {
       <p className="text-sm leading-relaxed text-muted-foreground">
         Figures are <strong className="text-foreground">indicative order-of-magnitude</strong> for a small team in a major
         cloud region (storage + modest compute + one small warehouse). Actuals depend on TB ingested, query concurrency, and
-        reserved capacity — use them for planning conversations, not procurement quotes.
+        reserved capacity; use them for planning conversations, not procurement quotes.
       </p>
       <div className="overflow-x-auto rounded-xl border border-border">
         <table className="w-full min-w-[640px] text-left text-xs">

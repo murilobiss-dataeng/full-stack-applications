@@ -17,20 +17,20 @@ const plainTab: TabItem = {
         <p>
           Imagine three ERP extracts about the <strong className="text-foreground">same supplier</strong> but the name is
           spelled differently on each. If finance or tax simply count rows, they will triple-count exposure, input tax, or
-          withholding — and every provision model downstream is wrong.
+          withholding, and every provision model downstream is wrong.
         </p>
         <p>
           This narrative walks through how teams <strong className="text-foreground">clean names</strong>,{" "}
           <strong className="text-foreground">group likely duplicates</strong>, then{" "}
           <strong className="text-foreground">pick one official counterparty ID</strong> so reporting, compliance, and
-          planning all agree on the same grain — the same discipline expected when expanding a{" "}
+          planning all agree on the same grain; the same discipline expected when expanding a{" "}
           <strong className="text-foreground">tax data mart</strong> for a multi-entity group.
         </p>
         <p>
           <Link href="/cv" className="text-primary underline-offset-4 hover:underline">
             Open CV &amp; role fit
           </Link>{" "}
-          for how Murilo Biss maps this stack to hands-on delivery (Snowflake, Databricks, dbt, Looker, Agile partners).
+          for how Murilo Biss maps this stack to hands-on delivery (Snowflake, Databricks, dbt, Power BI, Agile partners).
         </p>
       </CardContent>
     </Card>
@@ -58,7 +58,7 @@ const strategyTab: TabItem = {
     <Card>
       <CardContent className="pt-5 text-sm leading-relaxed text-muted-foreground">
         Two-pass: cheap exact keys (VAT ID, company registration) where available, then fuzzy clustering on names with
-        unicode NFKC. Confidence flows to the warehouse; human-in-the-loop owns edge clusters — the same operating model
+        unicode NFKC. Confidence flows to the warehouse; human-in-the-loop owns edge clusters; the same operating model
         as high-stakes tax master data programs.
       </CardContent>
     </Card>
@@ -73,11 +73,11 @@ const tradeTab: TabItem = {
       {[
         {
           title: "Fuzzy matching",
-          body: "Fast to ship; risk over-merge on common names — enrich with hard identifiers when legal entity data exists.",
+          body: "Fast to ship; risk over-merge on common names; enrich with hard identifiers when legal entity data exists.",
         },
         {
           title: "Graph MDM",
-          body: "Stronger on ambiguity; higher ops cost — defer until graph ROI is clear for your entity universe.",
+          body: "Stronger on ambiguity; higher ops cost; defer until graph ROI is clear for your entity universe.",
         },
         {
           title: "Blocking",
@@ -102,11 +102,11 @@ const scaleTab: TabItem = {
     <div className="space-y-5">
       <p className="text-sm leading-relaxed text-muted-foreground">
         When the group adds entities or geographies, the <strong className="text-foreground">shape</strong> of the system
-        stays the same — only the pipes widen. Below is the same story in pictures anyone in Tax or Finance can follow.
+        stays the same; only the pipes widen. Below is the same story in pictures anyone in Tax or Finance can follow.
       </p>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Today — one region, nightly extracts</CardTitle>
+          <CardTitle className="text-sm">Today: one region, nightly extracts</CardTitle>
         </CardHeader>
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/30 p-4 text-[11px] leading-relaxed text-muted-foreground">
@@ -125,7 +125,7 @@ const scaleTab: TabItem = {
             │
             ▼
       +------------------+
-      |    Warehouse     |  ← Official tables Sigma / Looker read
+      |    Warehouse     |  ← Official tables Power BI / Sigma read
       +------------------+
             │
             ▼
@@ -137,7 +137,7 @@ const scaleTab: TabItem = {
       </Card>
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm">Tomorrow — more entities, same arrows</CardTitle>
+          <CardTitle className="text-sm">Tomorrow: more entities, same arrows</CardTitle>
         </CardHeader>
         <CardContent>
           <pre className="overflow-x-auto rounded-lg border border-border bg-muted/30 p-4 text-[11px] leading-relaxed text-muted-foreground">
@@ -166,9 +166,9 @@ const scaleTab: TabItem = {
       +------------------+`}
           </pre>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Takeaway:</strong> you are not redesigning from scratch — you are widening
+            <strong className="text-foreground">Takeaway:</strong> you are not redesigning from scratch; you are widening
             pipes, hardening tests, and clarifying ownership. Costs stay predictable while trust in headline numbers goes
-            up — exactly what hiring managers describe for data-mart expansion roles.
+            up; exactly what hiring managers describe for data-mart expansion roles.
           </p>
         </CardContent>
       </Card>
@@ -178,9 +178,9 @@ const scaleTab: TabItem = {
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           <ol className="list-inside list-decimal space-y-2">
-            <li>Provision and flash reports refresh on a schedule you can see — not mystery spreadsheets.</li>
+            <li>Provision and flash reports refresh on a schedule you can see, not mystery spreadsheets.</li>
             <li>When a feed breaks, alerts fire before leadership reads a wrong chart.</li>
-            <li>Every metric traces to a batch, a model version, and a control — essential for audits and controversy work.</li>
+            <li>Every metric traces to a batch, a model version, and a control; essential for audits and controversy work.</li>
           </ol>
         </CardContent>
       </Card>

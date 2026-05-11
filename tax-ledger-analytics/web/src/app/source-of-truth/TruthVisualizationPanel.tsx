@@ -5,7 +5,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 /**
- * Metric truth hub — emphasizes that definitions/API are scaffold; DV is where value is shown.
+ * Metric truth hub: definitions and API are scaffold; data visualization is where value is shown.
  */
 export function TruthVisualizationPanel() {
   return (
@@ -16,7 +16,7 @@ export function TruthVisualizationPanel() {
           <CardDescription className="text-xs leading-relaxed">
             Grain, lineage, and contracts (tabs to the left) are the <strong className="text-foreground">ready structure</strong>. Data
             visualization is how stakeholders <strong className="text-foreground">see trust</strong>: same numbers in the API, in decks, and in
-            tools like Looker or Sigma — without ad-hoc SQL.
+            tools like Power BI, Tableau, or Sigma, without ad-hoc SQL.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-wrap gap-2">
@@ -40,12 +40,12 @@ export function TruthVisualizationPanel() {
           {
             icon: BarChart2,
             title: "Mix & contribution",
-            body: "Part-to-whole and ranking views make policy trade-offs visible — still bound to mart grain, not spreadsheet pivots.",
+            body: "Part-to-whole and ranking views make policy trade-offs visible, still bound to mart grain, not spreadsheet pivots.",
           },
           {
             icon: Presentation,
             title: "Executive read",
-            body: "One page: lineage footnote + chart + metric owner — the package recruiters and sponsors recognize as DV impact.",
+            body: "One page with lineage footnote, chart, and metric owner, the package recruiters and sponsors recognize as DV impact.",
           },
         ].map(({ icon: Icon, title, body }) => (
           <Card key={title}>
@@ -61,7 +61,7 @@ export function TruthVisualizationPanel() {
       </div>
 
       <pre className="overflow-x-auto rounded-lg border border-border bg-muted/30 p-3 font-mono text-[10px] leading-relaxed text-muted-foreground sm:text-[11px]">
-        {`  [ Infrastructure: pipelines + models ]     [ Metric truth: grain + API ]
+        {`  [ Marts hub: pipelines + models ]     [ Metric truth: grain + API ]
               │                                        │
               └──────────────────┬─────────────────────┘
                                  ▼

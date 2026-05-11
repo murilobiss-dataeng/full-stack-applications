@@ -79,7 +79,7 @@ const testingTab: TabItem = {
                 under <code className="text-foreground">tests/</code>.
               </li>
               <li>
-                Table-driven scenarios: one JSON per case (messy name, alias collision, missing hub) — easy for analysts /
+                Table-driven scenarios: one JSON per case (messy name, alias collision, missing hub); easy for analysts /
                 PMs to review as living spec.
               </li>
               <li>
@@ -97,7 +97,7 @@ const testingTab: TabItem = {
           <CardContent className="text-xs leading-relaxed text-muted-foreground">
             <ul className="list-inside list-disc space-y-1.5">
               <li>
-                <strong className="text-foreground">Job A:</strong> Python only (current repo default) — completes in
+                <strong className="text-foreground">Job A:</strong> Python only (current repo default); completes in
                 under a minute.
               </li>
               <li>
@@ -106,7 +106,7 @@ const testingTab: TabItem = {
               </li>
               <li>
                 <strong className="text-foreground">Job C:</strong> <code className="text-foreground">dbt test</code> against
-                a disposable schema built from seed CSVs — catches mart regressions without production access.
+                a disposable schema built from seed CSVs; catches mart regressions without production access.
               </li>
             </ul>
           </CardContent>
@@ -157,8 +157,8 @@ const dqTab: TabItem = {
         </CardHeader>
         <CardContent className="text-xs leading-relaxed text-muted-foreground">
           Publish a one-page &quot;data contract&quot; per source: owner, refresh SLA, primary key, known quirks. Version it
-          next to the pipeline. When AI assists (see Architecture → AI tab), point the model at that doc — not at raw PII
-          rows — to keep reviews cheap and safe.
+          next to the pipeline. When AI assists (see Architecture → AI tab), point the model at that doc, not at raw PII
+          rows, to keep reviews cheap and safe.
         </CardContent>
       </Card>
     </div>
@@ -192,7 +192,7 @@ const opsTab: TabItem = {
           <CardTitle className="text-sm">Logging &amp; cost</CardTitle>
         </CardHeader>
         <CardContent className="text-xs text-muted-foreground">
-          JSON logs with batch_id, stage, duration — correlation IDs tie API retries to ETL partitions. Sample DEBUG in
+          JSON logs with batch_id, stage, duration; correlation IDs tie API retries to ETL partitions. Sample DEBUG in
           prod; aggregate metrics only to keep log storage cheap.
         </CardContent>
       </Card>
