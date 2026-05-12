@@ -19,3 +19,6 @@ build/
 
 # OS
 .DS_Store
+
+# Local layout/reference screenshots (not for version control)
+Screenshot*.png

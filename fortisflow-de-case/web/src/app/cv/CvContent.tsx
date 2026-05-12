@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -31,23 +32,6 @@ const kpis = [
   { value: "dbt", label: "Production", hint: "Snowflake · Databricks" },
   { value: "SF", label: "Snowflake", hint: "Marts · ELT · optimization" },
   { value: "DQ", label: "Quality", hint: "tests · lineage · gates" },
-] as const;
-
-const stackChips = [
-  "Python",
-  "SQL",
-  "Snowflake",
-  "dbt",
-  "Airflow",
-  "Terraform",
-  "AWS",
-  "Azure",
-  "Databricks",
-  "Kafka",
-  "Delta Lake",
-  "Data quality",
-  "RBAC / Security",
-  "Agile / Scrum",
 ] as const;
 
 const credentialChips = [
@@ -103,14 +87,50 @@ const languages = [
   "Spanish — limited working proficiency",
 ] as const;
 
+/** Three-column matrix: skill | years | level (print-style, matches résumé reference layout). */
+const skillMatrixSections = [
+  {
+    title: "Languages & analytics",
+    rows: [
+      { name: "SQL", years: "7+", level: "Expert" },
+      { name: "Python", years: "7", level: "Expert" },
+      { name: "PySpark / Spark SQL", years: "4", level: "Intermediate" },
+      { name: "Bash / shell", years: "5", level: "Intermediate" },
+    ],
+  },
+  {
+    title: "Pipelines, modeling & orchestration",
+    rows: [
+      { name: "dbt (models, tests, docs)", years: "5", level: "Expert" },
+      { name: "Apache Airflow", years: "4", level: "Expert" },
+      { name: "ELT / dimensional modeling", years: "7", level: "Expert" },
+      { name: "Delta Lake / DLT", years: "3", level: "Intermediate" },
+      { name: "Kafka (exposure)", years: "2", level: "Beginner" },
+    ],
+  },
+  {
+    title: "Cloud, warehouse & delivery",
+    rows: [
+      { name: "Snowflake", years: "4", level: "Expert" },
+      { name: "Databricks", years: "4", level: "Expert" },
+      { name: "AWS (S3, Glue, Athena, Redshift, …)", years: "5", level: "Expert" },
+      { name: "Azure (ADF, DevOps, Databricks)", years: "3", level: "Intermediate" },
+      { name: "Terraform / IaC", years: "3", level: "Intermediate" },
+      { name: "Power BI / analyst handoff", years: "3", level: "Intermediate" },
+      { name: "Agile / Scrum", years: "7+", level: "Expert" },
+    ],
+  },
+] as const;
+
 type CvExperienceRole = {
   org: string;
   title: string;
   period: string;
+  /** One line under **Project:** (organization context). */
+  projectLine: string;
   location?: string;
   ledes?: readonly string[];
   bullets: readonly string[];
-  accent: string;
   tags: readonly string[];
 };
 
@@ -120,6 +140,8 @@ const experienceRoles: CvExperienceRole[] = [
     title: "Senior Data Engineer",
     period: "May 2025 — present",
     location: "Brazil",
+    projectLine:
+      "Tarmac.IO (Brazil) — embedded programs in logistics (inventory, routes, medallion marts) and healthcare (Databricks Lakehouse, DLT, compensation analytics, governance).",
     ledes: [
       "Embedded — logistics. Supply chain and logistics data platform: real-time inventory, route optimization, material lifecycle. Medallion architecture (Bronze / Silver / Gold), modern ELT, scalable data products for operations and BI.",
       "Embedded — healthcare. Workforce and compensation analytics on Databricks Lakehouse; Delta Live Tables; data quality, lineage, and governance. Infrastructure automation, orchestration, and performance tuning with Terraform and cloud-native tooling.",
@@ -130,13 +152,14 @@ const experienceRoles: CvExperienceRole[] = [
       "Partner with product and engineering; automated monitoring and retries for scheduled jobs and notifications.",
       "Agile ceremonies and sprint planning with global teams; AWS and Terraform for provisioning and automation.",
     ],
-    accent: "from-primary/20 to-transparent",
     tags: ["dbt", "Databricks", "Snowflake", "DLT", "Terraform"],
   },
   {
     org: "AB InBev",
     title: "Data Engineer",
     period: "Aug 2023 — May 2025",
+    projectLine:
+      "AB InBev — The Loop Hub: global sales, marketing, and operations KPIs on a Databricks and Snowflake lakehouse with factory-style reusable pipelines.",
     ledes: [
       "The Loop Hub. Centralized platform for global sales, marketing, and operations: standardized KPIs and decisions. Lakehouse on Databricks and Snowflake; scalable models and near real-time analytics. Factory-style ETL pattern for modular, reusable pipelines across domains.",
     ],
@@ -145,7 +168,6 @@ const experienceRoles: CvExperienceRole[] = [
       "ETL in Databricks and Snowflake; Spark integrations; Azure Data Factory and Azure DevOps for reliability.",
       "Agile Scrum with multidisciplinary teams; clear communication of results and blockers.",
     ],
-    accent: "from-primary/15 to-transparent",
     tags: ["Databricks", "Snowflake", "Factory ETL", "Global KPIs"],
   },
   {
@@ -153,6 +175,8 @@ const experienceRoles: CvExperienceRole[] = [
     title: "Data Engineer",
     period: "Jan 2022 — Sep 2023",
     location: "Curitiba, PR",
+    projectLine:
+      "Banco Bari — enterprise banking analytics on AWS (S3, Glue, Athena, Redshift) with high-volume ETL and self-serve access for finance and operations.",
     ledes: [
       "Modern banking analytics platform: internal and external financial sources on AWS (S3, Glue, Athena, Redshift). ETL for scalable processing, reliable ingestion, and performance on large datasets; improved accessibility for financial and operational teams.",
     ],
@@ -160,7 +184,6 @@ const experienceRoles: CvExperienceRole[] = [
       "ETL with AWS (S3, Athena, EC2, EKS, ECR, Redshift, Glue); advanced SQL.",
       "Apache Airflow DAGs for reliability and observability; Agile planning and delivery.",
     ],
-    accent: "from-primary/15 to-transparent",
     tags: ["AWS", "Glue", "Redshift", "Airflow"],
   },
   {
@@ -168,11 +191,11 @@ const experienceRoles: CvExperienceRole[] = [
     title: "Senior Data Analyst",
     period: "Dec 2020 — Dec 2021",
     location: "Curitiba, PR",
+    projectLine: "Banco Bari — KPIs, dashboards, and analytical support for internal business units (Curitiba, PR).",
     bullets: [
       "Dashboards and KPIs for business units; Power BI, SQL, AWS Athena, Power Query M, Python.",
       "Exploratory analysis, metric definition for objectives, and stronger data culture across areas.",
     ],
-    accent: "from-primary/15 to-transparent",
     tags: ["Power BI", "SQL", "Athena", "Python"],
   },
   {
@@ -180,11 +203,11 @@ const experienceRoles: CvExperienceRole[] = [
     title: "Project Analyst",
     period: "Aug 2019 — Dec 2020",
     location: "Curitiba and region, Brazil",
+    projectLine: "Banco Bari — IT outsourcing portfolio: scope, budget, suppliers, and contractual governance.",
     bullets: [
       "Outsourcing and IT projects: scope, budget, planning, risk, status reporting, and contractual compliance.",
       "Phases, estimates, supplier payments, negotiations, and third-party contracts.",
     ],
-    accent: "from-primary/15 to-transparent",
     tags: ["Projects", "Agile context"],
   },
   {
@@ -192,11 +215,11 @@ const experienceRoles: CvExperienceRole[] = [
     title: "Process Analyst",
     period: "Mar 2019 — Aug 2019",
     location: "Curitiba, Paraná",
+    projectLine: "Groupe Renault via Segula Technologies — CAPEX/OPEX and investment control for vehicle capacity programs.",
     bullets: [
       "Project financial control (investments vs expenses); CAPEX/OPEX on vehicle capacity programs (large financial volumes).",
       "Stakeholder coordination, budgets aligned to strategy, and reporting to management.",
     ],
-    accent: "from-muted/40 to-transparent",
     tags: ["Finance", "CAPEX/OPEX"],
   },
   {
@@ -204,11 +227,11 @@ const experienceRoles: CvExperienceRole[] = [
     title: "Project Analyst",
     period: "Aug 2016 — Aug 2018",
     location: "Curitiba and region, Brazil",
+    projectLine: "Bradesco Seguros — BIA (Business Intelligence Analytics) delivery for social-security programs.",
     bullets: [
       "BIA — Business Intelligence Analytics (social security): MS Project, reduced delivery timeline, milestone reporting.",
       "Risk management, integrated testing, partnerships with business areas, process definition support.",
     ],
-    accent: "from-muted/40 to-transparent",
     tags: ["MS Project", "BIA"],
   },
   {
@@ -216,11 +239,11 @@ const experienceRoles: CvExperienceRole[] = [
     title: "Process Analyst",
     period: "May 2014 — Aug 2016",
     location: "Curitiba and region, Brazil",
+    projectLine: "HSBC — process improvement, controls, SLA compliance, and documentation in a regulated banking environment.",
     bullets: [
       "Process improvement, root-cause analysis, tools for control and management, SLA compliance.",
       "Benchmarks, process documentation to standards.",
     ],
-    accent: "from-slate-100/90 to-transparent",
     tags: ["Banking", "Process", "SLA"],
   },
 ];
@@ -398,16 +421,29 @@ export function CvContent() {
         <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
           <div className="flex items-center gap-2 text-primary">
             <Database className="h-5 w-5 shrink-0" aria-hidden />
-            <h2 className="text-sm font-bold uppercase tracking-wide">Stack signal (same themes as PDF)</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wide">Technical skills (years · proficiency)</h2>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {stackChips.map((chip) => (
-              <span key={chip} className="rounded-lg border border-primary/15 bg-primary/5 px-3 py-1.5 text-xs font-medium text-foreground">
-                {chip}
-              </span>
+          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+            Layout aligned to the on-page résumé reference: section dividers, three columns (skill · years · level). Figures are
+            indicative of depth; wording on the PDF remains authoritative.
+          </p>
+          <div className="mt-6 border-t border-foreground/20 pt-5 text-sm text-foreground">
+            {skillMatrixSections.map((sec, si) => (
+              <div key={sec.title} className={cn(si > 0 && "mt-5 border-t border-foreground/20 pt-5")}>
+                <p className="font-bold text-foreground">{sec.title}</p>
+                <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto_auto] gap-x-6 gap-y-2 sm:gap-x-10">
+                  {sec.rows.map((row) => (
+                    <Fragment key={row.name}>
+                      <span className="text-foreground">{row.name}</span>
+                      <span className="tabular-nums text-right text-muted-foreground">{row.years}</span>
+                      <span className="text-muted-foreground">{row.level}</span>
+                    </Fragment>
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
-          <p className="mt-3 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Certifications (PDF)</p>
+          <p className="mt-6 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Certifications (PDF)</p>
           <div className="mt-1.5 flex flex-wrap gap-2">
             {credentialChips.map((chip) => (
               <span
@@ -418,30 +454,6 @@ export function CvContent() {
               </span>
             ))}
           </div>
-          <div className="mt-5 space-y-2">
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>SQL &amp; modeling</span>
-              <span className="font-mono text-primary">●●●●●</span>
-            </div>
-            <div className="h-2 overflow-hidden rounded-full bg-muted">
-              <div className="h-full w-[92%] rounded-full bg-gradient-to-r from-primary to-cyan-400" />
-            </div>
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Snowflake / marts / dbt / tests</span>
-              <span className="font-mono text-primary">●●●●○</span>
-            </div>
-            <div className="h-2 overflow-hidden rounded-full bg-muted">
-              <div className="h-full w-[88%] rounded-full bg-gradient-to-r from-primary to-cyan-400" />
-            </div>
-            <div className="flex items-center justify-between text-xs text-muted-foreground">
-              <span>Governance &amp; delivery</span>
-              <span className="font-mono text-primary">●●●●○</span>
-            </div>
-            <div className="h-2 overflow-hidden rounded-full bg-muted">
-              <div className="h-full w-[85%] rounded-full bg-gradient-to-r from-primary to-cyan-400" />
-            </div>
-          </div>
-          <p className="mt-3 text-[11px] text-muted-foreground">Bars are illustrative only; authoritative wording is the PDF.</p>
         </div>
       </section>
 
@@ -514,49 +526,42 @@ export function CvContent() {
           <Zap className="h-5 w-5 text-primary" aria-hidden />
           Professional experience (same order and substance as PDF)
         </h2>
-        <div className="grid gap-4 lg:grid-cols-2">
-          {experienceRoles.map((r) => (
-            <div
-              key={`${r.org}-${r.title}-${r.period}`}
-              className={cn(
-                "flex flex-col rounded-2xl border border-border bg-gradient-to-br p-5 shadow-sm transition hover:shadow-md sm:p-6",
-                r.accent,
-              )}
-            >
-              <span className="w-fit rounded-md bg-primary/15 px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-primary">
-                {r.period}
-              </span>
-              <p className="mt-3 text-lg font-bold text-foreground">{r.org}</p>
-              <p className="text-sm font-medium text-muted-foreground">{r.title}</p>
-              {r.location ? <p className="text-xs text-muted-foreground">{r.location}</p> : null}
-              {r.tags.length > 0 ? (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {r.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-md bg-white/90 px-2 py-0.5 text-[11px] font-medium text-foreground ring-1 ring-border/80"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-              <div className="mt-4 space-y-3 border-t border-border/60 pt-4">
-                {"ledes" in r && r.ledes
-                  ? r.ledes.map((para, idx) => (
-                      <p key={`${r.org}-lede-${idx}`} className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                        {para}
-                      </p>
-                    ))
-                  : null}
-                {r.bullets.map((para, idx) => (
-                  <p key={`${r.org}-b-${idx}`} className="text-xs leading-relaxed text-muted-foreground sm:text-sm">
-                    • {para}
+        <div className="rounded-2xl border border-border bg-white p-6 text-sm leading-relaxed shadow-sm sm:p-8 sm:text-[15px]">
+          {experienceRoles.map((r) => {
+            const responsibilities = [...(r.ledes ?? []), ...r.bullets];
+            const tech = r.tags.length > 0 ? `${r.tags.join(", ")}.` : "";
+            return (
+              <article
+                key={`${r.org}-${r.title}-${r.period}`}
+                className="border-t border-foreground/15 py-6 first:border-t-0 first:pt-0"
+              >
+                <h3 className="text-base font-bold text-foreground">{r.title}</h3>
+                <p className="text-xs text-muted-foreground sm:text-sm">
+                  {r.org}
+                  {r.location ? ` · ${r.location}` : ""}
+                </p>
+                <p className="mt-4">
+                  <strong>Project:</strong> {r.projectLine}
+                </p>
+                <p className="mt-4">
+                  <strong>Responsibilities:</strong>
+                </p>
+                {responsibilities.map((para, idx) => (
+                  <p key={`${r.org}-resp-${idx}`} className="mt-2 text-muted-foreground">
+                    {para}
                   </p>
                 ))}
-              </div>
-            </div>
-          ))}
+                {tech ? (
+                  <p className="mt-4">
+                    <strong>Technologies:</strong> {tech}
+                  </p>
+                ) : null}
+                <p className="mt-4">
+                  <strong>Duration:</strong> {r.period}.
+                </p>
+              </article>
+            );
+          })}
         </div>
       </section>
 
