@@ -50,12 +50,13 @@ function systemChromeCandidates() {
   return merged.filter((p, i) => merged.indexOf(p) === i);
 }
 
-/** Same rule as /api/cv/pdf — avoid Lambda Chromium on local machines. */
+/** Same rule as /api/cv/pdf — avoid Lambda Chromium when only VERCEL_* is mimicked via .env.local. */
 function bundledLambdaChromiumEnabled() {
   if (process.env.CV_PDF_USE_SPARTICUZ === "1") return true;
   if (process.env.VERCEL !== "1") return false;
   const vercelEnv = process.env.VERCEL_ENV;
-  return vercelEnv === "production" || vercelEnv === "preview";
+  if (!(vercelEnv === "production" || vercelEnv === "preview")) return false;
+  return Boolean(process.env.VERCEL_REGION || process.env.VERCEL_DEPLOYMENT_ID);
 }
 
 async function launchBrowser() {

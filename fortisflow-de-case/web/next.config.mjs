@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core"],
   webpack: (config, { isServer }) => {
     if (isServer) {
       const ext = config.externals;

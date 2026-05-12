@@ -38,12 +38,18 @@ function systemChromeCandidates(): string[] {
   return merged.filter((p, i) => merged.indexOf(p) === i);
 }
 
-/** @sparticuz/chromium only works on Vercel’s serverless runtime — not on your laptop (`vercel dev`) or a stray `VERCEL=1` in .env. */
+/**
+ * @sparticuz/chromium targets AWS Lambda (Vercel Functions). It must NOT run when `VERCEL=1` / `VERCEL_ENV`
+ * are copied into `.env.local` (e.g. `vercel env pull`) — those lack Lambda libs and produce libnss3 errors.
+ * Real deployments set runtime-only system vars such as `VERCEL_REGION` (see Vercel system env docs).
+ */
 function bundledLambdaChromiumEnabled(): boolean {
   if (process.env.CV_PDF_USE_SPARTICUZ === "1") return true;
   if (process.env.VERCEL !== "1") return false;
   const vercelEnv = process.env.VERCEL_ENV;
-  return vercelEnv === "production" || vercelEnv === "preview";
+  if (!(vercelEnv === "production" || vercelEnv === "preview")) return false;
+  const onVercelFunctionRuntime = Boolean(process.env.VERCEL_REGION || process.env.VERCEL_DEPLOYMENT_ID);
+  return onVercelFunctionRuntime;
 }
 
 async function launchBrowser() {
@@ -143,7 +149,7 @@ export async function GET(request: Request) {
       {
         error: "PDF generation failed",
         hint:
-          "This host needs system Chrome/Chromium (set PUPPETEER_EXECUTABLE_PATH or CHROME_PATH). The Lambda Chromium bundle runs only on deployed Vercel (VERCEL_ENV=production|preview), not when VERCEL=1 is set locally or during vercel dev. Locally: npm run save:cv-pdf",
+          "Use system Chrome (PUPPETEER_EXECUTABLE_PATH / CHROME_PATH). The Lambda Chromium bundle runs only on real Vercel Functions (VERCEL_REGION or VERCEL_DEPLOYMENT_ID set). Remove VERCEL/VERCEL_ENV from .env.local if copied from the dashboard; enable System Environment Variables in Vercel project settings. Locally: npm run save:cv-pdf",
         detail: err instanceof Error ? err.message : String(err),
       },
       { status: 500 },
