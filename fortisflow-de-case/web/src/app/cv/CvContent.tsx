@@ -6,7 +6,6 @@ import {
   BarChart3,
   Database,
   Download,
-  FileText,
   GitBranch,
   Github,
   Languages,
@@ -32,10 +31,10 @@ const PDF_TAGLINE = "Senior Data Engineer · Snowflake · ELT · SQL";
 const YEARS_IN_DATA_KPI = {
   value: "7+",
   label: "Years in data",
-  hint: "SQL → marts → BI",
+  hint: "Ingest → ELT → governed marts",
 } as const;
 
-/** Skill matrix: max level is Advanced (no “Expert”). Tiers: Novice → Beginner → Intermediate → Advanced. */
+/** Skill matrix: max level Advanced (no “Expert”). Lowest tier is “Exposure” (light / early use, softer than “Novice”). */
 const skillMatrixSections = [
   {
     title: "Programming languages",
@@ -43,57 +42,100 @@ const skillMatrixSections = [
       { name: "SQL", years: "7+", level: "Advanced" as const },
       { name: "Python", years: "7", level: "Advanced" as const },
       { name: "Bash / shell", years: "5", level: "Intermediate" as const },
-      { name: "R", years: "1", level: "Novice" as const },
+      { name: "Scala", years: "2", level: "Intermediate" as const },
+      { name: "R", years: "2", level: "Beginner" as const },
+      { name: "TypeScript", years: "2", level: "Beginner" as const },
+      { name: "Java", years: "1", level: "Exposure" as const },
+      { name: "YAML", years: "4", level: "Intermediate" as const },
+      { name: "Jinja / SQL templating", years: "3", level: "Intermediate" as const },
+      { name: "Go (tooling & CLIs)", years: "1", level: "Exposure" as const },
     ],
   },
   {
     title: "Frameworks and libraries",
     rows: [
-      { name: "dbt (models, tests, docs)", years: "5", level: "Advanced" as const },
+      { name: "dbt", years: "1,5", level: "Advanced" as const },
       { name: "Apache Spark / PySpark", years: "4", level: "Advanced" as const },
       { name: "Apache Airflow", years: "4", level: "Advanced" as const },
-      { name: "Delta Lake / DLT", years: "3", level: "Intermediate" as const },
+      { name: "Delta Lake / DLT", years: "3", level: "Advanced" as const },
       { name: "Pandas / Polars", years: "4", level: "Intermediate" as const },
-      { name: "Great Expectations / data tests", years: "2", level: "Beginner" as const },
-      { name: "Terraform", years: "3", level: "Intermediate" as const },
+      { name: "Great Expectations", years: "2", level: "Beginner" as const },
+      { name: "Apache Iceberg", years: "1", level: "Exposure" as const },
+      { name: "Apache Hudi", years: "1", level: "Exposure" as const },
+      { name: "OpenLineage", years: "1", level: "Exposure" as const },
+      { name: "PyArrow / Parquet", years: "3", level: "Intermediate" as const },
+      { name: "FastAPI / Python services", years: "2", level: "Beginner" as const },
+      { name: "Apache Flink", years: "1", level: "Exposure" as const },
+      { name: "Ray (distributed Python)", years: "1", level: "Exposure" as const },
     ],
   },
   {
     title: "Databases and products",
     rows: [
-      { name: "Snowflake", years: "4", level: "Advanced" as const },
-      { name: "Databricks (SQL + Lakehouse)", years: "4", level: "Advanced" as const },
-      { name: "Amazon Redshift", years: "3", level: "Intermediate" as const },
+      { name: "Snowflake", years: "2", level: "Advanced" as const },
+      { name: "Databricks", years: "4", level: "Advanced" as const },
+      { name: "Amazon Redshift", years: "2", level: "Intermediate" as const },
       { name: "AWS Athena / Presto-style SQL", years: "4", level: "Intermediate" as const },
-      { name: "PostgreSQL", years: "3", level: "Intermediate" as const },
-      { name: "Microsoft SQL Server (exposure)", years: "2", level: "Beginner" as const },
-      { name: "Kafka (streaming exposure)", years: "2", level: "Beginner" as const },
+      { name: "PostgreSQL", years: "5", level: "Advanced" as const },
+      { name: "Microsoft SQL Server", years: "2", level: "Intermediate" as const },
+      { name: "Kafka", years: "3", level: "Intermediate" as const },
+      { name: "MongoDB", years: "1", level: "Exposure" as const },
+      { name: "Redis", years: "2", level: "Beginner" as const },
+      { name: "DuckDB", years: "2", level: "Intermediate" as const },
+      { name: "MySQL / MariaDB", years: "2", level: "Beginner" as const },
+      { name: "Amazon OpenSearch / Elasticsearch", years: "1", level: "Exposure" as const },
+      { name: "Google BigQuery", years: "1", level: "Exposure" as const },
+      { name: "Amazon DynamoDB", years: "1", level: "Exposure" as const },
+      { name: "SQLite / embedded analytics", years: "3", level: "Intermediate" as const },
+      { name: "Oracle", years: "1", level: "Exposure" as const },
+      { name: "TimescaleDB / time-series SQL", years: "1", level: "Exposure" as const },
     ],
   },
   {
     title: "Cloud platforms & infrastructure",
     rows: [
+      { name: "Terraform (modules & state)", years: "3", level: "Intermediate" as const },
       { name: "AWS (S3, Glue, Lambda patterns, IAM)", years: "5", level: "Advanced" as const },
+      { name: "AWS CloudFormation (stacks & params)", years: "2", level: "Beginner" as const },
       { name: "Azure (Data Factory, DevOps, Databricks)", years: "3", level: "Intermediate" as const },
-      { name: "GCP BigQuery (exposure)", years: "1", level: "Novice" as const },
+      { name: "GCP (BigQuery, IAM, buckets)", years: "1", level: "Exposure" as const },
       { name: "Docker / containers (pipelines & deploy)", years: "3", level: "Intermediate" as const },
+      { name: "Kubernetes (jobs, packaging)", years: "2", level: "Intermediate" as const },
       { name: "GitHub Actions / CI for data repos", years: "3", level: "Intermediate" as const },
+      { name: "Azure DevOps pipelines", years: "2", level: "Beginner" as const },
+      { name: "VPC / private networking (data planes)", years: "3", level: "Intermediate" as const },
+      { name: "Secrets Manager / Key Vault patterns", years: "3", level: "Intermediate" as const },
+      { name: "Pulumi (IaC exposure)", years: "1", level: "Exposure" as const },
+      { name: "Compute runners (EC2 / agents for jobs)", years: "4", level: "Intermediate" as const },
+      { name: "Observability (CloudWatch, logs, alerts)", years: "4", level: "Intermediate" as const },
     ],
   },
   {
     title: "Orchestration, quality & governance",
     rows: [
       { name: "Workflow orchestration (Airflow, jobs)", years: "4", level: "Advanced" as const },
+      { name: "Databricks Jobs / Workflows", years: "3", level: "Intermediate" as const },
+      { name: "Snowflake Tasks & Streams (patterns)", years: "2", level: "Intermediate" as const },
       { name: "Data quality gates & observability", years: "4", level: "Intermediate" as const },
-      { name: "Lineage / catalog patterns (practical)", years: "3", level: "Intermediate" as const },
+      { name: "Soda / SQL-based checks", years: "1", level: "Exposure" as const },
+      { name: "Lineage / catalog patterns", years: "3", level: "Intermediate" as const },
+      { name: "Unity Catalog / lake governance", years: "2", level: "Beginner" as const },
       { name: "RBAC, masking, audit-friendly delivery", years: "3", level: "Intermediate" as const },
+      { name: "Schema contracts & versioning", years: "3", level: "Intermediate" as const },
+      { name: "Dagster", years: "1", level: "Exposure" as const },
+      { name: "Prefect", years: "1", level: "Exposure" as const },
     ],
   },
   {
     title: "BI, metrics & stakeholder handoff",
     rows: [
-      { name: "Power BI (datasets, dashboards)", years: "3", level: "Intermediate" as const },
+      { name: "Power BI", years: "3", level: "Advanced" as const },
+      { name: "Tableau", years: "1", level: "Exposure" as const },
+      { name: "Looker", years: "1", level: "Exposure" as const },
+      { name: "Metabase", years: "2", level: "Advanced" as const },
       { name: "Metric design & grain discipline", years: "7", level: "Advanced" as const },
+      { name: "Semantic layer concepts (metrics, SLAs)", years: "3", level: "Intermediate" as const },
+      { name: "Stakeholder workshops & requirements", years: "7", level: "Advanced" as const },
       { name: "Agile / Scrum (delivery)", years: "7+", level: "Advanced" as const },
     ],
   },
@@ -340,18 +382,13 @@ export function CvContent() {
             </div>
             <div className="flex flex-wrap gap-2 pt-1 print:hidden">
               <CvPrintButton className="shadow-md shadow-primary/20" />
-              <a href={CV_PDF_HREF} download className={cn(buttonVariants({ variant: "outline" }), "gap-2 border-primary/30 bg-white/80")}>
-                <Download className="h-4 w-4" aria-hidden />
-                Archived PDF file
-              </a>
               <a
                 href={CV_PDF_HREF}
-                target="_blank"
-                rel="noopener noreferrer"
+                download
                 className={cn(buttonVariants({ variant: "outline" }), "gap-2 border-primary/30 bg-white/80")}
               >
-                <FileText className="h-4 w-4" aria-hidden />
-                Open archived PDF
+                <Download className="h-4 w-4" aria-hidden />
+                Download archived PDF
               </a>
               <Link href="/ai-lab" className={cn(buttonVariants({ variant: "outline" }), "gap-2 bg-white/80")}>
                 <Wand2 className="h-4 w-4" aria-hidden />
@@ -436,35 +473,29 @@ export function CvContent() {
         </div>
       </section>
 
-      <section className="grid gap-4 print:grid-cols-1 lg:grid-cols-2">
-        <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white p-6 shadow-sm sm:p-8 print:hidden">
-          <div className="flex items-center gap-2 text-primary">
-            <ShieldCheck className="h-5 w-5 shrink-0" aria-hidden />
-            <h2 className="text-sm font-bold uppercase tracking-wide">Portfolio walkthrough (not on the PDF)</h2>
+      <section aria-labelledby="skills-matrix-heading" className="w-full">
+        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8 md:p-10">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex items-center gap-2 text-primary">
+              <Database className="h-6 w-6 shrink-0" aria-hidden />
+              <h2 id="skills-matrix-heading" className="text-base font-bold uppercase tracking-wide sm:text-lg">
+                Technical skills (years · level)
+              </h2>
+            </div>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-base">
-            Extra routes here (infrastructure, dashboards, lineage narrative) are a self-contained demo for reviewers. They do not
-            change the facts on the résumé or PDF.
-          </p>
-        </div>
-        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8 print:max-w-none">
-          <div className="flex items-center gap-2 text-primary">
-            <Database className="h-5 w-5 shrink-0" aria-hidden />
-            <h2 className="text-sm font-bold uppercase tracking-wide">Technical skills (years · level)</h2>
-          </div>
-          <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            Sections follow a résumé-style matrix: skill name, years of practice, then level (Novice → Beginner → Intermediate →
+          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+            Sections follow a résumé-style matrix: skill name, years of practice, then level (Exposure → Beginner → Intermediate →
             Advanced). Numbers are indicative, not a legal claim.
           </p>
-          <div className="mt-6 border-t border-foreground/20 pt-5 text-sm text-foreground">
-            {skillMatrixSections.map((sec, si) => (
-              <div key={sec.title} className={cn(si > 0 && "mt-5 border-t border-foreground/20 pt-5")}>
-                <p className="font-bold text-foreground">{sec.title}</p>
-                <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] gap-x-6 gap-y-2 sm:gap-x-10">
+          <div className="mt-8 grid gap-8 border-t border-foreground/15 pt-8 lg:grid-cols-2 xl:grid-cols-3">
+            {skillMatrixSections.map((sec) => (
+              <div key={sec.title} className="min-w-0 rounded-2xl border border-border/80 bg-muted/20 p-4 sm:p-5">
+                <p className="border-b border-foreground/10 pb-2 text-sm font-bold text-foreground">{sec.title}</p>
+                <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-2.5 text-sm text-foreground sm:gap-x-6">
                   {sec.rows.map((row) => (
                     <Fragment key={row.name}>
-                      <span className="text-foreground">{row.name}</span>
-                      <span className="whitespace-nowrap text-right tabular-nums text-muted-foreground">
+                      <span className="leading-snug">{row.name}</span>
+                      <span className="whitespace-nowrap text-right text-sm tabular-nums text-muted-foreground sm:text-base">
                         {row.years} <span className="text-foreground/40">|</span> {row.level}
                       </span>
                     </Fragment>
@@ -473,8 +504,8 @@ export function CvContent() {
               </div>
             ))}
           </div>
-          <p className="mt-6 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Certifications</p>
-          <div className="mt-1.5 flex flex-wrap gap-2">
+          <p className="mt-10 text-xs font-semibold uppercase tracking-wide text-muted-foreground sm:text-sm">Certifications</p>
+          <div className="mt-2 flex flex-wrap gap-2">
             {credentialChips.map((chip) => (
               <span
                 key={chip}
