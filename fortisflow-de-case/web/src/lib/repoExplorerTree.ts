@@ -174,7 +174,7 @@ export const repoRoot: RepoNode = d("sigma-sec", "Portfolio monorepo", [
         f("page.tsx", "ui: home", { description: "sigma-sec narrative; AE + DV positioning; CV + marts links." }),
         d("cv", "feat: application packet", [
           f("page.tsx", "ui: CV shell", { description: "Metadata + PageShell wrapper." }),
-          f("CvContent.tsx", "ui: CV + visual pitch", { description: "Hero KPI tiles, stack bars, role-fit grid, timeline; no certs or education blocks." }),
+          f("CvContent.tsx", "ui: CV + visual pitch", { description: "Hero (7+ KPI + contacts), skills matrix, experience, How I operate last; print → PDF." }),
         ]),
         f("method/page.tsx", "redirect: legacy", {
           description: "Redirects to /; standalone methodology route removed (Data Analyst framing).",

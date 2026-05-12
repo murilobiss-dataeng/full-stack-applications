@@ -52,3 +52,28 @@ body {
     }
   }
 }
+
+/* CV route: print / Save as PDF should mirror on-screen résumé (nav + site chrome hidden). */
+@media print {
+  @page {
+    margin: 12mm;
+  }
+
+  body {
+    background: #fff !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  body > a[href="#main-content"] {
+    display: none !important;
+  }
+
+  body > header {
+    display: none !important;
+  }
+
+  body > footer {
+    display: none !important;
+  }
+}

@@ -20,6 +20,7 @@ import {
   Wand2,
   Zap,
 } from "lucide-react";
+import { CvPrintButton } from "@/components/CvPrintButton";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -27,11 +28,75 @@ const CV_PDF_HREF = "/cv-murilo-biss.pdf";
 
 const PDF_TAGLINE = "Senior Data Engineer · Snowflake · ELT · SQL";
 
-const kpis = [
-  { value: "7+", label: "Years in data", hint: "SQL → marts → BI" },
-  { value: "dbt", label: "Production", hint: "Snowflake · Databricks" },
-  { value: "SF", label: "Snowflake", hint: "Marts · ELT · optimization" },
-  { value: "DQ", label: "Quality", hint: "tests · lineage · gates" },
+/** Single headline stat beside name; contact actions sit in the same column. */
+const YEARS_IN_DATA_KPI = {
+  value: "7+",
+  label: "Years in data",
+  hint: "SQL → marts → BI",
+} as const;
+
+/** Skill matrix: max level is Advanced (no “Expert”). Tiers: Novice → Beginner → Intermediate → Advanced. */
+const skillMatrixSections = [
+  {
+    title: "Programming languages",
+    rows: [
+      { name: "SQL", years: "7+", level: "Advanced" as const },
+      { name: "Python", years: "7", level: "Advanced" as const },
+      { name: "Bash / shell", years: "5", level: "Intermediate" as const },
+      { name: "R", years: "1", level: "Novice" as const },
+    ],
+  },
+  {
+    title: "Frameworks and libraries",
+    rows: [
+      { name: "dbt (models, tests, docs)", years: "5", level: "Advanced" as const },
+      { name: "Apache Spark / PySpark", years: "4", level: "Advanced" as const },
+      { name: "Apache Airflow", years: "4", level: "Advanced" as const },
+      { name: "Delta Lake / DLT", years: "3", level: "Intermediate" as const },
+      { name: "Pandas / Polars", years: "4", level: "Intermediate" as const },
+      { name: "Great Expectations / data tests", years: "2", level: "Beginner" as const },
+      { name: "Terraform", years: "3", level: "Intermediate" as const },
+    ],
+  },
+  {
+    title: "Databases and products",
+    rows: [
+      { name: "Snowflake", years: "4", level: "Advanced" as const },
+      { name: "Databricks (SQL + Lakehouse)", years: "4", level: "Advanced" as const },
+      { name: "Amazon Redshift", years: "3", level: "Intermediate" as const },
+      { name: "AWS Athena / Presto-style SQL", years: "4", level: "Intermediate" as const },
+      { name: "PostgreSQL", years: "3", level: "Intermediate" as const },
+      { name: "Microsoft SQL Server (exposure)", years: "2", level: "Beginner" as const },
+      { name: "Kafka (streaming exposure)", years: "2", level: "Beginner" as const },
+    ],
+  },
+  {
+    title: "Cloud platforms & infrastructure",
+    rows: [
+      { name: "AWS (S3, Glue, Lambda patterns, IAM)", years: "5", level: "Advanced" as const },
+      { name: "Azure (Data Factory, DevOps, Databricks)", years: "3", level: "Intermediate" as const },
+      { name: "GCP BigQuery (exposure)", years: "1", level: "Novice" as const },
+      { name: "Docker / containers (pipelines & deploy)", years: "3", level: "Intermediate" as const },
+      { name: "GitHub Actions / CI for data repos", years: "3", level: "Intermediate" as const },
+    ],
+  },
+  {
+    title: "Orchestration, quality & governance",
+    rows: [
+      { name: "Workflow orchestration (Airflow, jobs)", years: "4", level: "Advanced" as const },
+      { name: "Data quality gates & observability", years: "4", level: "Intermediate" as const },
+      { name: "Lineage / catalog patterns (practical)", years: "3", level: "Intermediate" as const },
+      { name: "RBAC, masking, audit-friendly delivery", years: "3", level: "Intermediate" as const },
+    ],
+  },
+  {
+    title: "BI, metrics & stakeholder handoff",
+    rows: [
+      { name: "Power BI (datasets, dashboards)", years: "3", level: "Intermediate" as const },
+      { name: "Metric design & grain discipline", years: "7", level: "Advanced" as const },
+      { name: "Agile / Scrum (delivery)", years: "7+", level: "Advanced" as const },
+    ],
+  },
 ] as const;
 
 const credentialChips = [
@@ -87,41 +152,6 @@ const languages = [
   "Spanish — limited working proficiency",
 ] as const;
 
-/** Three-column matrix: skill | years | level (print-style, matches résumé reference layout). */
-const skillMatrixSections = [
-  {
-    title: "Languages & analytics",
-    rows: [
-      { name: "SQL", years: "7+", level: "Expert" },
-      { name: "Python", years: "7", level: "Expert" },
-      { name: "PySpark / Spark SQL", years: "4", level: "Intermediate" },
-      { name: "Bash / shell", years: "5", level: "Intermediate" },
-    ],
-  },
-  {
-    title: "Pipelines, modeling & orchestration",
-    rows: [
-      { name: "dbt (models, tests, docs)", years: "5", level: "Expert" },
-      { name: "Apache Airflow", years: "4", level: "Expert" },
-      { name: "ELT / dimensional modeling", years: "7", level: "Expert" },
-      { name: "Delta Lake / DLT", years: "3", level: "Intermediate" },
-      { name: "Kafka (exposure)", years: "2", level: "Beginner" },
-    ],
-  },
-  {
-    title: "Cloud, warehouse & delivery",
-    rows: [
-      { name: "Snowflake", years: "4", level: "Expert" },
-      { name: "Databricks", years: "4", level: "Expert" },
-      { name: "AWS (S3, Glue, Athena, Redshift, …)", years: "5", level: "Expert" },
-      { name: "Azure (ADF, DevOps, Databricks)", years: "3", level: "Intermediate" },
-      { name: "Terraform / IaC", years: "3", level: "Intermediate" },
-      { name: "Power BI / analyst handoff", years: "3", level: "Intermediate" },
-      { name: "Agile / Scrum", years: "7+", level: "Expert" },
-    ],
-  },
-] as const;
-
 type CvExperienceRole = {
   org: string;
   title: string;
@@ -139,9 +169,9 @@ const experienceRoles: CvExperienceRole[] = [
     org: "Tarmac.IO",
     title: "Senior Data Engineer",
     period: "May 2025 — present",
-    location: "Brazil",
+    location: "Remote",
     projectLine:
-      "Tarmac.IO (Brazil) — embedded programs in logistics (inventory, routes, medallion marts) and healthcare (Databricks Lakehouse, DLT, compensation analytics, governance).",
+      "Tarmac.IO — embedded programs in logistics (inventory, routes, medallion marts) and healthcare (Databricks Lakehouse, DLT, compensation analytics, governance).",
     ledes: [
       "Embedded — logistics. Supply chain and logistics data platform: real-time inventory, route optimization, material lifecycle. Medallion architecture (Bronze / Silver / Gold), modern ELT, scalable data products for operations and BI.",
       "Embedded — healthcare. Workforce and compensation analytics on Databricks Lakehouse; Delta Live Tables; data quality, lineage, and governance. Infrastructure automation, orchestration, and performance tuning with Terraform and cloud-native tooling.",
@@ -284,28 +314,35 @@ const jdMapping = [
 export function CvContent() {
   return (
     <div className="space-y-10 px-1 sm:px-0">
-      <section className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-white via-cyan-50/40 to-white px-6 py-8 shadow-lg shadow-primary/10 sm:px-10 sm:py-10">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl" aria-hidden />
-        <div className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-primary/5 blur-2xl" aria-hidden />
-        <div className="relative flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+      <section className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-white via-cyan-50/40 to-white px-6 py-8 shadow-lg shadow-primary/10 sm:px-10 sm:py-10 print:border print:shadow-none">
+        <div
+          className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl print:hidden"
+          aria-hidden
+        />
+        <div
+          className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-primary/5 blur-2xl print:hidden"
+          aria-hidden
+        />
+        <div className="relative flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <div className="max-w-2xl space-y-4">
             <p className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
               {PDF_TAGLINE}
             </p>
             <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Murilo Biss</h1>
-            <p className="text-sm leading-relaxed text-muted-foreground sm:text-base">
-              On-page CV matches the{" "}
-              <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
-                downloadable PDF
-              </a>{" "}
-              (same profile, competencies, experience, certifications, and languages). Supplementary pages on this
-              site illustrate a sample data platform; they are not part of the PDF.
+            <p className="text-sm leading-relaxed text-muted-foreground sm:text-base print:hidden">
+              Use <strong className="text-foreground">Save as PDF (print)</strong> so the file matches this page. Other site routes
+              are portfolio demos only. The file at <span className="whitespace-nowrap">cv-murilo-biss.pdf</span> is a static snapshot
+              and may lag behind updates here.
             </p>
-            <div className="flex flex-wrap gap-2 pt-1">
-              <a href={CV_PDF_HREF} download className={cn(buttonVariants(), "gap-2 shadow-md shadow-primary/20")}>
+            <div className="hidden text-sm leading-relaxed text-foreground print:block">
+              Murilo Biss · {PDF_TAGLINE}. Contact details in the column to the right.
+            </div>
+            <div className="flex flex-wrap gap-2 pt-1 print:hidden">
+              <CvPrintButton className="shadow-md shadow-primary/20" />
+              <a href={CV_PDF_HREF} download className={cn(buttonVariants({ variant: "outline" }), "gap-2 border-primary/30 bg-white/80")}>
                 <Download className="h-4 w-4" aria-hidden />
-                Download CV (PDF)
+                Archived PDF file
               </a>
               <a
                 href={CV_PDF_HREF}
@@ -314,7 +351,7 @@ export function CvContent() {
                 className={cn(buttonVariants({ variant: "outline" }), "gap-2 border-primary/30 bg-white/80")}
               >
                 <FileText className="h-4 w-4" aria-hidden />
-                Open PDF in new tab
+                Open archived PDF
               </a>
               <Link href="/ai-lab" className={cn(buttonVariants({ variant: "outline" }), "gap-2 bg-white/80")}>
                 <Wand2 className="h-4 w-4" aria-hidden />
@@ -326,55 +363,47 @@ export function CvContent() {
               </Link>
             </div>
           </div>
-          <div className="grid w-full max-w-md shrink-0 grid-cols-2 gap-3 sm:grid-cols-2">
-            {kpis.map((k) => (
-              <div
-                key={k.label}
-                className="rounded-2xl border border-border/80 bg-white/90 px-4 py-4 text-center shadow-sm backdrop-blur-sm transition hover:border-primary/35 hover:shadow-md"
-              >
-                <p className="font-mono text-2xl font-bold tabular-nums text-primary sm:text-3xl">{k.value}</p>
-                <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-foreground">{k.label}</p>
-                <p className="mt-0.5 text-[11px] text-muted-foreground">{k.hint}</p>
-              </div>
-            ))}
-          </div>
+          <aside className="flex w-full max-w-sm shrink-0 flex-col gap-3 sm:max-w-xs" aria-label="Highlights and contact">
+            <div className="rounded-2xl border border-border/80 bg-white/90 px-4 py-4 text-center shadow-sm backdrop-blur-sm">
+              <p className="font-mono text-2xl font-bold tabular-nums text-primary sm:text-3xl">{YEARS_IN_DATA_KPI.value}</p>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-foreground">{YEARS_IN_DATA_KPI.label}</p>
+              <p className="mt-0.5 text-[11px] text-muted-foreground">{YEARS_IN_DATA_KPI.hint}</p>
+            </div>
+            <a
+              href="mailto:murilobiss@gmail.com"
+              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
+            >
+              <Mail className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+              <span className="min-w-0 truncate font-medium text-foreground">murilobiss@gmail.com</span>
+            </a>
+            <span className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm text-muted-foreground shadow-sm">
+              <Phone className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+              <span>+55 (41) 99835-8844</span>
+            </span>
+            <a
+              href="https://www.linkedin.com/in/murilobiss"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
+            >
+              <Linkedin className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+              <span className="min-w-0 truncate">linkedin.com/in/murilobiss</span>
+            </a>
+            <a
+              href="https://github.com/murilobiss"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
+            >
+              <Github className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+              <span className="min-w-0 truncate font-medium text-foreground">github.com/murilobiss</span>
+            </a>
+            <span className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm text-muted-foreground shadow-sm">
+              <MapPin className="h-4 w-4 shrink-0 text-primary" aria-hidden />
+              Brazil
+            </span>
+          </aside>
         </div>
-      </section>
-
-      <section aria-label="Contact" className="flex flex-wrap gap-2 sm:gap-3">
-        <a
-          href="mailto:murilobiss@gmail.com"
-          className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-3 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
-        >
-          <Mail className="h-4 w-4 text-primary" aria-hidden />
-          <span className="font-medium text-foreground">murilobiss@gmail.com</span>
-        </a>
-        <span className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-3 text-sm shadow-sm">
-          <Phone className="h-4 w-4 text-primary" aria-hidden />
-          +55 (41) 99835-8844
-        </span>
-        <a
-          href="https://www.linkedin.com/in/murilobiss"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-3 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
-        >
-          <Linkedin className="h-4 w-4 text-primary" aria-hidden />
-          linkedin.com/in/murilobiss
-        </a>
-        <a
-          href="https://github.com/murilobiss"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-3 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
-        >
-          <Github className="h-4 w-4 text-primary" aria-hidden />
-          <span className="font-medium text-foreground">github.com/murilobiss</span>
-        </a>
-        <span className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-3 text-sm text-muted-foreground shadow-sm">
-          <MapPin className="h-4 w-4 text-primary" aria-hidden />
-          Brazil
-        </span>
       </section>
 
       <section
@@ -407,8 +436,8 @@ export function CvContent() {
         </div>
       </section>
 
-      <section className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white p-6 shadow-sm sm:p-8">
+      <section className="grid gap-4 print:grid-cols-1 lg:grid-cols-2">
+        <div className="rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/10 via-white to-white p-6 shadow-sm sm:p-8 print:hidden">
           <div className="flex items-center gap-2 text-primary">
             <ShieldCheck className="h-5 w-5 shrink-0" aria-hidden />
             <h2 className="text-sm font-bold uppercase tracking-wide">Portfolio walkthrough (not on the PDF)</h2>
@@ -418,32 +447,33 @@ export function CvContent() {
             change the facts on the résumé or PDF.
           </p>
         </div>
-        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
+        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8 print:max-w-none">
           <div className="flex items-center gap-2 text-primary">
             <Database className="h-5 w-5 shrink-0" aria-hidden />
-            <h2 className="text-sm font-bold uppercase tracking-wide">Technical skills (years · proficiency)</h2>
+            <h2 className="text-sm font-bold uppercase tracking-wide">Technical skills (years · level)</h2>
           </div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            Layout aligned to the on-page résumé reference: section dividers, three columns (skill · years · level). Figures are
-            indicative of depth; wording on the PDF remains authoritative.
+            Sections follow a résumé-style matrix: skill name, years of practice, then level (Novice → Beginner → Intermediate →
+            Advanced). Numbers are indicative, not a legal claim.
           </p>
           <div className="mt-6 border-t border-foreground/20 pt-5 text-sm text-foreground">
             {skillMatrixSections.map((sec, si) => (
               <div key={sec.title} className={cn(si > 0 && "mt-5 border-t border-foreground/20 pt-5")}>
                 <p className="font-bold text-foreground">{sec.title}</p>
-                <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto_auto] gap-x-6 gap-y-2 sm:gap-x-10">
+                <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] gap-x-6 gap-y-2 sm:gap-x-10">
                   {sec.rows.map((row) => (
                     <Fragment key={row.name}>
                       <span className="text-foreground">{row.name}</span>
-                      <span className="tabular-nums text-right text-muted-foreground">{row.years}</span>
-                      <span className="text-muted-foreground">{row.level}</span>
+                      <span className="whitespace-nowrap text-right tabular-nums text-muted-foreground">
+                        {row.years} <span className="text-foreground/40">|</span> {row.level}
+                      </span>
                     </Fragment>
                   ))}
                 </div>
               </div>
             ))}
           </div>
-          <p className="mt-6 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Certifications (PDF)</p>
+          <p className="mt-6 text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">Certifications</p>
           <div className="mt-1.5 flex flex-wrap gap-2">
             {credentialChips.map((chip) => (
               <span
@@ -481,50 +511,10 @@ export function CvContent() {
         </ul>
       </section>
 
-      <section aria-labelledby="fit-heading" className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h2 id="fit-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <Target className="h-5 w-5 text-primary" aria-hidden />
-              Role fit → how I operate (portfolio lens)
-            </h2>
-            <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-              Optional hiring-manager mapping; factual employment is in the PDF-aligned sections above and in the experience
-              timeline below.
-            </p>
-          </div>
-          <Link href="/infrastructure?section=infrastructure" className="text-sm font-medium text-primary underline-offset-4 hover:underline">
-            See infrastructure →
-          </Link>
-        </div>
-        <div className="space-y-4">
-          {jdMapping.map(({ Icon, ask, proof }, i) => (
-            <div
-              key={ask}
-              className="relative overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-sm transition hover:border-primary/25 hover:shadow-md sm:p-6"
-            >
-              <div className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-primary to-cyan-400" aria-hidden />
-              <div className="pl-4 sm:pl-5">
-                <div className="flex flex-wrap items-start gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                    <Icon className="h-5 w-5" aria-hidden />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <span className="font-mono text-xs font-bold text-muted-foreground">0{i + 1}</span>
-                    <h3 className="mt-1 text-base font-semibold leading-snug text-foreground sm:text-lg">{ask}</h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{proof}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <section aria-labelledby="roles-heading" className="space-y-4">
         <h2 id="roles-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
           <Zap className="h-5 w-5 text-primary" aria-hidden />
-          Professional experience (same order and substance as PDF)
+          Professional experience
         </h2>
         <div className="rounded-2xl border border-border bg-white p-6 text-sm leading-relaxed shadow-sm sm:p-8 sm:text-[15px]">
           {experienceRoles.map((r) => {
@@ -533,7 +523,7 @@ export function CvContent() {
             return (
               <article
                 key={`${r.org}-${r.title}-${r.period}`}
-                className="border-t border-foreground/15 py-6 first:border-t-0 first:pt-0"
+                className="break-inside-avoid border-t border-foreground/15 py-6 first:border-t-0 first:pt-0"
               >
                 <h3 className="text-base font-bold text-foreground">{r.title}</h3>
                 <p className="text-xs text-muted-foreground sm:text-sm">
@@ -565,17 +555,57 @@ export function CvContent() {
         </div>
       </section>
 
-      <footer className="rounded-2xl border border-dashed border-primary/25 bg-cyan-50/40 px-5 py-5 text-center text-sm leading-relaxed text-muted-foreground">
+      <section aria-labelledby="how-operate-heading" className="space-y-4 print:break-inside-avoid">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <h2 id="how-operate-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
+              <Target className="h-5 w-5 text-primary" aria-hidden />
+              How I operate
+            </h2>
+            <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+              Hiring-manager lens on delivery style; roles and dates are in Professional experience above.
+            </p>
+          </div>
+          <Link
+            href="/infrastructure?section=infrastructure"
+            className="text-sm font-medium text-primary underline-offset-4 hover:underline print:hidden"
+          >
+            See infrastructure →
+          </Link>
+        </div>
+        <div className="space-y-4">
+          {jdMapping.map(({ Icon, ask, proof }, i) => (
+            <div
+              key={ask}
+              className="relative overflow-hidden rounded-2xl border border-border bg-white p-5 pl-5 shadow-sm transition hover:border-primary/25 hover:shadow-md sm:p-6 sm:pl-6 print:shadow-none"
+            >
+              <div
+                className="absolute bottom-0 left-0 top-0 w-1 bg-gradient-to-b from-primary to-cyan-400 print:hidden"
+                aria-hidden
+              />
+              <div className="flex flex-wrap items-start gap-3">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary print:hidden">
+                  <Icon className="h-5 w-5" aria-hidden />
+                </span>
+                <div className="min-w-0 flex-1">
+                  <span className="font-mono text-xs font-bold text-muted-foreground print:hidden">0{i + 1}</span>
+                  <h3 className="mt-1 text-base font-semibold leading-snug text-foreground sm:text-lg print:mt-0">{ask}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-base">{proof}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <footer className="rounded-2xl border border-dashed border-primary/25 bg-cyan-50/40 px-5 py-5 text-center text-sm leading-relaxed text-muted-foreground print:hidden">
         <p>
-          <strong className="text-foreground">PDF</strong> is the same résumé as this page:{" "}
+          Prefer a file? Use <strong className="text-foreground">Save as PDF (print)</strong> in the hero so the export matches this
+          page. The archived file{" "}
           <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
-            download
+            cv-murilo-biss.pdf
           </a>{" "}
-          or{" "}
-          <a href={CV_PDF_HREF} target="_blank" rel="noopener noreferrer" className="font-medium text-primary underline-offset-4 hover:underline">
-            open
-          </a>
-          . Explore the case:{" "}
+          may be older. Explore the case:{" "}
           <Link href="/infrastructure" className="font-medium text-primary underline-offset-4 hover:underline">
             Infrastructure
           </Link>
