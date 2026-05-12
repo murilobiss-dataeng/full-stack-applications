@@ -24,6 +24,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const CV_PDF_HREF = "/cv-murilo-biss.pdf";
+/** Server-generated PDF (headless Chromium renders /cv — same HTML/CSS as the live page). */
+const CV_PDF_API = "/api/cv/pdf";
 
 const PDF_TAGLINE = "Senior Data Engineer · Snowflake · ELT · SQL";
 
@@ -47,26 +49,26 @@ const skillMatrixSections = [
       { name: "TypeScript", years: "2", level: "Beginner" as const },
       { name: "Java", years: "1", level: "Exposure" as const },
       { name: "YAML", years: "4", level: "Intermediate" as const },
-      { name: "Jinja / SQL templating", years: "3", level: "Intermediate" as const },
-      { name: "Go (tooling & CLIs)", years: "1", level: "Exposure" as const },
+      { name: "Jinja", years: "1", level: "Exposure" as const },
+      { name: "Go", years: "1", level: "Exposure" as const },
     ],
   },
   {
     title: "Frameworks and libraries",
     rows: [
       { name: "dbt", years: "1,5", level: "Advanced" as const },
-      { name: "Apache Spark / PySpark", years: "4", level: "Advanced" as const },
+      { name: "Spark / PySpark", years: "4", level: "Advanced" as const },
       { name: "Apache Airflow", years: "4", level: "Advanced" as const },
       { name: "Delta Lake / DLT", years: "3", level: "Advanced" as const },
       { name: "Pandas / Polars", years: "4", level: "Intermediate" as const },
-      { name: "Great Expectations", years: "2", level: "Beginner" as const },
+      { name: "GE (data tests)", years: "2", level: "Beginner" as const },
       { name: "Apache Iceberg", years: "1", level: "Exposure" as const },
       { name: "Apache Hudi", years: "1", level: "Exposure" as const },
       { name: "OpenLineage", years: "1", level: "Exposure" as const },
       { name: "PyArrow / Parquet", years: "3", level: "Intermediate" as const },
-      { name: "FastAPI / Python services", years: "2", level: "Beginner" as const },
+      { name: "FastAPI", years: "2", level: "Beginner" as const },
       { name: "Apache Flink", years: "1", level: "Exposure" as const },
-      { name: "Ray (distributed Python)", years: "1", level: "Exposure" as const },
+      { name: "Ray", years: "1", level: "Exposure" as const },
     ],
   },
   {
@@ -74,54 +76,48 @@ const skillMatrixSections = [
     rows: [
       { name: "Snowflake", years: "2", level: "Advanced" as const },
       { name: "Databricks", years: "4", level: "Advanced" as const },
-      { name: "Amazon Redshift", years: "2", level: "Intermediate" as const },
-      { name: "AWS Athena / Presto-style SQL", years: "4", level: "Intermediate" as const },
+      { name: "Redshift", years: "2", level: "Intermediate" as const },
+      { name: "Athena (Presto SQL)", years: "4", level: "Intermediate" as const },
       { name: "PostgreSQL", years: "5", level: "Advanced" as const },
-      { name: "Microsoft SQL Server", years: "2", level: "Intermediate" as const },
+      { name: "SQL Server", years: "2", level: "Intermediate" as const },
       { name: "Kafka", years: "3", level: "Intermediate" as const },
       { name: "MongoDB", years: "1", level: "Exposure" as const },
       { name: "Redis", years: "2", level: "Beginner" as const },
       { name: "DuckDB", years: "2", level: "Intermediate" as const },
       { name: "MySQL / MariaDB", years: "2", level: "Beginner" as const },
-      { name: "Amazon OpenSearch / Elasticsearch", years: "1", level: "Exposure" as const },
-      { name: "Google BigQuery", years: "1", level: "Exposure" as const },
-      { name: "Amazon DynamoDB", years: "1", level: "Exposure" as const },
-      { name: "SQLite / embedded analytics", years: "3", level: "Intermediate" as const },
+      { name: "OpenSearch / ES", years: "1", level: "Exposure" as const },
+      { name: "BigQuery", years: "1", level: "Exposure" as const },
+      { name: "DynamoDB", years: "1", level: "Exposure" as const },
+      { name: "SQLite", years: "3", level: "Intermediate" as const },
       { name: "Oracle", years: "1", level: "Exposure" as const },
-      { name: "TimescaleDB / time-series SQL", years: "1", level: "Exposure" as const },
+      { name: "TimescaleDB", years: "1", level: "Exposure" as const },
     ],
   },
   {
     title: "Cloud platforms & infrastructure",
     rows: [
-      { name: "Terraform (modules & state)", years: "3", level: "Intermediate" as const },
-      { name: "AWS (S3, Glue, Lambda patterns, IAM)", years: "5", level: "Advanced" as const },
-      { name: "AWS CloudFormation (stacks & params)", years: "2", level: "Beginner" as const },
-      { name: "Azure (Data Factory, DevOps, Databricks)", years: "3", level: "Intermediate" as const },
-      { name: "GCP (BigQuery, IAM, buckets)", years: "1", level: "Exposure" as const },
-      { name: "Docker / containers (pipelines & deploy)", years: "3", level: "Intermediate" as const },
-      { name: "Kubernetes (jobs, packaging)", years: "2", level: "Intermediate" as const },
-      { name: "GitHub Actions / CI for data repos", years: "3", level: "Intermediate" as const },
-      { name: "Azure DevOps pipelines", years: "2", level: "Beginner" as const },
-      { name: "VPC / private networking (data planes)", years: "3", level: "Intermediate" as const },
-      { name: "Secrets Manager / Key Vault patterns", years: "3", level: "Intermediate" as const },
-      { name: "Pulumi (IaC exposure)", years: "1", level: "Exposure" as const },
-      { name: "Compute runners (EC2 / agents for jobs)", years: "4", level: "Intermediate" as const },
-      { name: "Observability (CloudWatch, logs, alerts)", years: "4", level: "Intermediate" as const },
+      { name: "Terraform", years: "3", level: "Intermediate" as const },
+      { name: "AWS", years: "5", level: "Advanced" as const },
+      { name: "CloudFormation", years: "2", level: "Beginner" as const },
+      { name: "Azure", years: "3", level: "Intermediate" as const },
+      { name: "GCP (BQ, IAM, GCS)", years: "1", level: "Exposure" as const },
+      { name: "Docker", years: "3", level: "Intermediate" as const },
+      { name: "Kubernetes", years: "2", level: "Intermediate" as const },
+      { name: "GitHub Actions", years: "3", level: "Intermediate" as const },
+      { name: "Azure DevOps", years: "2", level: "Beginner" as const },
+      { name: "VPC / networking", years: "3", level: "Intermediate" as const },
+      { name: "Secrets / Vault", years: "3", level: "Intermediate" as const },
+      { name: "Pulumi", years: "1", level: "Exposure" as const },
+      { name: "Observability", years: "4", level: "Intermediate" as const },
     ],
   },
   {
     title: "Orchestration, quality & governance",
     rows: [
-      { name: "Workflow orchestration (Airflow, jobs)", years: "4", level: "Advanced" as const },
-      { name: "Databricks Jobs / Workflows", years: "3", level: "Intermediate" as const },
-      { name: "Snowflake Tasks & Streams (patterns)", years: "2", level: "Intermediate" as const },
-      { name: "Data quality gates & observability", years: "4", level: "Intermediate" as const },
-      { name: "Soda / SQL-based checks", years: "1", level: "Exposure" as const },
-      { name: "Lineage / catalog patterns", years: "3", level: "Intermediate" as const },
-      { name: "Unity Catalog / lake governance", years: "2", level: "Beginner" as const },
-      { name: "RBAC, masking, audit-friendly delivery", years: "3", level: "Intermediate" as const },
-      { name: "Schema contracts & versioning", years: "3", level: "Intermediate" as const },
+      { name: "Databricks Jobs", years: "3", level: "Intermediate" as const },
+      { name: "Snowflake Tasks", years: "2", level: "Intermediate" as const },
+      { name: "Data quality", years: "4", level: "Intermediate" as const },
+      { name: "Unity Catalog", years: "2", level: "Beginner" as const },
       { name: "Dagster", years: "1", level: "Exposure" as const },
       { name: "Prefect", years: "1", level: "Exposure" as const },
     ],
@@ -133,10 +129,7 @@ const skillMatrixSections = [
       { name: "Tableau", years: "1", level: "Exposure" as const },
       { name: "Looker", years: "1", level: "Exposure" as const },
       { name: "Metabase", years: "2", level: "Advanced" as const },
-      { name: "Metric design & grain discipline", years: "7", level: "Advanced" as const },
-      { name: "Semantic layer concepts (metrics, SLAs)", years: "3", level: "Intermediate" as const },
-      { name: "Stakeholder workshops & requirements", years: "7", level: "Advanced" as const },
-      { name: "Agile / Scrum (delivery)", years: "7+", level: "Advanced" as const },
+      { name: "Agile / Scrum", years: "7+", level: "Advanced" as const },
     ],
   },
 ] as const;
@@ -355,8 +348,11 @@ const jdMapping = [
 
 export function CvContent() {
   return (
-    <div className="space-y-10 px-1 sm:px-0">
-      <section className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-white via-cyan-50/40 to-white px-6 py-8 shadow-lg shadow-primary/10 sm:px-10 sm:py-10 print:border print:shadow-none">
+    <div
+      id="cv-document"
+      className="cv-document mx-auto max-w-6xl space-y-12 px-0.5 sm:space-y-14 sm:px-0"
+    >
+      <section className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-white via-cyan-50/50 to-white px-7 py-10 shadow-xl shadow-primary/10 ring-1 ring-primary/10 sm:px-11 sm:py-12 print:border print:shadow-none print:ring-0">
         <div
           className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl print:hidden"
           aria-hidden
@@ -371,26 +367,26 @@ export function CvContent() {
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
               {PDF_TAGLINE}
             </p>
-            <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl">Murilo Biss</h1>
+            <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-[2.75rem] md:leading-tight">
+              Murilo Biss
+            </h1>
             <p className="text-sm leading-relaxed text-muted-foreground sm:text-base print:hidden">
-              Use <strong className="text-foreground">Save as PDF (print)</strong> so the file matches this page. Other site routes
-              are portfolio demos only. The file at <span className="whitespace-nowrap">cv-murilo-biss.pdf</span> is a static snapshot
-              and may lag behind updates here.
+              <strong className="text-foreground">Download CV (PDF)</strong> generates the same layout you see here (not a browser
+              screenshot). Other routes on this site are portfolio demos only.
             </p>
             <div className="hidden text-sm leading-relaxed text-foreground print:block">
               Murilo Biss · {PDF_TAGLINE}. Contact details in the column to the right.
             </div>
-            <div className="flex flex-wrap gap-2 pt-1 print:hidden">
-              <CvPrintButton className="shadow-md shadow-primary/20" />
+            <div className="flex flex-wrap gap-2.5 pt-1 print:hidden" data-pdf-hide="true">
               <a
-                href={CV_PDF_HREF}
-                download
-                className={cn(buttonVariants({ variant: "outline" }), "gap-2 border-primary/30 bg-white/80")}
+                href={CV_PDF_API}
+                className={cn(buttonVariants(), "gap-2 shadow-md shadow-primary/25")}
               >
                 <Download className="h-4 w-4" aria-hidden />
-                Download archived PDF
+                Download CV (PDF)
               </a>
-              <Link href="/ai-lab" className={cn(buttonVariants({ variant: "outline" }), "gap-2 bg-white/80")}>
+              <CvPrintButton variant="outline" className="border-primary/30 bg-white/90" />
+              <Link href="/ai-lab" className={cn(buttonVariants({ variant: "outline" }), "border-primary/25 bg-white/90")}>
                 <Wand2 className="h-4 w-4" aria-hidden />
                 AI Lab
               </Link>
@@ -445,10 +441,12 @@ export function CvContent() {
 
       <section
         aria-labelledby="summary-heading"
-        className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8 lg:border-l-4 lg:border-l-primary"
+        className="rounded-3xl border border-border/90 bg-white p-7 shadow-md sm:p-9 lg:border-l-[5px] lg:border-l-primary lg:pl-10"
       >
-        <h2 id="summary-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-          <BarChart3 className="h-5 w-5 text-primary" aria-hidden />
+        <h2 id="summary-heading" className="flex items-center gap-3 text-xl font-semibold tracking-tight text-foreground">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+            <BarChart3 className="h-5 w-5" aria-hidden />
+          </span>
           Professional profile
         </h2>
         {profileParagraphs.map((p, i) => (
@@ -458,45 +456,72 @@ export function CvContent() {
         ))}
       </section>
 
-      <section aria-labelledby="comp-heading">
-        <h2 id="comp-heading" className="mb-4 flex items-center gap-2 text-lg font-bold text-foreground">
-          <Database className="h-5 w-5 text-primary" aria-hidden />
+      <section aria-labelledby="comp-heading" className="space-y-5">
+        <h2 id="comp-heading" className="flex items-center gap-3 text-xl font-semibold tracking-tight text-foreground">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+            <Database className="h-5 w-5" aria-hidden />
+          </span>
           Core competencies
         </h2>
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2">
           {coreCompetencies.map((c) => (
-            <div key={c.title} className="rounded-2xl border border-border bg-white p-4 shadow-sm sm:p-5">
+            <div
+              key={c.title}
+              className="rounded-2xl border border-border/90 bg-gradient-to-b from-white to-muted/25 p-5 shadow-sm sm:p-6"
+            >
               <h3 className="text-xs font-bold uppercase tracking-wide text-primary">{c.title}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
             </div>
           ))}
         </div>
       </section>
 
       <section aria-labelledby="skills-matrix-heading" className="w-full">
-        <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8 md:p-10">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-            <div className="flex items-center gap-2 text-primary">
-              <Database className="h-6 w-6 shrink-0" aria-hidden />
-              <h2 id="skills-matrix-heading" className="text-base font-bold uppercase tracking-wide sm:text-lg">
+        <div className="rounded-3xl border border-border/90 bg-gradient-to-b from-white via-white to-muted/20 p-7 shadow-md sm:p-9 md:p-11">
+          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex items-center gap-3 text-primary">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/25 bg-primary/10">
+                <Database className="h-6 w-6" aria-hidden />
+              </span>
+              <h2 id="skills-matrix-heading" className="text-lg font-semibold uppercase tracking-wide text-foreground sm:text-xl">
                 Technical skills (years · level)
               </h2>
             </div>
           </div>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
             Sections follow a résumé-style matrix: skill name, years of practice, then level (Exposure → Beginner → Intermediate →
             Advanced). Numbers are indicative, not a legal claim.
           </p>
-          <div className="mt-8 grid gap-8 border-t border-foreground/15 pt-8 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-9 grid gap-7 border-t border-foreground/10 pt-9 lg:grid-cols-2 xl:grid-cols-3">
             {skillMatrixSections.map((sec) => (
-              <div key={sec.title} className="min-w-0 rounded-2xl border border-border/80 bg-muted/20 p-4 sm:p-5">
-                <p className="border-b border-foreground/10 pb-2 text-sm font-bold text-foreground">{sec.title}</p>
-                <div className="mt-3 grid grid-cols-[minmax(0,1fr)_auto] gap-x-4 gap-y-2.5 text-sm text-foreground sm:gap-x-6">
+              <div
+                key={sec.title}
+                className="min-w-0 rounded-2xl border border-border/80 bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-6"
+              >
+                <p className="border-b border-foreground/10 pb-2.5 text-sm font-semibold text-foreground">{sec.title}</p>
+                <div className="mt-3.5 grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-2 gap-y-2 sm:gap-x-3">
                   {sec.rows.map((row) => (
                     <Fragment key={row.name}>
-                      <span className="leading-snug">{row.name}</span>
-                      <span className="whitespace-nowrap text-right text-sm tabular-nums text-muted-foreground sm:text-base">
-                        {row.years} <span className="text-foreground/40">|</span> {row.level}
+                      <span
+                        className="min-w-0 truncate whitespace-nowrap text-[11px] leading-tight text-foreground sm:text-xs"
+                        title={
+                          row.name.includes("Athena")
+                            ? "AWS Athena (Presto-compatible SQL)"
+                            : row.name.startsWith("GE ")
+                              ? "Great Expectations (data tests)"
+                              : row.name
+                        }
+                      >
+                        {row.name}
+                      </span>
+                      <span className="flex shrink-0 items-baseline justify-end gap-1 whitespace-nowrap tabular-nums">
+                        <span className="text-[11px] text-muted-foreground sm:text-xs">{row.years}</span>
+                        <span className="text-[9px] text-foreground/35 sm:text-[10px]" aria-hidden>
+                          |
+                        </span>
+                        <span className="text-[9px] font-medium leading-none tracking-tight text-muted-foreground sm:text-[10px]">
+                          {row.level}
+                        </span>
                       </span>
                     </Fragment>
                   ))}
@@ -518,67 +543,68 @@ export function CvContent() {
         </div>
       </section>
 
-      <section aria-labelledby="certs-heading" className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
-        <h2 id="certs-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-          <Award className="h-5 w-5 text-primary" aria-hidden />
+      <section aria-labelledby="certs-heading" className="rounded-3xl border border-border/90 bg-white p-7 shadow-md sm:p-9">
+        <h2 id="certs-heading" className="flex items-center gap-3 text-xl font-semibold tracking-tight text-foreground">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+            <Award className="h-5 w-5" aria-hidden />
+          </span>
           Certifications
         </h2>
-        <ul className="mt-4 list-inside list-disc space-y-2 text-sm text-muted-foreground sm:text-base">
+        <ul className="mt-5 list-inside list-disc space-y-2.5 text-sm leading-relaxed text-muted-foreground sm:text-base">
           {certifications.map((c) => (
             <li key={c}>{c}</li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="lang-heading" className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8">
-        <h2 id="lang-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-          <Languages className="h-5 w-5 text-primary" aria-hidden />
+      <section aria-labelledby="lang-heading" className="rounded-3xl border border-border/90 bg-white p-7 shadow-md sm:p-9">
+        <h2 id="lang-heading" className="flex items-center gap-3 text-xl font-semibold tracking-tight text-foreground">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+            <Languages className="h-5 w-5" aria-hidden />
+          </span>
           Languages
         </h2>
-        <ul className="mt-4 list-inside list-disc space-y-2 text-sm text-muted-foreground sm:text-base">
+        <ul className="mt-5 list-inside list-disc space-y-2.5 text-sm leading-relaxed text-muted-foreground sm:text-base">
           {languages.map((l) => (
             <li key={l}>{l}</li>
           ))}
         </ul>
       </section>
 
-      <section aria-labelledby="roles-heading" className="space-y-4">
-        <h2 id="roles-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-          <Zap className="h-5 w-5 text-primary" aria-hidden />
+      <section aria-labelledby="roles-heading" className="space-y-5">
+        <h2 id="roles-heading" className="flex items-center gap-3 text-xl font-semibold tracking-tight text-foreground">
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+            <Zap className="h-5 w-5" aria-hidden />
+          </span>
           Professional experience
         </h2>
-        <div className="rounded-2xl border border-border bg-white p-6 text-sm leading-relaxed shadow-sm sm:p-8 sm:text-[15px]">
+        <div className="divide-y divide-border/80 rounded-3xl border border-border/90 bg-white p-6 shadow-md sm:p-9 sm:text-[15px]">
           {experienceRoles.map((r) => {
             const responsibilities = [...(r.ledes ?? []), ...r.bullets];
             const tech = r.tags.length > 0 ? `${r.tags.join(", ")}.` : "";
             return (
-              <article
-                key={`${r.org}-${r.title}-${r.period}`}
-                className="break-inside-avoid border-t border-foreground/15 py-6 first:border-t-0 first:pt-0"
-              >
-                <h3 className="text-base font-bold text-foreground">{r.title}</h3>
-                <p className="text-xs text-muted-foreground sm:text-sm">
+              <article key={`${r.org}-${r.title}-${r.period}`} className="break-inside-avoid py-8 first:pt-0 last:pb-0">
+                <h3 className="text-lg font-semibold text-foreground">{r.title}</h3>
+                <p className="mt-1 text-xs text-muted-foreground sm:text-sm">
                   {r.org}
                   {r.location ? ` · ${r.location}` : ""}
                 </p>
-                <p className="mt-4">
-                  <strong>Project:</strong> {r.projectLine}
+                <p className="mt-5 text-[15px] leading-relaxed text-foreground">
+                  <strong className="font-semibold">Project:</strong> {r.projectLine}
                 </p>
-                <p className="mt-4">
-                  <strong>Responsibilities:</strong>
-                </p>
+                <p className="mt-4 text-[15px] font-semibold text-foreground">Responsibilities:</p>
                 {responsibilities.map((para, idx) => (
-                  <p key={`${r.org}-resp-${idx}`} className="mt-2 text-muted-foreground">
+                  <p key={`${r.org}-resp-${idx}`} className="mt-2.5 text-[15px] leading-relaxed text-muted-foreground">
                     {para}
                   </p>
                 ))}
                 {tech ? (
-                  <p className="mt-4">
-                    <strong>Technologies:</strong> {tech}
+                  <p className="mt-5 text-[15px] leading-relaxed text-foreground">
+                    <strong className="font-semibold">Technologies:</strong> {tech}
                   </p>
                 ) : null}
-                <p className="mt-4">
-                  <strong>Duration:</strong> {r.period}.
+                <p className="mt-4 text-[15px] text-foreground">
+                  <strong className="font-semibold">Duration:</strong> {r.period}.
                 </p>
               </article>
             );
@@ -586,29 +612,33 @@ export function CvContent() {
         </div>
       </section>
 
-      <section aria-labelledby="how-operate-heading" className="space-y-4 print:break-inside-avoid">
+      <section aria-labelledby="how-operate-heading" className="space-y-5 print:break-inside-avoid">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h2 id="how-operate-heading" className="flex items-center gap-2 text-lg font-bold text-foreground">
-              <Target className="h-5 w-5 text-primary" aria-hidden />
+            <h2 id="how-operate-heading" className="flex items-center gap-3 text-xl font-semibold tracking-tight text-foreground">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
+                <Target className="h-5 w-5" aria-hidden />
+              </span>
               How I operate
             </h2>
-            <p className="mt-1 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-muted-foreground">
               Hiring-manager lens on delivery style; roles and dates are in Professional experience above.
             </p>
           </div>
-          <Link
-            href="/infrastructure?section=infrastructure"
-            className="text-sm font-medium text-primary underline-offset-4 hover:underline print:hidden"
-          >
-            See infrastructure →
-          </Link>
+          <span data-pdf-hide="true">
+            <Link
+              href="/infrastructure?section=infrastructure"
+              className="text-sm font-medium text-primary underline-offset-4 hover:underline print:hidden"
+            >
+              See infrastructure →
+            </Link>
+          </span>
         </div>
         <div className="space-y-4">
           {jdMapping.map(({ Icon, ask, proof }, i) => (
             <div
               key={ask}
-              className="relative overflow-hidden rounded-2xl border border-border bg-white p-5 pl-5 shadow-sm transition hover:border-primary/25 hover:shadow-md sm:p-6 sm:pl-6 print:shadow-none"
+              className="relative overflow-hidden rounded-2xl border border-border/90 bg-gradient-to-br from-white to-muted/15 p-6 shadow-sm transition hover:border-primary/20 hover:shadow-md sm:p-7 print:shadow-none"
             >
               <div
                 className="absolute bottom-0 left-0 top-0 w-1 bg-gradient-to-b from-primary to-cyan-400 print:hidden"
@@ -629,14 +659,20 @@ export function CvContent() {
         </div>
       </section>
 
-      <footer className="rounded-2xl border border-dashed border-primary/25 bg-cyan-50/40 px-5 py-5 text-center text-sm leading-relaxed text-muted-foreground print:hidden">
+      <footer
+        data-pdf-hide="true"
+        className="rounded-2xl border border-dashed border-primary/30 bg-gradient-to-br from-cyan-50/80 to-primary/5 px-6 py-6 text-center text-sm leading-relaxed text-muted-foreground print:hidden"
+      >
         <p>
-          Prefer a file? Use <strong className="text-foreground">Save as PDF (print)</strong> in the hero so the export matches this
-          page. The archived file{" "}
+          <strong className="text-foreground">PDF</strong> is generated from this page via{" "}
+          <a href={CV_PDF_API} className="font-medium text-primary underline-offset-4 hover:underline">
+            Download CV (PDF)
+          </a>
+          . Optional static copy:{" "}
           <a href={CV_PDF_HREF} className="font-medium text-primary underline-offset-4 hover:underline">
             cv-murilo-biss.pdf
-          </a>{" "}
-          may be older. Explore the case:{" "}
+          </a>
+          . Explore the case:{" "}
           <Link href="/infrastructure" className="font-medium text-primary underline-offset-4 hover:underline">
             Infrastructure
           </Link>

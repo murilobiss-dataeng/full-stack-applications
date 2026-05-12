@@ -76,4 +76,8 @@ body {
   body > footer {
     display: none !important;
   }
+
+  [data-pdf-hide="true"] {
+    display: none !important;
+  }
 }
