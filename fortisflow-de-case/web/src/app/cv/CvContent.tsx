@@ -1,4 +1,3 @@
-import { Fragment } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -350,9 +349,9 @@ export function CvContent() {
   return (
     <div
       id="cv-document"
-      className="cv-document mx-auto max-w-6xl space-y-12 px-0.5 sm:space-y-14 sm:px-0"
+      className="cv-document mx-auto max-w-6xl space-y-11 px-1 text-[15px] antialiased sm:space-y-14 sm:px-0 sm:text-[15px]"
     >
-      <section className="relative overflow-hidden rounded-3xl border border-primary/25 bg-gradient-to-br from-white via-cyan-50/50 to-white px-7 py-10 shadow-xl shadow-primary/10 ring-1 ring-primary/10 sm:px-11 sm:py-12 print:border print:shadow-none print:ring-0">
+      <section className="relative overflow-hidden rounded-2xl border border-border/70 bg-gradient-to-br from-white via-slate-50/40 to-cyan-50/30 px-6 py-9 shadow-md ring-1 ring-border/40 sm:rounded-3xl sm:px-10 sm:py-11 print:border print:shadow-none print:ring-0">
         <div
           className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/10 blur-3xl print:hidden"
           aria-hidden
@@ -361,16 +360,16 @@ export function CvContent() {
           className="pointer-events-none absolute -bottom-16 -left-16 h-48 w-48 rounded-full bg-primary/5 blur-2xl print:hidden"
           aria-hidden
         />
-        <div className="relative flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-          <div className="max-w-2xl space-y-4">
+        <div className="relative flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+          <div className="max-w-2xl space-y-5">
             <p className="inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-primary">
               <Sparkles className="h-3.5 w-3.5" aria-hidden />
               {PDF_TAGLINE}
             </p>
-            <h1 className="text-balance text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-[2.75rem] md:leading-tight">
+            <h1 className="text-balance text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-5xl">
               Murilo Biss
             </h1>
-            <p className="text-sm leading-relaxed text-muted-foreground sm:text-base print:hidden">
+            <p className="max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-[15px] print:hidden">
               <strong className="text-foreground">Download CV (PDF)</strong> generates the same layout you see here (not a browser
               screenshot). Other routes on this site are portfolio demos only.
             </p>
@@ -396,20 +395,20 @@ export function CvContent() {
               </Link>
             </div>
           </div>
-          <aside className="flex w-full max-w-sm shrink-0 flex-col gap-3 sm:max-w-xs" aria-label="Highlights and contact">
-            <div className="rounded-2xl border border-border/80 bg-white/90 px-4 py-4 text-center shadow-sm backdrop-blur-sm">
+          <aside className="flex w-full max-w-sm shrink-0 flex-col gap-2.5 sm:max-w-xs" aria-label="Highlights and contact">
+            <div className="rounded-xl border border-border/70 bg-white/95 px-4 py-3.5 text-center shadow-sm">
               <p className="font-mono text-2xl font-bold tabular-nums text-primary sm:text-3xl">{YEARS_IN_DATA_KPI.value}</p>
               <p className="mt-1 text-xs font-semibold uppercase tracking-wide text-foreground">{YEARS_IN_DATA_KPI.label}</p>
               <p className="mt-0.5 text-[11px] text-muted-foreground">{YEARS_IN_DATA_KPI.hint}</p>
             </div>
             <a
               href="mailto:murilobiss@gmail.com"
-              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
+              className="inline-flex items-center gap-2.5 rounded-xl border border-border/70 bg-white px-3.5 py-2.5 text-sm shadow-sm transition hover:border-primary/35 hover:bg-slate-50/80"
             >
               <Mail className="h-4 w-4 shrink-0 text-primary" aria-hidden />
               <span className="min-w-0 truncate font-medium text-foreground">murilobiss@gmail.com</span>
             </a>
-            <span className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm text-muted-foreground shadow-sm">
+            <span className="inline-flex items-center gap-2.5 rounded-xl border border-border/70 bg-white px-3.5 py-2.5 text-sm text-muted-foreground shadow-sm">
               <Phone className="h-4 w-4 shrink-0 text-primary" aria-hidden />
               <span>+55 (41) 99835-8844</span>
             </span>
@@ -417,7 +416,7 @@ export function CvContent() {
               href="https://www.linkedin.com/in/murilobiss"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
+              className="inline-flex items-center gap-2.5 rounded-xl border border-border/70 bg-white px-3.5 py-2.5 text-sm shadow-sm transition hover:border-primary/35 hover:bg-slate-50/80"
             >
               <Linkedin className="h-4 w-4 shrink-0 text-primary" aria-hidden />
               <span className="min-w-0 truncate">linkedin.com/in/murilobiss</span>
@@ -426,12 +425,12 @@ export function CvContent() {
               href="https://github.com/murilobiss"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm shadow-sm transition hover:border-primary/40 hover:shadow-md"
+              className="inline-flex items-center gap-2.5 rounded-xl border border-border/70 bg-white px-3.5 py-2.5 text-sm shadow-sm transition hover:border-primary/35 hover:bg-slate-50/80"
             >
               <Github className="h-4 w-4 shrink-0 text-primary" aria-hidden />
               <span className="min-w-0 truncate font-medium text-foreground">github.com/murilobiss</span>
             </a>
-            <span className="inline-flex items-center gap-2 rounded-2xl border border-border bg-white px-4 py-2.5 text-sm text-muted-foreground shadow-sm">
+            <span className="inline-flex items-center gap-2.5 rounded-xl border border-border/70 bg-white px-3.5 py-2.5 text-sm text-muted-foreground shadow-sm">
               <MapPin className="h-4 w-4 shrink-0 text-primary" aria-hidden />
               Brazil
             </span>
@@ -441,7 +440,7 @@ export function CvContent() {
 
       <section
         aria-labelledby="summary-heading"
-        className="rounded-3xl border border-border/90 bg-white p-7 shadow-md sm:p-9 lg:border-l-[5px] lg:border-l-primary lg:pl-10"
+        className="rounded-2xl border border-border/80 bg-white p-6 shadow-sm sm:rounded-3xl sm:p-8 lg:border-l-[4px] lg:border-l-primary lg:pl-9"
       >
         <h2 id="summary-heading" className="flex items-center gap-3 text-xl font-semibold tracking-tight text-foreground">
           <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-primary/20 bg-primary/10 text-primary">
@@ -450,7 +449,7 @@ export function CvContent() {
           Professional profile
         </h2>
         {profileParagraphs.map((p, i) => (
-          <p key={i} className={cn("text-sm leading-relaxed text-muted-foreground sm:text-base", i === 0 ? "mt-4" : "mt-3")}>
+          <p key={i} className={cn("text-[15px] leading-[1.65] text-muted-foreground", i === 0 ? "mt-5" : "mt-4")}>
             {p}
           </p>
         ))}
@@ -467,7 +466,7 @@ export function CvContent() {
           {coreCompetencies.map((c) => (
             <div
               key={c.title}
-              className="rounded-2xl border border-border/90 bg-gradient-to-b from-white to-muted/25 p-5 shadow-sm sm:p-6"
+              className="rounded-xl border border-border/80 bg-white p-5 shadow-sm sm:p-6"
             >
               <h3 className="text-xs font-bold uppercase tracking-wide text-primary">{c.title}</h3>
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.body}</p>
@@ -477,33 +476,37 @@ export function CvContent() {
       </section>
 
       <section aria-labelledby="skills-matrix-heading" className="w-full">
-        <div className="rounded-3xl border border-border/90 bg-gradient-to-b from-white via-white to-muted/20 p-7 shadow-md sm:p-9 md:p-11">
-          <div className="flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+        <div className="rounded-2xl border border-border/80 bg-white p-6 shadow-sm sm:rounded-3xl sm:p-8 md:p-10">
+          <div className="flex flex-col gap-1 border-b border-border/60 pb-5 sm:flex-row sm:items-end sm:justify-between">
             <div className="flex items-center gap-3 text-primary">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-primary/25 bg-primary/10">
-                <Database className="h-6 w-6" aria-hidden />
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-primary/20 bg-primary/8 text-primary sm:h-11 sm:w-11">
+                <Database className="h-5 w-5 sm:h-6 sm:w-6" aria-hidden />
               </span>
-              <h2 id="skills-matrix-heading" className="text-lg font-semibold uppercase tracking-wide text-foreground sm:text-xl">
-                Technical skills (years · level)
+              <h2 id="skills-matrix-heading" className="text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+                Technical skills
               </h2>
             </div>
           </div>
           <p className="mt-4 max-w-3xl text-sm leading-relaxed text-muted-foreground">
-            Sections follow a résumé-style matrix: skill name, years of practice, then level (Exposure → Beginner → Intermediate →
-            Advanced). Numbers are indicative, not a legal claim.
+            Years of practice and level (Exposure → Beginner → Intermediate → Advanced). Figures are indicative.
           </p>
-          <div className="mt-9 grid gap-7 border-t border-foreground/10 pt-9 lg:grid-cols-2 xl:grid-cols-3">
+          <div className="mt-8 grid gap-6 sm:gap-7 lg:grid-cols-2 xl:grid-cols-3">
             {skillMatrixSections.map((sec) => (
               <div
                 key={sec.title}
-                className="min-w-0 rounded-2xl border border-border/80 bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:p-6"
+                className="min-w-0 rounded-xl border border-border/70 bg-slate-50/50 p-4 shadow-sm sm:p-5"
               >
-                <p className="border-b border-foreground/10 pb-2.5 text-sm font-semibold text-foreground">{sec.title}</p>
-                <div className="mt-3.5 grid grid-cols-[minmax(0,1fr)_auto] items-baseline gap-x-2 gap-y-2 sm:gap-x-3">
+                <p className="border-b border-border/50 pb-2 text-xs font-semibold uppercase tracking-wide text-primary">
+                  {sec.title}
+                </p>
+                <div className="mt-3 space-y-2.5">
                   {sec.rows.map((row) => (
-                    <Fragment key={row.name}>
+                    <div
+                      key={row.name}
+                      className="grid grid-cols-[minmax(0,1fr)_minmax(5.75rem,auto)] items-center gap-x-3 gap-y-0 text-sm"
+                    >
                       <span
-                        className="min-w-0 truncate whitespace-nowrap text-[11px] leading-tight text-foreground sm:text-xs"
+                        className="min-w-0 break-words leading-snug text-foreground"
                         title={
                           row.name.includes("Athena")
                             ? "AWS Athena (Presto-compatible SQL)"
@@ -514,16 +517,16 @@ export function CvContent() {
                       >
                         {row.name}
                       </span>
-                      <span className="flex shrink-0 items-baseline justify-end gap-1 whitespace-nowrap tabular-nums">
-                        <span className="text-[11px] text-muted-foreground sm:text-xs">{row.years}</span>
-                        <span className="text-[9px] text-foreground/35 sm:text-[10px]" aria-hidden>
+                      <span className="flex shrink-0 items-center justify-end gap-1.5 whitespace-nowrap tabular-nums">
+                        <span className="text-xs text-muted-foreground">{row.years}</span>
+                        <span className="text-[10px] text-foreground/30" aria-hidden>
                           |
                         </span>
-                        <span className="text-[9px] font-medium leading-none tracking-tight text-muted-foreground sm:text-[10px]">
+                        <span className="w-[4.75rem] text-right text-[10px] font-medium uppercase tracking-wide text-muted-foreground sm:text-[11px]">
                           {row.level}
                         </span>
                       </span>
-                    </Fragment>
+                    </div>
                   ))}
                 </div>
               </div>

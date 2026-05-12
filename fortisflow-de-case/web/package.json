@@ -9,7 +9,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "save:cv-pdf": "node ./scripts/save-cv-pdf.mjs"
   },
   "dependencies": {
     "@sparticuz/chromium": "^131.0.0",

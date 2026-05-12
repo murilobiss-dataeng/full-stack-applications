@@ -17,9 +17,13 @@ const BASE_ARGS = [
   "--font-render-hinting=none",
 ] as const;
 
-/** Prefer distro Chrome/Chromium locally — @sparticuz/chromium targets Lambda and often misses libs (e.g. libnss3) on desktop Linux. */
+/** Chrome/Chromium installed on the host (not the Lambda bundle — avoids libnss3 / glibc mismatches outside Vercel). */
 function systemChromeCandidates(): string[] {
-  const env = process.env.PUPPETEER_EXECUTABLE_PATH?.trim();
+  const fromEnv = [
+    process.env.PUPPETEER_EXECUTABLE_PATH?.trim(),
+    process.env.CHROME_PATH?.trim(),
+    process.env.CHROMIUM_PATH?.trim(),
+  ].filter((p): p is string => Boolean(p?.length));
   const defaults = [
     "/usr/bin/google-chrome-stable",
     "/usr/bin/google-chrome",
@@ -27,41 +31,52 @@ function systemChromeCandidates(): string[] {
     "/usr/bin/chromium",
     "/usr/bin/chromium-browser",
     "/snap/bin/chromium",
+    "/usr/bin/brave-browser",
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   ];
-  const ordered = [...(env ? [env] : []), ...defaults];
-  return [...new Set(ordered)];
+  return [...new Set([...fromEnv, ...defaults])];
 }
 
 async function launchBrowser() {
-  const isVercel = !!process.env.VERCEL;
+  const onVercel = !!process.env.VERCEL;
   const forceSparticuz = process.env.CV_PDF_USE_SPARTICUZ === "1";
 
-  if (!isVercel && !forceSparticuz) {
-    const envPath = process.env.PUPPETEER_EXECUTABLE_PATH?.trim();
-    for (const executablePath of systemChromeCandidates()) {
-      const isEnv = envPath && executablePath === envPath;
-      if (!isEnv && !existsSync(executablePath)) continue;
-      try {
-        return await puppeteer.launch({
-          executablePath,
-          headless: true,
-          args: [...BASE_ARGS],
-          defaultViewport: VIEWPORT,
-        });
-      } catch {
-        /* try next candidate */
-      }
+  if (onVercel || forceSparticuz) {
+    chromium.setGraphicsMode = false;
+    return puppeteer.launch({
+      args: chromium.args,
+      defaultViewport: VIEWPORT,
+      executablePath: await chromium.executablePath(),
+      headless: true,
+    });
+  }
+
+  const envPath = process.env.PUPPETEER_EXECUTABLE_PATH?.trim();
+  const failures: string[] = [];
+  for (const executablePath of systemChromeCandidates()) {
+    const isEnv = envPath && executablePath === envPath;
+    if (!isEnv && !existsSync(executablePath)) continue;
+    try {
+      return await puppeteer.launch({
+        executablePath,
+        headless: true,
+        args: [...BASE_ARGS],
+        defaultViewport: VIEWPORT,
+      });
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      failures.push(`${executablePath}: ${msg.slice(0, 120)}`);
     }
   }
 
-  chromium.setGraphicsMode = false;
-  return puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: VIEWPORT,
-    executablePath: await chromium.executablePath(),
-    headless: true,
-  });
+  throw new Error(
+    [
+      "No system Chrome/Chromium could be started on this host (the Lambda @sparticuz binary is not used outside Vercel).",
+      failures.length ? `Attempts:\n${failures.join("\n")}` : "No candidate binary paths exist.",
+      "Fix: install Google Chrome (e.g. google-chrome-stable) or set PUPPETEER_EXECUTABLE_PATH / CHROME_PATH to the binary.",
+      "Docker: either install Chrome in the image or generate PDF locally with `npm run save:cv-pdf`.",
+    ].join("\n"),
+  );
 }
 
 /**
@@ -122,7 +137,7 @@ export async function GET(request: Request) {
       {
         error: "PDF generation failed",
         hint:
-          "Locally this route uses your installed Google Chrome or Chromium (paths like /usr/bin/google-chrome-stable). Install one of them, or set PUPPETEER_EXECUTABLE_PATH to the binary. On Vercel the Lambda-tuned @sparticuz/chromium binary is used. Optional: set CV_PDF_USE_SPARTICUZ=1 to force the bundled binary (needs compatible glibc / libs).",
+          "Outside Vercel this API only uses a real Chrome/Chromium on the server (not the bundled Lambda binary). Install Chrome in the runtime or set PUPPETEER_EXECUTABLE_PATH / CHROME_PATH. On Vercel, @sparticuz/chromium is used. Locally you can also run: npm run save:cv-pdf",
         detail: err instanceof Error ? err.message : String(err),
       },
       { status: 500 },
