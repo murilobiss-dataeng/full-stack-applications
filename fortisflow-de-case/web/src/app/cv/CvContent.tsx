@@ -522,7 +522,7 @@ export function CvContent() {
                         <span className="text-[10px] text-foreground/30" aria-hidden>
                           |
                         </span>
-                        <span className="w-[4.75rem] text-right text-[10px] font-medium uppercase tracking-wide text-muted-foreground sm:text-[11px]">
+                        <span className="w-[4.5rem] text-right text-[7px] font-medium uppercase tracking-wide text-muted-foreground sm:w-[4.75rem] sm:text-[8px]">
                           {row.level}
                         </span>
                       </span>

@@ -8,7 +8,7 @@
  * Variáveis opcionais:
  *   CV_SAVE_URL=http://127.0.0.1:3000   — base onde /cv responde
  *   PUPPETEER_EXECUTABLE_PATH=...       — Chrome/Chromium se não for detectado
- *   CV_PDF_USE_SPARTICUZ=1              — forçar binário @sparticuz (pode falhar em desktop sem libs Lambda)
+ *   CV_PDF_USE_SPARTICUZ=1              — forçar binário @sparticuz (só faz sentido em runtime tipo Lambda; em desktop use Chrome do sistema)
  */
 
 import { existsSync, mkdirSync, writeFileSync } from "node:fs";
@@ -46,14 +46,20 @@ function systemChromeCandidates() {
     "/usr/bin/brave-browser",
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   ];
-  return [...new Set([...fromEnv, ...defaults])];
+  const merged = [...fromEnv, ...defaults];
+  return merged.filter((p, i) => merged.indexOf(p) === i);
+}
+
+/** Same rule as /api/cv/pdf — avoid Lambda Chromium on local machines. */
+function bundledLambdaChromiumEnabled() {
+  if (process.env.CV_PDF_USE_SPARTICUZ === "1") return true;
+  if (process.env.VERCEL !== "1") return false;
+  const vercelEnv = process.env.VERCEL_ENV;
+  return vercelEnv === "production" || vercelEnv === "preview";
 }
 
 async function launchBrowser() {
-  const onVercel = !!process.env.VERCEL;
-  const forceSparticuz = process.env.CV_PDF_USE_SPARTICUZ === "1";
-
-  if (onVercel || forceSparticuz) {
+  if (bundledLambdaChromiumEnabled()) {
     chromium.setGraphicsMode = false;
     return puppeteer.launch({
       args: chromium.args,

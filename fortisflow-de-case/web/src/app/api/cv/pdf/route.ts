@@ -38,11 +38,16 @@ function systemChromeCandidates(): string[] {
   return merged.filter((p, i) => merged.indexOf(p) === i);
 }
 
-async function launchBrowser() {
-  const onVercel = !!process.env.VERCEL;
-  const forceSparticuz = process.env.CV_PDF_USE_SPARTICUZ === "1";
+/** @sparticuz/chromium only works on Vercel’s serverless runtime — not on your laptop (`vercel dev`) or a stray `VERCEL=1` in .env. */
+function bundledLambdaChromiumEnabled(): boolean {
+  if (process.env.CV_PDF_USE_SPARTICUZ === "1") return true;
+  if (process.env.VERCEL !== "1") return false;
+  const vercelEnv = process.env.VERCEL_ENV;
+  return vercelEnv === "production" || vercelEnv === "preview";
+}
 
-  if (onVercel || forceSparticuz) {
+async function launchBrowser() {
+  if (bundledLambdaChromiumEnabled()) {
     chromium.setGraphicsMode = false;
     return puppeteer.launch({
       args: chromium.args,
@@ -138,7 +143,7 @@ export async function GET(request: Request) {
       {
         error: "PDF generation failed",
         hint:
-          "Outside Vercel this API only uses a real Chrome/Chromium on the server (not the bundled Lambda binary). Install Chrome in the runtime or set PUPPETEER_EXECUTABLE_PATH / CHROME_PATH. On Vercel, @sparticuz/chromium is used. Locally you can also run: npm run save:cv-pdf",
+          "This host needs system Chrome/Chromium (set PUPPETEER_EXECUTABLE_PATH or CHROME_PATH). The Lambda Chromium bundle runs only on deployed Vercel (VERCEL_ENV=production|preview), not when VERCEL=1 is set locally or during vercel dev. Locally: npm run save:cv-pdf",
         detail: err instanceof Error ? err.message : String(err),
       },
       { status: 500 },
