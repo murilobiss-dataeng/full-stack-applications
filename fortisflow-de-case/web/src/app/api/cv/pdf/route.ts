@@ -34,7 +34,8 @@ function systemChromeCandidates(): string[] {
     "/usr/bin/brave-browser",
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   ];
-  return [...new Set([...fromEnv, ...defaults])];
+  const merged = [...fromEnv, ...defaults];
+  return merged.filter((p, i) => merged.indexOf(p) === i);
 }
 
 async function launchBrowser() {
