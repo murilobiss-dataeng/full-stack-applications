@@ -41,20 +41,29 @@ export function PublishLoginForm() {
         <Input
           id="username"
           type="text"
-          autoComplete="email"
-          placeholder="admin@mobilizapiraquara.com.br ou manco@mobilizapiraquara.com.br"
+          autoComplete="username"
+          placeholder="manco@mobilizapiraquara.com.br ou só manco"
           {...register("username")}
         />
-        {errors.username && <p className="text-sm text-red-400">{errors.username.message}</p>}
+        {errors.username && <p className="text-sm text-red-600">{errors.username.message}</p>}
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Senha</Label>
         <Input id="password" type="password" autoComplete="current-password" {...register("password")} />
-        {errors.password && <p className="text-sm text-red-400">{errors.password.message}</p>}
+        {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
       </div>
-      <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200" disabled={loading}>
+      <Button type="submit" className="w-full" disabled={loading}>
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Entrar"}
       </Button>
+      <p className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-center text-xs leading-relaxed text-zinc-600">
+        Senha do formulário = coluna <strong className="text-zinc-800">password</strong> na tabela{" "}
+        <strong className="text-zinc-800">User</strong> (não é a senha do DATABASE_URL na Vercel).
+        <br />
+        <span className="mt-1 inline-block">
+          manco@… → <strong className="text-zinc-800">manco</strong> · admin@… →{" "}
+          <strong className="text-zinc-800">altere-esta-senha</strong>
+        </span>
+      </p>
     </form>
   );
 }

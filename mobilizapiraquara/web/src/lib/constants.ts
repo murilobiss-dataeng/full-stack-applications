@@ -9,6 +9,8 @@ export const SITE = {
     return getSiteUrl();
   },
   locale: "pt-BR",
+  /** Domínio padrão para login só com o usuário (ex.: manco → manco@…). */
+  publisherEmailDomain: "mobilizapiraquara.com.br",
 } as const;
 
 export const SOCIAL_LINKS = {

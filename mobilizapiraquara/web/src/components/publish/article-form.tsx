@@ -11,6 +11,9 @@ import { Loader2, LogOut, Sparkles } from "lucide-react";
 
 type Category = { id: string; name: string };
 
+const fieldClass =
+  "w-full rounded-lg border border-zinc-300 bg-white px-4 py-3 text-sm text-zinc-900 leading-relaxed focus:outline-none focus:ring-2 focus:ring-zinc-400";
+
 export function PublishArticleForm({ categories }: { categories: Category[] }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -35,7 +38,7 @@ export function PublishArticleForm({ categories }: { categories: Category[] }) {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="space-y-2">
           <Label htmlFor="title">Título (opcional — a IA pode gerar)</Label>
-          <Input id="title" name="title" placeholder="Título sugerido" className="bg-slate-900" />
+          <Input id="title" name="title" placeholder="Título sugerido" />
         </div>
 
         <div className="space-y-2">
@@ -46,29 +49,19 @@ export function PublishArticleForm({ categories }: { categories: Category[] }) {
             required
             rows={14}
             placeholder="Cole aqui o texto da notícia. A IA irá corrigir gramática, organizar parágrafos e gerar título/subtítulo sem inventar fatos."
-            className="w-full rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className={fieldClass}
           />
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="coverImageUrl">URL da imagem de capa (opcional)</Label>
-          <Input
-            id="coverImageUrl"
-            name="coverImageUrl"
-            type="url"
-            placeholder="https://..."
-            className="bg-slate-900"
-          />
-          <p className="text-xs text-slate-500">Se vazio, usamos imagem padrão da categoria.</p>
+          <Input id="coverImageUrl" name="coverImageUrl" type="url" placeholder="https://..." />
+          <p className="text-xs text-zinc-500">Se vazio, usamos imagem padrão da categoria.</p>
         </div>
 
         <div className="space-y-2">
           <Label htmlFor="categoryId">Categoria</Label>
-          <select
-            id="categoryId"
-            name="categoryId"
-            className="flex h-11 w-full rounded-lg border border-slate-700 bg-slate-900 px-4 text-sm"
-          >
+          <select id="categoryId" name="categoryId" className={`${fieldClass} h-11 py-2`}>
             <option value="">Sem categoria</option>
             {categories.map((c) => (
               <option key={c.id} value={c.id}>
@@ -78,8 +71,8 @@ export function PublishArticleForm({ categories }: { categories: Category[] }) {
           </select>
         </div>
 
-        <label className="flex items-center gap-2 text-sm">
-          <input type="checkbox" name="featured" className="rounded border-slate-600" />
+        <label className="flex items-center gap-2 text-sm text-zinc-700">
+          <input type="checkbox" name="featured" className="rounded border-zinc-400" />
           Destaque na homepage
         </label>
 
@@ -99,7 +92,7 @@ export function PublishArticleForm({ categories }: { categories: Category[] }) {
       </form>
 
       <form action={publishLogout}>
-        <Button type="submit" variant="outline" className="gap-2 border-slate-700">
+        <Button type="submit" variant="outline" className="gap-2">
           <LogOut className="h-4 w-4" />
           Sair
         </Button>

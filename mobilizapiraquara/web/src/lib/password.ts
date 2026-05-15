@@ -17,9 +17,10 @@ export async function hashPassword(password: string) {
 
 /** Aceita bcrypt ($2...) ou senha em texto (legado no banco). */
 export async function verifyStoredPassword(plain: string, stored: string) {
+  const input = plain.trim();
   const hash = stored?.trim() ?? "";
   if (hash.startsWith("$2a$") || hash.startsWith("$2b$") || hash.startsWith("$2y$")) {
-    return bcrypt.compare(plain, hash);
+    return bcrypt.compare(input, hash);
   }
-  return safeEqual(plain, hash);
+  return safeEqual(input, hash);
 }

@@ -81,10 +81,18 @@ export async function requirePublisher(): Promise<SessionUser | null> {
   }
 
   try {
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: { id: session.id },
       select: { id: true, email: true, name: true, canPublish: true },
     });
+
+    if (!user && session.email) {
+      user = await prisma.user.findUnique({
+        where: { email: session.email.toLowerCase() },
+        select: { id: true, email: true, name: true, canPublish: true },
+      });
+    }
+
     if (user?.canPublish) {
       return { id: user.id, email: user.email, name: user.name, canPublish: true };
     }

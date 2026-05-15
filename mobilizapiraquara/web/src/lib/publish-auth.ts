@@ -2,6 +2,7 @@ import { timingSafeEqual } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { hashPassword, verifyStoredPassword } from "@/lib/password";
 import { getDatabaseUrl, isDatabaseConfigured } from "@/lib/db";
+import { SITE } from "@/lib/constants";
 import { ENV_PUBLISHER_ID } from "@/lib/publish-constants";
 
 export { ENV_PUBLISHER_ID } from "@/lib/publish-constants";
@@ -28,23 +29,56 @@ function verifyEnvPublishCredentials(username: string, password: string) {
   const expectedUser = process.env.USERNAME?.trim() ?? "";
   const expectedPass = process.env.PASSWORD ?? "";
   if (!expectedUser || !expectedPass) return false;
-  return safeEqual(username.trim(), expectedUser) && safeEqual(password, expectedPass);
+  return safeEqual(username.trim(), expectedUser) && safeEqual(password.trim(), expectedPass);
 }
 
 export function envPublisherDisplayName() {
   return process.env.USERNAME?.trim() || "Redação";
 }
 
-/** Login pela tabela public."User" no Supabase (e-mail + senha). */
+/** E-mails candidatos (completo ou só o usuário antes do @). */
+function candidateEmails(identifier: string, identifierLower: string): string[] {
+  const emails = new Set<string>();
+  emails.add(identifierLower);
+
+  if (identifier.includes("@")) {
+    const local = identifierLower.split("@")[0];
+    if (local) emails.add(`${local}@${SITE.publisherEmailDomain}`);
+  } else {
+    emails.add(`${identifierLower}@${SITE.publisherEmailDomain}`);
+  }
+
+  return Array.from(emails);
+}
+
+async function findPublisherByIdentifier(identifier: string, identifierLower: string) {
+  for (const email of candidateEmails(identifier, identifierLower)) {
+    const byEmail = await prisma.user.findUnique({ where: { email } });
+    if (byEmail) return byEmail;
+  }
+
+  return prisma.user.findFirst({
+    where: {
+      canPublish: true,
+      name: { equals: identifier, mode: "insensitive" },
+    },
+  });
+}
+
+/**
+ * Login da redação — consulta a tabela public."User" (campo password).
+ * Não usa a senha do DATABASE_URL (essa é só para o servidor conectar ao Postgres).
+ */
 export async function authenticatePublisher(
   username: string,
   password: string
 ): Promise<PublisherAuthResult> {
   const identifier = username.trim();
   const identifierLower = identifier.toLowerCase();
+  const passwordTrimmed = password.trim();
 
   if (!isDatabaseConfigured()) {
-    if (usesEnvPublishCredentials() && verifyEnvPublishCredentials(identifier, password)) {
+    if (usesEnvPublishCredentials() && verifyEnvPublishCredentials(identifier, passwordTrimmed)) {
       return {
         ok: true,
         id: ENV_PUBLISHER_ID,
@@ -57,18 +91,10 @@ export async function authenticatePublisher(
   }
 
   try {
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email: { equals: identifierLower, mode: "insensitive" } },
-          { email: identifierLower },
-          { name: { equals: identifier, mode: "insensitive" } },
-        ],
-      },
-    });
+    const user = await findPublisherByIdentifier(identifier, identifierLower);
 
     if (!user) {
-      if (usesEnvPublishCredentials() && verifyEnvPublishCredentials(identifier, password)) {
+      if (usesEnvPublishCredentials() && verifyEnvPublishCredentials(identifier, passwordTrimmed)) {
         return {
           ok: true,
           id: ENV_PUBLISHER_ID,
@@ -84,7 +110,7 @@ export async function authenticatePublisher(
       return { ok: false, code: "no_permission" };
     }
 
-    const valid = await verifyStoredPassword(password, user.password);
+    const valid = await verifyStoredPassword(passwordTrimmed, user.password);
     if (!valid) {
       return { ok: false, code: "wrong_password" };
     }
@@ -105,15 +131,30 @@ export async function authenticatePublisher(
 export function authErrorMessage(result: Extract<PublisherAuthResult, { ok: false }>): string {
   switch (result.code) {
     case "no_database":
-      return 'Banco não configurado. Na Vercel, defina DATABASE_URL (pode ser no formato postgres:SENHA@db.xxx.supabase.co:5432/postgres — o site adiciona postgresql:// automaticamente).';
+      return (
+        "O site não consegue consultar a tabela User (falta DATABASE_URL na Vercel). " +
+        "Isso é a senha de conexão do Postgres no Supabase — não é a senha do seu login de redação."
+      );
     case "db_error":
-      return "Não foi possível conectar ao banco. Confira se a senha em DATABASE_URL está correta (Settings → Database no Supabase). Se a senha tiver @ ou #, codifique na URL (%40, %23). Formato aceito: postgres:SENHA@db.xxx.supabase.co:5432/postgres";
+      return (
+        "O site não conseguiu consultar a tabela User no Postgres. " +
+        "Isso é problema da DATABASE_URL na Vercel (senha de conexão do banco no Supabase → Settings → Database), " +
+        "não da senha que você digita no formulário. " +
+        "Seu login (manco / manco) fica na coluna password da tabela User — só funciona depois que a conexão estiver ok."
+      );
     case "not_found":
-      return "E-mail não encontrado. Use um cadastro da tabela User com canPublish = true.";
+      return (
+        "E-mail não encontrado na tabela User. " +
+        "Use manco@mobilizapiraquara.com.br ou admin@mobilizapiraquara.com.br (com canPublish = true)."
+      );
     case "no_permission":
-      return "Esta conta não tem permissão para publicar (canPublish = false).";
+      return "Esta conta existe na tabela User, mas canPublish = false (sem permissão para publicar).";
     case "wrong_password":
-      return "Senha incorreta. Contas do seed usam a senha altere-esta-senha (se não foi alterada).";
+      return (
+        "Senha incorreta para este e-mail na tabela User. " +
+        'Conta manco@…: senha "manco" (texto no banco). ' +
+        'Admin/redator2: "altere-esta-senha" se estiver com hash bcrypt do seed.'
+      );
     default:
       return "Falha no login.";
   }
