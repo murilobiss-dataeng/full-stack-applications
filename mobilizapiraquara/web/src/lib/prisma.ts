@@ -1,13 +1,9 @@
 import { PrismaClient } from "@prisma/client";
-import { applyDatabaseEnv, getDatabaseUrl, getDirectDatabaseUrl, logDatabaseTarget } from "@/lib/db";
+import { applyDatabaseEnv, getPrismaDatabaseUrl, logDatabaseTarget } from "@/lib/db";
 
 function createPrismaClient() {
   applyDatabaseEnv();
-  const databaseUrl = getDatabaseUrl();
-  const directUrl = getDirectDatabaseUrl();
-  if (directUrl) {
-    process.env.DIRECT_URL = directUrl;
-  }
+  const databaseUrl = getPrismaDatabaseUrl();
 
   if (process.env.NODE_ENV === "production") {
     logDatabaseTarget();
