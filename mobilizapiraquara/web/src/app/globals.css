@@ -6,10 +6,11 @@
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    @apply bg-black;
   }
 
   body {
-    @apply bg-black text-[15px] leading-relaxed text-zinc-100;
+    @apply min-h-screen bg-black text-[15px] leading-relaxed text-zinc-100;
     font-family: var(--font-sans), system-ui, sans-serif;
   }
 

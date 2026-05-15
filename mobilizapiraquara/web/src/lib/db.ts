@@ -1,6 +1,31 @@
-/** URL do Postgres (Supabase: postgres:// ou postgresql://). */
+/** Corrige DATABASE_URL incompleta (ex.: postgres:senha@host sem postgresql://). */
+export function normalizeDatabaseUrl(raw?: string): string | undefined {
+  if (!raw?.trim()) return undefined;
+
+  const url = raw.trim();
+
+  if (/^postgres(ql)?:\/\//i.test(url)) {
+    return url;
+  }
+
+  // postgres:senha@host:5432/db  →  postgresql://postgres:senha@host:5432/db
+  if (/^postgres:/i.test(url) && url.includes("@")) {
+    const rest = url.replace(/^postgres:/i, "");
+    const path = rest.startsWith("//") ? rest.slice(2) : rest;
+    return `postgresql://postgres:${path}`;
+  }
+
+  // host:5432/db com @ mas sem protocolo
+  if (url.includes("@") && !url.includes("://")) {
+    return `postgresql://postgres:${url}`;
+  }
+
+  return url;
+}
+
 export function getDatabaseUrl(): string | undefined {
-  return (process.env.DATABASE_URL ?? process.env.DIRECT_URL)?.trim() || undefined;
+  const raw = process.env.DATABASE_URL ?? process.env.DIRECT_URL;
+  return normalizeDatabaseUrl(raw);
 }
 
 export function isDatabaseConfigured(): boolean {
@@ -8,7 +33,6 @@ export function isDatabaseConfigured(): boolean {
   return Boolean(url && /^postgres(ql)?:\/\//i.test(url));
 }
 
-/** Executa query no banco; em falha usa fallback (mock) para não quebrar o deploy. */
 export async function dbQuery<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
   if (!isDatabaseConfigured()) return fallback;
   try {

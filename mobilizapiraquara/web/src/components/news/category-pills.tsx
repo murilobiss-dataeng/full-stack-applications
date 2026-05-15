@@ -4,7 +4,7 @@ type Cat = { id: string; name: string; slug: string; color?: string | null };
 
 export function CategoryPills({ categories }: { categories: Cat[] }) {
   return (
-    <div className="flex flex-wrap justify-center gap-2">
+    <div className="flex flex-wrap gap-2">
       {categories.map((cat) => (
         <Link
           key={cat.id}

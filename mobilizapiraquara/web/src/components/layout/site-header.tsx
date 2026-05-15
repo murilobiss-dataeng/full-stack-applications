@@ -1,13 +1,19 @@
 import Link from "next/link";
-import { NAV_LINKS } from "@/lib/constants";
+import { NAV_LINKS, SITE } from "@/lib/constants";
 import { Logo } from "@/components/ui/logo";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black/95 backdrop-blur-md">
-      <div className="site-container flex flex-col items-center gap-4 py-5">
+    <header className="sticky top-0 z-50 border-b border-zinc-800 bg-black">
+      <div className="site-container flex flex-col items-center py-5">
         <Logo size="lg" href="/#inicio" className="items-center" />
-        <nav className="flex w-full flex-wrap items-center justify-center gap-2" aria-label="Principal">
+        <p className="mt-3 text-center text-sm font-medium text-zinc-300 sm:text-base">
+          {SITE.tagline}
+        </p>
+        <nav
+          className="mt-5 flex w-full flex-wrap items-center justify-center gap-2"
+          aria-label="Principal"
+        >
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}

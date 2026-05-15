@@ -95,23 +95,48 @@ export async function getPublishedPosts(limit = 12, page = 1) {
   }, mock);
 }
 
+const EXCLUDED_FEATURED_SLUGS = ["colapso-causa-animal-piraquara"];
+const PREFERRED_FEATURED_SLUG = "servidor-saude-preso-piraquara";
+
 export const getFeaturedPost = unstable_cache(
   async (): Promise<PostCard | null> => {
-    const withCover = filterPostsWithCover(MOCK_POSTS);
-    const mockFeatured = withCover.find((p) => p.featured) ?? withCover[0];
+    const withCover = filterPostsWithCover(MOCK_POSTS).filter(
+      (p) => !EXCLUDED_FEATURED_SLUGS.includes(p.slug)
+    );
+    const mockFeatured =
+      withCover.find((p) => p.slug === PREFERRED_FEATURED_SLUG) ??
+      withCover.find((p) => p.featured) ??
+      withCover[0];
     const mock = mockFeatured ? normalizePost(mockFeatured) : null;
 
     if (!isDatabaseConfigured()) return mock;
 
     return dbQuery(async () => {
+      const preferred = await prisma.post.findFirst({
+        where: {
+          ...postWithCoverWhere,
+          slug: PREFERRED_FEATURED_SLUG,
+        },
+        include: { author: true, category: true },
+      });
+      if (preferred) return mapPost(preferred);
+
       const post = await prisma.post.findFirst({
-        where: { ...postWithCoverWhere, featured: true },
+        where: {
+          ...postWithCoverWhere,
+          featured: true,
+          slug: { notIn: EXCLUDED_FEATURED_SLUGS },
+        },
         orderBy: { publishedAt: "desc" },
         include: { author: true, category: true },
       });
       if (post) return mapPost(post);
+
       const fallback = await prisma.post.findFirst({
-        where: postWithCoverWhere,
+        where: {
+          ...postWithCoverWhere,
+          slug: { notIn: EXCLUDED_FEATURED_SLUGS },
+        },
         orderBy: { publishedAt: "desc" },
         include: { author: true, category: true },
       });

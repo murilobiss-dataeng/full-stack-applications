@@ -11,27 +11,13 @@ export const MOCK_CATEGORIES = [
 
 export const MOCK_POSTS: PostCard[] = [
   {
-    id: "1",
-    title: "A agonia nas ruas e a omissão nos gabinetes: o colapso da causa animal em Piraquara",
-    subtitle: "Sem abrigo, sem recolhimento e sob um surto silencioso de esporotricose",
-    slug: "colapso-causa-animal-piraquara",
-    excerpt:
-      "A cidade terceiriza sua responsabilidade enquanto animais agonizam nas calçadas. Até quando dependeremos de favores políticos externos para fazer o básico?",
-    coverImage: "https://images.unsplash.com/photo-1450778869188-41d0601e46e5?w=1200&q=80",
-    publishedAt: new Date("2026-05-14"),
-    featured: true,
-    views: 2840,
-    category: MOCK_CATEGORIES[5],
-    author: { name: "Redação Mobiliza" },
-  },
-  {
     id: "2",
     title: "Urgente: Servidor da saúde é preso em flagrante após suspeita de abuso contra adolescente",
     slug: "servidor-saude-preso-piraquara",
     excerpt: "Caso chocou moradores e reacende debate sobre segurança e fiscalização na rede municipal.",
     coverImage: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80",
-    publishedAt: new Date("2026-05-13"),
-    featured: false,
+    publishedAt: new Date("2026-05-14"),
+    featured: true,
     views: 5120,
     category: MOCK_CATEGORIES[1],
     author: { name: "Redação Mobiliza" },
