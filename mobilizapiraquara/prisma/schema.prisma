@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  color       String?  @default("#0d9488")
+  createdAt   DateTime @default(now())
+  posts       Post[]
+}
+
+model Post {
+  id             String    @id @default(cuid())
+  title          String
+  subtitle       String?
+  slug           String    @unique
+  excerpt        String?
+  content        String    @db.Text
+  coverImage     String?
+  published      Boolean   @default(false)
+  featured       Boolean   @default(false)
+  views          Int       @default(0)
+  publishedAt    DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  authorId       String
+  author         User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  categoryId     String?
+  category       Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
+  media          Media[]
+  seoTitle       String?
+  seoDescription String?
+
+  @@index([published, publishedAt])
+  @@index([featured])
+  @@index([slug])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  url       String
+  publicId  String?
+  alt       String?
+  width     Int?
+  height    Int?
+  postId    String?
+  post      Post?    @relation(fields: [postId], references: [id], onDelete: SetNull)
+  createdAt DateTime @default(now())
+}
+
+model Lead {
+  id        String   @id @default(cuid())
+  fullName  String
+  whatsapp  String
+  createdAt DateTime @default(now())
+}
