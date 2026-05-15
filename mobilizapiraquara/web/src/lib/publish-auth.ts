@@ -137,10 +137,11 @@ export function authErrorMessage(result: Extract<PublisherAuthResult, { ok: fals
       );
     case "db_error":
       return (
-        "O site não conseguiu consultar a tabela User no Postgres. " +
-        "Isso é problema da DATABASE_URL na Vercel (senha de conexão do banco no Supabase → Settings → Database), " +
-        "não da senha que você digita no formulário. " +
-        "Seu login (manco / manco) fica na coluna password da tabela User — só funciona depois que a conexão estiver ok."
+        "Não foi possível conectar ao Postgres a partir da Vercel (porta 5432 direta costuma falhar). " +
+        "No Supabase: Connect → ORMs → Prisma → copie a URL do **Transaction pooler** (porta 6543) " +
+        "como DATABASE_POOLER_URL ou substitua DATABASE_URL. " +
+        "Opcional: SUPABASE_REGION=sa-east-1 (sua região no painel). " +
+        "O login manco/manco é na tabela User — só funciona após a conexão do servidor estar ok."
       );
     case "not_found":
       return (
