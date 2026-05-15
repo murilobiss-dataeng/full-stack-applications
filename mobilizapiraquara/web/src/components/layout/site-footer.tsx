@@ -5,7 +5,7 @@ import { SocialLinks } from "@/components/layout/social-links";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-950">
+    <footer className="mt-16 border-t border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950">
       <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="grid gap-10 md:grid-cols-3">
           <div>
@@ -52,7 +52,7 @@ export function SiteFooter() {
 
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 text-center text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400 sm:flex-row sm:text-left">
           <p>© {new Date().getFullYear()} {SITE.name}. Todos os direitos reservados.</p>
-          <Link href="/junte-se" className="font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400">
+          <Link href="/#junte-se" className="font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400">
             Quero fazer parte →
           </Link>
         </div>

@@ -17,10 +17,19 @@ export const SOCIAL_LINKS = {
   whatsapp: "https://wa.me/554174034026",
 } as const;
 
+/** Navegação âncora — tudo na homepage */
 export const NAV_LINKS = [
-  { href: "/", label: "Notícias" },
-  { href: "/quem-somos#pilares", label: "Quem Somos" },
-  { href: "/junte-se", label: "Junte-se a nós" },
+  { href: "/#noticias", label: "Notícias" },
+  { href: "/#sobre", label: "Quem Somos" },
+  { href: "/#pilares", label: "Pilares" },
+  { href: "/#junte-se", label: "Junte-se" },
+] as const;
+
+export const HOME_QUICK_LINKS = [
+  { href: "/#noticias", label: "Notícias", icon: "📰" },
+  { href: "/#sobre", label: "Quem Somos", icon: "ℹ️" },
+  { href: "/#pilares", label: "Nossos Pilares", icon: "🌿" },
+  { href: "/#junte-se", label: "Participar", icon: "✊" },
 ] as const;
 
 export const ABOUT_VALUES = [
@@ -30,7 +39,7 @@ export const ABOUT_VALUES = [
     title: "Foco em Resultado",
     description:
       "Queremos que de fato as ações em prol da sociedade apresentem valor real a Piraquara.",
-    accent: "from-amber-500/20 to-brand-600/10 border-amber-400/40",
+    accent: "from-zinc-300/60 to-zinc-500/10 border-zinc-400/60 dark:from-zinc-700/40 dark:to-zinc-900/20 dark:border-zinc-600/50",
   },
   {
     id: "colaboracao",
@@ -38,7 +47,7 @@ export const ABOUT_VALUES = [
     title: "Colaboração",
     description:
       "Não somos da prefeitura, portanto, precisamos do esforço de todos para que a gente consiga expandir e alcançar cada vez mais vidas.",
-    accent: "from-blue-500/20 to-brand-600/10 border-blue-400/40",
+    accent: "from-zinc-400/50 to-zinc-600/10 border-zinc-500/50 dark:from-zinc-700/40 dark:to-zinc-900/20 dark:border-zinc-600/50",
   },
   {
     id: "visao-de-futuro",
@@ -46,7 +55,7 @@ export const ABOUT_VALUES = [
     title: "Visão de Futuro",
     description:
       "A longo prazo, queremos trabalho de qualidade no município, uma logística que funciona, cidade desenvolvida e sustentável.",
-    accent: "from-emerald-500/20 to-brand-600/10 border-emerald-400/40",
+    accent: "from-zinc-200/80 to-zinc-500/15 border-zinc-400/55 dark:from-zinc-700/40 dark:to-zinc-900/20 dark:border-zinc-600/50",
   },
 ] as const;
 

@@ -5,7 +5,7 @@ export const MOCK_CATEGORIES = [
   { id: "2", name: "Saúde", slug: "saude", color: "#2563eb" },
   { id: "3", name: "Segurança", slug: "seguranca", color: "#7c3aed" },
   { id: "4", name: "Educação", slug: "educacao", color: "#ca8a04" },
-  { id: "5", name: "Mobilidade Urbana", slug: "mobilidade-urbana", color: "#0d9488" },
+  { id: "5", name: "Mobilidade Urbana", slug: "mobilidade-urbana", color: "#52525b" },
   { id: "6", name: "Causa Animal", slug: "causa-animal", color: "#ea580c" },
 ];
 

@@ -12,7 +12,7 @@ type Props = {
 
 export function PostCard({ post, variant = "default", priority = false }: Props) {
   const href = `/noticia/${post.slug}`;
-  const categoryColor = post.category?.color ?? "#0d9488";
+  const categoryColor = post.category?.color ?? "#52525b";
 
   if (variant === "horizontal") {
     return (

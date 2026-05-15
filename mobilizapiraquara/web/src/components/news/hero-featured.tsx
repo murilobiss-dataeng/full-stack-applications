@@ -4,7 +4,7 @@ import { formatDate } from "@/lib/utils";
 import { PostCover } from "@/components/news/post-cover";
 
 export function HeroFeatured({ post }: { post: PostCard }) {
-  const categoryColor = post.category?.color ?? "#0d9488";
+  const categoryColor = post.category?.color ?? "#52525b";
 
   return (
     <Link

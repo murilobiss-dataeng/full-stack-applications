@@ -7,26 +7,32 @@
     scroll-behavior: smooth;
   }
 
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   :root {
-    --background: 248 250 252;
-    --foreground: 15 23 42;
-    --brand-50: 240 253 250;
-    --brand-100: 204 251 241;
-    --brand-400: 45 212 191;
-    --brand-500: 20 184 166;
-    --brand-600: 13 148 136;
-    --brand-700: 15 118 110;
-    --brand-800: 17 94 89;
-    --brand-900: 19 78 74;
+    --background: 250 250 250;
+    --foreground: 9 9 11;
+    --brand-50: 250 250 250;
+    --brand-100: 244 244 245;
+    --brand-400: 161 161 170;
+    --brand-500: 113 113 122;
+    --brand-600: 63 63 70;
+    --brand-700: 39 39 42;
+    --brand-800: 39 39 42;
+    --brand-900: 24 24 27;
   }
 
   .dark {
-    --background: 2 6 23;
-    --foreground: 248 250 252;
+    --background: 9 9 11;
+    --foreground: 250 250 250;
   }
 
   body {
-    @apply bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100;
+    @apply bg-zinc-100 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
   }
 
   h1,

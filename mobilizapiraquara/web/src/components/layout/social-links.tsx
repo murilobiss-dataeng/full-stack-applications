@@ -38,7 +38,7 @@ const items = [
     href: SOCIAL_LINKS.whatsapp,
     label: "WhatsApp",
     icon: MessageCircle,
-    className: "hover:bg-green-50 hover:text-green-600 dark:hover:bg-green-950 dark:hover:text-green-400",
+    className: "hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
   },
 ] as const;
 

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import { loginSchema, type LoginInput } from "@/lib/validations";
+import { publishLoginSchema, type PublishLoginInput } from "@/lib/validations";
 import { publishLogin } from "@/app/actions/publish";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,9 +19,9 @@ export function PublishLoginForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) });
+  } = useForm<PublishLoginInput>({ resolver: zodResolver(publishLoginSchema) });
 
-  async function onSubmit(data: LoginInput) {
+  async function onSubmit(data: PublishLoginInput) {
     setLoading(true);
     const result = await publishLogin(data);
     setLoading(false);
@@ -37,13 +37,25 @@ export function PublishLoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="email">E-mail</Label>
-        <Input id="email" type="email" autoComplete="username" {...register("email")} className="bg-slate-900" />
-        {errors.email && <p className="text-sm text-red-400">{errors.email.message}</p>}
+        <Label htmlFor="username">Usuário</Label>
+        <Input
+          id="username"
+          type="text"
+          autoComplete="username"
+          {...register("username")}
+          className="bg-slate-900"
+        />
+        {errors.username && <p className="text-sm text-red-400">{errors.username.message}</p>}
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Senha</Label>
-        <Input id="password" type="password" autoComplete="current-password" {...register("password")} className="bg-slate-900" />
+        <Input
+          id="password"
+          type="password"
+          autoComplete="current-password"
+          {...register("password")}
+          className="bg-slate-900"
+        />
         {errors.password && <p className="text-sm text-red-400">{errors.password.message}</p>}
       </div>
       <Button type="submit" className="w-full" disabled={loading}>

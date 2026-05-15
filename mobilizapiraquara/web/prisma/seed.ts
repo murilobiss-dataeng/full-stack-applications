@@ -3,25 +3,66 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  const password = await bcrypt.hash(process.env.ADMIN_PASSWORD ?? "admin123", 12);
+type PublisherSeed = { email: string; name: string; password: string };
 
-  const admin = await prisma.user.upsert({
-    where: { email: process.env.ADMIN_EMAIL ?? "admin@mobilizapiraquara.com.br" },
-    update: {},
-    create: {
-      email: process.env.ADMIN_EMAIL ?? "admin@mobilizapiraquara.com.br",
-      password,
-      name: "Redação Mobiliza",
-    },
+function parsePublishersFromEnv(): PublisherSeed[] {
+  const list: PublisherSeed[] = [];
+
+  const defaultPassword = process.env.ADMIN_PASSWORD ?? "admin123";
+  const defaultEmail = (process.env.ADMIN_EMAIL ?? "admin@mobilizapiraquara.com.br").toLowerCase();
+
+  list.push({
+    email: defaultEmail,
+    name: "Redação Mobiliza",
+    password: defaultPassword,
   });
+
+  // PUBLISHERS_EXTRA=email2@x.com:Nome 2,senha2;email3@x.com:Nome 3,senha3
+  const extra = process.env.PUBLISHERS_EXTRA?.trim();
+  if (extra) {
+    for (const entry of extra.split(";")) {
+      const [emailPart, namePart, passPart] = entry.split(":").map((s) => s.trim());
+      if (!emailPart) continue;
+      list.push({
+        email: emailPart.toLowerCase(),
+        name: namePart || emailPart.split("@")[0],
+        password: passPart || defaultPassword,
+      });
+    }
+  }
+
+  return list;
+}
+
+async function main() {
+  const publishers = parsePublishersFromEnv();
+  const publisherIds: string[] = [];
+
+  for (const p of publishers) {
+    const passwordHash = await bcrypt.hash(p.password, 12);
+    const user = await prisma.user.upsert({
+      where: { email: p.email },
+      update: {
+        name: p.name,
+        password: passwordHash,
+        canPublish: true,
+      },
+      create: {
+        email: p.email,
+        name: p.name,
+        password: passwordHash,
+        canPublish: true,
+      },
+    });
+    publisherIds.push(user.id);
+  }
 
   const categories = [
     { name: "Política", slug: "politica", color: "#dc2626" },
     { name: "Saúde", slug: "saude", color: "#2563eb" },
     { name: "Segurança", slug: "seguranca", color: "#7c3aed" },
     { name: "Educação", slug: "educacao", color: "#ca8a04" },
-    { name: "Mobilidade Urbana", slug: "mobilidade-urbana", color: "#0d9488" },
+    { name: "Mobilidade Urbana", slug: "mobilidade-urbana", color: "#52525b" },
     { name: "Causa Animal", slug: "causa-animal", color: "#ea580c" },
   ];
 
@@ -35,6 +76,7 @@ async function main() {
     catMap[c.slug] = cat.id;
   }
 
+  const authorId = publisherIds[0];
   const posts = [
     {
       title: "A agonia nas ruas e a omissão nos gabinetes: o colapso da causa animal em Piraquara",
@@ -69,14 +111,18 @@ async function main() {
         ...p,
         published: true,
         publishedAt: new Date(),
-        authorId: admin.id,
+        authorId,
         seoTitle: p.title.slice(0, 60),
         seoDescription: p.excerpt,
       },
     });
   }
 
-  console.log("Seed concluído:", { admin: admin.email, posts: posts.length });
+  console.log(
+    "Seed concluído:",
+    publishers.map((p) => p.email),
+    "canPublish=true"
+  );
 }
 
 main()

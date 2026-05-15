@@ -5,6 +5,12 @@ export const loginSchema = z.object({
   password: z.string().min(6, "Senha deve ter no mínimo 6 caracteres"),
 });
 
+/** Login da área /publique (usuário + senha). */
+export const publishLoginSchema = z.object({
+  username: z.string().min(1, "Informe o usuário"),
+  password: z.string().min(1, "Informe a senha"),
+});
+
 export const joinSchema = z.object({
   fullName: z
     .string()
@@ -39,5 +45,6 @@ export const postUpdateSchema = z.object({
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
+export type PublishLoginInput = z.infer<typeof publishLoginSchema>;
 export type JoinInput = z.infer<typeof joinSchema>;
 export type PostDraftInput = z.infer<typeof postDraftSchema>;
