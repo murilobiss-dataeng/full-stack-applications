@@ -137,11 +137,9 @@ export function authErrorMessage(result: Extract<PublisherAuthResult, { ok: fals
       );
     case "db_error":
       return (
-        "Erro ao consultar a tabela User no Postgres. " +
-        "Na Vercel, use DATABASE_URL no formato postgres:SENHA@db.rlnwmayegemuioiywpli.supabase.co:5432/postgres " +
-        "ou cole a URL do pooler (porta 6543) em DATABASE_POOLER_URL (Supabase → Connect → Prisma). " +
-        "Remova SUPABASE_REGION se aparecer 'tenant not found'. " +
-        "Login manco/manco é na tabela User, não é a senha do DATABASE_URL."
+        "Erro de conexão com o Postgres. Na Vercel: DATABASE_URL = pooler porta 6543 (aws-1-us-east-1…). " +
+        "Não use db.xxx.supabase.co:5432 em DIRECT_URL — a Vercel não alcança. " +
+        "Login manco/manco é na tabela User."
       );
     case "not_found":
       return (

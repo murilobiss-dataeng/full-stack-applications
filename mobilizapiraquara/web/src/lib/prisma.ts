@@ -5,7 +5,9 @@ function createPrismaClient() {
   applyDatabaseEnv();
   const databaseUrl = getPrismaDatabaseUrl();
 
-  if (process.env.NODE_ENV === "production") {
+  if (!databaseUrl) {
+    console.error("[db] DATABASE_URL / DIRECT_URL não configuradas");
+  } else if (process.env.NODE_ENV === "production") {
     logDatabaseTarget();
   }
 
