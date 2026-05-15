@@ -35,7 +35,7 @@ export default async function HomePage() {
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button asChild variant="secondary" size="lg">
-            <Link href="/quem-somos">Quem Somos</Link>
+            <Link href="/quem-somos#pilares">Quem Somos</Link>
           </Button>
           <Button asChild size="lg" className="bg-white text-brand-700 hover:bg-brand-50">
             <Link href="/junte-se">Junte-se a nós</Link>

@@ -19,28 +19,34 @@ export const SOCIAL_LINKS = {
 
 export const NAV_LINKS = [
   { href: "/", label: "Notícias" },
-  { href: "/quem-somos", label: "Quem Somos" },
+  { href: "/quem-somos#pilares", label: "Quem Somos" },
   { href: "/junte-se", label: "Junte-se a nós" },
 ] as const;
 
 export const ABOUT_VALUES = [
   {
+    id: "foco-em-resultado",
     icon: "🎯",
     title: "Foco em Resultado",
     description:
       "Queremos que de fato as ações em prol da sociedade apresentem valor real a Piraquara.",
+    accent: "from-amber-500/20 to-brand-600/10 border-amber-400/40",
   },
   {
+    id: "colaboracao",
     icon: "🤝",
     title: "Colaboração",
     description:
       "Não somos da prefeitura, portanto, precisamos do esforço de todos para que a gente consiga expandir e alcançar cada vez mais vidas.",
+    accent: "from-blue-500/20 to-brand-600/10 border-blue-400/40",
   },
   {
+    id: "visao-de-futuro",
     icon: "🌍",
     title: "Visão de Futuro",
     description:
       "A longo prazo, queremos trabalho de qualidade no município, uma logística que funciona, cidade desenvolvida e sustentável.",
+    accent: "from-emerald-500/20 to-brand-600/10 border-emerald-400/40",
   },
 ] as const;
 

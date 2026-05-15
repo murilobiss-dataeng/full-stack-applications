@@ -1,34 +1,19 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Search } from "lucide-react";
 import { NAV_LINKS, SITE } from "@/lib/constants";
+import { Logo } from "@/components/ui/logo";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { SearchDialog } from "@/components/news/search-dialog";
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur-md dark:border-slate-800 dark:bg-slate-950/95">
-      <div className="border-b border-brand-600/20 bg-gradient-to-r from-brand-700 to-brand-600 py-2 text-center text-xs font-medium text-white sm:text-sm">
+      <div className="border-b border-brand-600/20 bg-gradient-to-r from-brand-700 to-brand-600 py-2.5 text-center text-xs font-semibold tracking-wide text-white sm:text-sm">
         {SITE.tagline}
       </div>
 
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/" className="group flex shrink-0 items-center gap-3">
-          <Image
-            src="/logo.svg"
-            alt={SITE.name}
-            width={44}
-            height={44}
-            className="rounded-lg shadow-sm ring-2 ring-brand-100 transition group-hover:ring-brand-300 dark:ring-brand-900"
-            priority
-          />
-          <div className="hidden sm:block">
-            <span className="block font-serif text-xl font-bold leading-tight text-slate-900 dark:text-white">
-              Mobiliza
-            </span>
-            <span className="block text-sm font-semibold text-brand-600 dark:text-brand-400">Piraquara</span>
-          </div>
-        </Link>
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
+        <Logo size="md" />
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Principal">
           {NAV_LINKS.map((link) => (

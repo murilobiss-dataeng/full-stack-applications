@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import { PostCover } from "@/components/news/post-cover";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getPostBySlug, getRecentPosts } from "@/services/posts";
@@ -60,11 +60,15 @@ export default async function NoticiaPage({ params }: Props) {
         {post.publishedAt && <time dateTime={String(post.publishedAt)}>{formatDate(post.publishedAt)}</time>}
       </div>
 
-      {post.coverImage && (
-        <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl">
-          <Image src={post.coverImage} alt={post.title} fill className="object-cover" sizes="(max-width:896px) 100vw, 896px" priority />
-        </div>
-      )}
+      <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl">
+        <PostCover
+          src={post.coverImage}
+          alt={post.title}
+          categorySlug={post.category?.slug}
+          sizes="(max-width:896px) 100vw, 896px"
+          priority
+        />
+      </div>
 
       <div
         className="prose prose-lg prose-slate mt-10 max-w-none dark:prose-invert prose-headings:font-serif prose-a:text-brand-600"

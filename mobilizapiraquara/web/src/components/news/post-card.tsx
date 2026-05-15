@@ -1,9 +1,8 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Clock, Eye } from "lucide-react";
+import { PostCover } from "@/components/news/post-cover";
 import type { PostCard as PostCardType } from "@/types/post";
-import { formatRelativeDate } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { formatRelativeDate, cn } from "@/lib/utils";
 
 type Props = {
   post: PostCardType;
@@ -22,9 +21,13 @@ export function PostCard({ post, variant = "default", priority = false }: Props)
         className="group flex gap-4 rounded-xl border border-slate-200 bg-white p-3 transition hover:border-brand-300 hover:shadow-md dark:border-slate-700 dark:bg-slate-900 dark:hover:border-brand-700"
       >
         <div className="relative h-24 w-32 shrink-0 overflow-hidden rounded-lg">
-          {post.coverImage && (
-            <Image src={post.coverImage} alt="" fill className="object-cover transition group-hover:scale-105" sizes="128px" priority={priority} />
-          )}
+          <PostCover
+            src={post.coverImage}
+            alt={post.title}
+            categorySlug={post.category?.slug}
+            sizes="128px"
+            priority={priority}
+          />
         </div>
         <div className="min-w-0 flex-1">
           {post.category && (
@@ -49,17 +52,19 @@ export function PostCard({ post, variant = "default", priority = false }: Props)
       )}
     >
       <Link href={href} className={cn("block", variant === "compact" ? "w-2/5" : "w-full")}>
-        <div className={cn("relative overflow-hidden bg-slate-200 dark:bg-slate-800", variant === "compact" ? "h-full min-h-[120px]" : "aspect-[16/10]")}>
-          {post.coverImage && (
-            <Image
-              src={post.coverImage}
-              alt={post.title}
-              fill
-              className="object-cover transition duration-500 group-hover:scale-105"
-              sizes={variant === "compact" ? "200px" : "(max-width:768px) 100vw, 33vw"}
-              priority={priority}
-            />
+        <div
+          className={cn(
+            "relative overflow-hidden bg-slate-200 dark:bg-slate-800",
+            variant === "compact" ? "h-full min-h-[120px]" : "aspect-[16/10]"
           )}
+        >
+          <PostCover
+            src={post.coverImage}
+            alt={post.title}
+            categorySlug={post.category?.slug}
+            sizes={variant === "compact" ? "200px" : "(max-width:768px) 100vw, 33vw"}
+            priority={priority}
+          />
           {post.featured && variant !== "compact" && (
             <span className="absolute left-3 top-3 rounded bg-red-600 px-2 py-0.5 text-xs font-bold uppercase text-white">
               Destaque

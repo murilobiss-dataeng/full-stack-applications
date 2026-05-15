@@ -1,7 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import type { PostCard } from "@/types/post";
 import { formatDate } from "@/lib/utils";
+import { PostCover } from "@/components/news/post-cover";
 
 export function HeroFeatured({ post }: { post: PostCard }) {
   const categoryColor = post.category?.color ?? "#0d9488";
@@ -12,16 +12,14 @@ export function HeroFeatured({ post }: { post: PostCard }) {
       className="group relative block overflow-hidden rounded-2xl shadow-2xl"
     >
       <div className="relative aspect-[21/9] min-h-[280px] w-full sm:min-h-[360px]">
-        {post.coverImage && (
-          <Image
-            src={post.coverImage}
-            alt={post.title}
-            fill
-            className="object-cover transition duration-700 group-hover:scale-105"
-            sizes="100vw"
-            priority
-          />
-        )}
+        <PostCover
+          src={post.coverImage}
+          alt={post.title}
+          categorySlug={post.category?.slug}
+          sizes="100vw"
+          priority
+          className="transition duration-700 group-hover:scale-105"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10">
           {post.category && (

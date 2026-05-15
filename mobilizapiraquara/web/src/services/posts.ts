@@ -2,10 +2,18 @@ import { unstable_cache } from "next/cache";
 import slugify from "slugify";
 import { prisma } from "@/lib/prisma";
 import { MOCK_CATEGORIES, MOCK_POSTS, MOCK_POST_CONTENT } from "@/lib/mock-data";
+import { resolveCoverImage } from "@/lib/cover-image";
 import type { PostCard, PostDetail } from "@/types/post";
 
 function hasDatabase() {
   return Boolean(process.env.DATABASE_URL);
+}
+
+function normalizePost<T extends PostCard>(post: T): T {
+  return {
+    ...post,
+    coverImage: resolveCoverImage(post.coverImage, post.category?.slug),
+  };
 }
 
 function mapPost(post: {
@@ -31,7 +39,7 @@ function mapPost(post: {
     subtitle: post.subtitle,
     slug: post.slug,
     excerpt: post.excerpt,
-    coverImage: post.coverImage,
+    coverImage: resolveCoverImage(post.coverImage, post.category?.slug),
     publishedAt: post.publishedAt,
     featured: post.featured,
     views: post.views,
@@ -51,7 +59,7 @@ export async function getPublishedPosts(limit = 12, page = 1) {
   if (!hasDatabase()) {
     const start = (page - 1) * limit;
     return {
-      posts: MOCK_POSTS.slice(start, start + limit),
+      posts: MOCK_POSTS.slice(start, start + limit).map(normalizePost),
       total: MOCK_POSTS.length,
       hasMore: start + limit < MOCK_POSTS.length,
     };
@@ -79,7 +87,8 @@ export async function getPublishedPosts(limit = 12, page = 1) {
 export const getFeaturedPost = unstable_cache(
   async (): Promise<PostCard | null> => {
     if (!hasDatabase()) {
-      return MOCK_POSTS.find((p) => p.featured) ?? MOCK_POSTS[0];
+      const featured = MOCK_POSTS.find((p) => p.featured) ?? MOCK_POSTS[0];
+      return normalizePost(featured);
     }
     const post = await prisma.post.findFirst({
       where: { published: true, featured: true },
@@ -94,7 +103,7 @@ export const getFeaturedPost = unstable_cache(
 
 export async function getPopularPosts(limit = 5) {
   if (!hasDatabase()) {
-    return [...MOCK_POSTS].sort((a, b) => b.views - a.views).slice(0, limit);
+    return [...MOCK_POSTS].sort((a, b) => b.views - a.views).slice(0, limit).map(normalizePost);
   }
   const posts = await prisma.post.findMany({
     where: { published: true },
@@ -120,7 +129,7 @@ export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
     const post = MOCK_POSTS.find((p) => p.slug === slug);
     if (!post) return null;
     return {
-      ...post,
+      ...normalizePost(post),
       content:
         MOCK_POST_CONTENT[slug] ??
         `<p>${post.excerpt ?? ""}</p><p>Conteúdo completo disponível após conexão com o banco de dados.</p>`,
@@ -153,7 +162,7 @@ export async function getPostsByCategory(slug: string, limit = 12) {
     if (!cat) return { category: null, posts: [] };
     return {
       category: cat,
-      posts: MOCK_POSTS.filter((p) => p.category?.slug === slug).slice(0, limit),
+      posts: MOCK_POSTS.filter((p) => p.category?.slug === slug).slice(0, limit).map(normalizePost),
     };
   }
 
@@ -180,7 +189,9 @@ export async function searchPosts(query: string, limit = 20) {
         p.title.toLowerCase().includes(q) ||
         p.excerpt?.toLowerCase().includes(q) ||
         p.category?.name.toLowerCase().includes(q)
-    ).slice(0, limit);
+    )
+      .slice(0, limit)
+      .map(normalizePost);
   }
 
   const posts = await prisma.post.findMany({
@@ -210,4 +221,55 @@ export async function getAllPostSlugs() {
     where: { published: true },
     select: { slug: true, updatedAt: true },
   });
+}
+
+export type CreatePostInput = {
+  title: string;
+  subtitle?: string;
+  content: string;
+  excerpt?: string;
+  coverImage?: string | null;
+  categoryId?: string | null;
+  featured?: boolean;
+  seoTitle?: string;
+  seoDescription?: string;
+  authorId: string;
+};
+
+export async function createPublishedPost(input: CreatePostInput) {
+  if (!hasDatabase()) {
+    throw new Error("Configure DATABASE_URL para publicar matérias.");
+  }
+
+  let slug = generateSlug(input.title);
+  const existing = await prisma.post.findUnique({ where: { slug } });
+  if (existing) slug = `${slug}-${Date.now().toString(36)}`;
+
+  const category = input.categoryId
+    ? await prisma.category.findUnique({ where: { id: input.categoryId } })
+    : null;
+
+  const coverImage =
+    input.coverImage?.trim() ||
+    resolveCoverImage(null, category?.slug ?? null);
+
+  const post = await prisma.post.create({
+    data: {
+      title: input.title,
+      subtitle: input.subtitle,
+      slug,
+      excerpt: input.excerpt,
+      content: input.content,
+      coverImage,
+      published: true,
+      featured: input.featured ?? false,
+      publishedAt: new Date(),
+      authorId: input.authorId,
+      categoryId: input.categoryId,
+      seoTitle: input.seoTitle,
+      seoDescription: input.seoDescription,
+    },
+  });
+
+  return post;
 }
