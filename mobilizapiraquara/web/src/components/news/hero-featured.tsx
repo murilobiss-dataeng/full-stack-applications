@@ -9,39 +9,34 @@ export function HeroFeatured({ post }: { post: PostCard }) {
   return (
     <Link
       href={`/noticia/${post.slug}`}
-      className="group relative block overflow-hidden rounded-2xl shadow-2xl"
+      className="group flex gap-3 overflow-hidden rounded-lg border border-zinc-200 bg-white p-2 transition hover:border-zinc-400 dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-600 sm:gap-4 sm:p-3"
     >
-      <div className="relative aspect-[21/9] min-h-[280px] w-full sm:min-h-[360px]">
+      <div className="relative h-20 w-28 shrink-0 overflow-hidden rounded-md bg-zinc-100 sm:h-24 sm:w-36 dark:bg-zinc-800">
         <PostCover
           src={post.coverImage}
           alt={post.title}
           categorySlug={post.category?.slug}
-          sizes="100vw"
+          sizes="144px"
           priority
-          className="transition duration-700 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
-        <div className="absolute inset-0 flex flex-col justify-end p-6 sm:p-10">
-          {post.category && (
-            <span
-              className="mb-3 inline-block w-fit rounded px-2 py-1 text-xs font-bold uppercase text-white"
-              style={{ backgroundColor: categoryColor }}
-            >
-              {post.category.name}
-            </span>
-          )}
-          <h2 className="max-w-4xl font-serif text-2xl font-bold leading-tight text-white sm:text-4xl lg:text-5xl">
-            {post.title}
-          </h2>
-          {post.subtitle && (
-            <p className="mt-3 max-w-3xl text-base text-slate-200 sm:text-lg">{post.subtitle}</p>
-          )}
-          {post.publishedAt && (
-            <time className="mt-4 text-sm text-slate-300" dateTime={String(post.publishedAt)}>
-              {formatDate(post.publishedAt)}
-            </time>
-          )}
-        </div>
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col justify-center">
+        {post.category && (
+          <span
+            className="mb-1 w-fit rounded px-1.5 py-0.5 text-[10px] font-bold uppercase text-white"
+            style={{ backgroundColor: categoryColor }}
+          >
+            {post.category.name}
+          </span>
+        )}
+        <h2 className="line-clamp-2 font-serif text-base font-bold leading-snug text-zinc-900 group-hover:text-zinc-600 dark:text-white sm:text-lg">
+          {post.title}
+        </h2>
+        {post.publishedAt && (
+          <time className="mt-1 text-[11px] text-zinc-500" dateTime={String(post.publishedAt)}>
+            {formatDate(post.publishedAt)}
+          </time>
+        )}
       </div>
     </Link>
   );

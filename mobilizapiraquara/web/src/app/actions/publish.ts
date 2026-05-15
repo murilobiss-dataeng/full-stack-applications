@@ -12,6 +12,7 @@ import {
   verifyEnvPublishCredentials,
 } from "@/lib/publish-auth";
 import { prisma } from "@/lib/prisma";
+import { isDatabaseConfigured } from "@/lib/db";
 import { formatArticleWithAI } from "@/services/ai";
 import { createPublishedPost } from "@/services/posts";
 
@@ -44,7 +45,7 @@ export async function publishLogin(data: { username: string; password: string })
     return { success: true };
   }
 
-  if (!process.env.DATABASE_URL) {
+  if (!isDatabaseConfigured()) {
     return {
       success: false,
       error: "Configure USERNAME e PASSWORD no ambiente (ex.: Vercel) para publicar.",

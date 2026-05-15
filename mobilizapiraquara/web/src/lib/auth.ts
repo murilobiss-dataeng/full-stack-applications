@@ -2,6 +2,7 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
+import { isDatabaseConfigured } from "@/lib/db";
 import {
   ENV_PUBLISHER_ID,
   usesEnvPublishCredentials,
@@ -81,7 +82,7 @@ export async function requirePublisher(): Promise<SessionUser | null> {
     return session;
   }
 
-  if (!process.env.DATABASE_URL) return null;
+  if (!isDatabaseConfigured()) return null;
 
   const user = await prisma.user.findUnique({
     where: { id: session.id },

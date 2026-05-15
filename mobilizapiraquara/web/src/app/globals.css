@@ -5,6 +5,8 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -15,13 +17,13 @@
 
   :root {
     --background: 250 250 250;
-    --foreground: 9 9 11;
+    --foreground: 24 24 27;
     --brand-50: 250 250 250;
     --brand-100: 244 244 245;
     --brand-400: 161 161 170;
     --brand-500: 113 113 122;
-    --brand-600: 63 63 70;
-    --brand-700: 39 39 42;
+    --brand-600: 82 82 91;
+    --brand-700: 63 63 70;
     --brand-800: 39 39 42;
     --brand-900: 24 24 27;
   }
@@ -32,22 +34,39 @@
   }
 
   body {
-    @apply bg-zinc-100 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
+    @apply bg-zinc-50 text-[17px] leading-relaxed text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100;
+    font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
 
   h1,
   h2,
   h3,
   h4 {
-    font-family: var(--font-serif), Georgia, serif;
+    font-family: var(--font-serif), Georgia, "Times New Roman", serif;
+    @apply text-balance leading-tight tracking-tight;
+  }
+
+  p {
+    @apply leading-[1.75];
   }
 }
 
 @layer utilities {
   .font-serif {
-    font-family: var(--font-serif), Georgia, serif;
+    font-family: var(--font-serif), Georgia, "Times New Roman", serif;
   }
+
   .font-sans {
-    font-family: var(--font-sans), system-ui, sans-serif;
+    font-family: var(--font-sans), system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  /* Corpo de matéria — leitura confortável */
+  .article-prose {
+    @apply prose prose-lg prose-zinc mx-auto max-w-[42rem] dark:prose-invert;
+    @apply prose-headings:font-serif prose-headings:font-semibold prose-headings:tracking-tight;
+    @apply prose-p:text-[1.0625rem] prose-p:leading-[1.8] prose-p:text-zinc-700 dark:prose-p:text-zinc-300;
+    @apply prose-a:font-medium prose-a:text-zinc-900 prose-a:underline-offset-2 hover:prose-a:text-zinc-600 dark:prose-a:text-zinc-100;
+    @apply prose-li:text-[1.0625rem] prose-li:leading-[1.75];
+    @apply prose-img:rounded-xl;
   }
 }

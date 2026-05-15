@@ -1,4 +1,4 @@
-import { getFeaturedPost, getPublishedPosts, getPopularPosts, getCategories } from "@/services/posts";
+import { getFeaturedPost, getPublishedPosts, getCategories } from "@/services/posts";
 import { HomeHero } from "@/components/home/home-hero";
 import { NewsSection } from "@/components/home/news-section";
 import { AboutSection } from "@/components/home/about-section";
@@ -7,17 +7,16 @@ import { JoinSection } from "@/components/home/join-section";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [featured, { posts }, popular, categories] = await Promise.all([
+  const [featured, { posts }, categories] = await Promise.all([
     getFeaturedPost(),
-    getPublishedPosts(9),
-    getPopularPosts(5),
+    getPublishedPosts(7),
     getCategories(),
   ]);
 
   return (
-    <div className="mx-auto max-w-7xl space-y-14 px-4 py-6 sm:space-y-20 sm:px-6 sm:py-8 lg:px-8">
+    <div className="mx-auto max-w-4xl space-y-10 px-4 py-5 sm:px-6 sm:py-6">
       <HomeHero />
-      <NewsSection featured={featured} posts={posts} popular={popular} categories={categories} />
+      <NewsSection featured={featured} posts={posts} categories={categories} />
       <AboutSection />
       <JoinSection />
     </div>

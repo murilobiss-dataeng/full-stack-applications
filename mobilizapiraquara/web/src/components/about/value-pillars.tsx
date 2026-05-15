@@ -27,11 +27,8 @@ export function ValuePillarNav() {
   }, []);
 
   return (
-    <nav id="pilares" aria-label="Nossos pilares" className="scroll-mt-28">
-      <p className="mb-4 text-center text-sm font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">
-        Nossos pilares — toque para ir à seção
-      </p>
-      <div className="-mx-4 flex gap-2.5 overflow-x-auto px-4 pb-1 snap-x snap-mandatory sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-3 sm:overflow-visible sm:px-0">
+    <nav id="pilares" aria-label="Nossos pilares" className="scroll-mt-24">
+      <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 snap-x snap-mandatory sm:mx-0 sm:px-0">
         {ABOUT_VALUES.map((value) => {
           const isActive = active === value.id;
           return (
@@ -40,16 +37,16 @@ export function ValuePillarNav() {
               href={`/#${value.id}`}
               onClick={() => setActive(value.id)}
               className={cn(
-                "flex min-w-[85%] shrink-0 snap-center flex-col items-center gap-2 rounded-2xl border-2 px-4 py-4 text-center transition-all sm:min-w-0",
+                "flex min-w-[140px] shrink-0 snap-center items-center gap-2 rounded-lg border px-3 py-2 text-left transition sm:min-w-0 sm:flex-1",
                 isActive
-                  ? "scale-[1.02] border-zinc-700 bg-zinc-900 text-white shadow-lg shadow-black/20"
-                  : "border-zinc-200 bg-white text-zinc-800 hover:border-zinc-400 hover:shadow-md dark:border-zinc-600 dark:bg-zinc-800 dark:text-zinc-100"
+                  ? "border-zinc-800 bg-zinc-900 text-white"
+                  : "border-zinc-200 bg-white text-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
               )}
             >
-              <span className="text-3xl" role="img" aria-hidden>
+              <span className="text-xl" role="img" aria-hidden>
                 {value.icon}
               </span>
-              <span className="font-serif text-sm font-bold leading-tight sm:text-base">{value.title}</span>
+              <span className="text-xs font-bold leading-tight">{value.title}</span>
             </Link>
           );
         })}
@@ -60,40 +57,24 @@ export function ValuePillarNav() {
 
 export function ValuePillarSections() {
   return (
-    <div className="mt-8 space-y-5 sm:mt-10 sm:space-y-6">
+    <div className="space-y-3">
       {ABOUT_VALUES.map((value, index) => (
         <section
           key={value.id}
           id={value.id}
           aria-labelledby={`${value.id}-title`}
-          className={cn(
-            "scroll-mt-32 rounded-2xl border-2 bg-gradient-to-br p-5 sm:p-8",
-            value.accent
-          )}
+          className={cn("scroll-mt-28 rounded-lg border p-4", value.accent)}
         >
-          <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-start sm:gap-6 sm:text-left">
-            <span
-              className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/90 text-4xl shadow-md dark:bg-slate-900/90"
-              role="img"
-              aria-hidden
-            >
-              {value.icon}
-            </span>
-            <div className="min-w-0 flex-1">
-              <p className="text-xs font-bold uppercase tracking-widest text-brand-600 dark:text-brand-400">
-                Pilar {index + 1} de {ABOUT_VALUES.length}
-              </p>
-              <h3
-                id={`${value.id}-title`}
-                className="mt-2 font-serif text-2xl font-bold text-slate-900 dark:text-white sm:text-3xl"
-              >
-                {value.title}
-              </h3>
-              <p className="mt-3 text-base leading-relaxed text-slate-700 dark:text-slate-300 sm:text-lg">
-                {value.description}
-              </p>
-            </div>
-          </div>
+          <p className="text-[10px] font-bold uppercase tracking-wide text-zinc-600 dark:text-zinc-400">
+            Pilar {index + 1}
+          </p>
+          <h3
+            id={`${value.id}-title`}
+            className="mt-1 font-serif text-base font-bold text-zinc-900 dark:text-white"
+          >
+            {value.icon} {value.title}
+          </h3>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-700 dark:text-zinc-300">{value.description}</p>
         </section>
       ))}
     </div>

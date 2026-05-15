@@ -27,7 +27,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: post.coverImage ? [{ url: post.coverImage }] : undefined,
       siteName: SITE.name,
     },
-    twitter: { card: "summary_large_image", title, description, images: post.coverImage ? [post.coverImage] : undefined },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: post.coverImage ? [post.coverImage] : undefined,
+    },
   };
 }
 
@@ -40,44 +45,47 @@ export default async function NoticiaPage({ params }: Props) {
   const related = await getRecentPosts(4, post.slug);
 
   return (
-    <article className="mx-auto max-w-4xl px-4 py-10 sm:px-6 lg:px-8">
-      {post.category && (
-        <Link
-          href={`/categoria/${post.category.slug}`}
-          className="text-sm font-bold uppercase tracking-wide text-brand-600 hover:underline dark:text-brand-400"
-        >
-          {post.category.name}
-        </Link>
-      )}
-      <h1 className="mt-3 font-serif text-3xl font-bold leading-tight text-slate-900 dark:text-white sm:text-4xl lg:text-5xl">
-        {post.title}
-      </h1>
-      {post.subtitle && (
-        <p className="mt-4 text-xl leading-relaxed text-slate-600 dark:text-slate-300">{post.subtitle}</p>
-      )}
-      <div className="mt-4 flex flex-wrap gap-4 text-sm text-slate-500">
-        <span>{post.author.name}</span>
-        {post.publishedAt && <time dateTime={String(post.publishedAt)}>{formatDate(post.publishedAt)}</time>}
-      </div>
+    <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
+      <header className="border-b border-zinc-200 pb-8 dark:border-zinc-800">
+        {post.category && (
+          <Link
+            href={`/categoria/${post.category.slug}`}
+            className="text-xs font-bold uppercase tracking-widest text-zinc-600 hover:underline dark:text-zinc-400"
+          >
+            {post.category.name}
+          </Link>
+        )}
+        <h1 className="mt-3 font-serif text-3xl font-bold leading-[1.15] text-zinc-900 dark:text-white sm:text-4xl">
+          {post.title}
+        </h1>
+        {post.subtitle && (
+          <p className="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300 sm:text-xl">
+            {post.subtitle}
+          </p>
+        )}
+        <div className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
+          <span>{post.author.name}</span>
+          {post.publishedAt && (
+            <time dateTime={String(post.publishedAt)}>{formatDate(post.publishedAt)}</time>
+          )}
+        </div>
+      </header>
 
-      <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-2xl">
+      <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-900">
         <PostCover
           src={post.coverImage}
           alt={post.title}
           categorySlug={post.category?.slug}
-          sizes="(max-width:896px) 100vw, 896px"
+          sizes="(max-width:768px) 100vw, 768px"
           priority
         />
       </div>
 
-      <div
-        className="prose prose-lg prose-slate mt-10 max-w-none dark:prose-invert prose-headings:font-serif prose-a:text-brand-600"
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
+      <div className="article-prose mt-10" dangerouslySetInnerHTML={{ __html: post.content }} />
 
       {related.length > 0 && (
-        <section className="mt-16 border-t border-slate-200 pt-10 dark:border-slate-700">
-          <h2 className="mb-6 font-serif text-2xl font-bold">Leia também</h2>
+        <section className="mt-16 border-t border-zinc-200 pt-10 dark:border-zinc-800">
+          <h2 className="mb-6 font-serif text-2xl font-bold text-zinc-900 dark:text-white">Leia também</h2>
           <div className="grid gap-6 sm:grid-cols-2">
             {related.map((p) => (
               <PostCard key={p.id} post={p} variant="compact" />

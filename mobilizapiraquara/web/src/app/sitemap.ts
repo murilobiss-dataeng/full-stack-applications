@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { SITE } from "@/lib/constants";
 import { getAllPostSlugs, getCategories } from "@/services/posts";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = SITE.url;
   const staticPages: MetadataRoute.Sitemap = [
@@ -11,20 +13,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/busca`, changeFrequency: "weekly", priority: 0.5 },
   ];
 
-  const [slugs, categories] = await Promise.all([getAllPostSlugs(), getCategories()]);
+  try {
+    const [slugs, categories] = await Promise.all([getAllPostSlugs(), getCategories()]);
 
-  const posts: MetadataRoute.Sitemap = slugs.map((p) => ({
-    url: `${base}/noticia/${p.slug}`,
-    lastModified: p.updatedAt,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  }));
+    const posts: MetadataRoute.Sitemap = slugs.map((p) => ({
+      url: `${base}/noticia/${p.slug}`,
+      lastModified: p.updatedAt,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    }));
 
-  const cats: MetadataRoute.Sitemap = categories.map((c) => ({
-    url: `${base}/categoria/${c.slug}`,
-    changeFrequency: "daily",
-    priority: 0.7,
-  }));
+    const cats: MetadataRoute.Sitemap = categories.map((c) => ({
+      url: `${base}/categoria/${c.slug}`,
+      changeFrequency: "daily",
+      priority: 0.7,
+    }));
 
-  return [...staticPages, ...posts, ...cats];
+    return [...staticPages, ...posts, ...cats];
+  } catch {
+    return staticPages;
+  }
 }

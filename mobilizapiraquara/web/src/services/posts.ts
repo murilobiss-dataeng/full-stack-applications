@@ -1,13 +1,10 @@
 import { unstable_cache } from "next/cache";
 import slugify from "slugify";
 import { prisma } from "@/lib/prisma";
+import { dbQuery, isDatabaseConfigured } from "@/lib/db";
 import { MOCK_CATEGORIES, MOCK_POSTS, MOCK_POST_CONTENT } from "@/lib/mock-data";
 import { resolveCoverImage } from "@/lib/cover-image";
 import type { PostCard, PostDetail } from "@/types/post";
-
-function hasDatabase() {
-  return Boolean(process.env.DATABASE_URL);
-}
 
 function normalizePost<T extends PostCard>(post: T): T {
   return {
@@ -56,62 +53,68 @@ function mapPost(post: {
 }
 
 export async function getPublishedPosts(limit = 12, page = 1) {
-  if (!hasDatabase()) {
-    const start = (page - 1) * limit;
-    return {
-      posts: MOCK_POSTS.slice(start, start + limit).map(normalizePost),
-      total: MOCK_POSTS.length,
-      hasMore: start + limit < MOCK_POSTS.length,
-    };
-  }
-
-  const skip = (page - 1) * limit;
-  const [posts, total] = await Promise.all([
-    prisma.post.findMany({
-      where: { published: true },
-      orderBy: { publishedAt: "desc" },
-      take: limit,
-      skip,
-      include: { author: true, category: true },
-    }),
-    prisma.post.count({ where: { published: true } }),
-  ]);
-
-  return {
-    posts: posts.map(mapPost),
-    total,
-    hasMore: skip + posts.length < total,
+  const start = (page - 1) * limit;
+  const mock = {
+    posts: MOCK_POSTS.slice(start, start + limit).map(normalizePost),
+    total: MOCK_POSTS.length,
+    hasMore: start + limit < MOCK_POSTS.length,
   };
+
+  if (!isDatabaseConfigured()) return mock;
+
+  return dbQuery(async () => {
+    const skip = (page - 1) * limit;
+    const [posts, total] = await Promise.all([
+      prisma.post.findMany({
+        where: { published: true },
+        orderBy: { publishedAt: "desc" },
+        take: limit,
+        skip,
+        include: { author: true, category: true },
+      }),
+      prisma.post.count({ where: { published: true } }),
+    ]);
+    return {
+      posts: posts.map(mapPost),
+      total,
+      hasMore: skip + posts.length < total,
+    };
+  }, mock);
 }
 
 export const getFeaturedPost = unstable_cache(
   async (): Promise<PostCard | null> => {
-    if (!hasDatabase()) {
-      const featured = MOCK_POSTS.find((p) => p.featured) ?? MOCK_POSTS[0];
-      return normalizePost(featured);
-    }
-    const post = await prisma.post.findFirst({
-      where: { published: true, featured: true },
-      orderBy: { publishedAt: "desc" },
-      include: { author: true, category: true },
-    });
-    return post ? mapPost(post) : null;
+    const mockFeatured = MOCK_POSTS.find((p) => p.featured) ?? MOCK_POSTS[0];
+    const mock = normalizePost(mockFeatured);
+
+    if (!isDatabaseConfigured()) return mock;
+
+    return dbQuery(async () => {
+      const post = await prisma.post.findFirst({
+        where: { published: true, featured: true },
+        orderBy: { publishedAt: "desc" },
+        include: { author: true, category: true },
+      });
+      return post ? mapPost(post) : null;
+    }, mock);
   },
   ["featured-post"],
   { revalidate: 60 }
 );
 
 export async function getPopularPosts(limit = 5) {
-  if (!hasDatabase()) {
-    return [...MOCK_POSTS].sort((a, b) => b.views - a.views).slice(0, limit).map(normalizePost);
-  }
-  const posts = await prisma.post.findMany({
-    where: { published: true },
-    orderBy: { views: "desc" },
-    take: limit,
-    include: { author: true, category: true },
-  });
-  return posts.map(mapPost);
+  const mock = [...MOCK_POSTS].sort((a, b) => b.views - a.views).slice(0, limit).map(normalizePost);
+  if (!isDatabaseConfigured()) return mock;
+
+  return dbQuery(async () => {
+    const posts = await prisma.post.findMany({
+      where: { published: true },
+      orderBy: { views: "desc" },
+      take: limit,
+      include: { author: true, category: true },
+    });
+    return posts.map(mapPost);
+  }, mock);
 }
 
 export async function getRecentPosts(limit = 6, excludeSlug?: string) {
@@ -119,71 +122,101 @@ export async function getRecentPosts(limit = 6, excludeSlug?: string) {
   return posts.filter((p) => p.slug !== excludeSlug).slice(0, limit);
 }
 
-export async function getCategories() {
-  if (!hasDatabase()) return MOCK_CATEGORIES;
-  return prisma.category.findMany({ orderBy: { name: "asc" } });
+type CategoryRow = {
+  id: string;
+  name: string;
+  slug: string;
+  color: string | null;
+  description?: string | null;
+  createdAt?: Date;
+};
+
+export async function getCategories(): Promise<CategoryRow[]> {
+  if (!isDatabaseConfigured()) return MOCK_CATEGORIES;
+  return dbQuery<CategoryRow[]>(
+    () => prisma.category.findMany({ orderBy: { name: "asc" } }),
+    MOCK_CATEGORIES
+  );
 }
 
 export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
-  if (!hasDatabase()) {
-    const post = MOCK_POSTS.find((p) => p.slug === slug);
+  const mockPost = MOCK_POSTS.find((p) => p.slug === slug);
+  const mockDetail = mockPost
+    ? {
+        ...normalizePost(mockPost),
+        content:
+          MOCK_POST_CONTENT[slug] ??
+          `<p>${mockPost.excerpt ?? ""}</p><p>Conteúdo completo disponível após conexão com o banco de dados.</p>`,
+      }
+    : null;
+
+  if (!isDatabaseConfigured()) return mockDetail;
+
+  return dbQuery(async () => {
+    const post = await prisma.post.findUnique({
+      where: { slug, published: true },
+      include: { author: true, category: true },
+    });
     if (!post) return null;
+
+    await prisma.post.update({
+      where: { id: post.id },
+      data: { views: { increment: 1 } },
+    });
+
     return {
-      ...normalizePost(post),
-      content:
-        MOCK_POST_CONTENT[slug] ??
-        `<p>${post.excerpt ?? ""}</p><p>Conteúdo completo disponível após conexão com o banco de dados.</p>`,
+      ...mapPost(post),
+      content: post.content,
+      seoTitle: post.seoTitle,
+      seoDescription: post.seoDescription,
+      updatedAt: post.updatedAt,
     };
-  }
-
-  const post = await prisma.post.findUnique({
-    where: { slug, published: true },
-    include: { author: true, category: true },
-  });
-  if (!post) return null;
-
-  await prisma.post.update({
-    where: { id: post.id },
-    data: { views: { increment: 1 } },
-  });
-
-  return {
-    ...mapPost(post),
-    content: post.content,
-    seoTitle: post.seoTitle,
-    seoDescription: post.seoDescription,
-    updatedAt: post.updatedAt,
-  };
+  }, mockDetail);
 }
 
-export async function getPostsByCategory(slug: string, limit = 12) {
-  if (!hasDatabase()) {
-    const cat = MOCK_CATEGORIES.find((c) => c.slug === slug);
-    if (!cat) return { category: null, posts: [] };
-    return {
-      category: cat,
-      posts: MOCK_POSTS.filter((p) => p.category?.slug === slug).slice(0, limit).map(normalizePost),
-    };
-  }
+type PostsByCategoryResult = {
+  category: {
+    id: string;
+    name: string;
+    slug: string;
+    color: string | null;
+    description?: string | null;
+    createdAt?: Date;
+  } | null;
+  posts: PostCard[];
+};
 
-  const category = await prisma.category.findUnique({ where: { slug } });
-  if (!category) return { category: null, posts: [] };
+export async function getPostsByCategory(slug: string, limit = 12): Promise<PostsByCategoryResult> {
+  const cat = MOCK_CATEGORIES.find((c) => c.slug === slug);
+  const mock: PostsByCategoryResult = !cat
+    ? { category: null, posts: [] }
+    : {
+        category: cat,
+        posts: MOCK_POSTS.filter((p) => p.category?.slug === slug).slice(0, limit).map(normalizePost),
+      };
 
-  const posts = await prisma.post.findMany({
-    where: { published: true, categoryId: category.id },
-    orderBy: { publishedAt: "desc" },
-    take: limit,
-    include: { author: true, category: true },
-  });
+  if (!isDatabaseConfigured()) return mock;
 
-  return { category, posts: posts.map(mapPost) };
+  return dbQuery<PostsByCategoryResult>(async () => {
+    const category = await prisma.category.findUnique({ where: { slug } });
+    if (!category) return { category: null, posts: [] as PostCard[] };
+
+    const posts = await prisma.post.findMany({
+      where: { published: true, categoryId: category.id },
+      orderBy: { publishedAt: "desc" },
+      take: limit,
+      include: { author: true, category: true },
+    });
+
+    return { category, posts: posts.map(mapPost) };
+  }, mock);
 }
 
 export async function searchPosts(query: string, limit = 20) {
   const q = query.trim().toLowerCase();
   if (!q) return [];
 
-  if (!hasDatabase()) {
+  if (!isDatabaseConfigured()) {
     return MOCK_POSTS.filter(
       (p) =>
         p.title.toLowerCase().includes(q) ||
@@ -194,21 +227,22 @@ export async function searchPosts(query: string, limit = 20) {
       .map(normalizePost);
   }
 
-  const posts = await prisma.post.findMany({
-    where: {
-      published: true,
-      OR: [
-        { title: { contains: q, mode: "insensitive" } },
-        { excerpt: { contains: q, mode: "insensitive" } },
-        { content: { contains: q, mode: "insensitive" } },
-      ],
-    },
-    take: limit,
-    orderBy: { publishedAt: "desc" },
-    include: { author: true, category: true },
-  });
-
-  return posts.map(mapPost);
+  return dbQuery(async () => {
+    const posts = await prisma.post.findMany({
+      where: {
+        published: true,
+        OR: [
+          { title: { contains: q, mode: "insensitive" } },
+          { excerpt: { contains: q, mode: "insensitive" } },
+          { content: { contains: q, mode: "insensitive" } },
+        ],
+      },
+      take: limit,
+      orderBy: { publishedAt: "desc" },
+      include: { author: true, category: true },
+    });
+    return posts.map(mapPost);
+  }, []);
 }
 
 export function generateSlug(title: string) {
@@ -216,11 +250,17 @@ export function generateSlug(title: string) {
 }
 
 export async function getAllPostSlugs() {
-  if (!hasDatabase()) return MOCK_POSTS.map((p) => ({ slug: p.slug, updatedAt: new Date() }));
-  return prisma.post.findMany({
-    where: { published: true },
-    select: { slug: true, updatedAt: true },
-  });
+  const mock = MOCK_POSTS.map((p) => ({ slug: p.slug, updatedAt: new Date() }));
+  if (!isDatabaseConfigured()) return mock;
+
+  return dbQuery(
+    () =>
+      prisma.post.findMany({
+        where: { published: true },
+        select: { slug: true, updatedAt: true },
+      }),
+    mock
+  );
 }
 
 export type CreatePostInput = {
@@ -237,7 +277,7 @@ export type CreatePostInput = {
 };
 
 export async function createPublishedPost(input: CreatePostInput) {
-  if (!hasDatabase()) {
+  if (!isDatabaseConfigured()) {
     throw new Error("Configure DATABASE_URL para publicar matérias.");
   }
 

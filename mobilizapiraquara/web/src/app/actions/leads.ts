@@ -2,6 +2,7 @@
 
 import { joinSchema, type JoinInput } from "@/lib/validations";
 import { prisma } from "@/lib/prisma";
+import { isDatabaseConfigured } from "@/lib/db";
 import { SOCIAL_LINKS } from "@/lib/constants";
 
 export async function submitJoinForm(data: JoinInput) {
@@ -13,7 +14,7 @@ export async function submitJoinForm(data: JoinInput) {
   const { fullName, whatsapp } = parsed.data;
 
   try {
-    if (process.env.DATABASE_URL) {
+    if (isDatabaseConfigured()) {
       await prisma.lead.create({ data: { fullName, whatsapp } });
     }
   } catch {

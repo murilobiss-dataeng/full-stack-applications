@@ -8,7 +8,7 @@ import { SearchDialog } from "@/components/news/search-dialog";
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-zinc-200/80 bg-zinc-50/95 backdrop-blur-md dark:border-zinc-800 dark:bg-zinc-950/95">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-2.5 sm:px-6">
         <Logo size="md" href="/#inicio" />
 
         <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Principal">
