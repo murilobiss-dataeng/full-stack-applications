@@ -1,13 +1,10 @@
-const ENV_DATABASE_KEYS = ["DATABASE_URL", "DIRECT_URL"] as const;
-
 const POOLER_ENV_KEYS = ["DATABASE_POOLER_URL", "SUPABASE_POOLER_URL"] as const;
 
-const FALLBACK_ENV_KEYS = [
-  "POSTGRES_PRISMA_URL",
-  "POSTGRES_URL",
-] as const;
+const FALLBACK_ENV_KEYS = ["POSTGRES_PRISMA_URL", "POSTGRES_URL"] as const;
 
-/** Remove aspas acidentais ao colar na Vercel. */
+/** Ex.: aws-1 (painel Supabase) → host aws-1-us-east-1.pooler.supabase.com */
+const DEFAULT_POOLER_PREFIX = "aws-1";
+
 function stripQuotes(value: string): string {
   const trimmed = value.trim();
   if (
@@ -25,124 +22,179 @@ function appendQueryParam(url: string, key: string, value: string): string {
   return `${url}${sep}${key}=${value}`;
 }
 
-function isVercelRuntime(): boolean {
-  return Boolean(process.env.VERCEL || process.env.VERCEL_ENV);
-}
-
-/** SSL e pooler exigidos pelo Supabase em deploy serverless (Vercel). */
-function withSupabaseDefaults(url: string): string {
+/** Parâmetros para URL de runtime (transaction pooler, porta 6543). */
+function withTransactionPoolerParams(url: string): string {
   if (!/supabase\.co/i.test(url)) return url;
-
-  let result = url;
-  result = appendQueryParam(result, "sslmode", "require");
-
-  if (/:6543\//.test(result) || /pooler\.supabase\.com/i.test(result)) {
+  let result = appendQueryParam(url, "sslmode", "require");
+  if (/:6543(\/|$|\?)/.test(result)) {
     result = appendQueryParam(result, "pgbouncer", "true");
     result = appendQueryParam(result, "connection_limit", "1");
   }
-
   return result;
 }
 
-type ParsedSupabaseDirect = {
+/** Session / direct URL (porta 5432) — sem pgbouncer. */
+function withSessionPoolerParams(url: string): string {
+  if (!/supabase\.co/i.test(url)) return url;
+  return appendQueryParam(url, "sslmode", "require");
+}
+
+type ParsedSupabase = {
   password: string;
   projectRef: string;
   database: string;
+  port: string;
+  hostname: string;
+  username: string;
 };
 
-/** postgresql://postgres:PASS@db.REF.supabase.co:5432/postgres */
-function parseSupabaseDirectUrl(url: string): ParsedSupabaseDirect | null {
-  const m = url.match(
-    /^postgres(?:ql)?:\/\/postgres:([^@]+)@db\.([a-z0-9]+)\.supabase\.co:5432\/([^?]+)/i
-  );
-  if (!m) return null;
-  return { password: m[1], projectRef: m[2], database: m[3] };
+function parsePostgresUrl(url: string): ParsedSupabase | null {
+  try {
+    const u = new URL(url);
+    const dbMatch = u.hostname.match(/^db\.([a-z0-9]+)\.supabase\.co$/i);
+    const userMatch = u.username.match(/^postgres(?:\.([a-z0-9]+))?$/i);
+    const projectRef = dbMatch?.[1] ?? userMatch?.[1] ?? null;
+
+    if (!projectRef) return null;
+    if (!u.hostname.includes("supabase.co")) return null;
+
+    return {
+      password: decodeURIComponent(u.password),
+      projectRef,
+      database: u.pathname.replace(/^\//, "") || "postgres",
+      port: u.port || "5432",
+      hostname: u.hostname,
+      username: u.username,
+    };
+  } catch {
+    return null;
+  }
 }
 
-function isAlreadyPoolerUrl(url: string): boolean {
-  return /pooler\.supabase\.com/i.test(url) || /:6543\//.test(url);
+function isDirectDbHost5432(url: string): boolean {
+  const parsed = parsePostgresUrl(url);
+  if (!parsed) return false;
+  return parsed.hostname === `db.${parsed.projectRef}.supabase.co` && parsed.port === "5432";
 }
 
-/**
- * Vercel não alcança bem db.xxx.supabase.co:5432 (conexão direta).
- * Usa transaction pooler (porta 6543), como no painel Supabase → Connect → ORMs → Prisma.
- */
-function toSupabasePoolerUrl(directUrl: string): string | null {
-  if (isAlreadyPoolerUrl(directUrl)) return withSupabaseDefaults(directUrl);
+function isTransactionPoolerUrl(url: string): boolean {
+  return /pooler\.supabase\.com/i.test(url) && /:6543(\/|$|\?)/.test(url);
+}
 
-  const parsed = parseSupabaseDirectUrl(directUrl);
-  if (!parsed) return null;
+/** Host do pooler: SUPABASE_POOLER_HOST ou aws-1-us-east-1.pooler.supabase.com */
+function getPoolerHostname(): string | null {
+  const explicit = process.env.SUPABASE_POOLER_HOST?.trim();
+  if (explicit) return explicit;
 
-  const { password, projectRef, database } = parsed;
   const region = process.env.SUPABASE_REGION?.trim();
+  if (!region) return null;
 
-  if (region) {
-    const host = `aws-0-${region}.pooler.supabase.com`;
-    return withSupabaseDefaults(
-      `postgresql://postgres.${projectRef}:${password}@${host}:6543/${database}`
-    );
+  const prefix = process.env.SUPABASE_POOLER_PREFIX?.trim() || DEFAULT_POOLER_PREFIX;
+  return `${prefix}-${region}.pooler.supabase.com`;
+}
+
+function buildPoolerUrls(parsed: ParsedSupabase): { transaction: string; session: string } | null {
+  const host = getPoolerHostname();
+  if (!host) return null;
+
+  const user = `postgres.${parsed.projectRef}`;
+  const encodedPassword = encodeURIComponent(parsed.password);
+
+  const transaction = withTransactionPoolerParams(
+    `postgresql://${user}:${encodedPassword}@${host}:6543/${parsed.database}`
+  );
+  const session = withSessionPoolerParams(
+    `postgresql://${user}:${encodedPassword}@${host}:5432/${parsed.database}`
+  );
+
+  return { transaction, session };
+}
+
+/** Converte db.xxx:5432 → pooler oficial (aws-1-REGIAO ou SUPABASE_POOLER_HOST). */
+function upgradeDirectToPooler(directUrl: string): { transaction: string; session?: string } | null {
+  if (isTransactionPoolerUrl(directUrl)) {
+    return { transaction: withTransactionPoolerParams(directUrl) };
   }
 
-  // Supavisor no mesmo host (muitos projetos Supabase)
-  return withSupabaseDefaults(
-    `postgresql://postgres.${projectRef}:${password}@db.${projectRef}.supabase.co:6543/${database}`
-  );
+  const parsed = parsePostgresUrl(directUrl);
+  if (!parsed) return null;
+
+  if (isDirectDbHost5432(directUrl)) {
+    const built = buildPoolerUrls(parsed);
+    if (built) return built;
+
+    const user = `postgres.${parsed.projectRef}`;
+    const encodedPassword = encodeURIComponent(parsed.password);
+    const projectHost = `db.${parsed.projectRef}.supabase.co`;
+    return {
+      transaction: withTransactionPoolerParams(
+        `postgresql://${user}:${encodedPassword}@${projectHost}:6543/${parsed.database}`
+      ),
+    };
+  }
+
+  return null;
 }
 
-/**
- * Aceita o formato salvo na Vercel:
- *   postgres:SENHA@db.xxx.supabase.co:5432/postgres
- */
 export function normalizeDatabaseUrl(raw?: string): string | undefined {
   if (!raw?.trim()) return undefined;
 
   const url = stripQuotes(raw);
 
   if (/^postgres(ql)?:\/\//i.test(url)) {
-    return withSupabaseDefaults(url);
+    if (isTransactionPoolerUrl(url) || /:6543(\/|$|\?)/.test(url)) {
+      return withTransactionPoolerParams(url);
+    }
+    if (/pooler\.supabase\.com/i.test(url) && /:5432(\/|$|\?)/.test(url)) {
+      return withSessionPoolerParams(url);
+    }
+    return withTransactionPoolerParams(url);
   }
 
   if (/^postgres:/i.test(url) && url.includes("@")) {
     const rest = url.replace(/^postgres:/i, "");
     const path = rest.startsWith("//") ? rest.slice(2) : rest;
-    return withSupabaseDefaults(`postgresql://postgres:${path}`);
+    return withTransactionPoolerParams(`postgresql://postgres:${path}`);
   }
 
   if (url.includes("@") && !url.includes("://")) {
-    return withSupabaseDefaults(`postgresql://postgres:${url}`);
+    return withTransactionPoolerParams(`postgresql://postgres:${url}`);
   }
 
   return url;
 }
 
-function pickRuntimeUrl(normalizedDirect?: string): string | undefined {
+function pickPoolerFromEnv(): string | undefined {
   for (const key of POOLER_ENV_KEYS) {
     const raw = process.env[key];
     if (raw?.trim()) {
-      const pooler = normalizeDatabaseUrl(raw);
-      if (pooler) return pooler;
+      const normalized = normalizeDatabaseUrl(raw);
+      if (normalized) return normalized;
     }
   }
-
-  if (!normalizedDirect) return undefined;
-
-  if (isVercelRuntime() && /db\.[a-z0-9]+\.supabase\.co:5432/i.test(normalizedDirect)) {
-    const pooler = toSupabasePoolerUrl(normalizedDirect);
-    if (pooler) {
-      if (process.env.NODE_ENV === "production") {
-        console.info(
-          "[db] Vercel: usando connection pooler Supabase (porta 6543). " +
-            "Defina SUPABASE_REGION (ex. sa-east-1) se falhar; ou DATABASE_POOLER_URL do painel Connect."
-        );
-      }
-      return pooler;
-    }
-  }
-
-  return normalizedDirect;
+  return undefined;
 }
 
-/** Garante DATABASE_URL no process.env antes do Prisma (build + runtime). */
+function resolveRuntimeDatabaseUrl(normalizedInput: string): string {
+  const fromEnv = pickPoolerFromEnv();
+  if (fromEnv) return fromEnv;
+
+  if (isTransactionPoolerUrl(normalizedInput)) {
+    return withTransactionPoolerParams(normalizedInput);
+  }
+
+  if (isDirectDbHost5432(normalizedInput)) {
+    const upgraded = upgradeDirectToPooler(normalizedInput);
+    if (upgraded?.transaction) {
+      const host = upgraded.transaction.match(/@([^/?:]+)/)?.[1] ?? "pooler";
+      console.info(`[db] Supabase → transaction pooler (${host}:6543)`);
+      return upgraded.transaction;
+    }
+  }
+
+  return normalizedInput;
+}
+
 export function applyDatabaseEnv(): void {
   if (!process.env.DATABASE_URL?.trim()) {
     for (const key of [...POOLER_ENV_KEYS, ...FALLBACK_ENV_KEYS]) {
@@ -154,41 +206,60 @@ export function applyDatabaseEnv(): void {
     }
   }
 
-  const rawDirect = process.env.DATABASE_URL?.trim()
-    ? stripQuotes(process.env.DATABASE_URL)
-    : undefined;
+  const rawDb = process.env.DATABASE_URL?.trim();
+  if (!rawDb) return;
 
-  if (rawDirect && !process.env.DIRECT_URL?.trim()) {
-    const normalizedDirect = normalizeDatabaseUrl(rawDirect);
-    if (normalizedDirect && /:5432\//.test(normalizedDirect)) {
-      process.env.DIRECT_URL = normalizedDirect;
+  const normalizedDb = normalizeDatabaseUrl(stripQuotes(rawDb));
+  if (!normalizedDb) return;
+
+  process.env.DATABASE_URL = resolveRuntimeDatabaseUrl(normalizedDb);
+
+  const rawDirect = process.env.DIRECT_URL?.trim();
+  if (rawDirect) {
+    const normalizedDirect = normalizeDatabaseUrl(stripQuotes(rawDirect));
+    if (normalizedDirect) {
+      process.env.DIRECT_URL = /:5432(\/|$|\?)/.test(normalizedDirect)
+        ? withSessionPoolerParams(normalizedDirect)
+        : normalizedDirect;
     }
-  }
-
-  const normalizedDirect = rawDirect ? normalizeDatabaseUrl(rawDirect) : undefined;
-  const runtime = pickRuntimeUrl(normalizedDirect);
-
-  if (runtime) {
-    process.env.DATABASE_URL = runtime;
     return;
   }
 
-  for (const key of ENV_DATABASE_KEYS) {
-    const raw = process.env[key];
-    if (!raw?.trim()) continue;
-    const normalized = normalizeDatabaseUrl(raw);
-    if (normalized) process.env[key] = normalized;
+  if (isDirectDbHost5432(normalizedDb)) {
+    const upgraded = upgradeDirectToPooler(normalizedDb);
+    if (upgraded?.session) {
+      process.env.DIRECT_URL = upgraded.session;
+    }
   }
 }
 
 export function getDatabaseUrl(): string | undefined {
   applyDatabaseEnv();
-  return process.env.DATABASE_URL ? normalizeDatabaseUrl(process.env.DATABASE_URL) : undefined;
+  const url = process.env.DATABASE_URL?.trim();
+  if (!url) return undefined;
+
+  const normalized = normalizeDatabaseUrl(url) ?? url;
+  if (isDirectDbHost5432(normalized)) {
+    return resolveRuntimeDatabaseUrl(normalized);
+  }
+  return normalized;
+}
+
+export function getDirectDatabaseUrl(): string | undefined {
+  applyDatabaseEnv();
+  const url = process.env.DIRECT_URL?.trim();
+  return url ? normalizeDatabaseUrl(url) ?? url : undefined;
 }
 
 export function isDatabaseConfigured(): boolean {
   const url = getDatabaseUrl();
   return Boolean(url && /^postgres(ql)?:\/\//i.test(url));
+}
+
+export function logDatabaseTarget(): void {
+  const url = getDatabaseUrl();
+  if (!url) return;
+  console.info("[db] Prisma →", url.replace(/:([^:@/]+)@/, ":***@"));
 }
 
 export async function dbQuery<T>(fn: () => Promise<T>, fallback: T): Promise<T> {
