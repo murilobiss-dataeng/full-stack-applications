@@ -6,7 +6,7 @@ import { formatRelativeDate } from "@/lib/utils";
 export function SidebarPopular({ posts }: { posts: PostCardType[] }) {
   return (
     <aside className="rounded-xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-900">
-      <h2 className="mb-4 flex items-center gap-2 font-serif text-lg font-bold text-slate-900 dark:text-white">
+      <h2 className="mb-4 flex items-center gap-2 font-sans text-lg font-bold text-slate-900 dark:text-white">
         <TrendingUp className="h-5 w-5 text-brand-600" />
         Mais lidas
       </h2>
@@ -19,7 +19,7 @@ export function SidebarPopular({ posts }: { posts: PostCardType[] }) {
             <div className="min-w-0">
               <Link
                 href={`/noticia/${post.slug}`}
-                className="line-clamp-3 font-serif text-sm font-bold leading-snug text-slate-900 hover:text-brand-700 dark:text-white dark:hover:text-brand-300"
+                className="line-clamp-3 font-sans text-sm font-bold leading-snug text-slate-900 hover:text-brand-700 dark:text-white dark:hover:text-brand-300"
               >
                 {post.title}
               </Link>

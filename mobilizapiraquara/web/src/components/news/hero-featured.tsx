@@ -29,7 +29,7 @@ export function HeroFeatured({ post }: { post: PostCard }) {
             {post.category.name}
           </span>
         )}
-        <h2 className="line-clamp-2 font-serif text-base font-bold leading-snug text-zinc-900 group-hover:text-zinc-600 dark:text-white sm:text-lg">
+        <h2 className="line-clamp-2 font-sans text-base font-bold leading-snug text-zinc-900 group-hover:text-zinc-600 dark:text-white sm:text-lg">
           {post.title}
         </h2>
         {post.publishedAt && (

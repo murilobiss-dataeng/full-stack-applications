@@ -35,7 +35,7 @@ export function PostCard({ post, variant = "default", priority = false }: Props)
               {post.category.name}
             </span>
           )}
-          <h3 className="mt-1 line-clamp-2 font-serif text-sm font-bold leading-snug text-slate-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
+          <h3 className="mt-1 line-clamp-2 font-sans text-sm font-bold leading-snug text-slate-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300">
             {post.title}
           </h3>
           <PostMeta post={post} compact />
@@ -85,7 +85,7 @@ export function PostCard({ post, variant = "default", priority = false }: Props)
         <Link href={href}>
           <h3
             className={cn(
-              "mt-2 font-serif font-bold leading-snug text-slate-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300",
+              "mt-2 font-sans font-bold leading-snug text-slate-900 group-hover:text-brand-700 dark:text-white dark:group-hover:text-brand-300",
               variant === "compact" ? "line-clamp-3 text-base" : "line-clamp-3 text-lg"
             )}
           >

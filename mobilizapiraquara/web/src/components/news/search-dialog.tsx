@@ -50,7 +50,7 @@ export function SearchDialog({ trigger }: Props) {
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm" />
         <Dialog.Content className="fixed left-1/2 top-[15%] z-50 w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl dark:border-slate-700 dark:bg-slate-900">
           <div className="mb-4 flex items-center justify-between">
-            <Dialog.Title className="font-serif text-lg font-bold">Buscar notícias</Dialog.Title>
+            <Dialog.Title className="font-sans text-lg font-bold">Buscar notícias</Dialog.Title>
             <Dialog.Close asChild>
               <Button variant="ghost" size="icon" aria-label="Fechar">
                 <X className="h-5 w-5" />

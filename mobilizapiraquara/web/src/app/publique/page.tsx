@@ -13,7 +13,7 @@ export default async function PubliquePage() {
       <div className="mb-8 text-center">
         <Logo size="lg" linked={false} onDarkBackground className="mx-auto items-center" />
         <p className="mt-4 text-sm font-medium text-brand-400">{SITE.tagline}</p>
-        <h1 className="mt-6 font-serif text-2xl font-bold">Área de publicação</h1>
+        <h1 className="mt-6 font-sans text-2xl font-bold">Área de publicação</h1>
         <p className="mt-2 text-sm text-slate-400">Acesso restrito à redação.</p>
       </div>
       <PublishLoginForm />

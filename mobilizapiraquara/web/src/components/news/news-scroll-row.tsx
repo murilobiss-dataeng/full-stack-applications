@@ -53,7 +53,7 @@ export function NewsScrollRow({ posts, title = "Últimas", seeAllHref = "/busca"
                     {post.category.name}
                   </span>
                 )}
-                <p className="mt-0.5 line-clamp-2 font-serif text-sm font-semibold leading-snug text-zinc-900 group-hover:text-zinc-600 dark:text-zinc-100">
+                <p className="mt-0.5 line-clamp-2 font-sans text-sm font-semibold leading-snug text-zinc-900 group-hover:text-zinc-600 dark:text-zinc-100">
                   {post.title}
                 </p>
                 {post.publishedAt && (

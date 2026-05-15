@@ -21,7 +21,7 @@ function normalizePost<T extends PostCard>(post: T, usePlaceholder = false): T {
   };
 }
 
-function filterPostsWithCover<T extends { coverImage: string | null }>(posts: T[]) {
+function filterPostsWithCover<T extends { coverImage?: string | null }>(posts: T[]) {
   return posts.filter((p) => hasValidCover(p.coverImage));
 }
 

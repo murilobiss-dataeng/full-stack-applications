@@ -55,7 +55,7 @@ export default async function NoticiaPage({ params }: Props) {
             {post.category.name}
           </Link>
         )}
-        <h1 className="mt-3 font-serif text-3xl font-bold leading-[1.15] text-zinc-900 dark:text-white sm:text-4xl">
+        <h1 className="mt-3 font-sans text-3xl font-bold leading-[1.15] text-zinc-900 dark:text-white sm:text-4xl">
           {post.title}
         </h1>
         {post.subtitle && (
@@ -85,7 +85,7 @@ export default async function NoticiaPage({ params }: Props) {
 
       {related.length > 0 && (
         <section className="mt-16 border-t border-zinc-200 pt-10 dark:border-zinc-800">
-          <h2 className="mb-6 font-serif text-2xl font-bold text-zinc-900 dark:text-white">Leia também</h2>
+          <h2 className="mb-6 font-sans text-2xl font-bold text-zinc-900 dark:text-white">Leia também</h2>
           <div className="grid gap-6 sm:grid-cols-2">
             {related.map((p) => (
               <PostCard key={p.id} post={p} variant="compact" />
