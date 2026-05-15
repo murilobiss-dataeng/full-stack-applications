@@ -1,9 +1,14 @@
 import { timingSafeEqual } from "crypto";
 import { prisma } from "@/lib/prisma";
-import { hashPassword, verifyPassword } from "@/lib/auth";
-import { isDatabaseConfigured } from "@/lib/db";
+import { hashPassword, verifyStoredPassword } from "@/lib/password";
+import { getDatabaseUrl, isDatabaseConfigured } from "@/lib/db";
+import { ENV_PUBLISHER_ID } from "@/lib/publish-constants";
 
-export const ENV_PUBLISHER_ID = "env-publisher";
+export { ENV_PUBLISHER_ID } from "@/lib/publish-constants";
+
+export type PublisherAuthResult =
+  | { ok: true; id: string; email: string; name: string; source: "database" | "env" }
+  | { ok: false; code: "no_database" | "db_error" | "not_found" | "wrong_password" | "no_permission" };
 
 function safeEqual(a: string, b: string) {
   const aBuf = Buffer.from(a, "utf8");
@@ -15,11 +20,11 @@ function safeEqual(a: string, b: string) {
   return timingSafeEqual(aBuf, bBuf);
 }
 
-export function usesEnvPublishCredentials() {
-  return Boolean(process.env.USERNAME?.trim() && process.env.PASSWORD);
-}
+import { usesEnvPublishCredentials } from "@/lib/publish-constants";
 
-export function verifyEnvPublishCredentials(username: string, password: string) {
+export { usesEnvPublishCredentials } from "@/lib/publish-constants";
+
+function verifyEnvPublishCredentials(username: string, password: string) {
   const expectedUser = process.env.USERNAME?.trim() ?? "";
   const expectedPass = process.env.PASSWORD ?? "";
   if (!expectedUser || !expectedPass) return false;
@@ -30,42 +35,88 @@ export function envPublisherDisplayName() {
   return process.env.USERNAME?.trim() || "Redação";
 }
 
-/** Login: banco (e-mail + bcrypt) e, se configurado, USERNAME/PASSWORD da Vercel. */
-export async function authenticatePublisher(username: string, password: string) {
+/** Login pela tabela public."User" no Supabase (e-mail + senha). */
+export async function authenticatePublisher(
+  username: string,
+  password: string
+): Promise<PublisherAuthResult> {
   const identifier = username.trim();
   const identifierLower = identifier.toLowerCase();
 
-  if (isDatabaseConfigured()) {
+  if (!isDatabaseConfigured()) {
+    if (usesEnvPublishCredentials() && verifyEnvPublishCredentials(identifier, password)) {
+      return {
+        ok: true,
+        id: ENV_PUBLISHER_ID,
+        email: `${identifierLower}@publish.local`,
+        name: envPublisherDisplayName(),
+        source: "env",
+      };
+    }
+    return { ok: false, code: "no_database" };
+  }
+
+  try {
     const user = await prisma.user.findFirst({
       where: {
-        canPublish: true,
         OR: [
           { email: { equals: identifierLower, mode: "insensitive" } },
+          { email: identifierLower },
           { name: { equals: identifier, mode: "insensitive" } },
         ],
       },
     });
 
-    if (user && (await verifyPassword(password, user.password))) {
-      return {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-        source: "database" as const,
-      };
+    if (!user) {
+      if (usesEnvPublishCredentials() && verifyEnvPublishCredentials(identifier, password)) {
+        return {
+          ok: true,
+          id: ENV_PUBLISHER_ID,
+          email: `${identifierLower}@publish.local`,
+          name: envPublisherDisplayName(),
+          source: "env",
+        };
+      }
+      return { ok: false, code: "not_found" };
     }
-  }
 
-  if (usesEnvPublishCredentials() && verifyEnvPublishCredentials(identifier, password)) {
+    if (!user.canPublish) {
+      return { ok: false, code: "no_permission" };
+    }
+
+    const valid = await verifyStoredPassword(password, user.password);
+    if (!valid) {
+      return { ok: false, code: "wrong_password" };
+    }
+
     return {
-      id: ENV_PUBLISHER_ID,
-      email: `${identifierLower}@publish.local`,
-      name: envPublisherDisplayName(),
-      source: "env" as const,
+      ok: true,
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      source: "database",
     };
+  } catch (error) {
+    console.error("[publish-auth] erro ao consultar User:", error, "url?", Boolean(getDatabaseUrl()));
+    return { ok: false, code: "db_error" };
   }
+}
 
-  return null;
+export function authErrorMessage(result: Extract<PublisherAuthResult, { ok: false }>): string {
+  switch (result.code) {
+    case "no_database":
+      return "Banco não configurado. Adicione DATABASE_URL na Vercel (URI do Supabase).";
+    case "db_error":
+      return "Não foi possível conectar ao banco. Confira DATABASE_URL na Vercel (use a URL com postgres:// ou postgresql://).";
+    case "not_found":
+      return "E-mail não encontrado. Use um cadastro da tabela User com canPublish = true.";
+    case "no_permission":
+      return "Esta conta não tem permissão para publicar (canPublish = false).";
+    case "wrong_password":
+      return "Senha incorreta. Contas do seed usam a senha altere-esta-senha (se não foi alterada).";
+    default:
+      return "Falha no login.";
+  }
 }
 
 /** Autor no banco para posts publicados via login de ambiente. */

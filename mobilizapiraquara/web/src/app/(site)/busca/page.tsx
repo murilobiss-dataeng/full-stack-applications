@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { searchPosts } from "@/services/posts";
-import { PostsGrid } from "@/components/news/posts-grid";
+import { NewsScrollRow } from "@/components/news/news-scroll-row";
 import { SITE } from "@/lib/constants";
 
 export const metadata: Metadata = {
@@ -15,25 +15,25 @@ export default async function BuscaPage({ searchParams }: Props) {
   const posts = q ? await searchPosts(q) : [];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <h1 className="font-serif text-3xl font-bold text-slate-900 dark:text-white">Busca</h1>
+    <div className="site-container py-8">
+      <h1 className="text-center text-xl font-bold text-white">Busca</h1>
       {q ? (
         <>
-          <p className="mt-2 text-slate-600 dark:text-slate-400">
+          <p className="mt-2 text-center text-sm text-zinc-400">
             {posts.length} resultado{posts.length !== 1 ? "s" : ""} para &ldquo;{q}&rdquo;
           </p>
           <div className="mt-8">
             {posts.length > 0 ? (
-              <PostsGrid posts={posts} />
+              <NewsScrollRow posts={posts} title="Resultados" />
             ) : (
-              <p className="rounded-xl border border-dashed border-slate-300 p-12 text-center text-slate-500 dark:border-slate-600">
-                Nenhuma notícia encontrada. Tente outros termos.
+              <p className="rounded-xl border border-dashed border-zinc-700 p-12 text-center text-zinc-500">
+                Nenhuma notícia encontrada.
               </p>
             )}
           </div>
         </>
       ) : (
-        <p className="mt-4 text-slate-600 dark:text-slate-400">Use a busca no menu para encontrar notícias.</p>
+        <p className="mt-4 text-center text-zinc-400">Informe um termo na URL: /busca?q=...</p>
       )}
     </div>
   );

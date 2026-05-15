@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getPostsByCategory } from "@/services/posts";
-import { PostsGrid } from "@/components/news/posts-grid";
+import { NewsScrollRow } from "@/components/news/news-scroll-row";
 import { SITE } from "@/lib/constants";
 
 type Props = { params: { slug: string } };
@@ -20,12 +20,16 @@ export default async function CategoriaPage({ params }: Props) {
   if (!category) notFound();
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-      <p className="text-sm font-semibold uppercase tracking-widest text-brand-600">Categoria</p>
-      <h1 className="mt-2 font-serif text-4xl font-bold text-slate-900 dark:text-white">{category.name}</h1>
-      <div className="mt-10">
-        <PostsGrid posts={posts} />
+    <div className="site-container space-y-6 py-8">
+      <div className="text-center">
+        <p className="text-xs font-bold uppercase tracking-wide text-zinc-500">Categoria</p>
+        <h1 className="mt-2 text-2xl font-bold text-white">{category.name}</h1>
       </div>
+      {posts.length > 0 ? (
+        <NewsScrollRow posts={posts} title={category.name} />
+      ) : (
+        <p className="text-center text-zinc-500">Nenhuma notícia nesta categoria.</p>
+      )}
     </div>
   );
 }

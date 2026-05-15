@@ -42,24 +42,17 @@ export function PublishLoginForm() {
           id="username"
           type="text"
           autoComplete="email"
-          placeholder="admin@mobilizapiraquara.com.br"
+          placeholder="admin@mobilizapiraquara.com.br ou manco@mobilizapiraquara.com.br"
           {...register("username")}
-          className="bg-slate-900"
         />
         {errors.username && <p className="text-sm text-red-400">{errors.username.message}</p>}
       </div>
       <div className="space-y-2">
         <Label htmlFor="password">Senha</Label>
-        <Input
-          id="password"
-          type="password"
-          autoComplete="current-password"
-          {...register("password")}
-          className="bg-slate-900"
-        />
+        <Input id="password" type="password" autoComplete="current-password" {...register("password")} />
         {errors.password && <p className="text-sm text-red-400">{errors.password.message}</p>}
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" className="w-full bg-white text-black hover:bg-zinc-200" disabled={loading}>
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : "Entrar"}
       </Button>
     </form>

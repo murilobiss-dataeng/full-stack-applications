@@ -12,14 +12,21 @@ type Props = {
 };
 
 export function NewsSection({ featured, posts, categories }: Props) {
-  const recentPosts = posts.filter((p) => p.slug !== featured?.slug).slice(0, 5);
+  const recentPosts = posts.filter((p) => p.slug !== featured?.slug).slice(0, 6);
 
   return (
-    <section id="noticias" className="scroll-mt-20 space-y-3">
-      <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">Notícias</h2>
+    <section id="noticias" className="scroll-mt-28 space-y-6">
+      <h2 className="text-center text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">
+        Notícias
+      </h2>
       {featured && <HeroFeatured post={featured} />}
-      <NewsScrollRow posts={recentPosts} title="Últimas" />
-      <CategoryPills categories={categories} />
+      <NewsScrollRow posts={recentPosts} title="Mais notícias" />
+      <div>
+        <p className="mb-3 text-center text-xs font-medium uppercase tracking-wide text-zinc-500">
+          Categorias
+        </p>
+        <CategoryPills categories={categories} />
+      </div>
     </section>
   );
 }

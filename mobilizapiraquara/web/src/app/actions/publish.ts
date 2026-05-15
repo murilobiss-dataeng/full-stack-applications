@@ -7,16 +7,14 @@ import { createSession, destroySession, requirePublisher } from "@/lib/auth";
 import {
   ENV_PUBLISHER_ID,
   authenticatePublisher,
+  authErrorMessage,
   getOrCreateEnvPublisherAuthorId,
 } from "@/lib/publish-auth";
-import { isDatabaseConfigured } from "@/lib/db";
 import { formatArticleWithAI } from "@/services/ai";
 import { createPublishedPost } from "@/services/posts";
 
 /**
- * Login em /publique
- * - Banco: e-mail do usuário em public."User" + senha bcrypt (canPublish = true)
- * - Vercel: USERNAME + PASSWORD (alternativa se não achar no banco)
+ * Login em /publique — tabela public."User" no Supabase (canPublish = true).
  */
 export async function publishLogin(data: { username: string; password: string }) {
   const parsed = publishLoginSchema.safeParse(data);
@@ -24,19 +22,16 @@ export async function publishLogin(data: { username: string; password: string })
     return { success: false, error: parsed.error.issues[0]?.message ?? "Dados inválidos" };
   }
 
-  const account = await authenticatePublisher(parsed.data.username, parsed.data.password);
+  const result = await authenticatePublisher(parsed.data.username, parsed.data.password);
 
-  if (!account) {
-    const hint = isDatabaseConfigured()
-      ? "Use o e-mail cadastrado em User (ex.: admin@mobilizapiraquara.com.br) e a senha do seed, ou USERNAME/PASSWORD da Vercel."
-      : "Configure DATABASE_URL e USERNAME/PASSWORD na Vercel.";
-    return { success: false, error: `Usuário ou senha incorretos. ${hint}` };
+  if (!result.ok) {
+    return { success: false, error: authErrorMessage(result) };
   }
 
   await createSession({
-    id: account.id,
-    email: account.email,
-    name: account.name,
+    id: result.id,
+    email: result.email,
+    name: result.name,
     canPublish: true,
   });
 

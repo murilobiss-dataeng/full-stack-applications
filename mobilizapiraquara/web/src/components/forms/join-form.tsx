@@ -46,7 +46,7 @@ export function JoinForm() {
           aria-invalid={!!errors.fullName}
         />
         {errors.fullName && (
-          <p className="text-sm text-red-600" role="alert">
+          <p className="text-sm text-red-400" role="alert">
             {errors.fullName.message}
           </p>
         )}
@@ -63,13 +63,13 @@ export function JoinForm() {
           aria-invalid={!!errors.whatsapp}
         />
         {errors.whatsapp && (
-          <p className="text-sm text-red-600" role="alert">
+          <p className="text-sm text-red-400" role="alert">
             {errors.whatsapp.message}
           </p>
         )}
       </div>
 
-      <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={isSubmitting}>
+      <Button type="submit" size="lg" className="w-full bg-white text-black hover:bg-zinc-200 sm:w-auto" disabled={isSubmitting}>
         {isSubmitting ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin" />

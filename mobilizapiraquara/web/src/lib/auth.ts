@@ -1,12 +1,11 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
-import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/prisma";
 import { isDatabaseConfigured } from "@/lib/db";
-import {
-  ENV_PUBLISHER_ID,
-  usesEnvPublishCredentials,
-} from "@/lib/publish-auth";
+import { ENV_PUBLISHER_ID, usesEnvPublishCredentials } from "@/lib/publish-constants";
+import { verifyStoredPassword } from "@/lib/password";
+
+export { hashPassword, verifyStoredPassword } from "@/lib/password";
 
 const COOKIE_NAME = "mp_session";
 const secret = new TextEncoder().encode(
@@ -20,12 +19,8 @@ export type SessionUser = {
   canPublish: boolean;
 };
 
-export async function hashPassword(password: string) {
-  return bcrypt.hash(password, 12);
-}
-
 export async function verifyPassword(password: string, hash: string) {
-  return bcrypt.compare(password, hash);
+  return verifyStoredPassword(password, hash);
 }
 
 export async function createSession(user: SessionUser) {
@@ -73,28 +68,29 @@ export async function getSession(): Promise<SessionUser | null> {
   }
 }
 
-/** Exige sessão válida de publicador (env USERNAME/PASSWORD ou usuário canPublish no banco). */
 export async function requirePublisher(): Promise<SessionUser | null> {
   const session = await getSession();
   if (!session?.canPublish) return null;
 
-  if (usesEnvPublishCredentials() && session.id === ENV_PUBLISHER_ID) {
+  if (session.id === ENV_PUBLISHER_ID) {
+    return usesEnvPublishCredentials() ? session : null;
+  }
+
+  if (!isDatabaseConfigured()) {
     return session;
   }
 
-  if (!isDatabaseConfigured()) return null;
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.id },
+      select: { id: true, email: true, name: true, canPublish: true },
+    });
+    if (user?.canPublish) {
+      return { id: user.id, email: user.email, name: user.name, canPublish: true };
+    }
+  } catch {
+    return session;
+  }
 
-  const user = await prisma.user.findUnique({
-    where: { id: session.id },
-    select: { id: true, email: true, name: true, canPublish: true },
-  });
-
-  if (!user?.canPublish) return null;
-
-  return {
-    id: user.id,
-    email: user.email,
-    name: user.name,
-    canPublish: true,
-  };
+  return null;
 }

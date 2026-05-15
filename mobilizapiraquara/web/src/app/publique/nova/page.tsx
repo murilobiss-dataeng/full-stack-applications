@@ -11,13 +11,13 @@ export default async function PubliqueNovaPage() {
   const categories = await getCategories();
 
   return (
-    <div>
-      <div className="mb-8">
-        <Logo size="sm" linked={false} onDarkBackground />
-        <h1 className="mt-4 font-sans text-2xl font-bold">Nova matéria</h1>
-        <p className="text-sm text-slate-400">Olá, {session.name}. Cole o texto e publique.</p>
+    <div className="card-dark p-6 sm:p-8">
+      <Logo size="md" linked={false} />
+      <h1 className="mt-4 text-xl font-bold text-white">Nova matéria</h1>
+      <p className="text-sm text-zinc-400">Olá, {session.name}. Cole o texto e publique.</p>
+      <div className="mt-6">
+        <PublishArticleForm categories={categories} />
       </div>
-      <PublishArticleForm categories={categories} />
     </div>
   );
 }

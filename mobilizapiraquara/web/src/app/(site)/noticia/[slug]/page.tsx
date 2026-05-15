@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { getPostBySlug, getRecentPosts } from "@/services/posts";
 import { SITE } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
-import { PostCard } from "@/components/news/post-card";
+import { NewsScrollRow } from "@/components/news/news-scroll-row";
 
 type Props = { params: { slug: string } };
 
@@ -42,28 +42,24 @@ export default async function NoticiaPage({ params }: Props) {
   const post = await getPostBySlug(params.slug);
   if (!post) notFound();
 
-  const related = await getRecentPosts(4, post.slug);
+  const related = await getRecentPosts(6, post.slug);
 
   return (
-    <article className="mx-auto max-w-3xl px-4 py-10 sm:px-6 lg:px-8">
-      <header className="border-b border-zinc-200 pb-8 dark:border-zinc-800">
+    <article className="site-container py-8 sm:py-10">
+      <header className="border-b border-zinc-800 pb-6">
         {post.category && (
           <Link
             href={`/categoria/${post.category.slug}`}
-            className="text-xs font-bold uppercase tracking-widest text-zinc-600 hover:underline dark:text-zinc-400"
+            className="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-white"
           >
             {post.category.name}
           </Link>
         )}
-        <h1 className="mt-3 font-sans text-3xl font-bold leading-[1.15] text-zinc-900 dark:text-white sm:text-4xl">
-          {post.title}
-        </h1>
+        <h1 className="mt-3 text-2xl font-bold leading-tight text-white sm:text-3xl">{post.title}</h1>
         {post.subtitle && (
-          <p className="mt-4 text-lg leading-relaxed text-zinc-600 dark:text-zinc-300 sm:text-xl">
-            {post.subtitle}
-          </p>
+          <p className="mt-3 text-lg leading-relaxed text-zinc-400">{post.subtitle}</p>
         )}
-        <div className="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
+        <div className="mt-4 flex flex-wrap gap-x-4 text-sm text-zinc-500">
           <span>{post.author.name}</span>
           {post.publishedAt && (
             <time dateTime={String(post.publishedAt)}>{formatDate(post.publishedAt)}</time>
@@ -71,26 +67,21 @@ export default async function NoticiaPage({ params }: Props) {
         </div>
       </header>
 
-      <div className="relative mt-8 aspect-[16/9] overflow-hidden rounded-xl bg-zinc-100 dark:bg-zinc-900">
+      <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950">
         <PostCover
           src={post.coverImage}
           alt={post.title}
           categorySlug={post.category?.slug}
-          sizes="(max-width:768px) 100vw, 768px"
+          sizes="(max-width: 896px) 100vw, 896px"
           priority
         />
       </div>
 
-      <div className="article-prose mt-10" dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div className="article-prose mt-8" dangerouslySetInnerHTML={{ __html: post.content }} />
 
       {related.length > 0 && (
-        <section className="mt-16 border-t border-zinc-200 pt-10 dark:border-zinc-800">
-          <h2 className="mb-6 font-sans text-2xl font-bold text-zinc-900 dark:text-white">Leia também</h2>
-          <div className="grid gap-6 sm:grid-cols-2">
-            {related.map((p) => (
-              <PostCard key={p.id} post={p} variant="compact" />
-            ))}
-          </div>
+        <section className="mt-12 border-t border-zinc-800 pt-8">
+          <NewsScrollRow posts={related} title="Leia também" />
         </section>
       )}
     </article>
