@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
-import { Inter } from "next/font/google";
+import { Inter, Lora } from "next/font/google";
 import { Providers } from "@/components/providers";
 import { SITE } from "@/lib/constants";
 import { getSiteUrl } from "@/lib/site-url";
@@ -9,6 +9,12 @@ import "./globals.css";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
+  display: "swap",
+});
+
+const lora = Lora({
+  subsets: ["latin"],
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -33,8 +39,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className="dark" suppressHydrationWarning>
-      <body className={`${inter.variable} min-h-screen bg-black font-sans text-zinc-100 antialiased`}>
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body className={`${inter.variable} ${lora.variable} min-h-screen bg-white font-sans text-zinc-800 antialiased`}>
         <Providers>{children}</Providers>
         <Analytics />
       </body>

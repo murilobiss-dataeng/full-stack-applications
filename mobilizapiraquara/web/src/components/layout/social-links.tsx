@@ -46,9 +46,17 @@ type SocialLinksProps = {
   className?: string;
   iconSize?: number;
   showLabels?: boolean;
+  variant?: "light" | "dark";
 };
 
-export function SocialLinks({ className, iconSize = 20, showLabels = false }: SocialLinksProps) {
+export function SocialLinks({
+  className,
+  iconSize = 20,
+  showLabels = false,
+  variant = "light",
+}: SocialLinksProps) {
+  const isDark = variant === "dark";
+
   return (
     <div className={cn("flex flex-wrap items-center gap-2", className)}>
       {items.map(({ href, label, icon: Icon, className: itemClass }) => (
@@ -59,8 +67,11 @@ export function SocialLinks({ className, iconSize = 20, showLabels = false }: So
           rel="noopener noreferrer"
           aria-label={label}
           className={cn(
-            "inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-2 text-slate-600 transition-colors dark:border-slate-700 dark:text-slate-300",
-            itemClass
+            "inline-flex items-center gap-2 rounded-full border px-2.5 py-1.5 transition-colors",
+            isDark
+              ? "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:bg-zinc-900 hover:text-white"
+              : "border-zinc-200 text-zinc-600 hover:border-zinc-300 hover:bg-zinc-50",
+            !isDark && itemClass
           )}
         >
           {Icon === MessageCircle ? (

@@ -1,4 +1,7 @@
-import { CategoryPills } from "@/components/news/category-pills";
+"use client";
+
+import { useMemo, useState } from "react";
+import { HomeCategoryFilter } from "@/components/news/home-category-filter";
 import { NewsPanel } from "@/components/home/news-panel";
 import type { PostCard } from "@/types/post";
 
@@ -11,16 +14,31 @@ type Props = {
 };
 
 export function NewsSection({ featured, posts, categories }: Props) {
+  const [categorySlug, setCategorySlug] = useState<string | null>(null);
+
+  const filteredPosts = useMemo(() => {
+    if (!categorySlug) return posts;
+    return posts.filter((p) => p.category?.slug === categorySlug);
+  }, [posts, categorySlug]);
+
+  const filteredFeatured = useMemo(() => {
+    if (!categorySlug) return featured;
+    if (featured?.category?.slug === categorySlug) return featured;
+    return null;
+  }, [featured, categorySlug]);
+
   return (
-    <section id="noticias" className="scroll-mt-28 space-y-4">
-      <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-zinc-500">Notícias</h2>
-
-      <div>
-        <p className="mb-2 text-xs font-medium uppercase tracking-wide text-zinc-500">Categorias</p>
-        <CategoryPills categories={categories} />
+    <section id="noticias" className="scroll-mt-28">
+      <div className="overflow-hidden rounded-xl border border-zinc-200 bg-white shadow-sm">
+        <HomeCategoryFilter
+          categories={categories}
+          selectedSlug={categorySlug}
+          onSelect={setCategorySlug}
+        />
+        <div className="p-4 sm:p-5">
+          <NewsPanel featured={filteredFeatured} posts={filteredPosts} />
+        </div>
       </div>
-
-      <NewsPanel featured={featured} posts={posts} />
     </section>
   );
 }

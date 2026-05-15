@@ -105,9 +105,9 @@ export async function authenticatePublisher(
 export function authErrorMessage(result: Extract<PublisherAuthResult, { ok: false }>): string {
   switch (result.code) {
     case "no_database":
-      return 'Banco não configurado. Use DATABASE_URL completa: postgresql://postgres:SUA_SENHA@db.xxx.supabase.co:5432/postgres (com postgresql:// no início).';
+      return 'Banco não configurado. Na Vercel, defina DATABASE_URL (pode ser no formato postgres:SENHA@db.xxx.supabase.co:5432/postgres — o site adiciona postgresql:// automaticamente).';
     case "db_error":
-      return "Não foi possível conectar ao banco. Confira DATABASE_URL na Vercel (use a URL com postgres:// ou postgresql://).";
+      return "Não foi possível conectar ao banco. Confira se a senha em DATABASE_URL está correta (Settings → Database no Supabase). Se a senha tiver @ ou #, codifique na URL (%40, %23). Formato aceito: postgres:SENHA@db.xxx.supabase.co:5432/postgres";
     case "not_found":
       return "E-mail não encontrado. Use um cadastro da tabela User com canPublish = true.";
     case "no_permission":

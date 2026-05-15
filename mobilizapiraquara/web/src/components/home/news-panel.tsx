@@ -32,8 +32,8 @@ export function NewsPanel({ featured, posts }: Props) {
 
   if (!main) {
     return (
-      <p className="rounded-xl border border-zinc-800 bg-zinc-950 p-8 text-center text-sm text-zinc-500">
-        Nenhuma notícia com imagem no momento.
+      <p className="rounded-lg border border-dashed border-zinc-300 bg-zinc-50 p-8 text-center text-sm text-zinc-500">
+        Nenhuma notícia nesta categoria no momento.
       </p>
     );
   }
@@ -42,9 +42,9 @@ export function NewsPanel({ featured, posts }: Props) {
     <div className="grid gap-4 lg:grid-cols-[1fr_minmax(0,280px)] lg:gap-5">
       <Link
         href={`/noticia/${main.slug}`}
-        className="group block overflow-hidden rounded-xl border border-zinc-800 bg-zinc-950 transition hover:border-zinc-600"
+        className="group block overflow-hidden rounded-lg border border-zinc-200 bg-zinc-50 transition hover:border-zinc-400 hover:shadow-md"
       >
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-900 lg:aspect-[16/11]">
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100 lg:aspect-[16/11]">
           <PostCover
             src={main.coverImage}
             alt={main.title}
@@ -58,14 +58,14 @@ export function NewsPanel({ featured, posts }: Props) {
           {main.category && (
             <span
               className="text-[10px] font-bold uppercase tracking-wide"
-              style={{ color: main.category.color ?? "#a1a1aa" }}
+              style={{ color: main.category.color ?? "#52525b" }}
             >
               {main.category.name}
             </span>
           )}
-          <h3 className="mt-2 text-lg font-bold leading-snug text-white sm:text-xl">{main.title}</h3>
+          <h3 className="mt-2 text-lg font-bold leading-snug text-zinc-900 sm:text-xl">{main.title}</h3>
           {main.excerpt && (
-            <p className="mt-2 line-clamp-2 text-sm text-zinc-400">{main.excerpt}</p>
+            <p className="mt-2 line-clamp-2 text-sm text-zinc-600">{main.excerpt}</p>
           )}
           {main.publishedAt && (
             <time className="mt-3 block text-xs text-zinc-500" dateTime={String(main.publishedAt)}>
@@ -75,18 +75,18 @@ export function NewsPanel({ featured, posts }: Props) {
         </div>
       </Link>
 
-      <aside className="flex min-h-0 flex-col rounded-xl border border-zinc-800 bg-zinc-950">
-        <p className="shrink-0 border-b border-zinc-800 px-4 py-3 text-xs font-bold uppercase tracking-wide text-zinc-500">
+      <aside className="flex min-h-0 flex-col rounded-lg border border-zinc-200 bg-white">
+        <p className="shrink-0 border-b border-zinc-200 px-4 py-2.5 text-[11px] font-bold uppercase tracking-wide text-zinc-500">
           Mais notícias
         </p>
         <ul className="max-h-[420px] flex-1 overflow-y-auto overscroll-contain [scrollbar-width:thin]">
           {side.map((post) => (
-            <li key={post.id} className="border-b border-zinc-800/80 last:border-0">
+            <li key={post.id} className="border-b border-zinc-100 last:border-0">
               <Link
                 href={`/noticia/${post.slug}`}
-                className="flex gap-3 p-3 transition hover:bg-zinc-900"
+                className="flex gap-3 p-3 transition hover:bg-zinc-50"
               >
-                <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-md bg-zinc-900">
+                <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded-md bg-zinc-100">
                   <PostCover
                     src={post.coverImage}
                     alt={post.title}
@@ -103,7 +103,7 @@ export function NewsPanel({ featured, posts }: Props) {
                       {post.category.name}
                     </span>
                   )}
-                  <p className="mt-0.5 line-clamp-2 text-sm font-semibold leading-snug text-white">
+                  <p className="mt-0.5 line-clamp-2 text-sm font-semibold leading-snug text-zinc-900">
                     {post.title}
                   </p>
                 </div>

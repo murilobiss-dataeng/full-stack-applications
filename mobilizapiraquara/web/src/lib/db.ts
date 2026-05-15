@@ -1,29 +1,95 @@
-/** Corrige DATABASE_URL incompleta (ex.: postgres:senha@host sem postgresql://). */
+const ENV_DATABASE_KEYS = ["DATABASE_URL", "DIRECT_URL"] as const;
+
+const FALLBACK_ENV_KEYS = [
+  "POSTGRES_PRISMA_URL",
+  "POSTGRES_URL",
+  "POSTGRES_URL_NON_POOLING",
+] as const;
+
+/** Remove aspas acidentais ao colar na Vercel. */
+function stripQuotes(value: string): string {
+  const trimmed = value.trim();
+  if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    return trimmed.slice(1, -1).trim();
+  }
+  return trimmed;
+}
+
+function appendQueryParam(url: string, key: string, value: string): string {
+  if (new RegExp(`[?&]${key}=`, "i").test(url)) return url;
+  const sep = url.includes("?") ? "&" : "?";
+  return `${url}${sep}${key}=${value}`;
+}
+
+/** SSL e pooler exigidos pelo Supabase em deploy serverless (Vercel). */
+function withSupabaseDefaults(url: string): string {
+  if (!/supabase\.co/i.test(url)) return url;
+
+  let result = url;
+  result = appendQueryParam(result, "sslmode", "require");
+
+  if (/:6543\//.test(result) || /pooler\.supabase\.com/i.test(result)) {
+    result = appendQueryParam(result, "pgbouncer", "true");
+  }
+
+  return result;
+}
+
+/**
+ * Aceita o formato salvo na Vercel:
+ *   postgres:SENHA@db.xxx.supabase.co:5432/postgres
+ * e converte para:
+ *   postgresql://postgres:SENHA@db.xxx.supabase.co:5432/postgres?sslmode=require
+ */
 export function normalizeDatabaseUrl(raw?: string): string | undefined {
   if (!raw?.trim()) return undefined;
 
-  const url = raw.trim();
+  const url = stripQuotes(raw);
 
   if (/^postgres(ql)?:\/\//i.test(url)) {
-    return url;
+    return withSupabaseDefaults(url);
   }
 
   // postgres:senha@host:5432/db  →  postgresql://postgres:senha@host:5432/db
   if (/^postgres:/i.test(url) && url.includes("@")) {
     const rest = url.replace(/^postgres:/i, "");
     const path = rest.startsWith("//") ? rest.slice(2) : rest;
-    return `postgresql://postgres:${path}`;
+    return withSupabaseDefaults(`postgresql://postgres:${path}`);
   }
 
-  // host:5432/db com @ mas sem protocolo
+  // senha@host:5432/db (sem protocolo nem usuário)
   if (url.includes("@") && !url.includes("://")) {
-    return `postgresql://postgres:${url}`;
+    return withSupabaseDefaults(`postgresql://postgres:${url}`);
   }
 
   return url;
 }
 
+/** Garante DATABASE_URL no process.env antes do Prisma (build + runtime). */
+export function applyDatabaseEnv(): void {
+  if (!process.env.DATABASE_URL?.trim()) {
+    for (const key of FALLBACK_ENV_KEYS) {
+      const value = process.env[key];
+      if (value?.trim()) {
+        process.env.DATABASE_URL = stripQuotes(value);
+        break;
+      }
+    }
+  }
+
+  for (const key of ENV_DATABASE_KEYS) {
+    const raw = process.env[key];
+    if (!raw?.trim()) continue;
+    const normalized = normalizeDatabaseUrl(raw);
+    if (normalized) process.env[key] = normalized;
+  }
+}
+
 export function getDatabaseUrl(): string | undefined {
+  applyDatabaseEnv();
   const raw = process.env.DATABASE_URL ?? process.env.DIRECT_URL;
   return normalizeDatabaseUrl(raw);
 }
