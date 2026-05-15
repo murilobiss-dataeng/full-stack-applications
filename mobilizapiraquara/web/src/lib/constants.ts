@@ -1,9 +1,13 @@
+import { getSiteUrl } from "@/lib/site-url";
+
 export const SITE = {
   name: "Mobiliza Piraquara",
   tagline: "A cidade que queremos começa por nós!",
   description:
     "Portal de notícias e mobilização cívica de Piraquara. Transparência, informação e união pela cidade que queremos.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://mobilizapiraquara.vercel.app",
+  get url() {
+    return getSiteUrl();
+  },
   locale: "pt-BR",
 } as const;
 
