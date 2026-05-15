@@ -7,7 +7,7 @@ import { SOCIAL_LINKS } from "@/lib/constants";
 export async function submitJoinForm(data: JoinInput) {
   const parsed = joinSchema.safeParse(data);
   if (!parsed.success) {
-    return { success: false, error: parsed.error.errors[0]?.message ?? "Dados inválidos" };
+    return { success: false, error: parsed.error.issues[0]?.message ?? "Dados inválidos" };
   }
 
   const { fullName, whatsapp } = parsed.data;
