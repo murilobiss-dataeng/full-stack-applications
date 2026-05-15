@@ -1,0 +1,17 @@
+{
+  "name": "mobilizapiraquara-root",
+  "private": true,
+  "description": "Raiz do projeto Mobiliza. O app Next.js fica em web/. Na Vercel use Root Directory: mobilizapiraquara/web",
+  "scripts": {
+    "build": "npm run build --prefix web",
+    "dev": "npm run dev --prefix web",
+    "start": "npm run start --prefix web",
+    "lint": "npm run lint --prefix web",
+    "postinstall": "npm install --prefix web"
+  },
+  "dependencies": {
+    "next": "14.2.35",
+    "react": "^18",
+    "react-dom": "^18"
+  }
+}

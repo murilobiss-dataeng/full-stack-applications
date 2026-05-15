@@ -21,10 +21,12 @@ O repositório é `murilobiss-dataeng/full-stack-applications`. O app **não** f
 
 | Configuração | Valor |
 |--------------|--------|
-| **Root Directory** | `mobilizapiraquara/web` |
+| **Root Directory** | `mobilizapiraquara/web` **(recomendado)** ou `mobilizapiraquara` |
 | **Framework Preset** | Next.js (detectado via `vercel.json`) |
 
-Se o Root Directory estiver vazio ou na raiz do monorepo, o site retorna **404**.
+**Não use a raiz do repositório** (`full-stack-applications`) — o build falha com *No Next.js version detected*.
+
+Detalhes: [VERCEL.md](./VERCEL.md)
 
 ### Variáveis de ambiente
 
