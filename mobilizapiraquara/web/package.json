@@ -13,7 +13,8 @@
     "vercel-build": "prisma generate && next build",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
-    "db:studio": "prisma studio"
+    "db:studio": "prisma studio",
+    "db:hash-password": "node -e \"console.log(require('bcryptjs').hashSync(process.argv[1]||'senha',12))\""
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
