@@ -3,14 +3,26 @@ import slugify from "slugify";
 import { prisma } from "@/lib/prisma";
 import { dbQuery, isDatabaseConfigured } from "@/lib/db";
 import { MOCK_CATEGORIES, MOCK_POSTS, MOCK_POST_CONTENT } from "@/lib/mock-data";
-import { resolveCoverImage } from "@/lib/cover-image";
+import { hasValidCover, resolveCoverImage } from "@/lib/cover-image";
 import type { PostCard, PostDetail } from "@/types/post";
 
-function normalizePost<T extends PostCard>(post: T): T {
+const postWithCoverWhere = {
+  published: true,
+  coverImage: { not: null },
+  NOT: { coverImage: "" },
+} as const;
+
+function normalizePost<T extends PostCard>(post: T, usePlaceholder = false): T {
   return {
     ...post,
-    coverImage: resolveCoverImage(post.coverImage, post.category?.slug),
+    coverImage: usePlaceholder
+      ? resolveCoverImage(post.coverImage, post.category?.slug)
+      : (post.coverImage?.trim() ?? ""),
   };
+}
+
+function filterPostsWithCover<T extends { coverImage: string | null }>(posts: T[]) {
+  return posts.filter((p) => hasValidCover(p.coverImage));
 }
 
 function mapPost(post: {
@@ -36,7 +48,7 @@ function mapPost(post: {
     subtitle: post.subtitle,
     slug: post.slug,
     excerpt: post.excerpt,
-    coverImage: resolveCoverImage(post.coverImage, post.category?.slug),
+    coverImage: post.coverImage?.trim() ?? "",
     publishedAt: post.publishedAt,
     featured: post.featured,
     views: post.views,
@@ -54,10 +66,11 @@ function mapPost(post: {
 
 export async function getPublishedPosts(limit = 12, page = 1) {
   const start = (page - 1) * limit;
+  const mockPosts = filterPostsWithCover(MOCK_POSTS).slice(start, start + limit).map((p) => normalizePost(p));
   const mock = {
-    posts: MOCK_POSTS.slice(start, start + limit).map(normalizePost),
-    total: MOCK_POSTS.length,
-    hasMore: start + limit < MOCK_POSTS.length,
+    posts: mockPosts,
+    total: filterPostsWithCover(MOCK_POSTS).length,
+    hasMore: start + limit < filterPostsWithCover(MOCK_POSTS).length,
   };
 
   if (!isDatabaseConfigured()) return mock;
@@ -66,13 +79,13 @@ export async function getPublishedPosts(limit = 12, page = 1) {
     const skip = (page - 1) * limit;
     const [posts, total] = await Promise.all([
       prisma.post.findMany({
-        where: { published: true },
+        where: postWithCoverWhere,
         orderBy: { publishedAt: "desc" },
         take: limit,
         skip,
         include: { author: true, category: true },
       }),
-      prisma.post.count({ where: { published: true } }),
+      prisma.post.count({ where: postWithCoverWhere }),
     ]);
     return {
       posts: posts.map(mapPost),
@@ -84,18 +97,25 @@ export async function getPublishedPosts(limit = 12, page = 1) {
 
 export const getFeaturedPost = unstable_cache(
   async (): Promise<PostCard | null> => {
-    const mockFeatured = MOCK_POSTS.find((p) => p.featured) ?? MOCK_POSTS[0];
-    const mock = normalizePost(mockFeatured);
+    const withCover = filterPostsWithCover(MOCK_POSTS);
+    const mockFeatured = withCover.find((p) => p.featured) ?? withCover[0];
+    const mock = mockFeatured ? normalizePost(mockFeatured) : null;
 
     if (!isDatabaseConfigured()) return mock;
 
     return dbQuery(async () => {
       const post = await prisma.post.findFirst({
-        where: { published: true, featured: true },
+        where: { ...postWithCoverWhere, featured: true },
         orderBy: { publishedAt: "desc" },
         include: { author: true, category: true },
       });
-      return post ? mapPost(post) : null;
+      if (post) return mapPost(post);
+      const fallback = await prisma.post.findFirst({
+        where: postWithCoverWhere,
+        orderBy: { publishedAt: "desc" },
+        include: { author: true, category: true },
+      });
+      return fallback ? mapPost(fallback) : null;
     }, mock);
   },
   ["featured-post"],
@@ -103,12 +123,15 @@ export const getFeaturedPost = unstable_cache(
 );
 
 export async function getPopularPosts(limit = 5) {
-  const mock = [...MOCK_POSTS].sort((a, b) => b.views - a.views).slice(0, limit).map(normalizePost);
+  const mock = filterPostsWithCover(MOCK_POSTS)
+    .sort((a, b) => b.views - a.views)
+    .slice(0, limit)
+    .map((p) => normalizePost(p));
   if (!isDatabaseConfigured()) return mock;
 
   return dbQuery(async () => {
     const posts = await prisma.post.findMany({
-      where: { published: true },
+      where: postWithCoverWhere,
       orderBy: { views: "desc" },
       take: limit,
       include: { author: true, category: true },
@@ -139,15 +162,23 @@ export async function getCategories(): Promise<CategoryRow[]> {
   );
 }
 
+function toPostDetail(
+  card: PostCard,
+  extra: { content: string; seoTitle?: string | null; seoDescription?: string | null; updatedAt?: Date }
+): PostDetail {
+  return {
+    ...card,
+    coverImage: resolveCoverImage(card.coverImage || null, card.category?.slug),
+    ...extra,
+  };
+}
+
 export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
-  const mockPost = MOCK_POSTS.find((p) => p.slug === slug);
+  const mockPost = MOCK_POSTS.find((p) => p.slug === slug && hasValidCover(p.coverImage));
   const mockDetail = mockPost
-    ? {
-        ...normalizePost(mockPost),
-        content:
-          MOCK_POST_CONTENT[slug] ??
-          `<p>${mockPost.excerpt ?? ""}</p><p>Conteúdo completo disponível após conexão com o banco de dados.</p>`,
-      }
+    ? toPostDetail(normalizePost(mockPost), {
+        content: MOCK_POST_CONTENT[slug] ?? `<p>${mockPost.excerpt ?? ""}</p>`,
+      })
     : null;
 
   if (!isDatabaseConfigured()) return mockDetail;
@@ -157,20 +188,19 @@ export async function getPostBySlug(slug: string): Promise<PostDetail | null> {
       where: { slug, published: true },
       include: { author: true, category: true },
     });
-    if (!post) return null;
+    if (!post || !hasValidCover(post.coverImage)) return null;
 
     await prisma.post.update({
       where: { id: post.id },
       data: { views: { increment: 1 } },
     });
 
-    return {
-      ...mapPost(post),
+    return toPostDetail(mapPost(post), {
       content: post.content,
       seoTitle: post.seoTitle,
       seoDescription: post.seoDescription,
       updatedAt: post.updatedAt,
-    };
+    });
   }, mockDetail);
 }
 
@@ -192,7 +222,10 @@ export async function getPostsByCategory(slug: string, limit = 12): Promise<Post
     ? { category: null, posts: [] }
     : {
         category: cat,
-        posts: MOCK_POSTS.filter((p) => p.category?.slug === slug).slice(0, limit).map(normalizePost),
+        posts: filterPostsWithCover(MOCK_POSTS)
+          .filter((p) => p.category?.slug === slug)
+          .slice(0, limit)
+          .map((p) => normalizePost(p)),
       };
 
   if (!isDatabaseConfigured()) return mock;
@@ -202,7 +235,7 @@ export async function getPostsByCategory(slug: string, limit = 12): Promise<Post
     if (!category) return { category: null, posts: [] as PostCard[] };
 
     const posts = await prisma.post.findMany({
-      where: { published: true, categoryId: category.id },
+      where: { ...postWithCoverWhere, categoryId: category.id },
       orderBy: { publishedAt: "desc" },
       take: limit,
       include: { author: true, category: true },
@@ -217,20 +250,21 @@ export async function searchPosts(query: string, limit = 20) {
   if (!q) return [];
 
   if (!isDatabaseConfigured()) {
-    return MOCK_POSTS.filter(
-      (p) =>
-        p.title.toLowerCase().includes(q) ||
-        p.excerpt?.toLowerCase().includes(q) ||
-        p.category?.name.toLowerCase().includes(q)
-    )
+    return filterPostsWithCover(MOCK_POSTS)
+      .filter(
+        (p) =>
+          p.title.toLowerCase().includes(q) ||
+          p.excerpt?.toLowerCase().includes(q) ||
+          p.category?.name.toLowerCase().includes(q)
+      )
       .slice(0, limit)
-      .map(normalizePost);
+      .map((p) => normalizePost(p));
   }
 
   return dbQuery(async () => {
     const posts = await prisma.post.findMany({
       where: {
-        published: true,
+        ...postWithCoverWhere,
         OR: [
           { title: { contains: q, mode: "insensitive" } },
           { excerpt: { contains: q, mode: "insensitive" } },
@@ -250,13 +284,13 @@ export function generateSlug(title: string) {
 }
 
 export async function getAllPostSlugs() {
-  const mock = MOCK_POSTS.map((p) => ({ slug: p.slug, updatedAt: new Date() }));
+  const mock = filterPostsWithCover(MOCK_POSTS).map((p) => ({ slug: p.slug, updatedAt: new Date() }));
   if (!isDatabaseConfigured()) return mock;
 
   return dbQuery(
     () =>
       prisma.post.findMany({
-        where: { published: true },
+        where: postWithCoverWhere,
         select: { slug: true, updatedAt: true },
       }),
     mock

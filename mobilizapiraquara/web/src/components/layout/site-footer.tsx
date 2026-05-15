@@ -5,57 +5,31 @@ import { SocialLinks } from "@/components/layout/social-links";
 
 export function SiteFooter() {
   return (
-    <footer className="mt-16 border-t border-zinc-200 bg-zinc-100 dark:border-zinc-800 dark:bg-zinc-950">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-3">
-          <div>
-            <Logo size="sm" linked showTagline />
-            <p className="mt-4 text-sm leading-relaxed text-slate-600 dark:text-slate-400">{SITE.description}</p>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
-              Navegação
-            </h3>
-            <ul className="space-y-2">
+    <footer className="mt-8 border-t border-zinc-200 dark:border-zinc-800">
+      <div className="site-container space-y-4 py-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <Logo size="sm" linked />
+          <nav aria-label="Rodapé">
+            <ul className="flex flex-wrap gap-x-4 gap-y-1">
               {NAV_LINKS.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-sm text-slate-600 transition hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
-                  >
+                  <Link href={link.href} className="text-xs text-zinc-600 hover:text-zinc-900 dark:text-zinc-400">
                     {link.label}
                   </Link>
                 </li>
               ))}
               <li>
-                <Link
-                  href="/busca"
-                  className="text-sm text-slate-600 transition hover:text-brand-600 dark:text-slate-400 dark:hover:text-brand-400"
-                >
-                  Buscar notícias
+                <Link href="/publique" className="text-xs font-semibold text-zinc-800 hover:underline dark:text-zinc-200">
+                  Administrativo
                 </Link>
               </li>
             </ul>
-          </div>
-
-          <div>
-            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white">
-              Redes sociais
-            </h3>
-            <p className="mb-4 text-sm text-slate-600 dark:text-slate-400">
-              Acompanhe o Mobiliza Piraquara e participe do movimento.
-            </p>
-            <SocialLinks showLabels />
-          </div>
+          </nav>
         </div>
-
-        <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-200 pt-8 text-center text-sm text-slate-500 dark:border-slate-800 dark:text-slate-400 sm:flex-row sm:text-left">
-          <p>© {new Date().getFullYear()} {SITE.name}. Todos os direitos reservados.</p>
-          <Link href="/#junte-se" className="font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400">
-            Quero fazer parte →
-          </Link>
-        </div>
+        <SocialLinks />
+        <p className="text-center text-[11px] text-zinc-500 sm:text-left">
+          © {new Date().getFullYear()} {SITE.name}
+        </p>
       </div>
     </footer>
   );

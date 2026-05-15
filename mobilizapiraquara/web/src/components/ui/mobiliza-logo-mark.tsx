@@ -1,52 +1,50 @@
 import { cn } from "@/lib/utils";
 
-type MobilizaLogoMarkProps = {
+type Props = {
   className?: string;
-  variant?: "auto" | "light" | "dark";
+  /** light = texto escuro (fundo claro); dark = texto branco (fundo escuro) */
+  variant?: "light" | "dark";
 };
 
-export function MobilizaLogoMark({ className, variant = "auto" }: MobilizaLogoMarkProps) {
-  const textClass =
-    variant === "light"
-      ? "text-zinc-900"
-      : variant === "dark"
-        ? "text-white"
-        : "text-zinc-900 dark:text-white";
+/** Logo Mobiliza Piraquara — SVG vetorial (sem PNG). */
+export function MobilizaLogoMark({ className, variant = "light" }: Props) {
+  const primary = variant === "dark" ? "#ffffff" : "#18181b";
+  const secondary = variant === "dark" ? "#e4e4e7" : "#52525b";
+  const accent = variant === "dark" ? "#a1a1aa" : "#71717a";
 
   return (
     <svg
-      viewBox="0 0 280 76"
+      viewBox="0 0 240 56"
       role="img"
       aria-label="Mobiliza Piraquara"
-      className={cn("font-serif", textClass, className)}
-      fill="currentColor"
+      className={cn("block h-auto w-[168px] sm:w-[200px]", className)}
     >
       <text
-        x="140"
-        y="26"
-        textAnchor="middle"
-        style={{ fontSize: 24, fontWeight: 700, letterSpacing: "-0.03em" }}
+        x="0"
+        y="22"
+        fill={primary}
+        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif", fontSize: 22, fontWeight: 800, letterSpacing: "-0.04em" }}
       >
-        Mobiliza
+        MOBILIZA
       </text>
 
-      <g transform="translate(140, 38)">
+      <g transform="translate(118, 6)">
+        <circle cx="12" cy="12" r="11" fill={accent} fillOpacity={variant === "dark" ? 0.35 : 0.2} />
         <path
-          d="M-18 0 C-22 -12 -8 -18 0 -10 C8 -18 22 -12 18 0 C12 8 0 12 -12 8 C-16 4 -18 0 -18 0 Z"
-          fill="#71717a"
-          stroke="#52525b"
-          strokeWidth="1"
+          d="M12 4 C8 4 5 8 5 12 C5 17 8 20 12 20 C16 20 19 17 19 12 C19 8 16 4 12 4 Z M12 8 L12 16 M8 12 L16 12"
+          stroke={primary}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          fill="none"
         />
-        <path d="M-4 -8 Q0 2 4 -8" fill="none" stroke="#3f3f46" strokeWidth="1.2" />
-        <path d="M0 -10 Q-2 0 0 10" fill="none" stroke="#3f3f46" strokeWidth="1" />
-        <path d="M4 -8 Q0 2 -4 -8" fill="none" stroke="#3f3f46" strokeWidth="1.2" />
+        <path d="M12 8 C14 10 14 14 12 16 C10 14 10 10 12 8 Z" fill={secondary} />
       </g>
 
       <text
-        x="140"
-        y="68"
-        textAnchor="middle"
-        style={{ fontSize: 19, fontWeight: 700, letterSpacing: "0.14em" }}
+        x="0"
+        y="48"
+        fill={secondary}
+        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif", fontSize: 13, fontWeight: 700, letterSpacing: "0.28em" }}
       >
         PIRAQUARA
       </text>

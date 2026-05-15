@@ -25,16 +25,7 @@ const config: Config = {
         },
       },
       fontFamily: {
-        serif: ["var(--font-serif)", "Georgia", "Times New Roman", "serif"],
-        sans: ["var(--font-sans)", "system-ui", "-apple-system", "Segoe UI", "Roboto", "sans-serif"],
-      },
-      typography: {
-        DEFAULT: {
-          css: {
-            maxWidth: "42rem",
-            lineHeight: "1.75",
-          },
-        },
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
     },
   },

@@ -37,11 +37,12 @@ export function PublishLoginForm() {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="username">Usuário</Label>
+        <Label htmlFor="username">E-mail ou usuário</Label>
         <Input
           id="username"
           type="text"
-          autoComplete="username"
+          autoComplete="email"
+          placeholder="admin@mobilizapiraquara.com.br"
           {...register("username")}
           className="bg-slate-900"
         />

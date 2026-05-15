@@ -1,4 +1,4 @@
-/** Imagens padrão por categoria quando a matéria não tem capa. */
+/** Imagens padrão por categoria (só na página da matéria, se necessário). */
 const CATEGORY_PLACEHOLDERS: Record<string, string> = {
   politica: "https://images.unsplash.com/photo-1529107386315-e1a2ed48a620?w=1200&q=80&auto=format&fit=crop",
   saude: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=1200&q=80&auto=format&fit=crop",
@@ -11,11 +11,16 @@ const CATEGORY_PLACEHOLDERS: Record<string, string> = {
 const DEFAULT_PLACEHOLDER =
   "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1200&q=80&auto=format&fit=crop";
 
+export function hasValidCover(coverImage: string | null | undefined): boolean {
+  const url = coverImage?.trim();
+  return Boolean(url && (url.startsWith("http://") || url.startsWith("https://")));
+}
+
 export function resolveCoverImage(
   coverImage: string | null | undefined,
   categorySlug?: string | null
 ): string {
-  if (coverImage?.trim()) return coverImage;
+  if (hasValidCover(coverImage)) return coverImage!.trim();
   if (categorySlug && CATEGORY_PLACEHOLDERS[categorySlug]) {
     return CATEGORY_PLACEHOLDERS[categorySlug];
   }

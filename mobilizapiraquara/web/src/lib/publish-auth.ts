@@ -1,6 +1,7 @@
 import { timingSafeEqual } from "crypto";
 import { prisma } from "@/lib/prisma";
-import { hashPassword } from "@/lib/auth";
+import { hashPassword, verifyPassword } from "@/lib/auth";
+import { isDatabaseConfigured } from "@/lib/db";
 
 export const ENV_PUBLISHER_ID = "env-publisher";
 
@@ -27,6 +28,44 @@ export function verifyEnvPublishCredentials(username: string, password: string) 
 
 export function envPublisherDisplayName() {
   return process.env.USERNAME?.trim() || "Redação";
+}
+
+/** Login: banco (e-mail + bcrypt) e, se configurado, USERNAME/PASSWORD da Vercel. */
+export async function authenticatePublisher(username: string, password: string) {
+  const identifier = username.trim();
+  const identifierLower = identifier.toLowerCase();
+
+  if (isDatabaseConfigured()) {
+    const user = await prisma.user.findFirst({
+      where: {
+        canPublish: true,
+        OR: [
+          { email: { equals: identifierLower, mode: "insensitive" } },
+          { name: { equals: identifier, mode: "insensitive" } },
+        ],
+      },
+    });
+
+    if (user && (await verifyPassword(password, user.password))) {
+      return {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        source: "database" as const,
+      };
+    }
+  }
+
+  if (usesEnvPublishCredentials() && verifyEnvPublishCredentials(identifier, password)) {
+    return {
+      id: ENV_PUBLISHER_ID,
+      email: `${identifierLower}@publish.local`,
+      name: envPublisherDisplayName(),
+      source: "env" as const,
+    };
+  }
+
+  return null;
 }
 
 /** Autor no banco para posts publicados via login de ambiente. */

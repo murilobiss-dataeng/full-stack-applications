@@ -1,29 +1,27 @@
-import Link from "next/link";
-import { ABOUT_INTRO, SITE } from "@/lib/constants";
-import { ValuePillarNav, ValuePillarSections } from "@/components/about/value-pillars";
+import { ABOUT_INTRO, ABOUT_VALUES, SITE } from "@/lib/constants";
 
 export function AboutSection() {
   return (
-    <>
-      <section
-        id="sobre"
-        className="scroll-mt-24 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900 sm:p-5"
-      >
-        <h2 className="font-serif text-lg font-bold text-zinc-900 dark:text-white">Quem somos</h2>
-        <p className="mt-1 text-sm font-medium text-zinc-600 dark:text-zinc-400">{SITE.tagline}</p>
-        <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-300">{ABOUT_INTRO}</p>
-        <Link
-          href="/#pilares"
-          className="mt-4 inline-block text-xs font-semibold text-zinc-700 underline-offset-2 hover:underline dark:text-zinc-300"
-        >
-          Nossos pilares ↓
-        </Link>
-      </section>
+    <section id="sobre" className="scroll-mt-20 space-y-3">
+      <h2 className="text-sm font-bold uppercase tracking-wide text-zinc-500">Quem somos</h2>
+      <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
+        <p className="text-sm font-semibold text-zinc-900 dark:text-zinc-100">{SITE.name}</p>
+        <p className="mt-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{ABOUT_INTRO}</p>
+      </div>
 
-      <section className="mt-6 space-y-4">
-        <ValuePillarNav />
-        <ValuePillarSections />
-      </section>
-    </>
+      <div id="pilares" className="scroll-mt-20">
+        <p className="mb-2 text-xs font-medium text-zinc-500">Pilares</p>
+        <ul className="grid gap-2 sm:grid-cols-3">
+          {ABOUT_VALUES.map((v) => (
+            <li key={v.id} id={v.id} className="scroll-mt-24 rounded-lg border border-zinc-200 p-3 dark:border-zinc-800">
+              <p className="text-xs font-bold text-zinc-900 dark:text-zinc-100">
+                {v.icon} {v.title}
+              </p>
+              <p className="mt-1 text-xs leading-relaxed text-zinc-600 dark:text-zinc-400">{v.description}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
   );
 }

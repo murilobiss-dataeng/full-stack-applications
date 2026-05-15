@@ -3,24 +3,20 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { publishLoginSchema, postDraftSchema } from "@/lib/validations";
-import { createSession, destroySession, requirePublisher, verifyPassword } from "@/lib/auth";
+import { createSession, destroySession, requirePublisher } from "@/lib/auth";
 import {
   ENV_PUBLISHER_ID,
-  envPublisherDisplayName,
+  authenticatePublisher,
   getOrCreateEnvPublisherAuthorId,
-  usesEnvPublishCredentials,
-  verifyEnvPublishCredentials,
 } from "@/lib/publish-auth";
-import { prisma } from "@/lib/prisma";
 import { isDatabaseConfigured } from "@/lib/db";
 import { formatArticleWithAI } from "@/services/ai";
 import { createPublishedPost } from "@/services/posts";
 
 /**
  * Login em /publique
- * - Valida usuário/senha: src/lib/validations.ts (publishLoginSchema)
- * - Produção (Vercel): USERNAME + PASSWORD nas variáveis de ambiente
- * - Alternativa futura: User.canPublish no banco (se env não estiver definido)
+ * - Banco: e-mail do usuário em public."User" + senha bcrypt (canPublish = true)
+ * - Vercel: USERNAME + PASSWORD (alternativa se não achar no banco)
  */
 export async function publishLogin(data: { username: string; password: string }) {
   const parsed = publishLoginSchema.safeParse(data);
@@ -28,48 +24,19 @@ export async function publishLogin(data: { username: string; password: string })
     return { success: false, error: parsed.error.issues[0]?.message ?? "Dados inválidos" };
   }
 
-  const { username, password } = parsed.data;
+  const account = await authenticatePublisher(parsed.data.username, parsed.data.password);
 
-  if (usesEnvPublishCredentials()) {
-    if (!verifyEnvPublishCredentials(username, password)) {
-      return { success: false, error: "Usuário ou senha incorretos" };
-    }
-
-    await createSession({
-      id: ENV_PUBLISHER_ID,
-      email: `${username.trim().toLowerCase()}@publish.local`,
-      name: envPublisherDisplayName(),
-      canPublish: true,
-    });
-
-    return { success: true };
-  }
-
-  if (!isDatabaseConfigured()) {
-    return {
-      success: false,
-      error: "Configure USERNAME e PASSWORD no ambiente (ex.: Vercel) para publicar.",
-    };
-  }
-
-  const email = username.trim().toLowerCase();
-  const user = await prisma.user.findUnique({ where: { email } });
-
-  if (!user || !(await verifyPassword(password, user.password))) {
-    return { success: false, error: "Usuário ou senha incorretos" };
-  }
-
-  if (!user.canPublish) {
-    return {
-      success: false,
-      error: "Esta conta não está habilitada para publicar. Solicite acesso à redação do Mobiliza.",
-    };
+  if (!account) {
+    const hint = isDatabaseConfigured()
+      ? "Use o e-mail cadastrado em User (ex.: admin@mobilizapiraquara.com.br) e a senha do seed, ou USERNAME/PASSWORD da Vercel."
+      : "Configure DATABASE_URL e USERNAME/PASSWORD na Vercel.";
+    return { success: false, error: `Usuário ou senha incorretos. ${hint}` };
   }
 
   await createSession({
-    id: user.id,
-    email: user.email,
-    name: user.name,
+    id: account.id,
+    email: account.email,
+    name: account.name,
     canPublish: true,
   });
 
