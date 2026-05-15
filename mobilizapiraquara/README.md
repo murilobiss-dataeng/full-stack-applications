@@ -21,10 +21,12 @@ O repositório é `murilobiss-dataeng/full-stack-applications`. O app **não** f
 
 | Configuração | Valor |
 |--------------|--------|
-| **Root Directory** | `mobilizapiraquara/web` **(recomendado)** ou `mobilizapiraquara` |
-| **Framework Preset** | Next.js (detectado via `vercel.json`) |
+| **Root Directory** | `mobilizapiraquara/web` |
+| **Framework Preset** | Next.js |
+| **Install / Build Command** | *(deixe vazio no painel Vercel)* |
 
-**Não use a raiz do repositório** (`full-stack-applications`) — o build falha com *No Next.js version detected*.
+**Não use** a raiz do repo nem `mobilizapiraquara` sem `/web`.  
+**Não use** Install Command `npm install --prefix web` — isso só vale se o root for a pasta pai.
 
 Detalhes: [VERCEL.md](./VERCEL.md)
 

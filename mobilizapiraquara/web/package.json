@@ -2,12 +2,15 @@
   "name": "mobilizapiraquara-web",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate && next build",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio"
@@ -37,12 +40,12 @@
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "jose": "^6.2.3",
-    "lucide-react": "^1.16.0",
+    "lucide-react": "^0.460.0",
     "next": "14.2.35",
     "next-themes": "^0.4.6",
     "openai": "^6.37.0",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-hook-form": "^7.75.0",
     "slugify": "^1.6.9",
     "sonner": "^2.0.7",
