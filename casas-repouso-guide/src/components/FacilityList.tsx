@@ -1,6 +1,7 @@
 import { MapPin } from "lucide-react";
 import { REFERENCE_HOMES } from "../data/facilities";
 import { formatKm } from "../utils/distance";
+import { formatListPrices } from "../utils/list-prices";
 import type { FacilityWithDistances } from "../utils/facility-metrics";
 
 type Props = {
@@ -14,6 +15,7 @@ export function FacilityList({ facilities, selectedId, onSelect }: Props) {
     <ul className="facility-list" role="listbox" aria-label="Casas de repouso">
       {facilities.map((f) => {
         const isSelected = selectedId === f.id;
+        const prices = formatListPrices(f);
         return (
           <li key={f.id} role="option" aria-selected={isSelected}>
             <button
@@ -21,7 +23,14 @@ export function FacilityList({ facilities, selectedId, onSelect }: Props) {
               className={`facility-list-item ${isSelected ? "selected" : ""}`}
               onClick={() => onSelect(f.id)}
             >
-              <span className="facility-list-name">{f.name}</span>
+              <span className="facility-list-top">
+                <span className="facility-list-name">{f.name}</span>
+                {prices && (
+                  <span className="facility-list-prices" title={prices}>
+                    {prices}
+                  </span>
+                )}
+              </span>
               <span className="facility-list-address">
                 <MapPin size={12} aria-hidden />
                 {f.address.split("—")[0].trim()}

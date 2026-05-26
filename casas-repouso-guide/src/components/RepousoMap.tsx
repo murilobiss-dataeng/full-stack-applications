@@ -11,7 +11,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { FACILITIES, REFERENCE_HOMES } from "../data/facilities";
 import { formatPhoneDisplay, googleMapsDirectionsUrl } from "../utils/distance";
-import { MAP_CENTER } from "../utils/facility-metrics";
+import { MAP_CENTER, MAP_DEFAULT_ZOOM } from "../utils/facility-metrics";
 import type { FacilityWithDistances } from "../utils/facility-metrics";
 import { DistanceGrid } from "./DistanceGrid";
 import { WhatsAppButton } from "./WhatsAppButton";
@@ -48,15 +48,18 @@ type Props = {
   facilities: FacilityWithDistances[];
   selectedId: string | null;
   highlightRefId: string | null;
+  mapResetKey: number;
   onSelect: (id: string) => void;
 };
 
 function MapController({
   selectedId,
   facilities,
+  mapResetKey,
 }: {
   selectedId: string | null;
   facilities: FacilityWithDistances[];
+  mapResetKey: number;
 }) {
   const map = useMap();
 
@@ -68,6 +71,10 @@ function MapController({
     }
   }, [selectedId, facilities, map]);
 
+  useEffect(() => {
+    map.flyTo(MAP_CENTER, MAP_DEFAULT_ZOOM, { duration: 0.8 });
+  }, [mapResetKey, map]);
+
   return null;
 }
 
@@ -75,6 +82,7 @@ export function RepousoMap({
   facilities,
   selectedId,
   highlightRefId,
+  mapResetKey,
   onSelect,
 }: Props) {
   const selected = facilities.find((f) => f.id === selectedId);
@@ -94,7 +102,7 @@ export function RepousoMap({
     <div className="map-shell">
       <MapContainer
         center={MAP_CENTER}
-        zoom={11}
+        zoom={MAP_DEFAULT_ZOOM}
         scrollWheelZoom
         className="repouso-map"
       >
@@ -102,7 +110,11 @@ export function RepousoMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <MapController selectedId={selectedId} facilities={facilities} />
+        <MapController
+          selectedId={selectedId}
+          facilities={facilities}
+          mapResetKey={mapResetKey}
+        />
 
         {REFERENCE_HOMES.map((ref) => (
           <Marker

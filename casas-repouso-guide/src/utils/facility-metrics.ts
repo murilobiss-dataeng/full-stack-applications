@@ -21,3 +21,4 @@ export function enrichFacilities(): FacilityWithDistances[] {
 }
 
 export const MAP_CENTER: [number, number] = [-25.43, -49.25];
+export const MAP_DEFAULT_ZOOM = 11;

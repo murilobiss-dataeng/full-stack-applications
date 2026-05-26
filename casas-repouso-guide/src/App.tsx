@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from "react";
-import { Building2, Heart, Home, MapPin } from "lucide-react";
+import { Building2, Heart, Home, MapPin, RotateCcw } from "lucide-react";
 import { REFERENCE_HOMES } from "./data/facilities";
 import { FacilityList } from "./components/FacilityList";
 import { FacilityDetailPanel } from "./components/FacilityDetailPanel";
@@ -10,12 +10,28 @@ export default function App() {
   const facilities = useMemo(() => enrichFacilities(), []);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [highlightRefId, setHighlightRefId] = useState<string | null>(null);
+  const [mapResetKey, setMapResetKey] = useState(0);
 
   const selected = facilities.find((f) => f.id === selectedId) ?? null;
   const detailRef = useRef<HTMLDivElement>(null);
 
+  const resetMapView = () => {
+    setMapResetKey((k) => k + 1);
+  };
+
   const handleSelect = (id: string) => {
+    if (selectedId === id) {
+      setSelectedId(null);
+      resetMapView();
+      return;
+    }
     setSelectedId(id);
+  };
+
+  const handleReset = () => {
+    setSelectedId(null);
+    setHighlightRefId(null);
+    resetMapView();
   };
 
   useEffect(() => {
@@ -100,12 +116,24 @@ export default function App() {
         <main className="workspace">
           <div className="workspace-split panel">
             <section className="map-column" aria-label="Mapa">
-              <h2 className="column-title">Mapa</h2>
+              <div className="map-column-header">
+                <h2 className="column-title">Mapa</h2>
+                <button
+                  type="button"
+                  className="map-reset-btn"
+                  onClick={handleReset}
+                  title="Limpar seleção e restaurar o mapa"
+                >
+                  <RotateCcw size={15} aria-hidden />
+                  Resetar
+                </button>
+              </div>
               <RepousoMap
                 facilities={facilities}
                 selectedId={selectedId}
                 highlightRefId={highlightRefId}
-                onSelect={(id) => handleSelect(id)}
+                mapResetKey={mapResetKey}
+                onSelect={handleSelect}
               />
             </section>
 
@@ -132,12 +160,6 @@ export default function App() {
           )}
         </main>
 
-        <footer className="site-footer">
-          <p>
-            Valores e telefones conforme levantamento familiar — confirme sempre
-            com cada estabelecimento. Distâncias calculadas em linha reta.
-          </p>
-        </footer>
       </div>
     </div>
   );
