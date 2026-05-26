@@ -126,7 +126,7 @@ export default function App() {
                   title="Limpar seleção e restaurar o mapa"
                 >
                   <RotateCcw size={15} aria-hidden />
-                  Resetar
+                  <span>Resetar</span>
                 </button>
               </div>
               <RepousoMap

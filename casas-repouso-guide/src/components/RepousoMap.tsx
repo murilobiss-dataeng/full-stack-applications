@@ -78,6 +78,27 @@ function MapController({
   return null;
 }
 
+function MapResizeHandler() {
+  const map = useMap();
+
+  useEffect(() => {
+    const fix = () => {
+      map.invalidateSize({ animate: false });
+    };
+    fix();
+    const t = window.setTimeout(fix, 150);
+    window.addEventListener("resize", fix);
+    window.addEventListener("orientationchange", fix);
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("resize", fix);
+      window.removeEventListener("orientationchange", fix);
+    };
+  }, [map]);
+
+  return null;
+}
+
 export function RepousoMap({
   facilities,
   selectedId,
@@ -110,6 +131,7 @@ export function RepousoMap({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <MapResizeHandler />
         <MapController
           selectedId={selectedId}
           facilities={facilities}
