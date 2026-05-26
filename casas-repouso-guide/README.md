@@ -27,6 +27,22 @@ npm run preview
 
 Os arquivos estáticos ficam em `dist/` — podem ser publicados na Vercel, Netlify ou GitHub Pages.
 
+## Deploy na Vercel
+
+Este projeto é **Vite + React** (não é Next.js). Na Vercel:
+
+- **Root Directory:** `casas-repouso-guide` (se o repositório for o monorepo `full-stack-applications`)
+- **Framework Preset:** Vite (ou deixe o `vercel.json` detectar)
+- Build e saída já estão em `vercel.json` (`dist/`)
+
+### Web Analytics (Vercel)
+
+1. O pacote `@vercel/analytics` está em `package.json`
+2. `src/main.tsx` importa `Analytics` de `@vercel/analytics/react` (em Next.js seria `@vercel/analytics/next`)
+3. Após o deploy, no painel do projeto: **Analytics → Web Analytics → Enable**
+
+Em desenvolvimento local o script não envia dados; as métricas aparecem após publicar na Vercel com Web Analytics ativado.
+
 ## Observações
 
 - Distâncias são **em linha reta** (fórmula de Haversine), não tempo de carro.
