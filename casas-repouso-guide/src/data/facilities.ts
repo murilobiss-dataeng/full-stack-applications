@@ -103,6 +103,8 @@ export const FACILITIES: Facility[] = [
     name: "Vovó Marlene",
     address: "R. Isaac Victor Pereira, 513 — Atuba, Curitiba",
     phone: "41997043426",
+    priceSingle: "R$ 6.000",
+    priceCouple: "R$ 6.000",
     lat: -25.4001715,
     lng: -49.1859866,
   },

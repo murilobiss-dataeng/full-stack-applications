@@ -4,6 +4,7 @@ import { REFERENCE_HOMES } from "./data/facilities";
 import { FacilityList } from "./components/FacilityList";
 import { FacilityDetailPanel } from "./components/FacilityDetailPanel";
 import { RepousoMap } from "./components/RepousoMap";
+import { SustainabilityCalculator } from "./components/SustainabilityCalculator";
 import { enrichFacilities } from "./utils/facility-metrics";
 
 export default function App() {
@@ -160,6 +161,7 @@ export default function App() {
           )}
         </main>
 
+        <SustainabilityCalculator facilities={facilities} />
       </div>
     </div>
   );
