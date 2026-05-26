@@ -55,6 +55,8 @@ export const FACILITIES: Facility[] = [
     name: "Versania",
     address: "Rua Eduardo Sprada, 2195 — Campo Comprido, Curitiba",
     phone: "4132858558",
+    priceSingle: "R$ 9.900",
+    priceCouple: "R$ 9.900",
     lat: -25.4438581,
     lng: -49.3431565,
   },
